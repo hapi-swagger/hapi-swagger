@@ -117,6 +117,9 @@ Place the HTML code below into the body fo web page where you wish the interface
 &lt;/section&gt;
 </pre>
 
+### Thanks
+I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contact with them.
 
-## This is a work in progress
+
+### This is a work in progress
 If you find any issue please file here on github and I will try and fix them.

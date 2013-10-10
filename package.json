@@ -1,6 +1,6 @@
 {
   "name": "hapi-swagger",
-  "description": "API swagger documentation generator plugin for hapi",
+  "description": "A swagger documentation UI generator plugin for hapi",
   "version": "0.0.1",
   "author": "Glenn Jones",
   "main": "index",
@@ -20,10 +20,5 @@
   },
   "peerDependencies": {
     "hapi": "1.x.x"
-  },
-  "devDependencies": {
-    "hapi": "1.x.x",
-    "lab": "0.1.x",
-    "complexity-report": "0.x.x"
   }
 }
