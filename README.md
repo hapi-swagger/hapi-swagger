@@ -1,20 +1,19 @@
 # hapi-swagger
 
-** THIS IS A WORK IN PROGRESS ** it will change
 
 This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://spumko.github.io/). When installed it will self document HTTP API interface in a project.
 
 
 ## Install
 
-You need to add the module to your HAPI project by place the following line in the dependencies collection of the package.json file.
+You can add the module to your HAPI using npm:
 
-    "hapi-swagger": "git+ssh://git@github.com:glennjones/hapi-swagger.git",
+    $ npm install hapi-swagger --save,
 
     
 ## Adding the plug-in into your project
 
-In the .js file where you create the HAPI `server` object add the following code
+In the .js file where you create the HAPI `server` object add the following code after you have created the `server` object:
 
     var pack = require('../package'),
         swaggerOptions = {
@@ -53,4 +52,69 @@ As a project may be a mixture of web pages and API endpoints you need to tag the
         },
     }
     
-   
+## Adding interface into a page
+The plugin adds all the resources needed to build the interface into your project. All you need to do is add some javascript into the header of a web page and add two elements into the HTML where you wish it to render.
+
+
+### Adding the javascript
+
+The doc directory and all the files in the URLs below are added by the plugin
+
+    <link href='docs/swaggerui/css/hightlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='docs/swaggerui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <script src='docs/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/handlebars-1.0.rc.1.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/underscore-min.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/backbone-min.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/swagger.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/swagger-ui.js' type='text/javascript'></script>
+    <script src='docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
+
+    {{> head}}
+
+    <script type="text/javascript">
+        $(function () {
+            window.swaggerUi = new SwaggerUi({
+                discoveryUrl:"/docs",
+                dom_id:"swagger-ui-container",
+                supportHeaderParams: false,
+                supportedSubmitMethods: ['get', 'post', 'put'],
+                onComplete: function(swaggerApi, swaggerUi){
+                  if(console) {
+                        console.log("Loaded SwaggerUI")
+                        console.log(swaggerApi);
+                        console.log(swaggerUi);
+                    }
+                  $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+                  $('.api-title').text('API (v' + swaggerApi.apiVersion + ')');
+                },
+                onFailure: function(data) {
+                  if(console) {
+                        console.log("Unable to Load SwaggerUI");
+                        console.log(data);
+                    }
+                },
+                docExpansion: "list"
+            });
+
+            window.swaggerUi.load();
+        });
+    </script>
+
+### Adding the HTML elements
+
+Place the HTML code below into the body fo web page where you wish the interface to render
+
+
+   <section id="swagger">
+        <h1 class="entry-title api-title">API</h1>
+        <div id="message-bar" class="swagger-ui-wrap"></div>
+        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+    </section>
+
+
+## This is a work in progress
+If you find any issue please file here on github and I will try and fix them.
