@@ -109,11 +109,13 @@ The doc directory and all the files in the URLs below are added by the plugin
 Place the HTML code below into the body fo web page where you wish the interface to render
 
 
-   <section id="swagger">
-        <h1 class="entry-title api-title">API</h1>
-        <div id="message-bar" class="swagger-ui-wrap"></div>
-        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-    </section>
+<pre>
+&lt;section id=&quot;swagger&quot;&gt;
+    &lt;h1 class=&quot;entry-title api-title&quot;&gt;API&lt;/h1&gt;
+    &lt;div id=&quot;message-bar&quot; class=&quot;swagger-ui-wrap&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;swagger-ui-container&quot; class=&quot;swagger-ui-wrap&quot;&gt;&lt;/div&gt;
+&lt;/section&gt;
+</pre>
 
 
 ## This is a work in progress
