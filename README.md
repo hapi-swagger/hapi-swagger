@@ -120,6 +120,10 @@ Place the HTML code below into the body fo web page where you wish the interface
 ### Thanks
 I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contact with them.
 
+### Contributors
+* Joshua McGinnis (https://github.com/joshua-mcginnis)
+* David Waterston (https://github.com/davidwaterston)
+
 
 ### This is a work in progress
 If you find any issue please file here on github and I will try and fix them.
