@@ -3,6 +3,8 @@
 
 This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://spumko.github.io/). When installed it will self document HTTP API interface in a project.
 
+__UPDATED__: now works with version 2 of HAPI
+
 
 ## Install
 
@@ -123,6 +125,8 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 ### Contributors
 * Joshua McGinnis (https://github.com/joshua-mcginnis)
 * David Waterston (https://github.com/davidwaterston)
+* Jozz (https://github.com/jozzhart)
+* John Oliva (https://github.com/joliva)
 
 
 ### This is a work in progress
