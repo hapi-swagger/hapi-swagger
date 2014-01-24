@@ -23,7 +23,7 @@ In the .js file where you create the HAPI `server` object add the following code
             apiVersion: pack.version
         };
 
-    server.pack.require('hapi-swagger', swaggerOptions, function (err) {
+    server.pack.require({'hapi-swagger': swaggerOptions}, function (err) {
         if (!err && err !== null) {
             server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err) 
         }else{
