@@ -75,8 +75,6 @@ The doc directory and all the files in the URLs below are added by the plugin
     <script src='docs/swaggerui/swagger-ui.js' type='text/javascript'></script>
     <script src='docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
 
-    {{> head}}
-
     <script type="text/javascript">
         $(function () {
             window.swaggerUi = new SwaggerUi({
@@ -120,7 +118,7 @@ Place the HTML code below into the body fo web page where you wish the interface
 </pre>
 
 ### Thanks
-I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contact with them.
+I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contract with them.
 
 ### Contributors
 * Joshua McGinnis (https://github.com/joshua-mcginnis)
