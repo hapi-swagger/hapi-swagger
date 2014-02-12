@@ -200,9 +200,10 @@
       this.description = resourceObj.description;
       parts = this.path.split("/");
 
-
-      // Modified Glenn 
-      this.name = parts[parts.length - 1].replace('docs?path=', '');
+      var baseDiscovery = api.discoveryUrl.split('/')[1].split('?')[0];
+      var baseReplace = baseDiscovery + '?path=';
+      // Modified Glenn
+      this.name = parts[parts.length - 1].replace(baseReplace, '');
 
 
 
