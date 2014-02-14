@@ -117,6 +117,15 @@ Place the HTML code below into the body fo web page where you wish the interface
 &lt;/section&gt;
 </pre>
 
+
+### Mocha test
+The project has a small number integration and unit tests. To run the test within the project type the following command.
+
+    $ mocha --reporter list
+
+If you are considering sending a pull request please add tests for the functionality you add or change.
+
+
 ### Thanks
 I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contract with them.
 
@@ -125,6 +134,7 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 * David Waterston (https://github.com/davidwaterston)
 * Jozz (https://github.com/jozzhart)
 * John Oliva (https://github.com/joliva)
+* thiagogalesi4e (https://github.com/thiagogalesi4e)
 
 
 ### This is a work in progress
