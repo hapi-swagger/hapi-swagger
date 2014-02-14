@@ -62,48 +62,41 @@ The plugin adds all the resources needed to build the interface into your projec
 
 The doc directory and all the files in the URLs below are added by the plugin
 
-    <link href='docs/swaggerui/css/hightlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
-    <link href='docs/swaggerui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-    <script src='docs/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/handlebars-1.0.rc.1.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/underscore-min.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/backbone-min.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/swagger.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/swagger-ui.js' type='text/javascript'></script>
-    <script src='docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
 
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+    <link href='/docs/swaggerui/css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='/docs/swaggerui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <script src="/docs/swaggerui/lib/shred.bundle.js" type="text/javascript"></script>
+    <script src='/docs/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/handlebars-1.0.0.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/underscore-min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/backbone-min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/swagger.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/swagger-ui.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
     <script type="text/javascript">
-        $(function () {
-            window.swaggerUi = new SwaggerUi({
-                discoveryUrl:"/docs",
-                dom_id:"swagger-ui-container",
-                supportHeaderParams: false,
-                supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-                onComplete: function(swaggerApi, swaggerUi){
-                  if(console) {
-                        console.log("Loaded SwaggerUI")
-                        console.log(swaggerApi);
-                        console.log(swaggerUi);
-                    }
-                  $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-                  $('.api-title').text('API (v' + swaggerApi.apiVersion + ')');
-                },
-                onFailure: function(data) {
-                  if(console) {
-                        console.log("Unable to Load SwaggerUI");
-                        console.log(data);
-                    }
-                },
-                docExpansion: "list"
-            });
-
-            window.swaggerUi.load();
+      $(function () {
+        window.swaggerUi = new SwaggerUi({
+          url: window.location.protocol + '//' + window.location.host + '/docs',
+          dom_id: "swagger-ui-container",
+          supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+          onComplete: function(swaggerApi, swaggerUi){
+            log("Loaded SwaggerUI")
+            $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+          },
+          onFailure: function(data) {
+            log("Unable to Load SwaggerUI");
+          },
+          docExpansion: "list"
         });
+        window.swaggerUi.load();
+      });
     </script>
 
+  
 ### Adding the HTML elements
 
 Place the HTML code below into the body fo web page where you wish the interface to render
