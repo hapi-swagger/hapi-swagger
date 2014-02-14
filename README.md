@@ -81,7 +81,7 @@ The doc directory and all the files in the URLs below are added by the plugin
                 discoveryUrl:"/docs",
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: false,
-                supportedSubmitMethods: ['get', 'post', 'put'],
+                supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
                 onComplete: function(swaggerApi, swaggerUi){
                   if(console) {
                         console.log("Loaded SwaggerUI")
