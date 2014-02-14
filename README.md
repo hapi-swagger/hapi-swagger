@@ -64,19 +64,19 @@ The doc directory and all the files in the URLs below are added by the plugin
 
 
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
-    <link href='css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
-    <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-    <script type="text/javascript" src="lib/shred.bundle.js"></script>
-    <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-    <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
-    <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
-    <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-    <script src='lib/handlebars-1.0.0.js' type='text/javascript'></script>
-    <script src='lib/underscore-min.js' type='text/javascript'></script>
-    <script src='lib/backbone-min.js' type='text/javascript'></script>
-    <script src='lib/swagger.js' type='text/javascript'></script>
-    <script src='swagger-ui.js' type='text/javascript'></script>
-    <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+    <link href='/docs/swaggerui/css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='/docs/swaggerui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <script src="/docs/swaggerui/lib/shred.bundle.js" type="text/javascript"></script>
+    <script src='/docs/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/handlebars-1.0.0.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/underscore-min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/backbone-min.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/swagger.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/swagger-ui.js' type='text/javascript'></script>
+    <script src='/docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
     <script type="text/javascript">
       $(function () {
         window.swaggerUi = new SwaggerUi({
