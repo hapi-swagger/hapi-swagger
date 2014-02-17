@@ -99,7 +99,6 @@ The doc directory and all the files in the URLs below are added by the plugin
 
 Place the HTML code below into the body fo web page where you wish the interface to render
 
-
 <pre>
 &lt;section id=&quot;swagger&quot;&gt;
     &lt;h1 class=&quot;entry-title api-title&quot;&gt;API&lt;/h1&gt;
@@ -107,6 +106,33 @@ Place the HTML code below into the body fo web page where you wish the interface
     &lt;div id=&quot;swagger-ui-container&quot; class=&quot;swagger-ui-wrap&quot;&gt;&lt;/div&gt;
 &lt;/section&gt;
 </pre>
+
+
+### Error Status Codes
+You can add HTTP error status codes to each of the endpoints. As HAPI routes don not directly have a property for error status codes so you need to add them to the notes. The status codes need to be added to the end of the notes array starting with array item with the value "Error status codes". Each error code should be added as string with code first follow by its description:
+
+    config: {
+        handler: handlers.add,
+        description: 'Add',
+        tags: ['api'],
+        jsonp: 'callback',
+        notes: [
+            'Adds together two numbers and return the result',
+            'Error status codes',
+            '400, bad request'
+        ],
+        validate: { 
+            path: {
+                a: hapi.types.Number()
+                    .required()
+                    .description('the first number'),
+
+                b: hapi.types.Number()
+                    .required()
+                    .description('the second number')
+            }
+        }
+    }
 
 
 ### Mocha test
