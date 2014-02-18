@@ -11,3 +11,4 @@ node_modules
 npm-debug.log
 .DS_Store
 
+public/swaggerui 2.0.8 mod
