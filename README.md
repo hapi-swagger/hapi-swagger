@@ -108,6 +108,42 @@ Place the HTML code below into the body fo web page where you wish the interface
 </pre>
 
 
+### Response Object
+HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
+
+An very simple example of the use of the response object:
+
+    var responseModel = hapi.types.object({
+        equals: hapi.types.number(),
+    }).options({
+      className: 'Result'
+    });
+
+    within you route object ...
+    config: {
+        handler: handlers.add,
+        description: 'Add',
+        tags: ['api'],
+        notes: ['Adds together two numbers and return the result'],
+        validate: { 
+            path: {
+                a: hapi.types.Number()
+                    .required()
+                    .description('the first number'),
+
+                b: hapi.types.Number()
+                    .required()
+                    .description('the second number')
+            }
+        },
+        response: {schema: responseModel}
+    }
+
+
+A working demo of more complex uses of response object can be found in the [be-more-hapi](https://github.com/glennjones/be-more-hapi) project.
+
+
+
 ### Error Status Codes
 You can add HTTP error status codes to each of the endpoints. As HAPI routes don not directly have a property for error status codes so you need to add them to the notes. The status codes need to be added to the end of the notes array starting with array item with the value "Error status codes". Each error code should be added as string with code first follow by its description:
 

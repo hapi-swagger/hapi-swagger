@@ -328,7 +328,7 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   
-  return "\n          <h4>Response Class</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n        ";
+  return "\n          <h4>Response Object</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n        ";
   }
 
 function program5(depth0,data) {
@@ -1167,7 +1167,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<td width='15%' class='code'>";
+  buffer += "<td width='20%' class='code'>";
   if (stack1 = helpers.code) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.code; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

@@ -17,3 +17,11 @@ This changes stops the word undefined been passed as a value if inputs are left 
       }
       queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
     }
+
+
+swagger.js line 1170
+Changed td width from 15% to 20% deal with font-size issue
+
+
+swagger.js line 331
+Changed "Response Class" to "Response Class" makes more sense for HAPI.js
