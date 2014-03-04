@@ -1,6 +1,5 @@
 /*
 Mocha test
-The test was built on Tue Dec 24 2013 13:38:00
 */
 
 var chai = require('chai'),
@@ -11,7 +10,7 @@ var internals = swagger._internals;
 
 
 // Based on pull request by David Waterston  - http://jsfiddle.net/davidwaterston/cC4v8/
-describe('isResourceRoute parsing test)', function() {
+describe('isResourceRoute parsing test', function() {
 
    var routes = [
    '/movies',

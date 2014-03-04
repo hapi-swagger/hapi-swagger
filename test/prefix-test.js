@@ -1,6 +1,5 @@
 /*
 Mocha test
-The test was built on Tue Dec 24 2013 13:38:00
 */
 
 var chai = require('chai'),
@@ -10,7 +9,7 @@ var chai = require('chai'),
 var internals = swagger._internals;
 
 
-describe('isPrefix test)', function() {
+describe('isPrefix test', function() {
 
 it('isPrefix default', function(){
     var res = internals._commonPrefix({pathPrefixSize: 1}, '/lala/foo');
