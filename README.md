@@ -17,7 +17,7 @@ In the .js file where you create the HAPI `server` object add the following code
 
     var pack = require('../package'),
         swaggerOptions = {
-            basePath: 'http://localhhost:8000',
+            basePath: 'http://localhost:8000',
             apiVersion: pack.version
         };
 
