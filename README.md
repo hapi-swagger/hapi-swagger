@@ -44,7 +44,7 @@ As a project may be a mixture of web pages and API endpoints you need to tag the
             tags: ['api'],        
             validate: { 
                 path: {
-                    username: hapi.types.String()
+                    username: joi.number()
                             .required()
                             .description('the id for the todo item'),
                 }
@@ -114,7 +114,7 @@ HAPI allow you to define a response object for an API endpoint. The response obj
 An very simple example of the use of the response object:
 
     var responseModel = hapi.types.object({
-        equals: hapi.types.number(),
+        equals: joi.number(),
     }).options({
       className: 'Result'
     });
@@ -127,11 +127,11 @@ An very simple example of the use of the response object:
         notes: ['Adds together two numbers and return the result'],
         validate: { 
             path: {
-                a: hapi.types.Number()
+                a: joi.number()
                     .required()
                     .description('the first number'),
 
-                b: hapi.types.Number()
+                b: joi.number()
                     .required()
                     .description('the second number')
             }
@@ -159,11 +159,11 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
         ],
         validate: { 
             path: {
-                a: hapi.types.Number()
+                a: joi.number()
                     .required()
                     .description('the first number'),
 
-                b: hapi.types.Number()
+                b: joi.number()
                     .required()
                     .description('the second number')
             }
