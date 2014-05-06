@@ -16,12 +16,12 @@ You can add the module to your HAPI using npm:
 In the .js file where you create the HAPI `server` object add the following code after you have created the `server` object:
 
     var pack = require('../package'),
-        swaggerOptions = {
+        options = {
             basePath: 'http://localhost:8000',
             apiVersion: pack.version
         };
 
-    server.pack.require({'hapi-swagger': swaggerOptions}, function (err) {
+    server.pack.require({'hapi-swagger': options}, function (err) {
         if (!err && err !== null) {
             server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err) 
         }else{
@@ -108,6 +108,17 @@ Place the HTML code below into the body fo web page where you wish the interface
 </pre>
 
 
+### Options
+There are number of options for advance use case. In most case you should only have to provide the apiVersion and basePath.
+
+* apiVersion: the version of your API 
+* basePath: the base URL of the API ie 'http://localhost:3000'
+* endpoint: the documentation endpoint path - the default is: '/docs'
+* pathPrefixSize: selects what segment of the URL path is used to group endpoints - the default is: 1
+* jsonPayload: weather accepts json or form parameters for payload - the default is: true
+* produces: an array of the output types from your API - the default is: ['application/json']
+
+
 ### Response Object
 HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
 
@@ -183,6 +194,7 @@ If you are considering sending a pull request please add tests for the functiona
 I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contract with them.
 
 ### Contributors
+* ivorothschild (https://github.com/ivorothschild)
 * Joshua McGinnis (https://github.com/joshua-mcginnis)
 * David Waterston (https://github.com/davidwaterston)
 * Jozz (https://github.com/jozzhart)

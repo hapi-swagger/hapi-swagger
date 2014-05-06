@@ -964,18 +964,25 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
     var possibleParams = {};
     var values = {};
 
+    // changed Glenn Jones - #36 issue from ivorothschild 
+    // -----------------------
     for(var i = 0; i < formParams.length; i++){
       var param = formParams[i];
-      values[param.name] = param;
+      var value = this.params[param.name];
+      if (value !== undefined) {
+        values[param.name] = value;
+      }
     }
 
     var encoded = "";
     for(key in values) {
-      value = this.params[key];
+      value = values[key];
       if(encoded !== "")
         encoded += "&";
       encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
     }
+    // -----------------------
+
     body = encoded
   }
   for (name in this.headers)
