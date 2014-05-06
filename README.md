@@ -112,11 +112,12 @@ Place the HTML code below into the body fo web page where you wish the interface
 There are number of options for advance use case. In most case you should only have to provide the apiVersion and basePath.
 
 * apiVersion: the version of your API 
-* basePath: the base URL of the API ie 'http://localhost:3000'
+* basePath: the base URL of the API i.e. 'http://localhost:3000'
 * endpoint: the documentation endpoint path - the default is: '/docs'
 * pathPrefixSize: selects what segment of the URL path is used to group endpoints - the default is: 1
-* jsonPayload: weather accepts json or form parameters for payload - the default is: true
+* payloadType: weather accepts json or form parameters for payload - the default is: 'json'
 * produces: an array of the output types from your API - the default is: ['application/json']
+
 
 
 ### Response Object
@@ -194,6 +195,7 @@ If you are considering sending a pull request please add tests for the functiona
 I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contract with them.
 
 ### Contributors
+* jlewark (https://github.com/jlewark)
 * ivorothschild (https://github.com/ivorothschild)
 * Joshua McGinnis (https://github.com/joshua-mcginnis)
 * David Waterston (https://github.com/davidwaterston)
