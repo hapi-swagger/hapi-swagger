@@ -32,6 +32,7 @@ In the .js file where you create the HAPI `server` object add the following code
 
 ## Tagging your API routes
 As a project may be a mixture of web pages and API endpoints you need to tag the routes you wish Swagger to document. Simply add the `tags: ['api']` property to the route object for any endpoint you want documenting.
+You can even specify more tags and then later generate tag-specific documentation. If you specify `tags: ['api', 'foo']`, you can later use `/docs?tags=foo` to load the documentation on the HTML page (see next section).
 
 
     {
@@ -94,6 +95,15 @@ The doc directory and all the files in the URLs below are added by the plugin
       });
     </script>
 
+If you want to generate tag-specific documentation, you should change the URL from
+
+    url: window.location.protocol + '//' + window.location.host + '/docs',
+
+to:
+
+    url: window.location.protocol + '//' + window.location.host + '/docs?tags=foo,bar,baz',
+
+This will load all routes that have one or more of the given tags (`foo` or `bar` or `baz`).
   
 ### Adding the HTML elements
 
