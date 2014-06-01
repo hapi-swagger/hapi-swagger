@@ -213,6 +213,7 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 * John Oliva (https://github.com/joliva)
 * thiagogalesi4e (https://github.com/thiagogalesi4e)
 * HughePaul (https://github.com/HughePaul)
+* Stefan Oderbolz (https://github.com/metaodi)
 
 
 ### This is a work in progress
