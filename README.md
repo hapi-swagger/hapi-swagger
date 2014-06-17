@@ -44,7 +44,7 @@ You can even specify more tags and then later generate tag-specific documentatio
             notes: 'Returns a todo item by the id passed in the path',
             tags: ['api'],        
             validate: { 
-                path: {
+                params: {
                     username: joi.number()
                             .required()
                             .description('the id for the todo item'),
@@ -148,7 +148,7 @@ An very simple example of the use of the response object:
         tags: ['api'],
         notes: ['Adds together two numbers and return the result'],
         validate: { 
-            path: {
+            params: {
                 a: joi.number()
                     .required()
                     .description('the first number'),
@@ -180,7 +180,7 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
             '400, bad request'
         ],
         validate: { 
-            path: {
+            params: {
                 a: joi.number()
                     .required()
                     .description('the first number'),
