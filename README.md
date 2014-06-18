@@ -21,11 +21,14 @@ In the .js file where you create the HAPI `server` object add the following code
             apiVersion: pack.version
         };
 
-    server.pack.require({'hapi-swagger': options}, function (err) {
-        if (!err && err !== null) {
+    server.pack.register({
+            plugin: require('hapi-swagger'), 
+            options: swaggerOptions
+        }, function (err) {
+        if (err) {
             server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err) 
         }else{
-             server.log(['start'], 'swagger interface loaded')
+            server.log(['start'], 'Swagger interface loaded')
         }
     });
 
@@ -193,6 +196,25 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
     }
 
 
+## Adding the plug-in earlier version HAPI (versions 2.x to 5.x)
+How you load a plugin changed with version 6 of HAPI. This is the example code for load hapi-swagger with earlier version
+
+    var pack = require('../package'),
+        options = {
+            basePath: 'http://localhost:8000',
+            apiVersion: pack.version
+        };
+
+    server.pack.require({'hapi-swagger': options}, function (err) {
+        if (!err && err !== null) {
+            server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err) 
+        }else{
+             server.log(['start'], 'swagger interface loaded')
+        }
+    });
+
+
+
 ### Mocha test
 The project has a small number integration and unit tests. To run the test within the project type the following command.
 
@@ -218,3 +240,6 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 
 ### This is a work in progress
 If you find any issue please file here on github and I will try and fix them.
+
+
+
