@@ -106,7 +106,17 @@ to:
 
     url: window.location.protocol + '//' + window.location.host + '/docs?tags=foo,bar,baz',
 
-This will load all routes that have one or more of the given tags (`foo` or `bar` or `baz`).
+This will load all routes that have one or more of the given tags (`foo` or `bar` or `baz`). More complex use of tags include:
+
+    ?tags=mountains,beach,horses
+    this will show routes WITH 'mountains' OR 'beach' OR 'horses'
+
+    ?tags=mountains,beach,+horses
+    this will show routes WITH ('mountains' OR 'beach')  AND 'horses'
+
+    ?tags=mountains,+beach,-horses
+    this will show routes WITH 'mountains' AND 'beach' AND NO 'horses'
+
   
 ### Adding the HTML elements
 
@@ -236,6 +246,9 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 * thiagogalesi4e (https://github.com/thiagogalesi4e)
 * HughePaul (https://github.com/HughePaul)
 * Stefan Oderbolz (https://github.com/metaodi)
+* Peter Henning (https://github.com/petreboy14)
+* Timo Behrmann (https://github.com/z0mt3c)
+* Darin Chambers (https://github.com/darinc)
 
 
 ### This is a work in progress
