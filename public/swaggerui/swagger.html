@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Docs</title>
+    <title>Documentation</title>
     <link rel="stylesheet" type="text/css" href="/css/readme.css" />
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css' />
     <link href='/docs/swaggerui/css/highlight.default.css' media='screen' rel='stylesheet' type='text/css' />
@@ -20,8 +20,18 @@
     <script src='/docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
     <script type="text/javascript">
     $(function() {
+
+
+        // build url for JSON url that describes API
+        var url = window.location.protocol + '//' + window.location.host + '/docs';
+        if(getQueryStringValue('tags')){
+            url += '?tags=' + getQueryStringValue('tags');
+        }
+
+
+        // build the swagger UI interface
         window.swaggerUi = new SwaggerUi({
-            url: window.location.protocol + '//' + window.location.host + '/docs',
+            url: url,
             dom_id: "swagger-ui-container",
             supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
             onComplete: function(swaggerApi, swaggerUi) {
@@ -36,20 +46,48 @@
             docExpansion: "list"
         });
         window.swaggerUi.load();
+
+
+        // get the value of a querystring in this case for 'tags'
+        function getQueryStringValue(name){
+            var nameValue = null,
+                winURL = window.location.href;
+
+            if(winURL && winURL.indexOf('?') > -1){
+                var queryStringArray = winURL.split("?")[1];
+                queryStringParamArray = [queryStringArray]
+                if(queryStringArray.indexOf('&') > -1){
+                    queryStringParamArray = queryStringArray[1].split("&");
+                }
+                for ( var i=0; i<queryStringParamArray.length; i++ ){           
+                    queryStringNameValueArray = queryStringParamArray[i].split("=");
+                    if ( name == queryStringNameValueArray[0] ){
+                        nameValue = queryStringNameValueArray[1];
+                    }                       
+                }
+                return nameValue;
+            }
+            return nameValue;
+        }
+
+
     });
     </script>
 </head>
 <body>
     <div class="wrapper">
-        <header>
-            <h1 class="home-link"><a href="/">Docs</a>
-            </h1>
-        </header>
+
+        <div id='header'>
+          <div class="swagger-ui-wrap">
+            <a id="logo" href="http://swagger.wordnik.com">swagger</a>
+          </div>
+        </div>
+
         <section id="swagger">
-            <h1 class="entry-title api-title">Swagger</h1>
             <div id="message-bar" class="swagger-ui-wrap"></div>
             <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
         </section>
+
     </div>
 </body>
 </html>

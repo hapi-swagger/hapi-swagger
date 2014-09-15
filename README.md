@@ -33,9 +33,14 @@ In the .js file where you create the HAPI `server` object add the following code
     });
 
 
+## Using the documentation page 
+The plugin adds a page into your site with the route `/documentation`. This page contains Swaggers UI to allow users to explore your API. You can also build custom pages on your own URL paths if you wish, see: Adding custom interface into a page 
+
+
 ## Tagging your API routes
 As a project may be a mixture of web pages and API endpoints you need to tag the routes you wish Swagger to document. Simply add the `tags: ['api']` property to the route object for any endpoint you want documenting.
-You can even specify more tags and then later generate tag-specific documentation. If you specify `tags: ['api', 'foo']`, you can later use `/docs?tags=foo` to load the documentation on the HTML page (see next section).
+
+You can even specify more tags and then later generate tag-specific documentation. If you specify `tags: ['api', 'foo']`, you can later use `/documentation?tags=foo` to load the documentation on the HTML page (see next section).
 
 
     {
@@ -55,9 +60,11 @@ You can even specify more tags and then later generate tag-specific documentatio
             }
         },
     }
+
+
     
 ## Adding interface into a page
-The plugin adds all the resources needed to build the interface into your project. All you need to do is add some javascript into the header of a web page and add two elements into the HTML where you wish it to render.
+The plugin adds all the resources needed to build the interface into your any page in your project. All you need to do is add some javascript into the header of a web page and add two elements into the HTML where you wish it to render. The example [be-more-hapi](https://github.com/glennjones/be-more-hapi) project makes use of a custom page where the interface is used with other elements.
 
 
 ### Adding the javascript
@@ -136,9 +143,11 @@ There are number of options for advance use case. In most case you should only h
 
 * apiVersion: the version of your API 
 * basePath: the base URL of the API i.e. 'http://localhost:3000'
-* endpoint: the documentation endpoint path - the default is: '/docs'
+* documentationPath: the path to the default documentation page - the default is: '/documentation',
+* enableDocumentationPage: enable the display of the documentation page - the default is: true,
+* endpoint: the JSON endpoint that descibes the API - the default is: '/docs'
 * pathPrefixSize: selects what segment of the URL path is used to group endpoints - the default is: 1
-* payloadType: weather accepts json or form parameters for payload - the default is: 'json'
+* payloadType: weather accepts JSON or form parameters for payload - the default is: 'json'
 * produces: an array of the output types from your API - the default is: ['application/json']
 
 
@@ -249,6 +258,7 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 * Peter Henning (https://github.com/petreboy14)
 * Timo Behrmann (https://github.com/z0mt3c)
 * Darin Chambers (https://github.com/darinc)
+* Kentaro Wakayama (https://github.com/kwakayama)
 
 
 ### This is a work in progress
