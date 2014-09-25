@@ -1,7 +1,7 @@
 # hapi-swagger
 
 
-This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://spumko.github.io/). When installed it will self document HTTP API interface in a project.
+This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) 6.x.x. When installed it will self document HTTP API interface in a project.
 
 
 ## Install
@@ -215,25 +215,6 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
     }
 
 
-## Adding the plug-in earlier version HAPI (versions 2.x to 5.x)
-How you load a plugin changed with version 6 of HAPI. This is the example code for load hapi-swagger with earlier version
-
-    var pack = require('../package'),
-        options = {
-            basePath: 'http://localhost:8000',
-            apiVersion: pack.version
-        };
-
-    server.pack.require({'hapi-swagger': options}, function (err) {
-        if (!err && err !== null) {
-            server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err) 
-        }else{
-             server.log(['start'], 'swagger interface loaded')
-        }
-    });
-
-
-
 ### Mocha test
 The project has a small number integration and unit tests. To run the test within the project type the following command.
 
@@ -259,6 +240,7 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 * Timo Behrmann (https://github.com/z0mt3c)
 * Darin Chambers (https://github.com/darinc)
 * Kentaro Wakayama (https://github.com/kwakayama)
+* John Brett (https://github.com/johnbrett)
 
 
 ### This is a work in progress
