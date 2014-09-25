@@ -24,7 +24,9 @@
   },
   "devDependencies": {
     "mocha": "1.17.x",
-    "chai": "1.9.x"
+    "chai": "1.9.x",
+    "hapi": "6.x.x",
+    "istanbul": "0.3.x"
   },
   "scripts": {
     "test": "make test"
