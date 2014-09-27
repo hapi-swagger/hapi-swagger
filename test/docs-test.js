@@ -192,3 +192,77 @@ describe('docs tags', function() {
   });
 
 });
+
+
+describe('docs path', function() {
+
+  var server;
+
+  beforeEach(function(done) {
+    server = new Hapi.Server({debug: false});
+    server.pack.register(swagger, function(err) {
+      assert.ifError(err)
+      done();
+    });
+  });
+
+  afterEach(function(done) {
+    server.stop(function() {
+      server = null;
+      done();
+    });
+  });
+
+
+
+  it('returns routes filtered by path', function(done){ 
+    server.route([
+      {
+          method: 'GET',
+          path: '/parent/child1',
+          handler: function(request, response) {
+            reply('ok');
+          },
+          config: {
+            tags: ['api', 'include'],
+            validate: {
+              query: Joi.any()
+            }
+          }
+      },
+      {
+          method: 'GET',
+          path: '/parent/child2',
+          handler: function(request, response) {
+            reply('ok');
+          },
+          config: {
+            tags: ['api', 'alsoinclude'],
+            validate: {
+              query: Joi.any()
+            }
+          }
+      },
+      {
+          method: 'GET',
+          path: '/parent2/child2',
+          handler: function(request, response) {
+            reply('ok');
+          },
+          config: {
+            tags: ['alsoinclude'],
+            validate: {
+              query: Joi.any()
+            }
+          }
+      }
+    ]);
+
+    server.inject({method: 'GET', url: '/docs?path=parent'}, function(response) {
+      console.log(response.result)
+      assert(response.statusCode === 200)
+      assert(response.result.apis.length == 2)
+      done();
+    })
+  });
+})
