@@ -1,7 +1,7 @@
 {
-  "name": "hapi-swagger",
-  "description": "A swagger documentation UI generator plugin for hapi",
-  "version": "0.4.0",
+  "name": "hapi-swagger-yb",
+  "description": "A swagger documentation UI generator plugin for hapi *yieldbot fork for defaults",
+  "version": "0.4.1",
   "author": "Glenn Jones",
   "repository": {
     "type": "git",
