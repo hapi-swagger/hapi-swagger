@@ -9,11 +9,43 @@ var chai = require('chai'),
 
 describe('register test', function() {
 
-  it('registers without error', function(){ 
-    var server = new Hapi.Server({debug: false});
+  var server;
 
+  beforeEach(function(done) {
+    server = new Hapi.Server({debug: false});
+
+    done(); 
+  })
+
+  afterEach(function(done) {
+    server.stop(function() {
+      server = null;
+      done();
+    });
+  })
+
+  it('registers without error', function(done){ 
     server.pack.register(swagger, function(err) {
       assert.ifError(err)
+
+      done();
+    });
+  });
+
+  it('has documentation page enabled by fault', function(done){
+    server.pack.register(swagger, function(err) {
+      assert.ifError(err)
+
+      var routes = [];
+      server.table().forEach(function(item) {
+        routes.push(item.path);
+      });
+      assert(routes.indexOf('/documentation') >= 0);
+
+      server.inject({method: 'GET', url: '/documentation' }, function(res) {
+        assert(res.statusCode === 200)
+        done();
+      })
     });
   });
 
