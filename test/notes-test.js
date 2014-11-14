@@ -4,10 +4,13 @@ Tests that note array is broken up correctly
 */
 
 var chai = require('chai'),
+   Hapi = require('hapi'),
    assert = chai.assert,
    swagger = require('../lib/index.js');
 
-var internals = swagger._internals;
+var defaultHandler = function(request, response) {
+  reply('ok');
+};
 
 var testNotes1 = [
         'This is a note about this API endpoint',
@@ -28,48 +31,65 @@ var testNotes1 = [
         '404, Sum not found'
     ]
 
+describe('notes test', function() {
 
+    var server;
 
-describe('notes complex array test', function() {
-
-    var obj =   internals.getResponseMessages( testNotes1 ),
-                responseMessages = obj.responseMessages,
-                notes = obj.notes;
-
-
-    it('notes has <br/><br/> injected', function() {
-        assert.equal( notes, 'This is a note about this API endpoint<br/><br/>This is more stuff about this API endpoint' );
+    beforeEach(function(done) {
+      server = new Hapi.Server({debug: false});
+      server.pack.register(swagger, function(err) {
+        assert.ifError(err)
+        done();
+      });
     });
 
-    it('responseMessages has 2 objects', function() {
-        assert.equal( responseMessages.length, 2 );
+    afterEach(function(done) {
+      server.stop(function() {
+        server = null;
+        done();
+      });
     });
 
-    it('responseMessages has code', function() {
-        assert.equal( responseMessages[0].code, 400 );
-    });
+    describe.only('array', function() {
 
-    it('responseMessages has message', function() {
-        assert.equal( responseMessages[0].message, 'Bad Request' );
-    });
+      it('when array length > 1 notes has <br/><br/> injected', function() {
+        server.route({
+          method: 'GET',
+          path: '/test',
+          handler: defaultHandler,
+          config: {
+            tags: ['api'],
+            notes: testNotes1
+          }
+        });
+        server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
+          assert.equal(response.result.apis[0].operations[0].notes, 'This is a note about this API endpoint<br/><br/>This is more stuff about this API endpoint' );
+        });
+      });
 
-    it('responseMessages has code', function() {
-        assert.equal( responseMessages[1].code, 404 );
-    });
-
-    it('responseMessages has message', function() {
-        assert.equal( responseMessages[1].message, 'Sum not found' );
+      it('array length equal 1 notes has no <br/>', function() {
+        server.route({
+          method: 'GET',
+          path: '/test',
+          handler: defaultHandler,
+          config: {
+            tags: ['api'],
+            notes: testNotes1
+          }
+        });
+        server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
+          assert.equal(response.result.apis[0].operations[0].notes, 'This is a note about this API endpoint' );
+        });
+      });
     });
 
 });
 
 
 
-describe('notes simple array test', function() {
 
-    var obj =   internals.getResponseMessages( testNotes2 ),
-                responseMessages = obj.responseMessages,
-                notes = obj.notes;
+
+describe('notes simple array test', function() {
 
     it('notes has no <br/>', function() {
         assert.equal( notes, 'This is a note about this API endpoint' );
@@ -85,10 +105,6 @@ describe('notes simple array test', function() {
 
 describe('notes string test', function() {
 
-    var obj =   internals.getResponseMessages( testNotes3 ),
-                responseMessages = obj.responseMessages,
-                notes = obj.notes;
-
     it('notes contains string', function() {
         assert.equal( notes, 'This is a note about this API endpoint' );
     });
@@ -100,10 +116,6 @@ describe('notes string test', function() {
 });
 
 describe('notes mixed case detection test', function() {
-
-    var obj =   internals.getResponseMessages( testNotes4 ),
-                responseMessages = obj.responseMessages,
-                notes = obj.notes;
 
     it('responseMessages has 2 objects', function() {
         assert.equal( responseMessages.length, 2 );
