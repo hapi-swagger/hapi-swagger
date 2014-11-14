@@ -15,21 +15,11 @@ var defaultHandler = function(request, response) {
 var testNotes1 = [
         'This is a note about this API endpoint',
         'This is more stuff about this API endpoint',
-        'Error Status Codes',
-        '400, Bad Request',
-        '404, Sum not found'
     ],
     testNotes2 = [
         'This is a note about this API endpoint'
     ],
-    testNotes3 = 'This is a note about this API endpoint',
-    testNotes4 = [
-        'This is a note about this API endpoint',
-        'This is more stuff about this API endpoint',
-        'Error status codes:',
-        '400, Bad Request',
-        '404, Sum not found'
-    ]
+    testNotes3 = 'This is a note about this API endpoint';
 
 describe('notes test', function() {
 
@@ -38,7 +28,7 @@ describe('notes test', function() {
     beforeEach(function(done) {
       server = new Hapi.Server({debug: false});
       server.pack.register(swagger, function(err) {
-        assert.ifError(err)
+        assert.ifError(err);
         done();
       });
     });
@@ -50,9 +40,9 @@ describe('notes test', function() {
       });
     });
 
-    describe.only('array', function() {
+    describe('if notes array', function() {
 
-      it('when array length > 1 notes has <br/><br/> injected', function() {
+      it('when array length > 1 notes has <br/><br/> injected', function(done) {
         server.route({
           method: 'GET',
           path: '/test',
@@ -64,65 +54,45 @@ describe('notes test', function() {
         });
         server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
           assert.equal(response.result.apis[0].operations[0].notes, 'This is a note about this API endpoint<br/><br/>This is more stuff about this API endpoint' );
+          done();
         });
       });
 
-      it('array length equal 1 notes has no <br/>', function() {
+      it('array length equal 1 notes has no <br/>', function(done) {
         server.route({
           method: 'GET',
           path: '/test',
           handler: defaultHandler,
           config: {
             tags: ['api'],
-            notes: testNotes1
+            notes: testNotes2
           }
         });
         server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
           assert.equal(response.result.apis[0].operations[0].notes, 'This is a note about this API endpoint' );
+          done();
         });
       });
     });
 
+    describe('if notes is string', function() {
+
+      beforeEach(function() {
+        server.route({
+          method: 'GET',
+          path: '/test',
+          handler: defaultHandler,
+          config: {
+            tags: ['api'],
+            notes: testNotes3
+          }
+        });
+      });
+      it('returns the string', function(done) {
+        server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
+          assert.equal(response.result.apis[0].operations[0].notes, testNotes3 );
+          done();
+        });
+      });
+    });
 });
-
-
-
-
-
-describe('notes simple array test', function() {
-
-    it('notes has no <br/>', function() {
-        assert.equal( notes, 'This is a note about this API endpoint' );
-    });
-
-    it('responseMessages is an empty array', function() {
-        assert.equal( responseMessages.length, 0 );
-    });
-
-});
-
-
-
-describe('notes string test', function() {
-
-    it('notes contains string', function() {
-        assert.equal( notes, 'This is a note about this API endpoint' );
-    });
-
-    it('responseMessages is an empty array', function() {
-        assert.equal( responseMessages.length, 0 );
-    });
-
-});
-
-describe('notes mixed case detection test', function() {
-
-    it('responseMessages has 2 objects', function() {
-        assert.equal( responseMessages.length, 2 );
-    });
-
-});
-
-
-
-
