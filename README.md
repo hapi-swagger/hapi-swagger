@@ -189,18 +189,22 @@ A working demo of more complex uses of response object can be found in the [be-m
 
 
 ### Error Status Codes
-You can add HTTP error status codes to each of the endpoints. As HAPI routes don not directly have a property for error status codes so you need to add them to the notes. The status codes need to be added to the end of the notes array starting with array item with the value "Error status codes". Each error code should be added as string with code first follow by its description:
+You can add HTTP error status codes to each of the endpoints. As HAPI routes don not directly have a property for error status codes so you need to add them the plugin configuration. The status codes need to be added as an array of objects with an error code and description:
 
     config: {
         handler: handlers.add,
         description: 'Add',
         tags: ['api'],
         jsonp: 'callback',
-        notes: [
-            'Adds together two numbers and return the result',
-            'Error status codes',
-            '400, bad request'
-        ],
+        notes: ['Adds together two numbers and return the result'],
+        plugins: {
+            'hapi-swagger': {
+                responseMessages: [
+                    { code: 400, message: 'Bad Request' },
+                    { code: 500, message: 'Internal Server Error'}
+                ]
+            }
+        },
         validate: { 
             params: {
                 a: joi.number()
@@ -241,6 +245,7 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 * Darin Chambers (https://github.com/darinc)
 * Kentaro Wakayama (https://github.com/kwakayama)
 * John Brett (https://github.com/johnbrett)
+* Felipe Leusin (https://github.com/felipeleusin)
 
 
 ### This is a work in progress

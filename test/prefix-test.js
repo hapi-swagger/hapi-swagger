@@ -9,7 +9,7 @@ var chai = require('chai'),
 var internals = swagger._internals;
 
 
-describe('isPrefix test', function() {
+describe('prefix test', function() {
 
 it('isPrefix default', function(){
     var res = internals._commonPrefix({pathPrefixSize: 1}, '/lala/foo');

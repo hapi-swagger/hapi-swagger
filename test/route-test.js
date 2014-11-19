@@ -10,7 +10,7 @@ var internals = swagger._internals;
 
 
 // Based on pull request by David Waterston  - http://jsfiddle.net/davidwaterston/cC4v8/
-describe('isResourceRoute parsing test', function() {
+describe('route parsing test', function() {
 
    var routes = [
    '/movies',
