@@ -219,6 +219,27 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
     }
 
 
+### Headers and .unknown()
+A common issue with the use of headers is that you may only want to validate some of the headers sent in a request and you are not concerned about other headers that maybe sent also. You can use JOI .unknown() to allow any all other headers to be sent without validation errors.
+
+    validate: { 
+        params: {
+            a: joi.number()
+                .required()
+                .description('the first number'),
+
+            b: joi.number()
+                .required()
+                .description('the second number')
+        },
+        headers: joi.object({
+             'authorization': joi.string().required()
+        }).unknown()
+    }
+
+
+
+
 ### Mocha test
 The project has a small number integration and unit tests. To run the test within the project type the following command.
 

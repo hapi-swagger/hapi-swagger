@@ -17,7 +17,7 @@ var response1 = [
         { code: 500, message: 'Internal Server Error'}
     ];
 
-describe.('response messages test', function() {
+describe('response messages test', function() {
 
     var server;
 
