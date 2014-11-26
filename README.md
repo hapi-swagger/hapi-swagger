@@ -16,7 +16,7 @@ You can add the module to your HAPI using npm:
 In the .js file where you create the HAPI `server` object add the following code after you have created the `server` object:
 
     var pack = require('../package'),
-        options = {
+        swaggerOptions = {
             basePath: 'http://localhost:8000',
             apiVersion: pack.version
         };
