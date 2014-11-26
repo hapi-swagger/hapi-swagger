@@ -10,7 +10,7 @@ You can add the module to your HAPI using npm:
 
     $ npm install hapi-swagger --save,
 
-    
+
 ## Adding the plug-in into your project
 
 In the .js file where you create the HAPI `server` object add the following code after you have created the `server` object:
@@ -22,19 +22,19 @@ In the .js file where you create the HAPI `server` object add the following code
         };
 
     server.pack.register({
-            plugin: require('hapi-swagger'), 
+            plugin: require('hapi-swagger'),
             options: swaggerOptions
         }, function (err) {
         if (err) {
-            server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err) 
+            server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err)
         }else{
             server.log(['start'], 'Swagger interface loaded')
         }
     });
 
 
-## Using the documentation page 
-The plugin adds a page into your site with the route `/documentation`. This page contains Swaggers UI to allow users to explore your API. You can also build custom pages on your own URL paths if you wish, see: Adding custom interface into a page 
+## Using the documentation page
+The plugin adds a page into your site with the route `/documentation`. This page contains Swaggers UI to allow users to explore your API. You can also build custom pages on your own URL paths if you wish, see: Adding custom interface into a page
 
 
 ## Tagging your API routes
@@ -50,8 +50,8 @@ You can even specify more tags and then later generate tag-specific documentatio
             handler: handlers.mapUsername,
             description: 'Get todo',
             notes: 'Returns a todo item by the id passed in the path',
-            tags: ['api'],        
-            validate: { 
+            tags: ['api'],
+            validate: {
                 params: {
                     username: joi.number()
                             .required()
@@ -62,7 +62,7 @@ You can even specify more tags and then later generate tag-specific documentatio
     }
 
 
-    
+
 ## Adding interface into a page
 The plugin adds all the resources needed to build the interface into your any page in your project. All you need to do is add some javascript into the header of a web page and add two elements into the HTML where you wish it to render. The example [be-more-hapi](https://github.com/glennjones/be-more-hapi) project makes use of a custom page where the interface is used with other elements.
 
@@ -124,7 +124,7 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
     ?tags=mountains,+beach,-horses
     this will show routes WITH 'mountains' AND 'beach' AND NO 'horses'
 
-  
+
 ### Adding the HTML elements
 
 Place the HTML code below into the body fo web page where you wish the interface to render
@@ -141,7 +141,7 @@ Place the HTML code below into the body fo web page where you wish the interface
 ### Options
 There are number of options for advance use case. In most case you should only have to provide the apiVersion and basePath.
 
-* apiVersion: the version of your API 
+* apiVersion: the version of your API
 * basePath: the base URL of the API i.e. 'http://localhost:3000'
 * documentationPath: the path to the default documentation page - the default is: '/documentation',
 * enableDocumentationPage: enable the display of the documentation page - the default is: true,
@@ -149,7 +149,7 @@ There are number of options for advance use case. In most case you should only h
 * pathPrefixSize: selects what segment of the URL path is used to group endpoints - the default is: 1
 * payloadType: weather accepts JSON or form parameters for payload - the default is: 'json'
 * produces: an array of the output types from your API - the default is: ['application/json']
-
+* authorizations: an object containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to hapi authentication. by default an authorization type of apiKey exists passed via the header for all endpoints with auth:true set.
 
 
 ### Response Object
@@ -169,7 +169,7 @@ An very simple example of the use of the response object:
         description: 'Add',
         tags: ['api'],
         notes: ['Adds together two numbers and return the result'],
-        validate: { 
+        validate: {
             params: {
                 a: joi.number()
                     .required()
@@ -205,7 +205,7 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
                 ]
             }
         },
-        validate: { 
+        validate: {
             params: {
                 a: joi.number()
                     .required()
@@ -222,7 +222,7 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
 ### Headers and .unknown()
 A common issue with the use of headers is that you may only want to validate some of the headers sent in a request and you are not concerned about other headers that maybe sent also. You can use JOI .unknown() to allow any all other headers to be sent without validation errors.
 
-    validate: { 
+    validate: {
         params: {
             a: joi.number()
                 .required()
@@ -271,6 +271,3 @@ I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to o
 
 ### This is a work in progress
 If you find any issue please file here on github and I will try and fix them.
-
-
-
