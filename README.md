@@ -8,7 +8,7 @@ This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI]
 
 You can add the module to your HAPI using npm:
 
-    $ npm install hapi-swagger --save,
+    $ npm install hapi-swagger --save
 
     
 ## Adding the plug-in into your project
