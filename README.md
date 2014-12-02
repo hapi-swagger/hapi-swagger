@@ -149,7 +149,7 @@ There are number of options for advance use case. In most case you should only h
 * pathPrefixSize: selects what segment of the URL path is used to group endpoints - the default is: 1
 * payloadType: weather accepts JSON or form parameters for payload - the default is: 'json'
 * produces: an array of the output types from your API - the default is: ['application/json']
-* authorizations: an object containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to hapi authentication. by default an authorization type of apiKey exists passed via the header for all endpoints with auth:true set.
+* authorizations: an object containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
 
 
 ### Response Object
