@@ -18,6 +18,7 @@
     <script src='/docs/swaggerui/lib/swagger.js' type='text/javascript'></script>
     <script src='/docs/swaggerui/swagger-ui.js' type='text/javascript'></script>
     <script src='/docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
+    <script src='/docs/custom.js' type='text/javascript'></script>
     <script type="text/javascript">
     $(function() {
 
@@ -59,11 +60,11 @@
                 if(queryStringArray.indexOf('&') > -1){
                     queryStringParamArray = queryStringArray[1].split("&");
                 }
-                for ( var i=0; i<queryStringParamArray.length; i++ ){           
+                for ( var i=0; i<queryStringParamArray.length; i++ ){
                     queryStringNameValueArray = queryStringParamArray[i].split("=");
                     if ( name == queryStringNameValueArray[0] ){
                         nameValue = queryStringNameValueArray[1];
-                    }                       
+                    }
                 }
                 return nameValue;
             }
