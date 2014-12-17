@@ -69,32 +69,36 @@ The plugin adds all the resources needed to build the interface into your any pa
 
 ### Adding the javascript
 
-The doc directory and all the files in the URLs below are added by the plugin
+The all the files in the URLs below are added by the plugin, but you must server the custom page as template using `reply.view()`. 
 
 
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
-    <link href='/docs/swaggerui/css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
-    <link href='/docs/swaggerui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-    <script src="/docs/swaggerui/lib/shred.bundle.js" type="text/javascript"></script>
-    <script src='/docs/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/handlebars-1.0.0.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/underscore-min.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/backbone-min.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/swagger.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/swagger-ui.js' type='text/javascript'></script>
-    <script src='/docs/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
+    <link href='{{hapiSwagger.endpoint}}/swaggerui/css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='{{hapiSwagger.endpoint}}/swaggerui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/shred.bundle.js' 'type=text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/handlebars-1.0.0.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/underscore-min.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/backbone-min.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/swagger.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/swagger-ui.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
+    <script src='{{hapiSwagger.endpoint}}/custom.js' type='text/javascript'></script>
     <script type="text/javascript">
       $(function () {
         window.swaggerUi = new SwaggerUi({
-          url: window.location.protocol + '//' + window.location.host + '/docs',
+          url: window.location.protocol + '//' + window.location.host + '{{hapiSwagger.endpoint}}',
           dom_id: "swagger-ui-container",
           supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
           onComplete: function(swaggerApi, swaggerUi){
             log("Loaded SwaggerUI")
-            $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+            $('pre code').each(function(i, e) {
+                hljs.highlightBlock(e)
+            });
+            $('.response_throbber').attr( 'src', '{{hapiSwagger.endpoint}}/swaggerui/images/throbber.gif' );
           },
           onFailure: function(data) {
             log("Unable to Load SwaggerUI");
@@ -107,11 +111,11 @@ The doc directory and all the files in the URLs below are added by the plugin
 
 If you want to generate tag-specific documentation, you should change the URL from
 
-    url: window.location.protocol + '//' + window.location.host + '/docs',
+    url: window.location.protocol + '//' + window.location.host + '{{hapiSwagger.endpoint}}',
 
 to:
 
-    url: window.location.protocol + '//' + window.location.host + '/docs?tags=foo,bar,baz',
+    url: window.location.protocol + '//' + window.location.host + '{{hapiSwagger.endpoint}}?tags=foo,bar,baz',
 
 This will load all routes that have one or more of the given tags (`foo` or `bar` or `baz`). More complex use of tags include:
 
@@ -141,16 +145,22 @@ Place the HTML code below into the body fo web page where you wish the interface
 ### Options
 There are number of options for advance use case. In most case you should only have to provide the apiVersion and basePath.
 
-* apiVersion: the version of your API
-* basePath: the base URL of the API i.e. 'http://localhost:3000'
-* documentationPath: the path to the default documentation page - the default is: '/documentation',
-* enableDocumentationPage: enable the display of the documentation page - the default is: true,
-* endpoint: the JSON endpoint that descibes the API - the default is: '/docs'
-* pathPrefixSize: selects what segment of the URL path is used to group endpoints - the default is: 1
-* payloadType: weather accepts JSON or form parameters for payload - the default is: 'json'
-* produces: an array of the output types from your API - the default is: ['application/json']
-* authorizations: an object containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
-* info: a [swagger info object](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#513-info-object) with metadata about the API.
+* `apiVersion`: string The version of your API
+* `basePath`: string The base URL of the API i.e. `http://localhost:3000`
+* `documentationPath`:  string The path to the default documentation page - the default is: `/documentation`,
+* `enableDocumentationPage`: boolean Enable the display of the documentation page - the default is: `true`,
+* `endpoint`: string the JSON endpoint that descibes the API - the default is: `/docs`
+* `pathPrefixSize`: number Selects what segment of the URL path is used to group endpoints - the default is: `1`
+* `payloadType`: string Weather accepts `json` or `form` parameters for payload - the default is: `json`
+* `produces`: array The output types from your API - the default is: `['application/json']`
+* `authorizations`: object Containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
+* `info`: a [swagger info object](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#513-info-object) with metadata about the API.
+    * `title`   string  Required. The title of the application.
+    * `description` string  Required. A short description of the application.
+    * `termsOfServiceUrl`   string  A URL to the Terms of Service of the API.
+    * `contact` string  An email to be used for API-related correspondence.
+    * `license` string  The license name used for the API.
+    * `licenseUrl`  string  A URL to the license used for the API.
 
 
 ### Response Object
