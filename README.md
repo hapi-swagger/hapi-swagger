@@ -150,6 +150,7 @@ There are number of options for advance use case. In most case you should only h
 * payloadType: weather accepts JSON or form parameters for payload - the default is: 'json'
 * produces: an array of the output types from your API - the default is: ['application/json']
 * authorizations: an object containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
+* info: a [swagger info object](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#513-info-object) with metadata about the API.
 
 
 ### Response Object
