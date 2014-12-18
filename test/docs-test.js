@@ -1,8 +1,7 @@
 var chai = require('chai'),
    Hapi = require('hapi'),
    assert = chai.assert,
-   Joi = require('joi'),
-   swagger = require('../lib/index.js');
+   Joi = require('joi');
 
 var defaultHandler = function(request, response) {
   reply('ok');
@@ -13,8 +12,9 @@ describe('docs tags', function() {
   var server;
 
   beforeEach(function(done) {
-    server = new Hapi.Server({debug: false});
-    server.pack.register(swagger, function(err) {
+    server = new Hapi.Server();
+    server.connection({ host: 'test' });
+    server.register({register: require('../lib/index.js')}, function(err) {
       assert.ifError(err)
       done();
     });
@@ -157,8 +157,9 @@ describe('docs path', function() {
   var server;
 
   beforeEach(function(done) {
-    server = new Hapi.Server({debug: false});
-    server.pack.register(swagger, function(err) {
+    server = new Hapi.Server();
+    server.connection({ host: 'test' });
+    server.register({register: require('../lib/index.js')}, function(err) {
       assert.ifError(err)
       done();
     });

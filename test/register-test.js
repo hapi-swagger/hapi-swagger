@@ -4,15 +4,15 @@ Mocha test
 
 var chai = require('chai'),
    Hapi = require('hapi'),
-   assert = chai.assert,
-   swagger = require('../lib/index.js');
+   assert = chai.assert;
 
 describe('register test', function() {
 
   var server;
 
   beforeEach(function(done) {
-    server = new Hapi.Server({debug: false});
+    server = new Hapi.Server();
+    server.connection({ host: 'test' });
 
     done(); 
   })
@@ -25,19 +25,19 @@ describe('register test', function() {
   })
 
   it('registers without error', function(done){ 
-    server.pack.register(swagger, function(err) {
+    server.register({register: require('../lib/index.js')}, function(err) {
       assert.ifError(err)
 
       done();
     });
   });
 
-  it('has documentation page enabled by fault', function(done){
-    server.pack.register(swagger, function(err) {
+  it('is documentation page enabled by default', function(done){
+    server.register({register: require('../lib/index.js')}, function(err) {
       assert.ifError(err)
 
       var routes = [];
-      server.table().forEach(function(item) {
+      server.table()[0].table.forEach(function(item) {
         routes.push(item.path);
       });
       assert(routes.indexOf('/documentation') >= 0);

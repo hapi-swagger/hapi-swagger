@@ -1,7 +1,7 @@
 # hapi-swagger
 
 
-This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v6 or 7  When installed it will self document HTTP API interface in a project.
+This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v8.  When installed it will self document HTTP API interface in a project.
 
 
 ## Install
@@ -21,21 +21,16 @@ In the .js file where you create the HAPI `server` object add the following code
             apiVersion: pack.version
         };
 
-    server.pack.register({
-            plugin: require('hapi-swagger'),
+    server.register({
+            register: require('hapi-swagger'),
             options: swaggerOptions
         }, function (err) {
-        if (err) {
-            server.log(['error'], 'Plugin "hapi-swagger" load error: ' + err)
-        }else{
-            server.log(['start'], 'Swagger interface loaded')
-        }
-    });
-
-
-## Using the documentation page
-The plugin adds a page into your site with the route `/documentation`. This page contains Swaggers UI to allow users to explore your API. You can also build custom pages on your own URL paths if you wish, see: Adding custom interface into a page
-
+            if (err) {
+                server.log(['error'], 'hapi-swagger load error: ' + err)
+            }else{
+                server.log(['start'], 'hapi-swagger interface loaded')
+            }
+        });
 
 ## Tagging your API routes
 As a project may be a mixture of web pages and API endpoints you need to tag the routes you wish Swagger to document. Simply add the `tags: ['api']` property to the route object for any endpoint you want documenting.
@@ -53,13 +48,19 @@ You can even specify more tags and then later generate tag-specific documentatio
             tags: ['api'],
             validate: {
                 params: {
-                    username: joi.number()
+                    username: Joi.number()
                             .required()
                             .description('the id for the todo item'),
                 }
             }
         },
     }
+
+## Viewing the documentation page
+The plugin adds a page into your site with the route `/documentation`. This page contains Swaggers UI to allow users to explore your API. You can also build custom pages on your own URL paths if you wish, see: "Adding interface into a page"
+
+
+
 
 
 
@@ -147,20 +148,20 @@ There are number of options for advance use case. In most case you should only h
 
 * `apiVersion`: string The version of your API
 * `basePath`: string The base URL of the API i.e. `http://localhost:3000`
-* `documentationPath`:  string The path to the default documentation page - the default is: `/documentation`,
-* `enableDocumentationPage`: boolean Enable the display of the documentation page - the default is: `true`,
-* `endpoint`: string the JSON endpoint that descibes the API - the default is: `/docs`
-* `pathPrefixSize`: number Selects what segment of the URL path is used to group endpoints - the default is: `1`
-* `payloadType`: string Weather accepts `json` or `form` parameters for payload - the default is: `json`
+* `documentationPath`:  string The path of the documentation page - default: `/documentation`,
+* `enableDocumentationPage`: boolean Enable the the documentation page - default: `true`,
+* `endpoint`: string the JSON endpoint that descibes the API - default: `/docs`
+* `pathPrefixSize`: number Selects what segment of the URL path is used to group endpoints - default: `1`
+* `payloadType`: string Weather accepts `json` or `form` parameters for payload - default: `json`
 * `produces`: array The output types from your API - the default is: `['application/json']`
 * `authorizations`: object Containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
 * `info`: a [swagger info object](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#513-info-object) with metadata about the API.
-    * `title`   string  Required. The title of the application.
-    * `description` string  Required. A short description of the application.
-    * `termsOfServiceUrl`   string  A URL to the Terms of Service of the API.
-    * `contact` string  An email to be used for API-related correspondence.
-    * `license` string  The license name used for the API.
-    * `licenseUrl`  string  A URL to the license used for the API.
+    * `title`   string  Required. The title of the application
+    * `description` string  Required. A short description of the application
+    * `termsOfServiceUrl`   string  A URL to the Terms of Service of the API
+    * `contact` string  An email to be used for API-related correspondence
+    * `license` string  The license name used for the API
+    * `licenseUrl`  string  A URL to the license used for the API
 
 
 ### Response Object
@@ -169,7 +170,7 @@ HAPI allow you to define a response object for an API endpoint. The response obj
 An very simple example of the use of the response object:
 
     var responseModel = hapi.types.object({
-        equals: joi.number(),
+        equals: Joi.number(),
     }).options({
       className: 'Result'
     });
@@ -182,11 +183,11 @@ An very simple example of the use of the response object:
         notes: ['Adds together two numbers and return the result'],
         validate: {
             params: {
-                a: joi.number()
+                a: Joi.number()
                     .required()
                     .description('the first number'),
 
-                b: joi.number()
+                b: Joi.number()
                     .required()
                     .description('the second number')
             }
@@ -218,11 +219,11 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
         },
         validate: {
             params: {
-                a: joi.number()
+                a: Joi.number()
                     .required()
                     .description('the first number'),
 
-                b: joi.number()
+                b: Joi.number()
                     .required()
                     .description('the second number')
             }
@@ -235,16 +236,16 @@ A common issue with the use of headers is that you may only want to validate som
 
     validate: {
         params: {
-            a: joi.number()
+            a: Joi.number()
                 .required()
                 .description('the first number'),
 
-            b: joi.number()
+            b: Joi.number()
                 .required()
                 .description('the second number')
         },
-        headers: joi.object({
-             'authorization': joi.string().required()
+        headers: Joi.object({
+             'authorization': Joi.string().required()
         }).unknown()
     }
 
