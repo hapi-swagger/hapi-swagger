@@ -230,6 +230,41 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
         }
     }
 
+### File upload
+The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file uplaod, the three important elements are: 
+
+* `payloadType: 'form'` in the plugins section creates a form for upload
+* `.options({ swaggerType: 'file' })` add to the payload property you wish to be file upload
+* `payload` cnfiguration how HAPI will process file
+
+        {
+            method: 'POST',
+            path: '/store/file/',
+            config: {
+                handler: handlers.storeAddFile,
+                plugins: {
+                    'hapi-swagger': {
+                        payloadType: 'form'
+                    }
+                },
+                tags: ['api'],
+                validate: {
+                    payload: { 
+                        file: Joi.any()
+                            .options({ swaggerType: 'file' })
+                            .description('json file')
+                    }
+                },
+                payload: {
+                    maxBytes: 1048576,
+                    parse: true,
+                    output: 'stream'
+                },
+                response: {schema : sumModel}
+        }
+
+The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, sch as filetype and schema validation.
+
 
 ### Headers and .unknown()
 A common issue with the use of headers is that you may only want to validate some of the headers sent in a request and you are not concerned about other headers that maybe sent also. You can use JOI .unknown() to allow any all other headers to be sent without validation errors.
