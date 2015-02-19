@@ -34,7 +34,7 @@
         window.swaggerUi = new SwaggerUi({
             url: url,
             dom_id: "swagger-ui-container",
-            supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch', 'option'],
             onComplete: function(swaggerApi, swaggerUi) {
                 log("Loaded SwaggerUI")
                 $('pre code').each(function(i, e) {
