@@ -15,6 +15,7 @@ You can add the module to your HAPI using npm:
 
 In the .js file where you create the HAPI `server` object add the following code after you have created the `server` object:
 
+```Javascript
     var pack = require('../package'),
         swaggerOptions = {
             basePath: 'http://localhost:8000',
@@ -31,13 +32,14 @@ In the .js file where you create the HAPI `server` object add the following code
                 server.log(['start'], 'hapi-swagger interface loaded')
             }
         });
+```
 
 ## Tagging your API routes
 As a project may be a mixture of web pages and API endpoints you need to tag the routes you wish Swagger to document. Simply add the `tags: ['api']` property to the route object for any endpoint you want documenting.
 
 You can even specify more tags and then later generate tag-specific documentation. If you specify `tags: ['api', 'foo']`, you can later use `/documentation?tags=foo` to load the documentation on the HTML page (see next section).
 
-
+```Javascript
     {
         method: 'GET',
         path: '/todo/{id}/',
@@ -55,6 +57,7 @@ You can even specify more tags and then later generate tag-specific documentatio
             }
         },
     }
+```
 
 ## Viewing the documentation page
 The plugin adds a page into your site with the route `/documentation`. This page contains Swaggers UI to allow users to explore your API. You can also build custom pages on your own URL paths if you wish, see: "Adding interface into a page"
@@ -168,14 +171,15 @@ There are number of options for advance use case. In most case you should only h
 HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
 
 An very simple example of the use of the response object:
-
+```Javascript
     var responseModel = hapi.types.object({
         equals: Joi.number(),
     }).options({
       className: 'Result'
     });
-
+```
     within you route object ...
+```Javascript
     config: {
         handler: handlers.add,
         description: 'Add',
@@ -194,7 +198,7 @@ An very simple example of the use of the response object:
         },
         response: {schema: responseModel}
     }
-
+```
 
 A working demo of more complex uses of response object can be found in the [be-more-hapi](https://github.com/glennjones/be-more-hapi) project.
 
@@ -202,7 +206,7 @@ A working demo of more complex uses of response object can be found in the [be-m
 
 ### Error Status Codes
 You can add HTTP error status codes to each of the endpoints. As HAPI routes don not directly have a property for error status codes so you need to add them the plugin configuration. The status codes need to be added as an array of objects with an error code and description:
-
+```Javascript
     config: {
         handler: handlers.add,
         description: 'Add',
@@ -229,14 +233,14 @@ You can add HTTP error status codes to each of the endpoints. As HAPI routes don
             }
         }
     }
-
+```
 ### File upload
 The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file uplaod, the three important elements are: 
 
 * `payloadType: 'form'` in the plugins section creates a form for upload
 * `.options({ swaggerType: 'file' })` add to the payload property you wish to be file upload
 * `payload` cnfiguration how HAPI will process file
-
+```Javascript
         {
             method: 'POST',
             path: '/store/file/',
@@ -262,12 +266,13 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
                 },
                 response: {schema : sumModel}
         }
-
+```
 The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, sch as filetype and schema validation.
 
 
 ### Headers and .unknown()
 A common issue with the use of headers is that you may only want to validate some of the headers sent in a request and you are not concerned about other headers that maybe sent also. You can use JOI .unknown() to allow any all other headers to be sent without validation errors.
+```Javascript
 
     validate: {
         params: {
@@ -283,7 +288,7 @@ A common issue with the use of headers is that you may only want to validate som
              'authorization': Joi.string().required()
         }).unknown()
     }
-
+```
 
 
 
