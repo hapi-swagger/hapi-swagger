@@ -1253,7 +1253,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.options.url = url;
       this.headerView.update(url);
       this.api = new SwaggerApi(this.options);
-      this.api.build();
       return this.api;
     };
 
