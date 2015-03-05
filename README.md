@@ -1,7 +1,7 @@
 # hapi-swagger
 
 
-This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v8.  When installed it will self document HTTP API interface in a project.
+This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v8.x  When installed it will self document HTTP API interface in a project.
 
 
 ## Install
@@ -175,7 +175,7 @@ An very simple example of the use of the response object:
 ```Javascript
 var responseModel = hapi.types.object({
     equals: Joi.number(),
-}).options({
+}).meta({
   className: 'Result'
 });
 ```

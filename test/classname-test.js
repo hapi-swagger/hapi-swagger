@@ -13,14 +13,14 @@ var defaultHandler = function(request, response) {
 };
 
 
-describe('options className test', function() {
+describe('meta className test', function() {
 
     var server;
 
     var schema1 = Joi.object({
        _id: Joi.any().required(),
        name: Joi.string().required()
-    }).options({
+    }).meta({
        className: 'User'
     });
 
@@ -38,7 +38,7 @@ describe('options className test', function() {
 
     var schemaDelete = Joi.object({
        methoddelete: Joi.string().required()
-    }).options({
+    }).meta({
        className: 'deletedUser'
     });
 
@@ -106,7 +106,7 @@ describe('options className test', function() {
     });
 
 
-    it('returned options based classname', function(done) {
+    it('returned meta based classname', function(done) {
       server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
         //console.log(JSON.stringify(response.result));
 
