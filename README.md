@@ -173,7 +173,7 @@ HAPI allow you to define a response object for an API endpoint. The response obj
 
 An very simple example of the use of the response object:
 ```Javascript
-var responseModel = hapi.types.object({
+var responseModel = Joi.object({
     equals: Joi.number(),
 }).meta({
   className: 'Result'
