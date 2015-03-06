@@ -239,7 +239,7 @@ config: {
 The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file uplaod, the three important elements are: 
 
 * `payloadType: 'form'` in the plugins section creates a form for upload
-* `.options({ swaggerType: 'file' })` add to the payload property you wish to be file upload
+* `.meta({ swaggerType: 'file' })` add to the payload property you wish to be file upload
 * `payload` cnfiguration how HAPI will process file
 ```Javascript
 {
@@ -256,7 +256,7 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
         validate: {
             payload: { 
                 file: Joi.any()
-                    .options({ swaggerType: 'file' })
+                    .meta({ swaggerType: 'file' })
                     .description('json file')
             }
         },
