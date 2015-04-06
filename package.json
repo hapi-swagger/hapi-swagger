@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "handlebars": "1.3.x",
-    "boom": "2.6.x",
-    "hoek": "2.11.x",
-    "joi": "6.0.x",
+    "boom": "2.7.x",
+    "hoek": "2.12.x",
+    "joi": "6.1.x",
     "shortid": "2.1.x"
   },
   "devDependencies": {
