@@ -150,7 +150,9 @@ Place the HTML code below into the body fo web page where you wish the interface
 There are number of options for advance use case. In most case you should only have to provide the apiVersion.
 
 * `apiVersion`: string The version of your API
+* `basePath`: string The base URL of the API i.e. `http://localhost:3000`
 * `documentationPath`:  string The path of the documentation page - default: `/documentation`,
+* `enableDocumentationPage`: boolean Enable the the documentation page - default: `true`,
 * `endpoint`: string the JSON endpoint that descibes the API - default: `/docs`
 * `pathPrefixSize`: number Selects what segment of the URL path is used to group endpoints - default: `1`
 * `payloadType`: string Weather accepts `json` or `form` parameters for payload - default: `json`
