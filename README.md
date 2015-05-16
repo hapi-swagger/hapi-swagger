@@ -153,6 +153,7 @@ There are number of options for advance use case. In most case you should only h
 * `basePath`: string The base URL of the API i.e. `http://localhost:3000`
 * `documentationPath`:  string The path of the documentation page - default: `/documentation`,
 * `enableDocumentationPage`: boolean Enable the the documentation page - default: `true`,
+* `auth`: string The auth strategy to use if enableDocumentationPage is `true` - default: `false`,
 * `endpoint`: string the JSON endpoint that descibes the API - default: `/docs`
 * `pathPrefixSize`: number Selects what segment of the URL path is used to group endpoints - default: `1`
 * `payloadType`: string Weather accepts `json` or `form` parameters for payload - default: `json`
