@@ -19,8 +19,8 @@
   "dependencies": {
     "handlebars": "1.3.x",
     "boom": "2.7.x",
-    "hoek": "2.12.x",
-    "joi": "6.1.x",
+    "hoek": "2.x",
+    "joi": ">= 5.0 < 7",
     "shortid": "2.1.x"
   },
   "devDependencies": {
