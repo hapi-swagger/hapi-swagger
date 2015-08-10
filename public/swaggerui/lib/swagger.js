@@ -1299,6 +1299,7 @@ var PasswordAuthorization = function(name, username, password) {
   this.password = password;
   this._btoa = null;
   if (typeof window !== 'undefined')
+    // Changed to 'btoa.bind(window)' from 'btoa' as part of fix for #138 hapi-swagger Glenn Jones 10 Aug 2015
     this._btoa = btoa.bind(window);
   else
     this._btoa = require("btoa");
