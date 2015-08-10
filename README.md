@@ -79,7 +79,7 @@ The all the files in the URLs below are added by the plugin, but you must server
 <link href='{{hapiSwagger.endpoint}}/swaggerui/css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
 <link href='{{hapiSwagger.endpoint}}/swaggerui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
 <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/shred.bundle.js' 'type=text/javascript'></script>
-<script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery-1.x.min.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.endpoint}}/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
