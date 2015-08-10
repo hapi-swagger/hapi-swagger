@@ -1299,7 +1299,7 @@ var PasswordAuthorization = function(name, username, password) {
   this.password = password;
   this._btoa = null;
   if (typeof window !== 'undefined')
-    this._btoa = btoa;
+    this._btoa = btoa.bind(window);
   else
     this._btoa = require("btoa");
 };
