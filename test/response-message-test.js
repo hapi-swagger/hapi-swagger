@@ -3,9 +3,14 @@ Mocha test
 Tests that note array is broken up correctly
 */
 
-var chai = require('chai'),
-   Hapi = require('hapi'),
-   assert = chai.assert;
+var Chai            = require('chai'),
+    Hapi            = require('hapi'),
+    Joi             = require('joi'),
+    Inert           = require('inert'),
+    Vision          = require('vision'),
+    HapiSwagger     = require('../lib/index.js');
+    assert          = Chai.assert;
+    
 
 var defaultHandler = function(request, response) {
   reply('ok');
@@ -21,14 +26,16 @@ describe('response messages test', function() {
     var server;
 
     beforeEach(function(done) {
-    server = new Hapi.Server();
-    server.connection({ host: 'test' });
-    server.register({register: require('../lib/index.js')}, function(err) {
-        assert.ifError(err);
-        done();
+      server = new Hapi.Server();
+      server.connection();
+      server.register([Inert, Vision, HapiSwagger], function(err){
+        server.start(function(err){
+          assert.ifError(err);
+          done();
+        });
       });
     });
-
+  
     afterEach(function(done) {
       server.stop(function() {
         server = null;

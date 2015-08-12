@@ -3,10 +3,15 @@ Mocha test
 This test was created for issue #103
 */
 
-var chai = require('chai'),
-   Hapi = require('hapi'),
-   Joi = require('joi'),
-   assert = chai.assert;
+var Chai            = require('chai'),
+    Hapi            = require('hapi'),
+    Joi             = require('joi'),
+    Inert           = require('inert'),
+    Vision          = require('vision'),
+    Hoek            = require('hoek'),
+    HapiSwagger     = require('../lib/index.js');
+    assert          = Chai.assert;
+
 
 var defaultHandler = function(request, response) {
   reply('ok');
@@ -14,27 +19,29 @@ var defaultHandler = function(request, response) {
 
 
 describe('model structure', function() {
-
-    var server;
-
-    beforeEach(function(done) {
+  
+  var server
+  
+  beforeEach(function(done) {
     server = new Hapi.Server();
-    server.connection({ host: 'test' });
-    server.register({register: require('../lib/index.js')}, function(err) {
+    server.connection();
+    server.register([Inert, Vision, HapiSwagger], function(err){
+      server.start(function(err){
         assert.ifError(err);
         done();
       });
     });
+  });
 
-    afterEach(function(done) {
-      server.stop(function() {
-        server = null;
-        done();
-      });
+  afterEach(function(done) {
+    server.stop(function() {
+      server = null;
+      done();
     });
+  });
+  
 
-
-    it('should support child models', function(done) {
+  it('should support child models', function(done) {
 
       server.route([{
         method: 'POST',

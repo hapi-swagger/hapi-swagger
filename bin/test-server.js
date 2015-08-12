@@ -6,16 +6,12 @@ var Hapi 			= require('hapi'),
 	routes 			= require('./mock-routes');
 
 var server = new Hapi.Server(3004);
-server.route(routes);
-
 
 // setup swagger options
 var swaggerOptions = {
     basePath: 'http://localhost:3004',
     apiVersion: pack.version
 };
-
-
 
 server.pack.register(require('../'), function(err) {
 	if(err){
@@ -27,3 +23,5 @@ server.pack.register(require('../'), function(err) {
         });
 	}
 });
+
+server.route(routes);

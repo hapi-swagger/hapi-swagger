@@ -2,9 +2,13 @@
 Mocha test
 */
 
-var chai = require('chai'),
-   assert = chai.assert,
-   swagger = require('../lib/index.js');
+var Chai            = require('chai'),
+    Hapi            = require('hapi'),
+    Joi             = require('joi'),
+    Inert           = require('inert'),
+    Vision          = require('vision'),
+    assert          = Chai.assert,
+    swagger         = require('../lib/index.js');
 
 var internals = swagger._internals;
 
@@ -54,7 +58,6 @@ describe('route parsing test', function() {
    it('isResourceRoute should return false for: /moviescenes/, movies', function(){
       assert.equal( internals.isResourceRoute('/moviescenes/', 'movies'), false );
    })
-
 
    it('isResourceRoute should return false for: /actor/movies, movies', function(){
       assert.equal( internals.isResourceRoute('/actor/movies', 'movies'), false );

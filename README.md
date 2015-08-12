@@ -1,7 +1,7 @@
 # hapi-swagger
 
 
-This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v8.x  When installed it will self document HTTP API interface in a project.
+This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x  When installed it will self document HTTP API interface in a project.
 
 
 ## Install
@@ -10,26 +10,43 @@ You can add the module to your HAPI using npm:
 
     $ npm install hapi-swagger --save
 
+You will alos need to install the `inert` and `version` plugs-in which support tamplates and static content serving.
+
+    $ npm install inert --save
+    $ npm install version --save
 
 ## Adding the plug-in into your project
 
-In the .js file where you create the HAPI `server` object add the following code after you have created the `server` object:
+In the apps main .js file add the following code to created a `server` object which makes use of the hapi-swagger plaug-in:
 
 ```Javascript
-var pack = require('../package'),
-    swaggerOptions = {
+var Hapi            = require('hapi'),
+    Inert           = require('inert'),
+    Vision          = require('vision'),
+    HapiSwagger     = require('hapi-swagger');
+    Pack            = require('./package');
+
+var server = new Hapi.Server();
+server.connection({ 
+        host: 'localhost', 
+        port: 3000 
+    });
+
+var swaggerOptions = {
         apiVersion: pack.version
     };
 
-server.register({
-        register: require('hapi-swagger'),
+server.register([
+    Inert,
+    Vision,
+    {
+        register: HapiSwagger,
         options: swaggerOptions
-    }, function (err) {
-        if (err) {
-            server.log(['error'], 'hapi-swagger load error: ' + err)
-        }else{
-            server.log(['start'], 'hapi-swagger interface loaded')
-        }
+    }], function (err) {
+        server.start(function(){
+            // Add any server.route() config here
+            console.log('Server running at:', server.info.uri);
+        });
     });
 ```
 
@@ -302,23 +319,6 @@ If you are considering sending a pull request please add tests for the functiona
 
 ### Thanks
 I would like to thank [Brandwatch](http://www.brandwatch.com/) who allow me to open this code up as part of the work on this plugin was done during a contract with them.
-
-### Contributors
-* jlewark (https://github.com/jlewark)
-* ivorothschild (https://github.com/ivorothschild)
-* Joshua McGinnis (https://github.com/joshua-mcginnis)
-* David Waterston (https://github.com/davidwaterston)
-* Jozz (https://github.com/jozzhart)
-* John Oliva (https://github.com/joliva)
-* thiagogalesi4e (https://github.com/thiagogalesi4e)
-* HughePaul (https://github.com/HughePaul)
-* Stefan Oderbolz (https://github.com/metaodi)
-* Peter Henning (https://github.com/petreboy14)
-* Timo Behrmann (https://github.com/z0mt3c)
-* Darin Chambers (https://github.com/darinc)
-* Kentaro Wakayama (https://github.com/kwakayama)
-* John Brett (https://github.com/johnbrett)
-* Felipe Leusin (https://github.com/felipeleusin)
 
 
 ### This is a work in progress

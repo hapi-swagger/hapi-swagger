@@ -2,6 +2,7 @@
 Mocha test
 */
 
+
 var chai = require('chai'),
    assert = chai.assert,
    swagger = require('../lib/index.js');
@@ -37,3 +38,4 @@ it('isPrefix length 2 short route', function(){
 });
 
 });
+
