@@ -17,7 +17,7 @@ You will alos need to install the `inert` and `version` plugs-in which support t
 
 ## Adding the plug-in into your project
 
-In the apps main .js file add the following code to created a `server` object which makes use of the hapi-swagger plaug-in:
+In the apps main .js file add the following code to created a `server` object which makes use of the hapi-swagger plug-in:
 
 ```Javascript
 var Hapi            = require('hapi'),
