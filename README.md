@@ -10,10 +10,10 @@ You can add the module to your HAPI using npm:
 
     $ npm install hapi-swagger --save
 
-You will alos need to install the `inert` and `version` plugs-in which support tamplates and static content serving.
+You will alos need to install the `inert` and `vision` plugs-in which support tamplates and static content serving.
 
     $ npm install inert --save
-    $ npm install version --save
+    $ npm install vision --save
 
 ## Adding the plug-in into your project
 
