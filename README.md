@@ -10,20 +10,20 @@ You can add the module to your HAPI using npm:
 
     $ npm install hapi-swagger --save
 
-You will alos need to install the `inert` and `vision` plugs-in which support tamplates and static content serving.
+You will also need to install the `inert` and `vision` plugs-ins which support tamplates and static content serving.
 
     $ npm install inert --save
     $ npm install vision --save
 
 ## Adding the plug-in into your project
 
-In the apps main .js file add the following code to created a `server` object which makes use of the hapi-swagger plug-in:
+In your apps main .js file add the following code to created a `server` object:
 
 ```Javascript
 var Hapi            = require('hapi'),
     Inert           = require('inert'),
     Vision          = require('vision'),
-    HapiSwagger     = require('hapi-swagger');
+    HapiSwagger     = require('hapi-swagger'),
     Pack            = require('./package');
 
 var server = new Hapi.Server();
