@@ -173,4 +173,32 @@ describe('basePath', function() {
       });
     });
   });
+
+  describe('endpoint', function() {
+
+    before('init server', function(done){
+      pluginConfig.options = {};
+      initServer(pluginConfig, done);
+    });
+
+    it('should still set the proper endpoint', function(done) {
+      requestOptions.headers = {
+        'x-forwarded-host': 'proxyhost',
+        'x-forwarded-proto': 'https'
+      };
+      requestOptions.url = '/docs';
+
+      server.inject(requestOptions, function (response) {
+        var expectedBasePath = [
+          requestOptions.headers['x-forwarded-proto'],
+          '://',
+          requestOptions.headers['x-forwarded-host'],
+          '/docs?path='
+        ].join('');
+
+        assert.equal(response.result.basePath, expectedBasePath);
+        done();
+      });
+    });
+  });
 });
