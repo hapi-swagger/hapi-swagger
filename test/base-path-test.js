@@ -63,7 +63,7 @@ describe('basePath', function() {
   });
 
   describe('basePath option', function() {
-    before('init server', function(done){
+    before(function(done){
       pluginConfig.options = {
         basePath: 'http://testhost/'
       };
@@ -79,7 +79,7 @@ describe('basePath', function() {
   });
 
   describe('protocol option', function() {
-    before('init server', function(done){
+    before(function(done){
       pluginConfig.options = {
         basePath: 'http://testhost/',
         protocol: 'https'
@@ -103,7 +103,7 @@ describe('basePath', function() {
 
   describe('request host', function() {
 
-    before('init server', function(done){
+    before(function(done){
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });
@@ -126,7 +126,7 @@ describe('basePath', function() {
 
   describe('proxy forwarded host', function() {
 
-    before('init server', function(done){
+    before(function(done){
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });
@@ -150,7 +150,7 @@ describe('basePath', function() {
 
   describe('proxy forwarded proto', function() {
 
-    before('init server', function(done){
+    before(function(done){
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });
@@ -176,7 +176,7 @@ describe('basePath', function() {
 
   describe('endpoint', function() {
 
-    before('init server', function(done){
+    before(function(done){
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });

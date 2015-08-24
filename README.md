@@ -3,6 +3,7 @@
 
 This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x  When installed it will self document HTTP API interface in a project.
 
+[![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swaggered-ui)
 
 ## Install
 
@@ -44,11 +45,10 @@ server.register([
         options: swaggerOptions
     }], function (err) {
         server.start(function(){
+            // Add any server.route() config here
             console.log('Server running at:', server.info.uri);
         });
     });
-    
-// Add any server.route() config here
 ```
 
 ## Tagging your API routes
@@ -168,7 +168,7 @@ Place the HTML code below into the body fo web page where you wish the interface
 There are number of options for advance use case. In most case you should only have to provide the apiVersion.
 
 * `apiVersion`: string The version of your API
-* `protocol`: e.g. `http` or `https` will override all request heaeders and basePath
+* `protocol`: e.g. `http` or `https` will override all request headers and basePath
 * `basePath`: string The base URL of the API i.e. `http://localhost:3000` (note, this is parsed with `url`, so if you do not specify a protocol, it will be interpreted as path with no hostname).
 * `documentationPath`:  string The path of the documentation page - default: `/documentation`,
 * `enableDocumentationPage`: boolean Enable the the documentation page - default: `true`,
