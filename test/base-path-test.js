@@ -65,7 +65,7 @@ describe('basePath', function() {
   describe('basePath option', function() {
     before(function(done){
       pluginConfig.options = {
-        basePath: 'http://testhost/'
+        basePath: 'http://testhost'
       };
       initServer(pluginConfig, done);
     });
@@ -81,7 +81,7 @@ describe('basePath', function() {
   describe('protocol option', function() {
     before(function(done){
       pluginConfig.options = {
-        basePath: 'http://testhost/',
+        basePath: 'http://testhost',
         protocol: 'https'
       };
       initServer(pluginConfig, done);
