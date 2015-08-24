@@ -44,10 +44,11 @@ server.register([
         options: swaggerOptions
     }], function (err) {
         server.start(function(){
-            // Add any server.route() config here
             console.log('Server running at:', server.info.uri);
         });
     });
+    
+// Add any server.route() config here
 ```
 
 ## Tagging your API routes

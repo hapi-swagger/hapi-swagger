@@ -28,7 +28,8 @@ module.exports = [{
       query: {
         param1: t.string().required()
       }
-    }
+    },
+    tags: ['admin', 'api']
   }
 }, {
   method: 'GET',
@@ -39,7 +40,8 @@ module.exports = [{
       query: {
         param1: t.string().required()
       }
-    }
+    },
+    tags: ['admin', 'api']
   }
 }, {
   method: 'POST',
@@ -50,7 +52,8 @@ module.exports = [{
       query: {
         param2: t.string().valid('first', 'last')
       }
-    }
+    },
+    tags: ['admin', 'api']
   }
 }, {
   method: 'DELETE',
@@ -61,7 +64,8 @@ module.exports = [{
       query: {
         param2: t.string().valid('first', 'last')
       }
-    }
+    },
+    tags: ['admin', 'api']
   }
 }, {
   method: 'PUT',
@@ -72,19 +76,8 @@ module.exports = [{
       query: {
         param2: t.string().valid('first', 'last')
       }
-    }
-  }
-}, {
-  method: 'HEAD',
-  path: '/test',
-  config: {
-    handler: handler,
-    validate: {
-      query: {
-        param2: t.string().valid('first', 'last'),
-        param3: t.number().valid(42)
-      }
-    }
+    },
+    tags: ['admin', 'api']
   }
 }, {
   method: 'GET',
@@ -117,17 +110,6 @@ module.exports = [{
       query: t.object({
         param1: t.string().required()
       })
-    }
-  }
-}, {
-  method: 'GET',
-  path: '/rootarray',
-  config: {
-    handler: handler,
-    validate: {
-      query: t.array().includes(t.string(), t.object({
-        param1: t.number()
-      })).excludes(t.number()).min(2).max(5).length(3)
     }
   }
 }, {
@@ -177,34 +159,6 @@ module.exports = [{
     response: {
       schema: {
         param1: t.string()
-      }
-    }
-  }
-}, {
-  method: 'GET',
-  path: '/withpojoinarray',
-  config: {
-    handler: handler,
-    validate: {
-      query: {
-        param1: t.array().includes({
-          param2: t.string()
-        })
-      }
-    }
-  }
-}, {
-  method: 'POST',
-  path: '/withnestedrulesarray',
-  config: {
-    handler: handler,
-    validate: {
-      payload: {
-        param1: t.array().includes(t.object({
-          param2: t.array().includes(t.object({
-            param3: t.string()
-          })).optional()
-        }))
       }
     }
   }

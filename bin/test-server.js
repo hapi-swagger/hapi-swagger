@@ -1,27 +1,32 @@
+var Hapi            = require('hapi'),
+    Inert           = require('inert'),
+    Vision          = require('vision'),
+    Blipp           = require('blipp'),
+    HapiSwagger     = require('../'),
+    Pack            = require('../package'),
+	Routes 			= require('./mock-routes');
 
+var server = new Hapi.Server();
+server.connection({ 
+        host: 'localhost', 
+        port: 3000 
+    });
 
-var Hapi 			= require('hapi'),
-    swagger         = require('../'),
-    pack            = require('../package'),
-	routes 			= require('./mock-routes');
-
-var server = new Hapi.Server(3004);
-
-// setup swagger options
 var swaggerOptions = {
-    basePath: 'http://localhost:3004',
-    apiVersion: pack.version
-};
+        apiVersion: Pack.version
+    };
 
-server.pack.register(require('../'), function(err) {
-	if(err){
-		console.log(['error'], 'plugin "hapi-swagger" load error: ' + err) 
-	}else{
-		console.log(['start'], 'swagger interface loaded')
-		server.start(function(){
-            console.log(['start'], pack.name + ' - web interface: ' + server.info.uri);
+server.register([
+    Inert,
+    Vision,
+    Blipp,
+    {
+        register: HapiSwagger,
+        options: swaggerOptions
+    }], function (err) {
+        server.start(function(){
+            console.log('Server running at:', server.info.uri);
         });
-	}
-});
-
-server.route(routes);
+    });
+    
+server.route(Routes);
