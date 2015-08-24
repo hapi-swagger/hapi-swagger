@@ -27,9 +27,9 @@ var Hapi            = require('hapi'),
     Pack            = require('./package');
 
 var server = new Hapi.Server();
-server.connection({ 
-        host: 'localhost', 
-        port: 3000 
+server.connection({
+        host: 'localhost',
+        port: 3000
     });
 
 var swaggerOptions = {
@@ -90,7 +90,7 @@ The plugin adds all the resources needed to build the interface into your any pa
 
 ### Adding the javascript
 
-The all the files in the URLs below are added by the plugin, but you must server the custom page as template using `reply.view()`. 
+The all the files in the URLs below are added by the plugin, but you must server the custom page as template using `reply.view()`.
 
 ```html
 <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
@@ -168,7 +168,8 @@ Place the HTML code below into the body fo web page where you wish the interface
 There are number of options for advance use case. In most case you should only have to provide the apiVersion.
 
 * `apiVersion`: string The version of your API
-* `basePath`: string The base URL of the API i.e. `http://localhost:3000`
+* `protocol`: e.g. `http` or `https` will override all request heaeders and basePath
+* `basePath`: string The base URL of the API i.e. `http://localhost:3000` (note, this is parsed with `url`, so if you do not specify a protocol, it will be interpreted as path with no hostname).
 * `documentationPath`:  string The path of the documentation page - default: `/documentation`,
 * `enableDocumentationPage`: boolean Enable the the documentation page - default: `true`,
 * `auth`: string The auth strategy to use if enableDocumentationPage is `true` - default: `false`,
@@ -254,7 +255,7 @@ config: {
 }
 ```
 ### File upload
-The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file uplaod, the three important elements are: 
+The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file uplaod, the three important elements are:
 
 * `payloadType: 'form'` in the plugins section creates a form for upload
 * `.meta({ swaggerType: 'file' })` add to the payload property you wish to be file upload
@@ -272,7 +273,7 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
         },
         tags: ['api'],
         validate: {
-            payload: { 
+            payload: {
                 file: Joi.any()
                     .meta({ swaggerType: 'file' })
                     .description('json file')
