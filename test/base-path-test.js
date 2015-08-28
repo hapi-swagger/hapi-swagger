@@ -1,23 +1,23 @@
 /*
 Mocha test
-Tests that note array is broken up correctly
+Tests the different way basePath and protocol can be set
 */
 
-var Chai            = require('chai'),
-Hapi            = require('hapi'),
-Joi             = require('joi'),
-Inert           = require('inert'),
-Vision          = require('vision'),
-HapiSwagger     = require('../lib/index.js');
-assert          = Chai.assert;
+var Chai          = require('chai'),
+    Hapi          = require('hapi'),
+    Joi           = require('joi'),
+    Inert         = require('inert'),
+    Vision        = require('vision'),
+    HapiSwagger   = require('../lib/index.js'),
+    assert        = Chai.assert;
 
 
-var defaultHandler = function(request, response) {
+var defaultHandler = function (request, response) {
   reply('ok');
 };
 
 
-describe('basePath', function() {
+describe('basePath', function () {
 
   var pluginConfig = {
     register: HapiSwagger,
@@ -36,7 +36,7 @@ describe('basePath', function() {
 
   var server;
 
-  var initServer = function(hapiSwaggerConfig, done) {
+  var initServer = function (hapiSwaggerConfig, done) {
     server = new Hapi.Server();
     server.connection();
     server.route({
@@ -47,30 +47,30 @@ describe('basePath', function() {
         tags: ['api']
       }
     });
-    server.register([Inert, Vision, hapiSwaggerConfig], function(err){
-      server.start(function(err){
+    server.register([Inert, Vision, hapiSwaggerConfig], function (err) {
+      server.start(function (err) {
         assert.ifError(err);
         done();
       });
     });
   };
 
-  afterEach(function(done) {
-    server.stop(function() {
+  afterEach(function (done) {
+    server.stop(function () {
       server = null;
       done();
     });
   });
 
-  describe('basePath option', function() {
-    before(function(done){
+  describe('basePath option', function () {
+    before(function (done) {
       pluginConfig.options = {
         basePath: 'http://testhost'
       };
       initServer(pluginConfig, done);
     });
 
-    it('should use the basePath option if specified', function(done) {
+    it('should use the basePath option if specified', function (done) {
       server.inject(requestOptions, function (response) {
         assert.equal(response.result.basePath, pluginConfig.options.basePath);
         done();
@@ -78,8 +78,8 @@ describe('basePath', function() {
     });
   });
 
-  describe('protocol option', function() {
-    before(function(done){
+  describe('protocol option', function () {
+    before(function (done) {
       pluginConfig.options = {
         basePath: 'http://testhost',
         protocol: 'https'
@@ -87,11 +87,11 @@ describe('basePath', function() {
       initServer(pluginConfig, done);
     });
 
-    it('should use the protocol option if specified', function(done) {
+    it('should use the protocol option if specified', function (done) {
       var expectedBasePath = [
         pluginConfig.options.protocol,
         '://',
-        pluginConfig.options.basePath.replace(/http:\/\//,'')
+        pluginConfig.options.basePath.replace(/http:\/\//, '')
       ].join('');
 
       server.inject(requestOptions, function (response) {
@@ -101,14 +101,14 @@ describe('basePath', function() {
     });
   });
 
-  describe('request host', function() {
+  describe('request host', function () {
 
-    before(function(done){
+    before(function (done) {
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });
 
-    it('should use the request.headers.host if no basePath specified', function(done) {
+    it('should use the request.headers.host if no basePath specified', function (done) {
       requestOptions.headers = {
         host: 'testtwo'
       };
@@ -124,14 +124,14 @@ describe('basePath', function() {
     });
   });
 
-  describe('proxy forwarded host', function() {
+  describe('proxy forwarded host', function () {
 
-    before(function(done){
+    before(function (done) {
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });
 
-    it('should use the x-forwarded-host if no basePath specified', function(done) {
+    it('should use the x-forwarded-host if no basePath specified', function (done) {
       requestOptions.headers = {
         host: 'testtwo',
         'x-forwarded-host': 'proxyhost'
@@ -148,14 +148,14 @@ describe('basePath', function() {
     });
   });
 
-  describe('proxy forwarded proto', function() {
+  describe('proxy forwarded proto', function () {
 
-    before(function(done){
+    before(function (done) {
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });
 
-    it('should use the request.headers.x-forwarded-proto if no protocol specified', function(done) {
+    it('should use the request.headers.x-forwarded-proto if no protocol specified', function (done) {
       requestOptions.headers = {
         'x-forwarded-host': 'proxyhost',
         'x-forwarded-proto': 'https'
@@ -174,14 +174,14 @@ describe('basePath', function() {
     });
   });
 
-  describe('endpoint', function() {
+  describe('endpoint', function () {
 
-    before(function(done){
+    before(function (done) {
       pluginConfig.options = {};
       initServer(pluginConfig, done);
     });
 
-    it('should still set the proper endpoint', function(done) {
+    it('should still set the proper endpoint', function (done) {
       requestOptions.headers = {
         'x-forwarded-host': 'proxyhost',
         'x-forwarded-proto': 'https'
