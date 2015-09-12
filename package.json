@@ -37,6 +37,6 @@
     "test": "make test"
   },
   "peerDependencies": {
-    "hapi": "^10.0.0
+    "hapi": "^10.0.0"
   }
 }
