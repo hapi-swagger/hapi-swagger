@@ -1,8 +1,7 @@
 var t = require('joi');
 
-var handler = function(request) {
-
-  request.reply('ok');
+var handler = function(request, reply) {
+  reply('ok');
 };
 
 module.exports = [{

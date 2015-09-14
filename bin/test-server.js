@@ -25,8 +25,9 @@ server.register([
         options: swaggerOptions
     }], function (err) {
         server.start(function(){
-            console.log('Server running at:', server.info.uri);
+            console.log('server running at:', server.info.uri);
         });
     });
     
 server.route(Routes);
+
