@@ -21,7 +21,7 @@
     "handlebars": "^4.0.0",
     "boom": "^2.8.0",
     "hoek": "^2.14.0",
-    "joi": "~6.6.1",
+    "joi": "~6.7.0",
     "shortid": "^2.2.2"
   },
   "devDependencies": {
