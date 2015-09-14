@@ -1,7 +1,7 @@
 # hapi-swagger
 
 
-This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x  When installed it will self document HTTP API interface in a project.
+This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x or v10.x  When installed it will self document HTTP API interface in a project.
 
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
 
