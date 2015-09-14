@@ -11,7 +11,7 @@ You can add the module to your HAPI using npm:
 
     $ npm install hapi-swagger --save
 
-You will also need to install the `inert` and `vision` plugs-ins which support tamplates and static content serving.
+You will also need to install the `inert` and `vision` plugs-ins which support templates and static content serving.
 
     $ npm install inert --save
     $ npm install vision --save
@@ -173,7 +173,7 @@ There are number of options for advance use case. In most case you should only h
 * `documentationPath`:  string The path of the documentation page - default: `/documentation`,
 * `enableDocumentationPage`: boolean Enable the the documentation page - default: `true`,
 * `auth`: string The auth strategy to use if enableDocumentationPage is `true` - default: `false`,
-* `endpoint`: string the JSON endpoint that descibes the API - default: `/docs`
+* `endpoint`: string the JSON endpoint that describes the API - default: `/docs`
 * `pathPrefixSize`: number Selects what segment of the URL path is used to group endpoints - default: `1`
 * `payloadType`: string Weather accepts `json` or `form` parameters for payload - default: `json`
 * `produces`: array The output types from your API - the default is: `['application/json']`
@@ -255,11 +255,11 @@ config: {
 }
 ```
 ### File upload
-The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file uplaod, the three important elements are:
+The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file upload, the three important elements are:
 
 * `payloadType: 'form'` in the plugins section creates a form for upload
 * `.meta({ swaggerType: 'file' })` add to the payload property you wish to be file upload
-* `payload` cnfiguration how HAPI will process file
+* `payload` configuration how HAPI will process file
 ```Javascript
 {
     method: 'POST',
@@ -287,7 +287,7 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
         response: {schema : sumModel}
 }
 ```
-The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, sch as filetype and schema validation.
+The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, such as filetype and schema validation.
 
 
 ### Headers and .unknown()
