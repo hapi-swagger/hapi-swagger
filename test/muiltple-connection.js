@@ -15,6 +15,7 @@ var Chai = require('chai'),
 
 var server
 
+/*
 
 var plugin1 = function (server, options, next) {
     server.route({
@@ -122,3 +123,4 @@ describe('multiples', function () {
 
 
 });
+*/
