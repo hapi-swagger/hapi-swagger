@@ -1,7 +1,7 @@
 {
   "name": "hapi-swagger",
   "description": "A swagger documentation UI generator plugin for hapi",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "author": "Glenn Jones",
   "repository": {
     "type": "git",
@@ -31,7 +31,9 @@
     "mocha": "^1.17.1",
     "chai": "^1.9.2",
     "hapi": "^10.3.0",
-    "istanbul": "^0.3.17"
+    "istanbul": "^0.3.17",
+    "h2o2": "4.0.1",
+    "wreck": "6.3.0"
   },
   "scripts": {
     "test": "make test"

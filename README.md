@@ -176,7 +176,6 @@ There are number of options for advance use case. In most case you should only h
 * `auth`: string The auth strategy to use if enableDocumentationPage is `true` - default: `false`,
 * `endpoint`: string the JSON endpoint that describes the API - default: `/docs`
 * `pathPrefixSize`: number Selects what segment of the URL path is used to group endpoints - default: `1`
-* `payloadType`: string Weather accepts `json` or `form` parameters for payload - default: `json`
 * `produces`: array The output types from your API - the default is: `['application/json']`
 * `authorizations`: object Containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
 * `info`: a [swagger info object](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#513-info-object) with metadata about the API.
@@ -188,7 +187,33 @@ There are number of options for advance use case. In most case you should only h
     * `licenseUrl`  string  A URL to the license used for the API
 
 
-### Response Object
+### Route options
+* `nickname`: string name given to a model schema
+* `payloadType`: string Weather accepts `json` or `form` parameters for payload - default: `json`
+* `validate`: object a custom JOI validation schema used to build interface rather than using discovery
+* `responseMessages`: array of objects to describe different response messages such as 404
+
+Route options are add into your route config i.e.
+```javascript
+{
+    'method': 'POST',
+    'path': '/tools/microformats',
+    'config': {
+        'description':'parse microformats',
+        'tags': ['api'],        
+        'plugins': {
+        'hapi-swagger': {
+            'responseMessages': [
+                { 'code': 400, 'message': 'Bad Request' },
+                { 'code': 500, 'message': 'Internal Server Error'}
+            ]
+        }
+    },
+    ...
+  }
+```
+
+### Response object
 HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
 
 An very simple example of the use of the response object:
@@ -289,6 +314,39 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
 }
 ```
 The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, such as filetype and schema validation.
+
+### h2o2 proxy routes
+HAPI provides a proxy plug-in [h2o2](https://github.com/hapijs/h2o2). Under some rare cases you may want to define an custom built interface for HTTP POST based `payload` as a front for a proxy. Most other interfaces with `query` or `prama` can be achieved without this technique. Please see https://github.com/glennjones/be-more-hapi/blob/master/bin/proxy.js for examples.
+```Javascript
+{
+    method: 'POST',
+    path: '/tools/microformats',
+    config: {
+        description:'parse microformats',
+        tags: ['api'],        
+        plugins: {
+            'hapi-swagger': {
+                payloadType: 'form',
+                validate: {
+                    payload: {
+					   url: Joi.string().uri().required(),
+                       callback: Joi.string(),
+                       collapsewhitespace: Joi.boolean(),
+                       dateformat: Joi.any().allow(['auto', 'w3c', 'rfc3339', 'html5'])
+                    }
+                }
+            },
+        },
+        handler: {
+            proxy: {
+                host: 'glennjones.net',
+                protocol: 'http',
+                onResponse: replyWithJSON
+            }
+        }
+    }
+  }
+```
 
 
 ### Headers and .unknown()

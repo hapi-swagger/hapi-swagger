@@ -45,6 +45,9 @@ describe('meta className test', function() {
        className: 'deletedUser'
     });
 
+
+
+
     var routes = [
       {
         method: 'GET',
@@ -115,8 +118,8 @@ describe('meta className test', function() {
       server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
         //console.log(JSON.stringify(response.result));
 
-        var optionCLassModel = JSON.parse(JSON.stringify(response.result.models.User));
-        assert.deepEqual(optionCLassModel, {
+        var optionClassModel = JSON.parse(JSON.stringify(response.result.models.User));
+        assert.deepEqual(optionClassModel, {
           "id": "User",
           "type": "object",
           "properties": {
