@@ -72,6 +72,7 @@ describe('prefix', function() {
   describe('first segment', function() {
 
       beforeEach(function(done) {
+        server.route(routes);
         server.register([
           Inert, 
           Vision, 
@@ -81,10 +82,9 @@ describe('prefix', function() {
           }], function(err){
           server.start(function(err){
             assert.ifError(err);
+            done();
           });
         });
-        server.route(routes);
-        done();
       });
       
       it('GET method added', function(done) {
@@ -101,6 +101,7 @@ describe('prefix', function() {
   describe('second segment', function() {
 
       beforeEach(function(done) {
+        server.route(routes);
         server.register([
           Inert, 
           Vision, 
@@ -110,10 +111,9 @@ describe('prefix', function() {
           }], function(err){
           server.start(function(err){
             assert.ifError(err);
+            done();
           });
         });
-        server.route(routes);
-        done();
       });
       
    
