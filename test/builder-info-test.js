@@ -22,8 +22,21 @@ lab.experiment('info', function () {
         }];
         
     
+    lab.test('no info object passed', function (done) {
+        createServer( {}, routes, function(err, server){
+            expect(err).to.equal(null);
+            
+            server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.info).to.deep.equal({title: 'API documentation'});
+                done();
+            });
+            
+        });
+    });
     
-    lab.test('min valid info', function (done) {
+    
+    lab.test('min valid info object', function (done) {
         var swaggerOptions = {
             info: {title: 'test title for lab'}
         }
