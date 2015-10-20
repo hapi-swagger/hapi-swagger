@@ -3,7 +3,7 @@ var Hapi            = require('hapi'),
     Inert           = require('inert'),
     Vision          = require('vision'),
     Lab             = require('lab'),
-    Code            = require('code')
+    Code            = require('code'),
     HapiSwagger     = require('../lib/index.js');
 
 var lab     = exports.lab = Lab.script(),
@@ -23,17 +23,38 @@ lab.experiment('info', function () {
         
     
     lab.test('no info object passed', function (done) {
+        
         createServer( {}, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal({title: 'API documentation'});
+                expect(response.result.info).to.deep.equal({"title": "API documentation"});
                 done();
             });
             
         });
     });
+    
+    
+    lab.test('no info title property passed', function (done) {
+        
+        var swaggerOptions = {
+            info: {}
+        }
+        
+        createServer( swaggerOptions, routes, function(err, server){
+            expect(err).to.equal(null);
+            
+            server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.info).to.deep.equal({"title": "API documentation"});
+                done();
+            });
+            
+        });
+    });
+    
     
     
     lab.test('min valid info object', function (done) {

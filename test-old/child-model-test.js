@@ -9,7 +9,7 @@ var Chai            = require('chai'),
     Inert           = require('inert'),
     Vision          = require('vision'),
     Hoek            = require('hoek'),
-    HapiSwagger     = require('../lib/index.js');
+    HapiSwagger     = require('../lib/index.js'),
     assert          = Chai.assert;
 
 

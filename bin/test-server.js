@@ -13,10 +13,7 @@ server.connection({
     });
 
 var swaggerOptions = {
-        apiVersion: Pack.version,
-        info: {
-            title: 'Test it'
-        }
+        apiVersion: Pack.version
     };
 
 server.register([
