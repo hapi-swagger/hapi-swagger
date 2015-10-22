@@ -1,10 +1,6 @@
-var Hapi            = require('hapi'),
-    Joi             = require('joi'),
-    Inert           = require('inert'),
-    Vision          = require('vision'),
-    Lab             = require('lab'),
+var Lab             = require('lab'),
     Code            = require('code'),
-    HapiSwagger     = require('../lib/index.js');
+    Hepler          = require('../test/helper.js');
 
 var lab     = exports.lab = Lab.script(),
     expect  = Code.expect;
@@ -15,7 +11,7 @@ lab.experiment('info', function () {
     var routes = [{
             method: 'GET',
             path: '/test',
-            handler: defaultHandler,
+            handler: Hepler.defaultHandler,
             config: {
             tags: ['api']
             }
@@ -24,7 +20,7 @@ lab.experiment('info', function () {
     
     lab.test('no info object passed', function (done) {
         
-        createServer( {}, routes, function(err, server){
+        Hepler.createServer( {}, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -43,7 +39,7 @@ lab.experiment('info', function () {
             info: {}
         }
         
-        createServer( swaggerOptions, routes, function(err, server){
+        Hepler.createServer( swaggerOptions, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -62,7 +58,7 @@ lab.experiment('info', function () {
             info: {title: 'test title for lab'}
         }
         
-        createServer( swaggerOptions, routes, function(err, server){
+        Hepler.createServer( swaggerOptions, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -92,7 +88,7 @@ lab.experiment('info', function () {
             }
         }
         
-        createServer( swaggerOptions, routes, function(err, server){
+        Hepler.createServer( swaggerOptions, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -106,50 +102,3 @@ lab.experiment('info', function () {
 
 
 });
-
-
-
-/**
-    * creates a Hapi server
-    *
-    * @param  {Object} swaggerOptions
-    * @param  {Object} routes
-    * @param  {Function} callback
-    */	
-    function createServer( swaggerOptions, routes, callback){
-        var err = null,
-            server = new Hapi.Server();
-            
-        server.connection();
-        server.register([
-            Inert, 
-            Vision, 
-            {
-                register: HapiSwagger,
-                options: swaggerOptions
-            }
-            ], function(err){
-            server.start(function(err){
-                if(err){
-                    callback(err, null);
-                }
-            });
-            
-        });
-        
-        server.route(routes);
-        callback(err, server); 
-    }
-    
-    
-/**
-    * a handler function used to mock a response
-    *
-    * @param  {Object} swaggerOptions
-    * @param  {Object} routes
-    * @param  {Function} callback
-    */	    
-    function defaultHandler(request, reply) {
-        reply('ok');
-    };
-    

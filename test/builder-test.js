@@ -1,10 +1,7 @@
-var Hapi            = require('hapi'),
-    Joi             = require('joi'),
-    Inert           = require('inert'),
-    Vision          = require('vision'),
-    Lab             = require('lab'),
+var Lab             = require('lab'),
     Code            = require('code'),
-    HapiSwagger     = require('../lib/index.js');
+    Hepler          = require('../test/helper.js');
+
 
 var lab     = exports.lab = Lab.script(),
     expect  = Code.expect;
@@ -15,21 +12,34 @@ lab.experiment('info', function () {
     var routes = [{
             method: 'GET',
             path: '/test',
-            handler: defaultHandler,
+            handler: Hepler.defaultHandler,
             config: {
             tags: ['api']
             }
         }];
         
     
-    lab.test('no info object passed', function (done) {
+    lab.test('defaults for swagger root object properties', function (done) {
         
-        createServer( {}, routes, function(err, server){
+        Hepler.createServer( {}, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal({"title": "API documentation"});
+                
+                expect(response.result.swagger).to.equal('2.0');
+                expect(response.result.schemes).to.deep.equal(['http']);
+                expect(response.result.basePath).to.equal('/');
+                expect(response.result.consumes).to.deep.equal(['application/json']);
+                expect(response.result.produces).to.deep.equal(['application/json']);
+                
+                expect(response.result.host).to.equal(server.info.host);
+                
+                //console.log(response.result.host)
+                //console.log(JSON.stringify(server.info));
+                //console.log(JSON.stringify(response.result));
+                
+ 
                 done();
             });
             
@@ -37,73 +47,41 @@ lab.experiment('info', function () {
     });
     
     
-    lab.test('no info title property passed', function (done) {
+    lab.test('set values for swagger root object properties', function (done) {
         
         var swaggerOptions = {
-            info: {}
-        }
-        
-        createServer( swaggerOptions, routes, function(err, server){
-            expect(err).to.equal(null);
-            
-            server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal({"title": "API documentation"});
-                done();
-            });
-            
-        });
-    });
-    
-    
-    
-    lab.test('min valid info object', function (done) {
-        var swaggerOptions = {
-            info: {title: 'test title for lab'}
-        }
-        
-        createServer( swaggerOptions, routes, function(err, server){
-            expect(err).to.equal(null);
-            
-            server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal(swaggerOptions.info);
-                done();
-            });
-            
-        });
-    });
-    
-    
-   lab.test('full info object', function (done) {
-        var swaggerOptions = {
-            info: {
-                "title": "Swagger Petstore",
-                "description": "This is a sample server Petstore server.",
-                "version": "1.0.0",
-                "termsOfService": "http://swagger.io/terms/",
-                "contact": {
-                    "email": "apiteam@swagger.io"
-                },
-                "license": {
-                    "name": "Apache 2.0",
-                    "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-                }
+            'swagger': '5.9.45',
+            'schemes': ['https'],
+            'basePath': '/base',
+            'consumes': ['application/xml'],
+            'produces': ['application/xml'],
+            "externalDocs": {
+                "description": "Find out more about HAPI",
+                "url": "http://hapijs.com"
             }
         }
         
-        createServer( swaggerOptions, routes, function(err, server){
+        Hepler.createServer( swaggerOptions, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal(swaggerOptions.info);
+                
+                //console.log(JSON.stringify(response.result))
+                
+                expect(response.result.swagger).to.equal('2.0');
+                expect(response.result.schemes).to.deep.equal(['https']);
+                expect(response.result.basePath).to.equal('/base');
+                expect(response.result.consumes).to.deep.equal(['application/xml']);
+                expect(response.result.produces).to.deep.equal(['application/xml']);
+                expect(response.result.externalDocs).to.deep.equal(swaggerOptions.externalDocs);
+                
                 done();
             });
             
         });
     });
-
+   
 
 });
 

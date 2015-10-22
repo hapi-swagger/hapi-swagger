@@ -4,7 +4,7 @@ var Hapi            = require('hapi'),
     Blipp           = require('blipp'),
     HapiSwagger     = require('../'),
     Pack            = require('../package'),
-	Routes 			= require('./mock-routes');
+	Routes 			= require('./routes');
 
 var server = new Hapi.Server();
 server.connection({ 
@@ -13,7 +13,18 @@ server.connection({
     });
 
 var swaggerOptions = {
-        apiVersion: Pack.version
+        info: {
+            'title': 'Test API Documentation',
+            'version': Pack.version
+        },
+        tags: [{
+            "name": "store",
+            "description": "Storing a sum",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://example.org"
+            }
+        }]
     };
 
 server.register([
