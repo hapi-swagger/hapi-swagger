@@ -13,9 +13,8 @@ var Chai = require('chai'),
     assert = Chai.assert;
 
 
-var server
+var server;
 
-/*
 
 var plugin1 = function (server, options, next) {
     server.route({
@@ -60,7 +59,7 @@ describe('multiples', function () {
         server = new Hapi.Server();
         server.connection({ labels: 'a' });
         server.connection({ labels: 'b' });
-  
+
         // defaults
         server.register([
             Inert,
@@ -69,13 +68,13 @@ describe('multiples', function () {
             if (err) {
                 throw err;
             }
-            
+
             // interface a
             server.register([plugin1, HapiSwagger], { select: ['a'] }, function (err) {
                 if (err) {
                     throw err;
                 }
-                
+
                 // interface b
                 server.register([plugin2, HapiSwagger], { select: ['b'] }, function (err) {
                     if (err) {
@@ -123,4 +122,3 @@ describe('multiples', function () {
 
 
 });
-*/
