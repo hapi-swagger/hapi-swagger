@@ -1,6 +1,6 @@
 var Lab             = require('lab'),
     Code            = require('code'),
-    Hepler          = require('../test/helper.js');
+    Helper          = require('../test/helper.js');
 
 
 var lab     = exports.lab = Lab.script(),
@@ -12,7 +12,7 @@ lab.experiment('info', function () {
     var routes = [{
             method: 'GET',
             path: '/test',
-            handler: Hepler.defaultHandler,
+            handler: Helper.defaultHandler,
             config: {
             tags: ['api']
             }
@@ -21,7 +21,7 @@ lab.experiment('info', function () {
     
     lab.test('defaults for swagger root object properties', function (done) {
         
-        Hepler.createServer( {}, routes, function(err, server){
+        Helper.createServer( {}, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -55,13 +55,13 @@ lab.experiment('info', function () {
             'basePath': '/base',
             'consumes': ['application/xml'],
             'produces': ['application/xml'],
-            "externalDocs": {
-                "description": "Find out more about HAPI",
-                "url": "http://hapijs.com"
+            'externalDocs': {
+                'description': 'Find out more about HAPI',
+                'url': 'http://hapijs.com'
             }
         }
         
-        Hepler.createServer( swaggerOptions, routes, function(err, server){
+        Helper.createServer( swaggerOptions, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -81,53 +81,9 @@ lab.experiment('info', function () {
             
         });
     });
-   
+    
 
 });
 
 
 
-/**
-    * creates a Hapi server
-    *
-    * @param  {Object} swaggerOptions
-    * @param  {Object} routes
-    * @param  {Function} callback
-    */	
-    function createServer( swaggerOptions, routes, callback){
-        var err = null,
-            server = new Hapi.Server();
-            
-        server.connection();
-        server.register([
-            Inert, 
-            Vision, 
-            {
-                register: HapiSwagger,
-                options: swaggerOptions
-            }
-            ], function(err){
-            server.start(function(err){
-                if(err){
-                    callback(err, null);
-                }
-            });
-            
-        });
-        
-        server.route(routes);
-        callback(err, server); 
-    }
-    
-    
-/**
-    * a handler function used to mock a response
-    *
-    * @param  {Object} swaggerOptions
-    * @param  {Object} routes
-    * @param  {Function} callback
-    */	    
-    function defaultHandler(request, reply) {
-        reply('ok');
-    };
-    

@@ -1,6 +1,6 @@
 var Lab             = require('lab'),
     Code            = require('code'),
-    Hepler          = require('../test/helper.js');
+    Helper          = require('../test/helper.js');
 
 var lab     = exports.lab = Lab.script(),
     expect  = Code.expect;
@@ -11,7 +11,7 @@ lab.experiment('tags', function () {
     var routes = [{
             method: 'GET',
             path: '/test',
-            handler: Hepler.defaultHandler,
+            handler: Helper.defaultHandler,
             config: {
             tags: ['api']
             }
@@ -20,7 +20,7 @@ lab.experiment('tags', function () {
     
     lab.test('no tag objects passed', function (done) {
         
-        Hepler.createServer( {}, routes, function(err, server){
+        Helper.createServer( {}, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -36,11 +36,11 @@ lab.experiment('tags', function () {
     lab.test('name property passed', function (done) {
         var swaggerOptions = {
             tags: [{
-                "name": "test"
+                'name': 'test'
             }]
         }
         
-        Hepler.createServer( swaggerOptions, routes, function(err, server){
+        Helper.createServer( swaggerOptions, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
@@ -56,16 +56,16 @@ lab.experiment('tags', function () {
    lab.test('full tag object', function (done) {
         var swaggerOptions = {
             tags: [{
-                "name": "test",
-                "description": "Everything about test",
-                "externalDocs": {
-                    "description": "Find out more",
-                    "url": "http://swagger.io"
+                'name': 'test',
+                'description': 'Everything about test',
+                'externalDocs': {
+                    'description': 'Find out more',
+                    'url': 'http://swagger.io'
                 }
             }]
         }
         
-        Hepler.createServer( swaggerOptions, routes, function(err, server){
+        Helper.createServer( swaggerOptions, routes, function(err, server){
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {

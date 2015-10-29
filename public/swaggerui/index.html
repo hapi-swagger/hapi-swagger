@@ -33,7 +33,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "{{hapiSwagger.jsonPath}}";
+        url = "{{{hapiSwagger.jsonPath}}}";
       }
 
       // Pre load translate...
@@ -68,7 +68,7 @@
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
-        docExpansion: "none",
+        docExpansion: "{{hapiSwagger.expanded}}",
         apisSorter: "alpha",
         showRequestHeaders: false
       });
