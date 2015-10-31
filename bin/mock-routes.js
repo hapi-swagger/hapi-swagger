@@ -1,4 +1,4 @@
-var t = require('joi');
+var Joi = require('joi');
 
 var handler = function(request, reply) {
   reply('ok');
@@ -11,7 +11,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param1: t.string().required()
+        param1: Joi.string().required()
       }
     },
     tags: ['admin', 'api'],
@@ -25,7 +25,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param1: t.string().required()
+        param1: Joi.string().required()
       }
     },
     tags: ['admin', 'api']
@@ -37,7 +37,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param1: t.string().required()
+        param1: Joi.string().required()
       }
     },
     tags: ['admin', 'api']
@@ -49,7 +49,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param2: t.string().valid('first', 'last')
+        param2: Joi.string().valid('first', 'last')
       }
     },
     tags: ['admin', 'api']
@@ -61,7 +61,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param2: t.string().valid('first', 'last')
+        param2: Joi.string().valid('first', 'last')
       }
     },
     tags: ['admin', 'api']
@@ -73,7 +73,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param2: t.string().valid('first', 'last')
+        param2: Joi.string().valid('first', 'last')
       }
     },
     tags: ['admin', 'api']
@@ -94,8 +94,8 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param1: t.object({
-          nestedparam1: t.string().required()
+        param1: Joi.object({
+          nestedparam1: Joi.string().required()
         })
       }
     }
@@ -106,8 +106,8 @@ module.exports = [{
   config: {
     handler: handler,
     validate: {
-      query: t.object({
-        param1: t.string().required()
+      query: Joi.object({
+        param1: Joi.string().required()
       })
     }
   }
@@ -118,7 +118,7 @@ module.exports = [{
     handler: handler,
     validate: {
       params: {
-        pparam: t.string().required()
+        pparam: Joi.string().required()
       }
     }
   }
@@ -129,7 +129,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param1: t.object()
+        param1: Joi.object()
       }
     }
   }
@@ -140,7 +140,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param1: t.alternatives(t.number().required(), t.string().valid('first', 'last'))
+        param1: Joi.alternatives(Joi.number().required(), Joi.string().valid('first', 'last'))
       }
     }
   }
@@ -157,7 +157,7 @@ module.exports = [{
     handler: handler,
     response: {
       schema: {
-        param1: t.string()
+        param1: Joi.string()
       }
     }
   }
@@ -168,7 +168,7 @@ module.exports = [{
     handler: handler,
     validate: {
       query: {
-        param1: t.string().notes('<span class="htmltypenote">HTML type note</span>')
+        param1: Joi.string().notes('<span class="htmltypenote">HTML type note</span>')
       }
     },
     notes: '<span class="htmlroutenote">HTML route note</span>'
@@ -188,7 +188,7 @@ module.exports = [{
   config: {
     handler: handler,
     validate: {
-      payload: t.object()
+      payload: Joi.object()
     }
   }
 },{
@@ -200,7 +200,7 @@ module.exports = [{
     handler: handler,
     validate: {
         query: {
-          param1: t.string()
+          param1: Joi.string()
         }
       },
   }
@@ -213,7 +213,7 @@ module.exports = [{
     handler: handler,
     validate: {
         query: {
-          param1: t.string()
+          param1: Joi.string()
         }
       },
   }

@@ -41,18 +41,25 @@ describe('method property', function() {
   });
   
   
-  describe('test regex escape ~', function() {
+  describe('test regex escape $', function() {
 
       beforeEach(function() {
+        
         server.route({
           method: 'GET',
           path: '/$test',
-          handler: defaultHandler,
           config: {
             tags: ['api'],
-            notes: 'test'
+            notes: 'test',
+            handler: defaultHandler,
+            validate: {
+                query: {
+                  param1: Joi.string()
+                }
+              },
           }
         });
+        
       });
       
    
@@ -67,29 +74,31 @@ describe('method property', function() {
   });
   
   
-  describe('test regex escape ~', function() {
+  describe('test regex escape /boom())', function() {
 
       beforeEach(function() {
+        
         server.route({
           method: 'GET',
-          path: '/test()',
-          handler: defaultHandler,
+          path: '/boom()',
           config: {
             tags: ['api'],
             notes: 'test',
-            plugins: {
-            'hapi-swagger': {
-              nickname: 'getTest'
-            }
+            handler: defaultHandler,
+            validate: {
+                query: {
+                  param1: Joi.string()
+                }
+              },
           }
         });
+        
       });
       
    
       it('GET method added', function(done) {
-        server.inject({ method: 'GET', url: encodeURIComponent('/docs?path=test()')}, function (response) {
-			console.log(JSON.stringify(response.result))
-          assert.equal(response.result.apis[0].operations[0].nickname, 'test()' );
+        server.inject({ method: 'GET', url: '/docs?path=boom()'}, function (response) {
+          assert.equal(response.result.apis[0].operations[0].nickname, 'boom()' );
           done();
         });
       });
