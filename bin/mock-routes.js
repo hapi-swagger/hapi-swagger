@@ -191,4 +191,30 @@ module.exports = [{
       payload: t.object()
     }
   }
+},{
+  method: 'GET',
+  path: '/boom()',
+  config: {
+    tags: ['api'],
+    notes: 'test',
+    handler: handler,
+    validate: {
+        query: {
+          param1: t.string()
+        }
+      },
+  }
+},{
+  method: 'GET',
+  path: '/$code',
+  config: {
+    tags: ['api'],
+    notes: 'test',
+    handler: handler,
+    validate: {
+        query: {
+          param1: t.string()
+        }
+      },
+  }
 }];
