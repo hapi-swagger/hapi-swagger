@@ -35,7 +35,7 @@ server.connection({
     });
 
 var swaggerOptions = {
-        apiVersion: pack.version
+        apiVersion: Pack.version
     };
 
 server.register([
