@@ -217,4 +217,48 @@ module.exports = [{
         }
       },
   }
+},{
+  method: 'GET',
+  path: '/test/{page}/route/{pagesize}',
+  config: {
+    description: 'Hapi-swagger bug test',
+    tags: ['api', 'private'],
+    validate: {
+      params: {
+        page: Joi.number().required(),
+        pagesize: Joi.number().required()
+      }
+    },
+    auth: false,
+    handler: function(request, reply) {
+
+      var page = request.params.page;
+      var pagesize = request.params.pagesize;
+      //this will be the value of page
+      reply(pagesize);
+    }
+  }
+},{
+    method: 'GET',
+    path: '/models/{username}',
+    config: {
+        handler: function (request, reply) {
+            reply("list of models")
+        },
+        description: 'Get todo',
+        notes: 'Returns a todo item by the id passed in the path',
+        tags: ['api'],
+        plugins: {
+            'hapi-swagger': {
+              nickname: 'modelsapi'
+            }
+          },
+        validate: {
+            params: {
+                username: Joi.number()
+                    .required()
+                    .description('the id for the todo item')
+            }
+        }
+    }
 }];
