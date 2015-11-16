@@ -23,9 +23,8 @@
   <script src='{{hapiSwagger.swaggerUIPath}}lib/swagger-oauth.js' type='text/javascript'></script>
 
   <!-- Some basic translations -->
-  <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
-  <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
-  <!-- <script src='lang/en.js' type='text/javascript'></script> -->
+  <script src='{{hapiSwagger.swaggerUIPath}}/lang/translator.js' type='text/javascript'></script>
+  <script src='{{hapiSwagger.swaggerUIPath}}/lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
 
   <script type="text/javascript">
     $(function () {
@@ -105,11 +104,13 @@
 <div id='header'>
   <div class="swagger-ui-wrap">
     <a id="logo" href="http://swagger.io">swagger</a>
+    <!--
     <form id='api_selector'>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
       <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
     </form>
+    -->
   </div>
 </div>
 

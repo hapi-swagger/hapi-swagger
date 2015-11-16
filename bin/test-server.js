@@ -13,9 +13,18 @@ server.connection({
     });
 
 var swaggerOptions = {
-        info: {
+         info: {
             'title': 'Test API Documentation',
-            'version': Pack.version
+            'description': 'This is a sample example of API documentation.',
+            'version': Pack.version,
+            'termsOfService': 'https://github.com/glennjones/hapi-swagger/',
+            'contact': {
+                'email': 'glennjonesnet@gmail.com'
+            },
+            'license': {
+                'name': 'MIT',
+                'url': 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
+            }
         },
         tags: [{
             "name": "store",

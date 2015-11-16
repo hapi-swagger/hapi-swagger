@@ -38,13 +38,11 @@ lab.experiment('basePath', function () {
 
   lab.test('basePath option', function (done) {
           
-      Helper.createServer( {basePath: 'http://testhost'}, routes, function(err, server){
+      Helper.createServer( {basePath: '/v2'}, routes, function(err, server){
           server.inject(requestOptions, function(response) {
             expect(err).to.equal(null);
-  
-              console.log(JSON.stringify(response.result));
+              //console.log(JSON.stringify(response.result));
               expect(response.statusCode).to.equal(200);
-              //expect(countProperties(response.result.paths)).to.equal(2);
               done();
           });
           

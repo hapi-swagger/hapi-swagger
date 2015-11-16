@@ -194,7 +194,7 @@ module.exports = [{
 					responses: standardHTTPErrors
 				}
 			},
-			tags: ['api'],
+			tags: ['api','reduced'],
 			validate: { 
 				params: {
 					a: Joi.number()
