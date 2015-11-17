@@ -92,20 +92,21 @@ The plugin adds a page into your site with the route `/documentation`. This page
 There are number of options for advance use cases. Most of the time you should only have to provide the `info.title` and `info.version`.
 
 Options for UI:
+* `schemes`: (array) The transfer protocol of the API ie `['http']` 
+* `host`: (string) The host (name or ip) serving the API including port if any i.e. `localhost:8080` 
+* `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
+* `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints
 * `documentationPath`:  (string) The path of the documentation page - default: `/documentation`,
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
-* `basePath`: (string) The base path from where the API starts i.e. `/v2` (note, needs to start with `/`) - default: `/`
-* `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
 * `authorizations`: (array) Containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
 
 Defaults for path settings (these can also be set a individual path level):
 * `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
- start with a backslash '/'
-* `consumes`: (array) The mimetypes consumed default - `['application/json']`
-* `produces`: (array) The mimetypes produced default - `['application/json']`
+* `consumes`: (array) The mimetypes consumed  - default: `['application/json']`
+* `produces`: (array) The mimetypes produced  - default: `['application/json']`
 
 Info object (this information will be added into the UI):
 * `info.title` (string) Required. The title of the application
@@ -118,12 +119,20 @@ Info object (this information will be added into the UI):
 * `info.license.url` (string) The URL to the license used by the API. MUST be formatted as a URL
 * `info.version` (string) The version number of the API
 
-
-
-
-
-
-
+### Option example
+```Javascript
+var swaggerOptions = {
+        'info': {
+            'title': 'Test API Documentation',
+            'version': '5.14.3',
+            'contact': {
+                'name': 'Glenn Jones',
+                'email': 'glenn@example.com'
+        },
+        'schemes': ['https'],
+        'host': 'example.com'
+    };
+```
 
 ### Response Object
 HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
