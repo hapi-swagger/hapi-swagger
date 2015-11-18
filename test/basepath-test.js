@@ -37,23 +37,68 @@ lab.experiment('basePath', function () {
 
 
   lab.test('basePath option', function (done) {
-          
-      Helper.createServer( {basePath: '/v2'}, routes, function(err, server){
+     var options = {
+        basePath: '/v2'
+      }
+    
+      Helper.createServer( options, routes, function(err, server){
           server.inject(requestOptions, function(response) {
             expect(err).to.equal(null);
               //console.log(JSON.stringify(response.result));
               expect(response.statusCode).to.equal(200);
+              expect(response.result.basePath).to.equal(options.basePath);
               done();
           });
-          
       });
   });
     
+    
+  lab.test('schemes and host option', function (done) {
+      var options = {
+        schemes: ['https'],
+        host: 'testhost'
+      }
+    
+      Helper.createServer( options, routes, function(err, server){
+          server.inject(requestOptions, function(response) {
+              expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+              expect(response.result.host).to.equal(options.host);
+              expect(response.result.schemes).to.deep.equal(options.schemes);
+              done();
+          });
+      });
+  });
+  
+  
+  lab.test('schemes and host option', function (done) {
+      var options = {}
+      
+      requestOptions.headers = {
+          'x-forwarded-host': 'proxyhost',
+          'x-forwarded-proto': 'https'
+      };
+    
+      Helper.createServer( options, routes, function(err, server){
+          server.inject(requestOptions, function(response) {
+              expect(err).to.equal(null);
+              console.log(JSON.stringify(response.result));
+              expect(response.result.host).to.equal(requestOptions.headers['x-forwarded-host']);
+              expect(response.result.schemes).to.deep.equal(['https']);
+              done();
+          });
+      });
+  });
 
 
 
 
-  /*
+
+
+
+
+
+ /*
 
 
 

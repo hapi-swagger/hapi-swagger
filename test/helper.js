@@ -31,9 +31,7 @@ var Hapi            = require('hapi'),
                     callback(err, null);
                 }
             });
-            
         });
-        
         server.route(routes);
         callback(err, server); 
     }

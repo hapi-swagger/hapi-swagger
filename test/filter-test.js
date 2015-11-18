@@ -36,6 +36,13 @@ lab.experiment('filter', function () {
             config: {
             tags: ['api','c']
             }
+        },{
+            method: 'GET',
+            path: '/movies/movie/actors',
+            handler: Helper.defaultHandler,
+            config: {
+            tags: ['api','d']
+            }
         }];
         
     
@@ -48,6 +55,22 @@ lab.experiment('filter', function () {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(countProperties(response.result.paths)).to.equal(2);
+                done();
+            });
+            
+        });
+    });
+    
+    
+    lab.test('filter by tags=a', function (done) {
+        
+        Helper.createServer( {}, routes, function(err, server){
+            expect(err).to.equal(null);
+            
+            server.inject({method: 'GET', url: '/swagger.json?tags=a,b,c,d'}, function(response) {
+                //console.log(JSON.stringify(response.result.paths));
+                expect(response.statusCode).to.equal(200);
+                expect(countProperties(response.result.paths)).to.equal(4);
                 done();
             });
             
@@ -96,33 +119,31 @@ lab.experiment('filter', function () {
             server.inject({method: 'GET', url: '/swagger.json?tags=a,%2Bb'}, function(response) {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
-                expect(countProperties(response.result.paths)).to.equal(2);
+                expect(countProperties(response.result.paths)).to.equal(0);
                 done();
             });
             
         });
     });
     
-   
     
-    lab.test('filter by tags=api,+a-b', function (done) {
+    lab.test('filter by tags=x', function (done) {
         
         Helper.createServer( {}, routes, function(err, server){
             expect(err).to.equal(null);
             
             // note %2B is a '+' plus char url encoded
-            server.inject({method: 'GET', url: '/swagger.json?tags=api,%2Ba,-b'}, function(response) {
+            server.inject({method: 'GET', url: '/swagger.json?tags=x'}, function(response) {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
-                expect(countProperties(response.result.paths)).to.equal(2);
+                expect(countProperties(response.result.paths)).to.equal(0);
                 done();
             });
             
         });
     });
     
-    
-    
+  
 
 });
 
