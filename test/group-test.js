@@ -46,7 +46,7 @@ lab.experiment('group', function () {
             expect(err).to.equal(null);
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
-
+                //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/actors'].get.tags[0]).to.equal('actors');
                 expect(response.result.paths['/movies'].get.tags[0]).to.equal('movies');

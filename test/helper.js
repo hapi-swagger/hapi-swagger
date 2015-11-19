@@ -1,6 +1,7 @@
 var Hapi            = require('hapi'),
     Inert           = require('inert'),
     Vision          = require('vision'),
+    H2o2            = require('h2o2'),
     HapiSwagger     = require('../lib/index.js');
     
     
@@ -20,7 +21,8 @@ var Hapi            = require('hapi'),
         server.connection();
         server.register([
             Inert, 
-            Vision, 
+            Vision,
+            H2o2, 
             {
                 register: HapiSwagger,
                 options: swaggerOptions

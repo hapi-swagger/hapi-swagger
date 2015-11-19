@@ -2,6 +2,7 @@ var Hapi            = require('hapi'),
     Inert           = require('inert'),
     Vision          = require('vision'),
     Blipp           = require('blipp'),
+    H2o2            = require('h2o2'),
     HapiSwagger     = require('../'),
     Pack            = require('../package'),
 	Routes 			= require('./routes');
@@ -33,6 +34,13 @@ var swaggerOptions = {
                 "description": "Find out more",
                 "url": "http://example.org"
             }
+        },{
+            "name": "sum",
+            "description": "API of sums",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://example.org"
+            }
         }]
     };
 
@@ -40,6 +48,7 @@ server.register([
     Inert,
     Vision,
     Blipp,
+    H2o2,
     {
         register: HapiSwagger,
         options: swaggerOptions

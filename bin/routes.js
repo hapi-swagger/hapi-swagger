@@ -333,101 +333,34 @@ module.exports = [{
 			response: {schema : sumModel}
 		}
 	}, {
-		method: 'DELETE',
-		path: '/store/{id}',
-		config: {
-			handler: defaultHandler,
-			description: 'Delete sums',
-			notes: ['Delete a sums from the data store'],
-			plugins: {
-				'hapi-swagger': {
-					responses: extendedHTTPErrors
-				}
-			},
-			tags: ['api'],
-			validate: { 
-				params: {
-					id: Joi.string()
-						.required()
-						.description('the id of the sum in the store')
-				}
-			}
-		}
-	}, {
-		method: 'POST',
-		path: '/store/payload/',
-		config: {
-			handler: defaultHandler,
-			description: 'Add sum, with JSON object',
-			notes: ['Adds a sum to the data store, using JSON object in payload'],
-			plugins: {
-				'hapi-swagger': {
-					responses: standardHTTPErrors
-				}
-			},
-			tags: ['api','reduced','three'],
-			validate: { 
-				payload: {
-					a: Joi.number()
-						.required()
-						.description('the first number'),
-
-					b: Joi.number()
-						.required()
-						.description('the second number'),
-
-					operator: Joi.string()
-						.required()
-						.default('+')
-						.description('the opertator i.e. + - / or *'),
-
-					equals: Joi.number()
-						.required()
-						.description('the result of the sum')
-				}
-			},
-			response: {schema : sumModel}
-		}
-	}, {
-	    method: 'POST',
-	    path: '/store/file/',
-	    config: {
-	        handler: defaultHandler,
-			description: 'Add sum, with JSON file',
-			notes: ['Adds a sum to the data store, using JSON object in a uploaded file'],
-			plugins: {
-				'hapi-swagger': {
-					responses: fileHTTPErrors,
-					payloadType: 'form'
-				}
-			},
-			tags: ['api','reduced','three'],
-	        validate: {
-	            payload: { 
-	            	file: Joi.any()
-	            		.meta({ swaggerType: 'file' })
-	            		.required()
-	            		.description('json file with object containing: a, b, operator and equals')
-	            }
-	        },
-	        payload: {
-	            maxBytes: 1048576,
-	            parse: true,
-	            output: 'stream'
-	        },
-	    	response: {schema : sumModel}
-	    }
-	},{
-		method: 'GET',
-		path: '/{path*}',
-		handler: {
-			directory: {
-				path: './public',
-				listing: false,
-				index: true
-			}
-		}
-	}];
+          method: 'POST',
+          path: '/tools/microformats/',
+          config: {
+              description:'parse microformats',
+			  notes: ['Uses H2o2 to proxy an API'],
+              tags: ['api'],
+              plugins: {
+                  'hapi-swagger': {
+                      nickname: 'microformatsapi',
+                      validate: {
+                          params: {
+                            url: Joi.string().uri().required(),
+                            callback: Joi.string(),
+                            collapsewhitespace: Joi.boolean(),
+                            dateformat: Joi.any().allow(['auto', 'w3c', 'rfc3339', 'html5'])
+                          }
+                      }
+                  },
+              },
+              handler: {
+                  proxy: {
+                      host: 'glennjones.net',
+                      protocol: 'http',
+                      onResponse: defaultHandler
+                  }
+              }
+          }
+      }];
 
 
 
