@@ -101,6 +101,7 @@ Options for UI:
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
+* `auth`: string The auth strategy to use if enableDocumentationPage is true - default: false,
 * `authorizations`: (array) Containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
 
 Defaults for path settings (these can also be set a individual path level):
