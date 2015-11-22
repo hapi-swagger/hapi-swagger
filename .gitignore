@@ -6,7 +6,10 @@ lib-cov
 *.out
 *.pid
 *.gz
-coverage/*
+
+data.json
+lcov.info
+
 node_modules
 npm-debug.log
 .DS_Store

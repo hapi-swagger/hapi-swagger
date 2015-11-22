@@ -5,9 +5,9 @@ var hapi        = require('hapi'),
 	resultModel,
 	sumModel,
 	listModel,
-	standardHTTPErrors,
-	extendedHTTPErrors,
-	fileHTTPErrors;
+	standardHTTP,
+	extendedHTTP,
+	fileHTTP;
 
 
 // mock handler for all routes
@@ -47,15 +47,10 @@ listModel = Joi.object({
 });
 
 
-standardHTTPErrors = {
+standardHTTP = {
 		'200': {
 			'description': 'Success',
-			"schema": {
-				"type": "array",
-				"items": {
-					"$ref": "#/definitions/Sum"
-				}
-			}
+			"schema": sumModel
 		},
 		'400': {
 			'description': 'Bad Request'
@@ -66,7 +61,7 @@ standardHTTPErrors = {
 	};
 
 
-extendedHTTPErrors = {
+extendedHTTP = {
 		'400': {
 			'description': 'Bad Request'
 		},
@@ -79,7 +74,7 @@ extendedHTTPErrors = {
 	};
 
 
-fileHTTPErrors = {
+fileHTTP = {
 		'400': {
 			'description': 'Bad Request'
 		},
@@ -106,7 +101,7 @@ module.exports = [{
 			notes: ['Adds together two numbers and return the result. As an option you can have the result return as a binary number.'],
 			plugins: {
 				'hapi-swagger': {
-					responses: standardHTTPErrors
+					responses: standardHTTP
 				}
 			},
 			validate: { 
@@ -140,7 +135,7 @@ module.exports = [{
 			tags: ['api'],
 			plugins: {
 				'hapi-swagger': {
-					responses: standardHTTPErrors
+					response: standardHTTP
 				}
 			},
 			validate: { 
@@ -166,7 +161,7 @@ module.exports = [{
 			tags: ['api'],
 			plugins: {
 				'hapi-swagger': {
-					responses: standardHTTPErrors
+					responses: standardHTTP
 				}
 			},
 			validate: { 
@@ -191,7 +186,7 @@ module.exports = [{
 			notes: ['Multiples the two numbers together and return the result'],
 			plugins: {
 				'hapi-swagger': {
-					responses: standardHTTPErrors
+					responses: standardHTTP
 				}
 			},
 			tags: ['api','reduced'],
@@ -217,7 +212,7 @@ module.exports = [{
 			notes: ['List the sums in the data store'],
 			plugins: {
 				'hapi-swagger': {
-					responses: standardHTTPErrors
+					responses: standardHTTP
 				}
 			},
 			tags: ['api','reduced','one'],
@@ -241,7 +236,7 @@ module.exports = [{
 			notes: ['Get a sum from the store'],
 			plugins: {
 				'hapi-swagger': {
-					responses: extendedHTTPErrors
+					responses: extendedHTTP
 				}
 			},
 			tags: ['api','reduced','two'],
@@ -263,7 +258,7 @@ module.exports = [{
 			notes: ['Adds a sum to the data store'],
 			plugins: {
 				'hapi-swagger': {
-					responses: standardHTTPErrors,
+					responses: standardHTTP,
 					payloadType: 'form',
 					nickname: 'storeit'
 				}
@@ -300,7 +295,7 @@ module.exports = [{
 			notes: ['Update a sum in our data store'],
 			plugins: {
 				'hapi-swagger': {
-					responses: extendedHTTPErrors,
+					responses: extendedHTTP,
 					payloadType: 'form'
 				}
 			},
@@ -333,33 +328,41 @@ module.exports = [{
 			response: {schema : sumModel}
 		}
 	}, {
-          method: 'POST',
-          path: '/tools/microformats/',
-          config: {
-              description:'parse microformats',
-			  notes: ['Uses H2o2 to proxy an API'],
-              tags: ['api'],
-              plugins: {
-                  'hapi-swagger': {
-                      nickname: 'microformatsapi',
-                      validate: {
-                          params: {
-                            url: Joi.string().uri().required(),
-                            callback: Joi.string(),
-                            collapsewhitespace: Joi.boolean(),
-                            dateformat: Joi.any().allow(['auto', 'w3c', 'rfc3339', 'html5'])
-                          }
-                      }
-                  },
-              },
-              handler: {
-                  proxy: {
-                      host: 'glennjones.net',
-                      protocol: 'http',
-                      onResponse: defaultHandler
-                  }
-              }
-          }
+		method: 'POST',
+		path: '/store/payload/',
+		config: {
+			handler: defaultHandler,
+			description: 'Add sum, with JSON object',
+			notes: ['Adds a sum to the data store, using JSON object in payload'],
+			plugins: {
+				'hapi-swagger': {
+					responseMessages: standardHTTP
+				}
+			},
+			tags: ['api','reduced','three'],
+			validate: { 
+				payload: {schema : sumModel}
+			},
+			response: {schema : sumModel}
+		}
+	}, {
+        method: 'POST',
+        path: '/foo/v1/bar',
+        config: {
+          description: '...',
+          tags: ['api'],
+          validate: {
+            payload: Joi.object({
+              outer1: Joi.object({
+                inner1: Joi.string()
+              }),
+              outer2: Joi.object({
+                inner2: Joi.string()
+              })
+            })
+          },
+          handler: function () {}
+        }
       }];
 
 
