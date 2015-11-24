@@ -1,7 +1,7 @@
 {
   "name": "hapi-swagger",
   "description": "A swagger documentation UI generator plugin for hapi",
-  "version": "3.0.0-rc1",
+  "version": "3.0.0-rc1.2",
   "author": "Glenn Jones",
   "repository": {
     "type": "git",
@@ -36,7 +36,8 @@
   },
   "scripts": {
     "start": "node ./bin/test-server",
-    "test": "lab"
+    "test": "lab -a code",
+    "test-cov-html": "lab -a code  -r html -o coverage.html"
   },
   "peerDependencies": {
     "hapi": "^9.0.1 || ^10.0.0 || ^11.0.0"
