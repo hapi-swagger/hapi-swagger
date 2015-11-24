@@ -1,6 +1,6 @@
 var Lab             = require('lab'),
     Code            = require('code'),
-    Joi             = require('Joi'),
+    Joi             = require('joi'),
     Helper          = require('../test/helper.js'),
     Properties      = require('../lib/properties.js');
 
