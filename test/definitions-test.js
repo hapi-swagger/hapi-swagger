@@ -45,38 +45,42 @@ lab.experiment('definitions', function () {
         Helper.createServer( {}, routes, function(err, server){
             expect(err).to.equal(null);
 			
-			var schema = {
-                        'type': 'object',
-                        'properties': {
-                            'a': {
-                                'description': 'the first number',
-                                'type': 'number'
-                            },
-                            'b': {
-                                'description': 'the second number',
-                                'type': 'number'
-                            },
-                            'operator': {
-                                'description': 'the opertator i.e. + - / or *',
-                                'type': 'string'
-                            },
-                            'equals': {
-                                'description': 'the result of the sum',
-                                'type': 'number'
-                            }
+			var defination = {
+                    "properties": {
+                        "a": {
+                            "description": "the first number",
+                            "type": "number"
                         },
-                        'required': [
-                            'a',
-                            'b',
-                            'operator',
-                            'equals'
-                        ]
-                    }
+                        "b": {
+                            "description": "the second number",
+                            "type": "number"
+                        },
+                        "operator": {
+                            "description": "the opertator i.e. + - / or *",
+                            "default": "+",
+                            "type": "string"
+                        },
+                        "equals": {
+                            "description": "the result of the sum",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "a",
+                        "b",
+                        "operator",
+                        "equals"
+                    ],
+                    "type": "object"
+                }
             
             server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
                // console.log(JSON.stringify(response.result.paths['/test/'].post.parameters[0].schem));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test/'].post.parameters[0].schema).to.deep.equal(schema);
+                expect(response.result.paths['/test/'].post.parameters[0].schema).to.deep.equal({
+                            "$ref": "#/definitions/test_payload"
+                        });
+                expect(response.result.definitions.test_payload).to.deep.equal(defination);
                 done();
             });
             

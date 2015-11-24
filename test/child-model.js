@@ -13,7 +13,7 @@ var lab     = exports.lab = Lab.script(),
     expect  = Code.expect;
 
 
-lab.experiment('proxies', function () {
+lab.experiment('child-models', function () {
   
    var requestOptions = {
     method: 'GET',
@@ -52,19 +52,28 @@ lab.experiment('proxies', function () {
             expect(err).to.equal(null);
               //console.log(JSON.stringify(response.result));
               expect(response.statusCode).to.equal(200);
-              
-              // note: the inner objects are hidden to JSON.stringify so we only test a little of the parent child structure
               expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.deep.equal({
-                            "type": "object",
+                    "$ref": "#/definitions/foov1bar_payload"
+                });
+              expect(response.result.definitions.foov1bar_payload).to.deep.equal({
+                    "properties": {
+                        "outer1": {
                             "properties": {
-                                "outer1": {
-                                    "type": "object"
-                                },
-                                "outer2": {
-                                    "type": "object"
+                                "inner1": {
+                                    "type": "string"
                                 }
                             }
-                        });
+                        },
+                        "outer2": {
+                            "properties": {
+                                "inner2": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "type": "object"
+                });
               done();
           });
       });
