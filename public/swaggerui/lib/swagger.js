@@ -623,7 +623,11 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
     // for 1.1 compatibility
     var type = param.type || param.dataType;
     if(type === 'array') {
-      type = 'array[' + (param.items.$ref ? param.items.$ref : param.items.type) + ']';
+  		if (param.items) {
+  			type = 'array[' + (param.items.$ref ? param.items.$ref : param.items.type) + ']';
+  		} else {
+  			type = 'array[]';
+  		}
     }
 
     if(type.toLowerCase() === 'boolean') {
