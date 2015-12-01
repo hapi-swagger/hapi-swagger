@@ -2,6 +2,7 @@ var Hapi            = require('hapi'),
     Inert           = require('inert'),
     Vision          = require('vision'),
     H2o2            = require('h2o2'),
+    BearerToken     = require('hapi-auth-bearer-token'),
     HapiSwagger     = require('../lib/index.js');
     
     
@@ -19,6 +20,7 @@ var Hapi            = require('hapi'),
             server = new Hapi.Server();
             
         server.connection();
+        
         server.register([
             Inert, 
             Vision,
@@ -28,13 +30,53 @@ var Hapi            = require('hapi'),
                 options: swaggerOptions
             }
             ], function(err){
-            server.start(function(err){
-                if(err){
-                    callback(err, null);
-                }
-            });
+                server.route(routes);
+                server.start(function(err){
+                    if(err){
+                        callback(err, null);
+                    }
+                });
         });
-        server.route(routes);
+ 
+        callback(err, server); 
+    }
+    
+    
+    /**
+    * creates a Hapi server using bearer token auth
+    *
+    * @param  {Object} swaggerOptions
+    * @param  {Object} routes
+    * @param  {Function} callback
+    */	
+    helper.createAuthServer = function( swaggerOptions, routes, callback){
+        var err = null,
+            server = new Hapi.Server();
+            
+        server.connection();
+        
+        server.register([
+            Inert, 
+            Vision,
+            H2o2, 
+            BearerToken,
+            {
+                register: HapiSwagger,
+                options: swaggerOptions
+            }
+            ], function(err){
+                server.auth.strategy('bearer', 'bearer-access-token', {
+                    'accessTokenName': 'access_token',
+                    'validateFunc': helper.validateBearer 
+                });
+                server.route(routes);
+                server.start(function(err){
+                    if(err){
+                        callback(err, null);
+                    }
+                });
+        });
+ 
         callback(err, server); 
     }
     
@@ -42,11 +84,47 @@ var Hapi            = require('hapi'),
     /**
     * a handler function used to mock a response
     *
-    * @param  {Object} swaggerOptions
-    * @param  {Object} routes
-    * @param  {Function} callback
+    * @param  {Object} request
+    * @param  {Object} reply
     */	    
     helper.defaultHandler = function(request, reply) {
         reply('ok');
     };
     
+    
+    /**
+    * a handler function used to mock a response to a authorized request
+    *
+    * @param  {Object} request
+    * @param  {Object} reply
+    */	
+    helper.defaultAuthHandler = function(request, reply) {
+        if (request.auth && request.auth.credentials && request.auth.credentials.user) {
+            reply(request.auth.credentials.user)
+        }else{
+            reply(Boom.unauthorized(['unauthorized access'], [request.auth.strategy]));
+        }
+    };
+    
+    
+    /**
+    * a validation function for bearer strategy
+    *
+    * @param  {String} token
+    * @param  {Function} callback
+    */
+    helper.validateBearer = function(token, callback) {
+        if(token === '12345'){
+            callback(null, true, {
+                'token': token,
+                'user': {
+                    'username': 'glennjones',
+                    'name': 'Glenn Jones',
+                    'groups': ['admin','user']
+                }
+            });
+        }else{
+            // for bad token keep err as null just return false
+            callback(null, false, {}); 
+        }
+    }

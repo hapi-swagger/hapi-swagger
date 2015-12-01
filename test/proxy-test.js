@@ -1,5 +1,6 @@
 /*
- * Use with proxies, tests the different way schemes, host and basePath can be set
+ * Check the use proxy patterns in hapi-swagger, tests the different schemes, host and basePath can be set
+ * There are also tests for the use of hapi-swagger with the h2o2 plug-in
  */
 
 var Lab             = require('lab'),

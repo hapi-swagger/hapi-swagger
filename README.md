@@ -88,7 +88,7 @@ You can even specify more tags and then later generate tag-specific documentatio
 The plugin adds a page into your site with the route `/documentation`. This page contains Swaggers UI to allow users to explore your API. You can also build custom pages on your own URL paths if you wish, see: "Adding interface into a page"
 
 
-### Options
+## Options (Plug-in level)
 There are number of options for advance use cases. Most of the time you should only have to provide the `info.title` and `info.version`.
 
 Options for UI:
@@ -101,9 +101,9 @@ Options for UI:
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
-* `authorizations`: (array) Containing [swagger authorization objects](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md#515-authorization-object), the keys mapping to HAPI auth strategy names. No defaults are provided.
+* `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 
-Defaults for path settings (these can also be set a individual path level):
+Defaults for routes settings (these can also be set a individual path level):
 * `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 * `consumes`: (array) The mimetypes consumed  - default: `['application/json']`
 * `produces`: (array) The mimetypes produced  - default: `['application/json']`
@@ -133,6 +133,43 @@ var swaggerOptions = {
         'host': 'example.com'
     };
 ```
+
+## Options (Within a HAPI route)
+* `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
+* `consumes`: (array) The mimetypes consumed  - default: `['application/json']`
+* `produces`: (array) The mimetypes produced  - default: `['application/json']`
+* `security:`: (array) Containing [Security Requirement Object](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#securityRequirementObject). No defaults are provided.
+
+
+
+### Route option example
+The route level options are always placed within the `plugins.hapi-swagger` object under `config`. These options are only assigned to the route they are apply to.
+```Javascript
+{
+		method: 'PUT',
+		path: '/store/{id}',
+		config: {
+			handler: handlers.storeUpdate,
+			plugins: {
+				'hapi-swagger': {
+					responses: {'400': {'description': 'Bad Request'}},
+					payloadType: 'form'
+				}
+			},
+			tags: ['api'],
+			validate: {
+				payload: {
+					a: Joi.number()
+						.required()
+						.description('the first number')
+
+				}
+			}
+		}
+	}
+```
+
+
 
 ### Response Object
 HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
@@ -256,7 +293,7 @@ validate: {
 ```
 
 
-## Adding the interface into a page
+## Adding the interface into your own custom page
 The plugin adds all the resources needed to build the interface into your any page in your project. All you need to do is add some javascript into the header of a web page and add two elements into the HTML where you wish it to render. The example [be-more-hapi](https://github.com/glennjones/be-more-hapi) project makes use of a custom page where the interface is used with other elements.
 
 

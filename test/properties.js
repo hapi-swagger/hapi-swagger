@@ -227,9 +227,7 @@ var lab     = exports.lab = Lab.script(),
         
         
         lab.test('parse example', function (done) {
-            /*  not yet 'x',
-            expect( Properties.parseProperty('x',Joi.string().example('example value') ) ).to.deep.equal( {'type':'string'} );
-            */
+            expect( Properties.parseProperty('x',Joi.string().example('example value') ) ).to.deep.equal( {'type':'string','example': 'example value'} );
             done();
         });
         
