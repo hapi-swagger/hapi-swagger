@@ -1,39 +1,32 @@
-/*
-  Checks the use of wildcard routes ie `method: '*'` and array of metheds ie `method: ['GET', 'POST']`
-  */
+'use strict';
+var Code = require('code'),
+    Lab = require('lab');
 
-var Hapi            = require('hapi'),
-    Inert           = require('inert'),
-    Vision          = require('vision'),
-    HapiSwagger     = require('../lib/index.js'),
-    Lab             = require('lab'),
-    Code            = require('code'),
-    Joi             = require('joi'),
-    Helper          = require('../test/helper.js');
+var Helper = require('../test/helper.js');
 
-var lab     = exports.lab = Lab.script(),
-    expect  = Code.expect;
-
+var expect = Code.expect,
+    lab = exports.lab = Lab.script();
 
 
 lab.experiment('wildcard routes', function () {
-  
-  
+
     lab.test('method *', function (done) {
-       var routes = {
-          method: '*',
-          path: '/test',
-          handler: Helper.defaultHandler,
-          config: {
-            tags: ['api'],
-            notes: 'test'
-          }
-        }   
-        
-        Helper.createServer( {}, routes, function(err, server){
+
+        var routes = {
+            method: '*',
+            path: '/test',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api'],
+                notes: 'test'
+            }
+        };
+
+        Helper.createServer({}, routes, function (err, server) {
+
             expect(err).to.equal(null);
-            
-            server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test']).to.have.length(5);
@@ -44,26 +37,27 @@ lab.experiment('wildcard routes', function () {
                 expect(response.result.paths['/test']).to.include('delete');
                 done();
             });
-            
         });
     });
-    
-    
-   lab.test('method array [GET, POST]', function (done) {
-       var routes = {
-          method: ['GET', 'POST'],
-          path: '/test',
-          handler: Helper.defaultHandler,
-          config: {
-            tags: ['api'],
-            notes: 'test'
-          }
-        }   
-        
-        Helper.createServer( {}, routes, function(err, server){
+
+
+    lab.test('method array [GET, POST]', function (done) {
+
+        var routes = {
+            method: ['GET', 'POST'],
+            path: '/test',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api'],
+                notes: 'test'
+            }
+        };
+
+        Helper.createServer({}, routes, function (err, server) {
+
             expect(err).to.equal(null);
-            
-            server.inject({method: 'GET', url: '/swagger.json'}, function(response) {
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test']).to.have.length(2);
@@ -71,9 +65,7 @@ lab.experiment('wildcard routes', function () {
                 expect(response.result.paths['/test']).to.include('post');
                 done();
             });
-            
         });
     });
-    
-  
-})
+
+});
