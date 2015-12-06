@@ -3,7 +3,8 @@ var Code = require('code'),
     Joi = require('joi'),
     Lab = require('lab');
 
-var Helper = require('../test/helper.js');
+var Helper = require('../test/helper.js'),
+    Responses = require('../lib/responses.js');
 
 var expect = Code.expect,
     lab = exports.lab = Lab.script();
@@ -209,6 +210,49 @@ lab.experiment('responses', function () {
     });
 
 
+
+    lab.test('using hapi response.status without 200', function (done) {
+
+        var routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: {
+                        a: Joi.number()
+                            .required()
+                            .description('the first number')
+                    }
+                },
+                response: {
+                    status: {
+                        400: err400,
+                        404: err404,
+                        429: err429,
+                        500: err500
+                    }
+                }
+            }
+        };
+
+        Helper.createServer({}, routes, function (err, server) {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result.paths['/store/'].post.responses));
+                expect(response.result.paths['/store/'].post.responses[200]).to.deep.equal(undefined);
+                expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
+                expect(response.result.paths['/store/'].post.responses[400].headers).to.deep.equal(headers);
+                expect(response.result.paths['/store/'].post.responses[400].example).to.deep.equal(example);
+                done();
+            });
+        });
+    });
+
+
     lab.test('using route base override', function (done) {
 
         var routes = {
@@ -281,5 +325,28 @@ lab.experiment('responses', function () {
             });
         });
     });
+
+
+    lab.test('No ownProperty', function (done) {
+
+        var objA = Helper.objWithNoOwnProperty(),
+            objB = Helper.objWithNoOwnProperty(),
+            objC = Helper.objWithNoOwnProperty();
+
+        //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
+        expect(Responses.build( { },{ },{ },{ } )).to.deep.equal({ 200: { } });
+        expect(Responses.build( objA,objB,objC,{ } )).to.deep.equal({ 200: { } });
+
+        objA[200] = { description : 'Successful' };
+        expect(Responses.build( objA,objB,objC,{ } )).to.deep.equal({ 200:{ 'description': 'Successful' } });
+
+        done();
+    });
+
+
+
+
+
+
 
 });

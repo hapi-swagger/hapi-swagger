@@ -12,6 +12,31 @@ var HapiSwagger = require('../'),
     Routes = require('./routes');
 
 
+/**
+ * validation function for bearer strategy
+ *
+ * @param  {Object} token
+ * @param  {Function} callback
+ */
+var validateBearer = function (token, callback) {
+
+    if (token === '12345') {
+        callback(null, true, {
+            token: token,
+            user: {
+                username: 'glennjones',
+                name: 'Glenn Jones',
+                groups: ['admin', 'user']
+            }
+        });
+    } else {
+        // for bad token keep err as null
+        callback(null, false, {});
+    }
+};
+
+
+
 var server = new Hapi.Server();
 server.connection({
     host: 'localhost',
@@ -89,27 +114,3 @@ server.register([
     });
 
 server.route(Routes);
-
-
-/**
- * validation function for bearer strategy
- *
- * @param  {Object} token
- * @param  {Function} callback
- */
-var validateBearer = function (token, callback) {
-
-    if (token === '12345') {
-        callback(null, true, {
-            token: token,
-            user: {
-                username: 'glennjones',
-                name: 'Glenn Jones',
-                groups: ['admin', 'user']
-            }
-        });
-    } else {
-        // for bad token keep err as null
-        callback(null, false, {});
-    }
-};

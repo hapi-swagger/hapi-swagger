@@ -314,6 +314,20 @@ module.exports = [{
         },
         response: { schema: sumModel }
     }
+},{
+    method: 'POST',
+    path: '/store/test/',
+    config: {
+        handler: defaultHandler,
+        description: 'Add sum, with JSON object',
+        notes: ['Adds a sum to the data store, using JSON object in payload'],
+        tags: ['api', 'reduced', 'three'],
+        validate: {
+            payload: {
+                anyCode:  Joi.string().optional()
+            }
+        }
+    }
 }];
 
 

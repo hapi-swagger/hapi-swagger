@@ -161,3 +161,18 @@ helper.replyWithJSON  = function (err, res, request, reply, settings, ttl) {
 };
 
 
+
+/**
+* creates an object with properties which are not its own
+*
+ * @return {Object}
+*/
+helper.objWithNoOwnProperty = function () {
+
+    var sides = { a: 1, b: 2, c: 3 };
+    var Triangle = function () {
+
+    };
+    Triangle.prototype = sides;
+    return new Triangle();
+};
