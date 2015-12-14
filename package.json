@@ -5,13 +5,15 @@
   "author": "Glenn Jones",
   "repository": {
     "type": "git",
-    "url": "http://github.com/glennjones/hapi-swagger.git"
+    "url": "git://github.com/glennjones/hapi-swagger.git"
   },
   "main": "index",
   "keywords": [
+    "api",
     "docs",
     "swagger",
-    "hapi"
+    "hapi",
+    "joi"
   ],
   "license": "MIT",
   "engines": {
@@ -39,7 +41,8 @@
   "scripts": {
     "start": "node ./bin/test-server",
     "test": "lab -a code -t 100",
-    "test-cov-html": "lab -a code  -r html -o coverage.html"
+    "test-cov-html": "lab -a code  -r html -o coverage.html",
+    "test-cov-coveralls": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls"
   },
   "peerDependencies": {
     "hapi": "^9.0.1 || ^10.0.0 || ^11.0.0"

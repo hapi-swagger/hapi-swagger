@@ -8,7 +8,7 @@ This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI]
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
 
 
-__NEW VERSION (v3.0.0 DEC 2015) - PLEASE REVIEW UPDATE INFORMATION__
+__NEW VERSION (v3.0.0 DEC 2015) - PLEASE REVIEW UPDATE INFORMATION - [Breaking changes in release notes](https://github.com/glennjones/hapi-swagger/issues/180)__
 
 
 ## Install
