@@ -13,6 +13,19 @@ var expect = Code.expect,
 
 lab.experiment('utilities', function () {
 
+
+    lab.test('isObject', function (done) {
+
+        expect(Utilities.isObject({})).to.equal(true);
+        expect(Utilities.isObject(Joi.object())).to.equal(true);
+        expect(Utilities.isObject(null)).to.equal(false);
+        expect(Utilities.isObject(undefined)).to.equal(false);
+        expect(Utilities.isObject([])).to.equal(false);
+        expect(Utilities.isObject('string')).to.equal(false);
+        expect(Utilities.isObject(5)).to.equal(false);
+        done();
+    });
+
     lab.test('hasProperties', function (done) {
 
         expect(Utilities.hasProperties({})).to.equal(false);

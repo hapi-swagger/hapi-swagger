@@ -9,23 +9,66 @@ var expect = Code.expect,
     lab = exports.lab = Lab.script();
 
 
-
-
-// TODO
-// joiToSwaggerDefiniation
-// joiToSwaggerParameters
-// parseProperties
-
-
-
-
 lab.experiment('property - ', function () {
 
     lab.test('parse types', function (done) {
 
         expect(Properties.parseProperty('x', Joi.string())).to.deep.equal({ 'type': 'string' });
         expect(Properties.parseProperty('x', Joi.number())).to.deep.equal({ 'type': 'number' });
-        expect(Properties.parseProperty('x', Joi.array())).to.deep.equal({ 'type': 'array' });
+        expect(Properties.parseProperty('x', Joi.boolean())).to.deep.equal({ 'type': 'boolean' });
+        expect(Properties.parseProperty('x', Joi.date())).to.deep.equal({ 'type':'string','format':'date' });
+        expect(Properties.parseProperty('x', Joi.binary())).to.deep.equal({ 'type':'string','format':'binary' });
+        expect(Properties.parseProperty('x', Joi.array())).to.deep.equal({
+            'type': 'array',
+            'items': {
+                'type': 'string'
+            }
+        });
+
+        done();
+    });
+
+
+
+    lab.test('parse type string', function (done) {
+
+        expect(Properties.parseProperty('x', Joi.string())).to.deep.equal({ 'type': 'string' });
+
+        /*  not yet 'x',
+        string.insensitive()
+        string.min(limit, [encoding])
+        string.max(limit, [encoding])
+        string.creditCard()
+        string.length(limit, [encoding])
+        string.regex(pattern, [name])
+        string.replace(pattern, replacement)
+        string.alphanum()
+        string.token()
+        string.email([options])
+        string.ip([options])
+        string.uri([options])
+        string.guid()
+        string.hex()
+        string.hostname()
+        string.lowercase()
+        string.uppercase()
+        string.trim()
+        string.isoDate()
+        */
+        done();
+    });
+
+
+    lab.test('parse type date', function (done) {
+
+        expect(Properties.parseProperty('x', Joi.date())).to.deep.equal({ 'type': 'string', 'format': 'date' });
+
+        /*  not yet 'x',
+        date.min(date)
+        date.max(date)
+        date.format(format)
+        date.iso()
+        */
         done();
     });
 
@@ -51,17 +94,82 @@ lab.experiment('property - ', function () {
 
     lab.test('parse type array', function (done) {
 
-        expect(Properties.parseProperty('x', Joi.array().items({ 'count': Joi.number() }))).to.deep.equal({ 'type': 'array', 'items': { '$ref': '#/definitions/x' } });
-        expect(Properties.parseProperty('x', Joi.array().min(5))).to.deep.equal({ 'type': 'array', 'minItems': 5 });
-        expect(Properties.parseProperty('x', Joi.array().max(10))).to.deep.equal({ 'type': 'array', 'maxItems': 10 });
 
-        /*  not yet 'x',
+        // basic child types
+        expect(Properties.parseProperty('x', Joi.array())).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' } });
+        expect(Properties.parseProperty('x', Joi.array().items())).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' } });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.string()))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' } });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.number()))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'number' } });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.boolean()))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'boolean' } });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.date()))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string', 'format': 'date' } });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.binary()))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string', 'format': 'binary' } });
+
+        // complex child types
+        expect(Properties.parseProperty('x', Joi.array().items({ 'text': Joi.string() }), {}, 'formData')).to.deep.equal({
+            'type': 'array',
+            'items': {
+                '$ref': '#/definitions/x'
+            },
+            'collectionFormat': 'multi'
+        });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.object({ 'text': Joi.string() })), {}, 'formData')).to.deep.equal({
+            'type': 'array',
+            'items': {
+                '$ref': '#/definitions/x'
+            },
+            'collectionFormat': 'multi'
+        });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.object({ 'text': Joi.string() })), {}, 'query')).to.deep.equal({
+            'type': 'array',
+            'items': {
+                '$ref': '#/definitions/x'
+            },
+            'collectionFormat': 'multi'
+        });
+
+
+        // expect(Properties.parseProperty('x', Joi.array().items({ 'count': Joi.number() }))).to.deep.equal({ 'type': 'array', 'items': { '$ref': '#/definitions/x' } });
+        expect(Properties.parseProperty('x', Joi.array().min(5))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'minItems': 5 });
+        expect(Properties.parseProperty('x', Joi.array().max(10))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'maxItems': 10 });
+
+        /*  not yet 'x-',
         array.sparse(enabled)
         array.single(enabled)
-        array.items(type)
         array.ordered(type)
         array.length(limit)
         array.unique()
+        */
+
+        done();
+    });
+
+
+    lab.test('parse type object', function (done) {
+
+        //console.log(JSON.stringify(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }), {}, [], 'formData' )));
+
+        expect(Properties.parseProperty('x', Joi.object({ 'text': Joi.string() }))).to.deep.equal({ 'type': 'object', 'name': 'x', 'properties': { 'text': { 'type': 'string' } } });
+        expect(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }))).to.deep.equal({ 'type': 'object', 'name': 'x', 'properties': { 'text': { 'type': 'string' } } });
+
+
+        /*  not yet 'x-',
+        {}
+        object.min(limit)
+        object.max(limit)
+        object.length(limit)
+        object.pattern(regex, schema)
+        object.and(peers)
+        object.nand(peers)
+        object.or(peers)
+        object.xor(peers)
+        object.with(key, peers)
+        object.without(key, peers)
+        object.rename(from, to, [options])
+        object.assert(ref, schema, [message])
+        object.unknown([allow])
+        object.type(constructor, [name])
+        object.requiredKeys(children)
+        object.optionalKeys(children)
         */
 
         done();
@@ -187,9 +295,6 @@ lab.experiment('property - ', function () {
     });
 
 
-
-
-
     lab.test('parse description', function (done) {
 
         expect(Properties.parseProperty('x', Joi.string().description('text description'))).to.deep.equal({ 'type': 'string', 'description': 'text description' });
@@ -212,9 +317,32 @@ lab.experiment('property - ', function () {
     });
 
 
+    lab.test('parse allow', function (done) {
+
+        expect(Properties.parseProperty('x', Joi.string().allow('decimal', 'binary'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
+        expect(Properties.parseProperty('x', Joi.number().allow(1,2,3,4,5))).to.deep.equal({ 'type': 'number', 'enum': [1,2,3,4,5] });
+        expect(Properties.parseProperty('x', Joi.string().allow('decimal', 'binary', ''))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
+        expect(Properties.parseProperty('x', Joi.string().allow(''))).to.deep.equal({ 'type': 'string' });
+
+        //console.log(JSON.stringify(Properties.parseProperty('x', Joi.array().allow('a','b','c'), {}, 'query')))
+        expect(Properties.parseProperty('x', Joi.array().allow('a', 'b', 'c'), {}, 'query')).to.deep.equal({
+            'type': 'array',
+            'enum': ['a', 'b', 'c'],
+            'items': {
+                'type': 'string'
+            },
+            'collectionFormat': 'multi'
+        });
+        done();
+    });
+
+
     lab.test('parse valid', function (done) {
 
         expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
+        expect(Properties.parseProperty('x', Joi.number().valid(1,2,3,4,5))).to.deep.equal({ 'type': 'number', 'enum': [1,2,3,4,5] });
+        expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary', ''))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
+        expect(Properties.parseProperty('x', Joi.string().valid(''))).to.deep.equal({ 'type': 'string' });
         done();
     });
 
@@ -242,14 +370,38 @@ lab.experiment('property - ', function () {
 
     lab.test('parse default', function (done) {
 
+        // TODO x- the description ie any.default([value, [description]])
         expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary').default('decimal'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'], 'default': 'decimal' });
         done();
     });
 
 
+    lab.test('parse forbidden', function (done) {
+
+        expect(Properties.parseProperty('x', Joi.string().forbidden())).to.deep.equal(undefined);
+        done();
+    });
 
 
-    lab.test('joiToSwaggerDefiniation', function (done) {
+    /*  not yet 'x',
+    any.invalid(value)
+    any.strip()
+    any.meta(meta)
+    any.unit(name)
+    any.options(options)
+    any.strict(isStrict)
+    any.concat(schema)
+    any.when(ref, options)
+    any.label(name)
+    any.raw(isRaw)
+    any.empty(schema)
+    */
+
+
+
+
+
+    lab.test('joiToSwaggerDefinition', function (done) {
 
         var joiStructure = Joi.object({
             a: Joi.number()
@@ -270,7 +422,7 @@ lab.experiment('property - ', function () {
                 .description('the result of the sum')
         });
 
-        //console.log(JSON.stringify(   Properties.joiToSwaggerDefiniation(joiStructure, {})    ));
+        //console.log(JSON.stringify(   Properties.joiToSwaggerDefinition(joiStructure, {})    ));
 
         var structureJSON = {
             'a': {
@@ -296,7 +448,7 @@ lab.experiment('property - ', function () {
             }
         };
 
-        expect(Properties.joiToSwaggerDefiniation(joiStructure, 'query')).to.deep.equal(structureJSON);
+        expect(Properties.joiToSwaggerDefinition(joiStructure, 'query')).to.deep.equal(structureJSON);
         done();
     });
 
@@ -359,5 +511,8 @@ lab.experiment('property - ', function () {
         expect(Properties.joiToSwaggerParameters(joiStructure, 'query')).to.deep.equal(structureJSON);
         done();
     });
+
+
+
 
 });

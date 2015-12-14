@@ -53,6 +53,16 @@ lab.experiment('responses', function () {
         className: 'Sum'
     });
 
+    var joiListModel = Joi.object({
+        items: Joi.array().items(joiSumModel),
+        count: Joi.number().required(),
+        pageSize: Joi.number().required(),
+        page: Joi.number().required(),
+        pageCount: Joi.number().required()
+    }).meta({
+        className: 'List'
+    });
+
     var standardHTTP = {
         '200': {
             'description': 'Success',
@@ -107,6 +117,7 @@ lab.experiment('responses', function () {
                 'description': 'ISO date string'
             }
         },
+        'description': 'json body for sum',
         'required': [
             'id',
             'a',
@@ -153,10 +164,59 @@ lab.experiment('responses', function () {
                     '200': {
                         'schema': {
                             '$ref': '#/definitions/Sum'
-                        }
+                        },
+                        'description': 'Successful'
                     }
                 });
                 expect(response.result.definitions.Sum).to.deep.equal(swaggerSumModel);
+                done();
+            });
+        });
+    });
+
+
+
+    lab.test('using hapi response.schema with child objects', function (done) {
+
+        var routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: {
+                        a: Joi.number()
+                            .required()
+                            .description('the first number')
+                    }
+                },
+                payload: {
+                    maxBytes: 1048576,
+                    parse: true,
+                    output: 'stream'
+                },
+                response: { schema: joiListModel }
+            }
+        };
+
+        Helper.createServer({}, routes, function (err, server) {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.definitions.List.properties.items));
+                expect(err).to.equal(null);
+                expect(response.result.paths['/store/'].post.responses).to.deep.equal({
+                    '200': {
+                        'schema': {
+                            '$ref': '#/definitions/List'
+                        },
+                        'description': 'Successful'
+                    }
+                });
+                expect(response.result.definitions.List).to.exist();
+                expect(response.result.definitions.Sum).to.exist();
+                expect(response.result.definitions.List.properties.items.items.$ref).to.equal('#/definitions/Sum');
                 done();
             });
         });
@@ -199,7 +259,8 @@ lab.experiment('responses', function () {
                 expect(response.result.paths['/store/'].post.responses[200]).to.deep.equal({
                     'schema': {
                         '$ref': '#/definitions/Sum'
-                    }
+                    },
+                    'description': 'Successful'
                 });
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
                 expect(response.result.paths['/store/'].post.responses[400].headers).to.deep.equal(headers);
@@ -334,9 +395,16 @@ lab.experiment('responses', function () {
             objC = Helper.objWithNoOwnProperty();
 
         //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
-        expect(Responses.build( { },{ },{ },{ } )).to.deep.equal({ 200: { } });
-        expect(Responses.build( objA,objB,objC,{ } )).to.deep.equal({ 200: { } });
-
+        expect(Responses.build({}, {}, {}, {})).to.deep.equal({
+            200: {
+                'description': 'Successful'
+            }
+        });
+        expect(Responses.build( objA,objB,objC,{ } )).to.deep.equal({
+            200: {
+                'description': 'Successful'
+            }
+        });
         objA[200] = { description : 'Successful' };
         expect(Responses.build( objA,objB,objC,{ } )).to.deep.equal({ 200:{ 'description': 'Successful' } });
 

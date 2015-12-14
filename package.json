@@ -22,7 +22,7 @@
     "boom": "^2.8.0",
     "hoek": "^2.14.0",
     "joi": "~6.9.0",
-    "shortid": "^2.2.2"
+    "http-status": "0.2.0"
   },
   "devDependencies": {
     "inert": "^3.0.0",

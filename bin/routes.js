@@ -134,205 +134,22 @@ module.exports = [{
         },
         response: { schema: listModel }
     }
-}, {
-    method: 'GET',
-    path: '/store/{id}',
-    config: {
-        handler: defaultHandler,
-        description: 'Get sum',
-        notes: ['Get a sum from the store'],
-        plugins: {
-            'hapi-swagger': {
-                responses: extendedHTTP
-            }
-        },
-        tags: ['api', 'reduced', 'two'],
-        validate: {
-            params: {
-                id: Joi.string()
-                    .required()
-                    .description('the id of the sum in the store')
-            }
-        },
-        response: { schema: sumModel }
-    }
-}, {
-    method: 'POST',
-    path: '/store/',
-    config: {
-        handler: defaultHandler,
-        description: 'Add sum',
-        notes: ['Adds a sum to the data store'],
-        plugins: {
-            'hapi-swagger': {
-                responses: standardHTTP,
-                payloadType: 'form',
-                nickname: 'storeit'
-            }
-        },
-        tags: ['api', 'reduced', 'three'],
-        validate: {
-            payload: {
-                a: Joi.number()
-                    .required()
-                    .description('the first number'),
-
-                b: Joi.number()
-                    .required()
-                    .description('the second number'),
-
-                operator: Joi.string()
-                    .required()
-                    .default('+')
-                    .description('the opertator i.e. + - / or *'),
-
-                equals: Joi.number()
-                    .required()
-                    .description('the result of the sum')
-            }
-        },
-        response: { schema: sumModel }
-    }
-}, {
-    method: 'PUT',
-    path: '/store/{id}',
-    config: {
-        handler: defaultHandler,
-        description: 'Update sum',
-        notes: ['Update a sum in our data store'],
-        plugins: {
-            'hapi-swagger': {
-                responses: extendedHTTP,
-                payloadType: 'form'
-            }
-        },
-        tags: ['api'],
-        validate: {
-            params: {
-                id: Joi.string()
-                    .required()
-                    .description('the id of the sum in the store')
-            },
-            payload: {
-                a: Joi.number()
-                    .required()
-                    .description('the first number')
-                    .example(5),
-
-                b: Joi.number()
-                    .required()
-                    .description('the second number')
-                    .example(5),
-
-                operator: Joi.string()
-                    .required()
-                    .default('+')
-                    .description('the opertator i.e. + - / or *')
-                    .example('+'),
-
-                equals: Joi.number()
-                    .required()
-                    .description('the result of the sum')
-                    .example(10)
-            }
-        },
-        response: { schema: sumModel }
-    }
-}, {
-    method: 'DELETE',
-    path: '/store/{id}',
-    config: {
-        handler: defaultHandler,
-        description: 'Delete sums',
-        notes: ['Delete a sums from the data store'],
-        plugins: {
-            'hapi-swagger': {
-                responses: extendedHTTP
-            }
-        },
-        tags: ['api'],
-        validate: {
-            params: {
-                id: Joi.string()
-                    .required()
-                    .description('the id of the sum in the store')
-            }
-        }
-    }
-}, {
-    method: 'POST',
-    path: '/store/payload/',
-    config: {
-        handler: defaultHandler,
-        description: 'Add sum, with JSON object',
-        notes: ['Adds a sum to the data store, using JSON object in payload'],
-        plugins: {
-            'hapi-swagger': {
-                responses: standardHTTP
-            }
-        },
-        tags: ['api', 'reduced', 'three'],
-        validate: {
-            payload: sumModel
-        },
-        response: {
-            status: {
-                200: sumModel,
-                400: err400,
-                404: err404,
-                429: err429,
-                500: err500
-            }
-        }
-    }
-}, {
-    method: 'POST',
-    path: '/store/file/',
-    config: {
-        handler: defaultHandler,
-        description: 'Add sum, with JSON file',
-        notes: ['Adds a sum to the data store, using JSON object in a uploaded file'],
-        plugins: {
-            'hapi-swagger': {
-                responses: fileHTTP,
-                payloadType: 'form'
-            }
-        },
-        tags: ['api', 'reduced', 'three'],
-        validate: {
-            payload: {
-                file: Joi.any()
-                    .meta({ swaggerType: 'file' })
-                    .required()
-                    .description('json file with object containing: a, b, operator and equals')
-            }
-        },
-        payload: {
-            maxBytes: 1048576,
-            parse: true,
-            output: 'stream'
-        },
-        response: { schema: sumModel }
-    }
 },{
-    method: 'POST',
-    path: '/store/test/',
-    config: {
-        handler: defaultHandler,
-        description: 'Add sum, with JSON object',
-        notes: ['Adds a sum to the data store, using JSON object in payload'],
-        tags: ['api', 'reduced', 'three'],
-        validate: {
-            payload: {
-                anyCode:  Joi.string().optional()
-            }
+        method: 'POST',
+        path: '/foo/v1/bar',
+        config: {
+            description: '...',
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    outer1: Joi.object({
+                        inner1: Joi.string()
+                    }),
+                    outer2: Joi.object({
+                        inner2: Joi.string()
+                    })
+                })
+            },
+            handler: defaultHandler
         }
-    }
-}];
-
-
-
-
-
-
-
+    }];
