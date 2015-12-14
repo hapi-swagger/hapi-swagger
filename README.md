@@ -3,10 +3,12 @@
 This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x to v11.x  When installed it will self document HTTP API interface in a project.
 
 [![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=flat-square)](http://travis-ci.org/glennjones/hapi-swagger)
+[![Coverage Status](https://img.shields.io/coveralls/glennjones/hapi-swagger/dev.svg?style=flat-square)](https://coveralls.io/r/glennjones/hapi-swagger)
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
 
-__NEW VERSION (v3.0.0 NOV 2015) - PLEASE REVIEW UPDATE INFORMATION__
+
+__NEW VERSION (v3.0.0 DEC 2015) - PLEASE REVIEW UPDATE INFORMATION__
 
 
 ## Install
@@ -55,7 +57,7 @@ server.register([
             console.log('Server running at:', server.info.uri);
         });
     });
-    
+
 server.route(Routes);
 ```
 
@@ -92,8 +94,8 @@ The plugin adds a page into your site with the route `/documentation`. This page
 There are number of options for advance use cases. Most of the time you should only have to provide the `info.title` and `info.version`.
 
 Options for UI:
-* `schemes`: (array) The transfer protocol of the API ie `['http']` 
-* `host`: (string) The host (name or ip) serving the API including port if any i.e. `localhost:8080` 
+* `schemes`: (array) The transfer protocol of the API ie `['http']`
+* `host`: (string) The host (name or ip) serving the API including port if any i.e. `localhost:8080`
 * `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
 * `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints
 * `documentationPath`:  (string) The path of the documentation page - default: `/documentation`,
@@ -178,9 +180,7 @@ An very simple example of the use of the response object:
 ```Javascript
 var responseModel = Joi.object({
     equals: Joi.number(),
-}).meta({
-  className: 'Result'
-});
+}).label('Result');
 ```
 within you route object ...
 ```Javascript
@@ -209,7 +209,7 @@ A working demo of more complex uses of response object can be found in the [be-m
 
 
 ### Status Codes
-You can add HTTP status codes to each of the endpoints. As HAPI routes don not directly have a property for status codes so you need to add them the plugin configuration. The status codes need to be added as an array of objects with an error code and description:
+You can add HTTP status codes to each of the endpoints. As HAPI routes don not directly have a property for status codes so you need to add them the plugin configuration. The status codes need to be added as an array of objects with an error code and description. The `description` is required:
 
 ```Javascript
 config: {
@@ -272,6 +272,16 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
 ```
 The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, such as filetype and schema validation.
 
+### Naming
+There are times when you may wish to name a object so that its label in the Swagger interface make more sense to humans. This is most common when you have endpoint which take JSON structures. To label a object simply wrap it as a JOI object and chain the label function as below.
+```Javascript
+validate: {
+    payload: Joi.object({
+        a: Joi.number(),
+        b: Joi.nunber()
+    }).label('Sum')
+}
+```
 
 ### Headers and .unknown()
 A common issue with the use of headers is that you may only want to validate some of the headers sent in a request and you are not concerned about other headers that maybe sent also. You can use JOI .unknown() to allow any all other headers to be sent without validation errors.
@@ -408,13 +418,14 @@ The project has integration and unit tests. To run the test within the project t
 ```bash
 $ lab
 $ lab -r html -o coverage.html
+$ lab -r html -o coverage.html --lint
 ```
 
 If you are considering sending a pull request please add tests for the functionality you add or change.
 
 
 ### Thanks
-I would like all that have contributed to the project over the last couple of years. 
+I would like all that have contributed to the project over the last couple of years.
 
 ### Issues
 If you find any issue please file here on github and I will try and fix them.

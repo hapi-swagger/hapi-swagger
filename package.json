@@ -32,12 +32,13 @@
     "code": "1.5.0",
     "hapi": "^11.0.0",
     "wreck": "6.3.0",
+    "coveralls": "2.11.6",
     "h2o2": "4.0.1",
     "hapi-auth-bearer-token": "3.1.1"
   },
   "scripts": {
     "start": "node ./bin/test-server",
-    "test": "lab -a code",
+    "test": "lab -a code -t 100",
     "test-cov-html": "lab -a code  -r html -o coverage.html"
   },
   "peerDependencies": {

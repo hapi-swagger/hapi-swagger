@@ -49,9 +49,7 @@ lab.experiment('responses', function () {
         equals: Joi.number().required().example(10),
         created: Joi.string().required().isoDate().description('ISO date string').example('2015-12-01'),
         modified: Joi.string().isoDate().description('ISO date string').example('2015-12-01')
-    }).description('json body for sum').meta({
-        className: 'Sum'
-    });
+    }).description('json body for sum').label('Sum');
 
     var joiListModel = Joi.object({
         items: Joi.array().items(joiSumModel),
@@ -59,9 +57,7 @@ lab.experiment('responses', function () {
         pageSize: Joi.number().required(),
         page: Joi.number().required(),
         pageCount: Joi.number().required()
-    }).meta({
-        className: 'List'
-    });
+    }).label('List');
 
     var standardHTTP = {
         '200': {

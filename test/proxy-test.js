@@ -188,7 +188,7 @@ lab.experiment('proxies', function () {
                                 a: Joi.number()
                                     .required()
                                     .description('the first number')
-                            }).meta({ className: 'testname' })
+                            }).label('testname')
                         }
                     }
                 },
@@ -240,7 +240,7 @@ lab.experiment('proxies', function () {
                                 a: Joi.number()
                                     .required()
                                     .description('the first number')
-                            }).meta({ className: 'testname' })
+                            }).label('testname')
                         }
                     }
                 },
@@ -265,7 +265,7 @@ lab.experiment('proxies', function () {
                                 a: Joi.number()
                                     .required()
                                     .description('the first number')
-                            }).meta({ className: 'testname' })
+                            }).label('testname')
                         }
                     }
                 },
@@ -323,7 +323,7 @@ lab.experiment('proxies', function () {
                                 a: Joi.number()
                                     .required()
                                     .description('the first number')
-                            }).meta({ className: 'testname' })
+                            }).label('testname')
                         }
                     }
                 },
@@ -347,7 +347,7 @@ lab.experiment('proxies', function () {
                             payload: Joi.object({
                                 b: Joi.string()
                                     .description('the string')
-                            }).meta({ className: 'testname' })
+                            }).label('testname')
                         }
                     }
                 },
