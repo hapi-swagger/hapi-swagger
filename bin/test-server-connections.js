@@ -1,24 +1,24 @@
 'use strict';
 
-var Blipp = require('blipp'),
-    Hapi = require('hapi'),
-    Hoek = require('hoek'),
-    Inert = require('inert'),
-    Vision = require('vision');
+const Blipp = require('blipp');
+const Hapi = require('hapi');
+const Hoek = require('hoek');
+const Inert = require('inert');
+const Vision = require('vision');
 
-var HapiSwagger = require('../'),
-    Pack = require('../package'),
-    Routes = require('./routes');
+const HapiSwagger = require('../');
+const Pack = require('../package');
+const Routes = require('./routes');
 
 
-var server = new Hapi.Server();
+let server = new Hapi.Server();
 
 server.connection({ host: 'localhost', port: 3000, labels: 'a' });
 server.connection({ host: 'localhost', port: 3001, labels: 'b' });
 server.connection({ host: 'localhost', port: 3002, labels: 'c' });
 
 
-var plugin1 = function (plugin, options, next) {
+let plugin1 = function (plugin, options, next) {
 
     plugin.route({
         method: 'GET',
@@ -37,7 +37,7 @@ var plugin1 = function (plugin, options, next) {
 plugin1.attributes = { name: 'plugin1' };
 
 
-var plugin2 = function (plugin, options, next) {
+let plugin2 = function (plugin, options, next) {
 
     plugin.route({
         method: 'GET',
@@ -56,7 +56,7 @@ var plugin2 = function (plugin, options, next) {
 plugin2.attributes = { name: 'plugin2' };
 
 
-var swaggerOptions = {
+let swaggerOptions = {
     schemes: ['http'],
     info: {
         'title': 'Test API Documentation',
@@ -73,8 +73,8 @@ var swaggerOptions = {
     }
 };
 
-var swaggerOptionsA = Hoek.clone(swaggerOptions),
-    swaggerOptionsB = Hoek.clone(swaggerOptions);
+let swaggerOptionsA = Hoek.clone(swaggerOptions);
+let swaggerOptionsB = Hoek.clone(swaggerOptions);
 
 swaggerOptionsA.host = 'localhost:3000';
 swaggerOptionsB.host = 'localhost:3001';
@@ -83,7 +83,7 @@ server.register([
     Blipp ,
     Inert,
     Vision
-], function (err) {
+], (err) => {
 
     // interface a - add swagger UI
     server.register([
@@ -91,7 +91,7 @@ server.register([
         {
             register: HapiSwagger,
             options: swaggerOptionsA
-        }], { select: ['a'] }, function (err) {
+        }], { select: ['a'] }, (err) => {
 
             // interface b - add swagger UI
             server.register([
@@ -99,9 +99,9 @@ server.register([
                 {
                     register: HapiSwagger,
                     options: swaggerOptionsB
-                }], { select: ['b'] }, function (err) {
+                }], { select: ['b'] }, (err) => {
 
-                    server.start(function () {
+                    server.start(() => {
 
                     });
                 });

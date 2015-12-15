@@ -1,17 +1,16 @@
 'use strict';
-var Code = require('code'),
-    Lab = require('lab');
+const Code = require('code');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
-
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('info', function () {
 
-    var routes = [{
+lab.experiment('info', () => {
+
+    const routes = [{
         method: 'GET',
         path: '/test',
         handler: Helper.defaultHandler,
@@ -21,9 +20,9 @@ lab.experiment('info', function () {
     }];
 
 
-    lab.test('defaults for swagger root object properties', function (done) {
+    lab.test('defaults for swagger root object properties', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -41,9 +40,9 @@ lab.experiment('info', function () {
     });
 
 
-    lab.test('set values for swagger root object properties', function (done) {
+    lab.test('set values for swagger root object properties', (done) => {
 
-        var swaggerOptions = {
+        const swaggerOptions = {
             'swagger': '5.9.45',
             'schemes': ['https'],
             'basePath': '/base',
@@ -55,7 +54,7 @@ lab.experiment('info', function () {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {

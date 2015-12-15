@@ -1,18 +1,18 @@
 'use strict';
-var Code = require('code'),
-    Lab = require('lab');
+const Code = require('code');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('wildcard routes', function () {
 
-    lab.test('method *', function (done) {
+lab.experiment('wildcard routes', () => {
 
-        var routes = {
+    lab.test('method *', (done) => {
+
+        const routes = {
             method: '*',
             path: '/test',
             handler: Helper.defaultHandler,
@@ -22,7 +22,7 @@ lab.experiment('wildcard routes', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -41,9 +41,9 @@ lab.experiment('wildcard routes', function () {
     });
 
 
-    lab.test('method array [GET, POST]', function (done) {
+    lab.test('method array [GET, POST]', (done) => {
 
-        var routes = {
+        const routes = {
             method: ['GET', 'POST'],
             path: '/test',
             handler: Helper.defaultHandler,
@@ -53,7 +53,7 @@ lab.experiment('wildcard routes', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {

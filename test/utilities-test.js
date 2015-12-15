@@ -1,20 +1,19 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
+const Utilities = require('../lib/utilities.js');
 
-var Helper = require('../test/helper.js'),
-    Utilities = require('../lib/utilities.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
-
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('utilities', function () {
+
+lab.experiment('utilities', () => {
 
 
-    lab.test('isObject', function (done) {
+    lab.test('isObject', (done) => {
 
         expect(Utilities.isObject({})).to.equal(true);
         expect(Utilities.isObject(Joi.object())).to.equal(true);
@@ -26,7 +25,7 @@ lab.experiment('utilities', function () {
         done();
     });
 
-    lab.test('hasProperties', function (done) {
+    lab.test('hasProperties', (done) => {
 
         expect(Utilities.hasProperties({})).to.equal(false);
         expect(Utilities.hasProperties({ 'name': 'test' })).to.equal(true);
@@ -35,7 +34,7 @@ lab.experiment('utilities', function () {
     });
 
 
-    lab.test('deleteEmptyProperties', function (done) {
+    lab.test('deleteEmptyProperties', (done) => {
 
         //console.log( JSON.stringify(Utilities.deleteEmptyProperties(objWithNoOwnProperty())) );
         expect(Utilities.deleteEmptyProperties({})).to.deep.equal({});
@@ -49,7 +48,7 @@ lab.experiment('utilities', function () {
     });
 
 
-    lab.test('first', function (done) {
+    lab.test('first', (done) => {
 
         expect(Utilities.first({})).to.equal(undefined);
         expect(Utilities.first('test')).to.equal(undefined);
@@ -60,7 +59,7 @@ lab.experiment('utilities', function () {
     });
 
 
-    lab.test('isJoi', function (done) {
+    lab.test('isJoi', (done) => {
 
         expect(Utilities.isJoi({})).to.equal(false);
         expect(Utilities.isJoi(Joi.object())).to.equal(true);
@@ -71,7 +70,7 @@ lab.experiment('utilities', function () {
     });
 
 
-    lab.test('hasJoiChildren', function (done) {
+    lab.test('hasJoiChildren', (done) => {
 
         expect(Utilities.hasJoiChildren({})).to.equal(false);
         expect(Utilities.hasJoiChildren(Joi.object())).to.equal(false);
@@ -82,7 +81,7 @@ lab.experiment('utilities', function () {
     });
 
 
-    lab.test('hasJoiMeta', function (done) {
+    lab.test('hasJoiMeta', (done) => {
 
         expect(Utilities.hasJoiMeta({})).to.equal(false);
         expect(Utilities.hasJoiMeta(Joi.object())).to.equal(true);
@@ -91,7 +90,7 @@ lab.experiment('utilities', function () {
     });
 
 
-    lab.test('getJoiMetaProperty', function (done) {
+    lab.test('getJoiMetaProperty', (done) => {
 
         expect(Utilities.getJoiMetaProperty({}, 'test')).to.equal(undefined);
         expect(Utilities.getJoiMetaProperty(Joi.object(), 'test')).to.equal(undefined);

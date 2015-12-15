@@ -1,18 +1,18 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('authentication', function () {
+
+lab.experiment('authentication', () => {
 
     // route using bearer token auth
-    var routes = {
+    const routes = {
         method: 'POST',
         path: '/bookmarks/',
         config: {
@@ -43,9 +43,9 @@ lab.experiment('authentication', function () {
     };
 
 
-    lab.test('get plug-in interface with bearer token', function (done) {
+    lab.test('get plug-in interface with bearer token', (done) => {
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'GET',
             url: '/swagger.json',
             headers: {
@@ -53,7 +53,7 @@ lab.experiment('authentication', function () {
             }
         };
 
-        Helper.createAuthServer({}, routes, function (err, server) {
+        Helper.createAuthServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -66,15 +66,15 @@ lab.experiment('authentication', function () {
     });
 
 
-    lab.test('get plug-in interface without bearer token', function (done) {
+    lab.test('get plug-in interface without bearer token', (done) => {
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'GET',
             url: '/swagger.json'
         };
 
         // plugin routes should be not be affected by auth on API
-        Helper.createAuthServer({}, routes, function (err, server) {
+        Helper.createAuthServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -87,9 +87,9 @@ lab.experiment('authentication', function () {
     });
 
 
-    lab.test('get API interface with bearer token', function (done) {
+    lab.test('get API interface with bearer token', (done) => {
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'POST',
             url: '/bookmarks/',
             headers: {
@@ -100,7 +100,7 @@ lab.experiment('authentication', function () {
             }
         };
 
-        Helper.createAuthServer({}, routes, function (err, server) {
+        Helper.createAuthServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -113,9 +113,9 @@ lab.experiment('authentication', function () {
     });
 
 
-    lab.test('get API interface with incorrect bearer token', function (done) {
+    lab.test('get API interface with incorrect bearer token', (done) => {
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'POST',
             url: '/bookmarks/',
             headers: {
@@ -126,7 +126,7 @@ lab.experiment('authentication', function () {
             }
         };
 
-        Helper.createAuthServer({}, routes, function (err, server) {
+        Helper.createAuthServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 

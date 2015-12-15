@@ -1,17 +1,17 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('file', function () {
 
-    var routes = {
+lab.experiment('file', () => {
+
+    let routes = {
         method: 'POST',
         path: '/test/',
         config: {
@@ -38,9 +38,9 @@ lab.experiment('file', function () {
     };
 
 
-    lab.test('upload', function (done) {
+    lab.test('upload', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
@@ -61,11 +61,11 @@ lab.experiment('file', function () {
 
 
 
-    lab.test('file type not fired on other meta properties', function (done) {
+    lab.test('file type not fired on other meta properties', (done) => {
 
         routes.config.validate.payload.file = Joi.any().meta({ anything: 'test' }).required();
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 

@@ -1,17 +1,17 @@
 'use strict';
-var Code = require('code'),
-    Hoek = require('hoek'),
-    Lab = require('lab');
+const Code = require('code');
+const Hoek = require('hoek');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('path', function () {
 
-    var routes = {
+lab.experiment('path', () => {
+
+    let routes = {
         method: 'GET',
         path: '/test',
         handler: Helper.defaultHandler,
@@ -21,11 +21,11 @@ lab.experiment('path', function () {
     };
 
 
-    lab.test('notes', function (done) {
+    lab.test('notes', (done) => {
 
-        var testRoutes = Hoek.clone(routes);
+        let testRoutes = Hoek.clone(routes);
         testRoutes.config.notes = ['single item'];
-        Helper.createServer({}, testRoutes, function (err, server) {
+        Helper.createServer({}, testRoutes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
@@ -39,11 +39,11 @@ lab.experiment('path', function () {
     });
 
 
-    lab.test('notes as an array', function (done) {
+    lab.test('notes as an array', (done) => {
 
-        var testRoutes = Hoek.clone(routes);
+        let testRoutes = Hoek.clone(routes);
         testRoutes.config.notes = ['note one', 'note two'];
-        Helper.createServer({}, testRoutes, function (err, server) {
+        Helper.createServer({}, testRoutes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
@@ -55,45 +55,5 @@ lab.experiment('path', function () {
             });
         });
     });
-
-
-/*
-    lab.test('notes as an array', function (done) {
-
-        routes = {
-            method: 'GET',
-            path: '/test',
-            handler: Helper.defaultHandler,
-            config: {
-                tags: ['api'],
-                validate: {
-                    payload: {
-                        any: Joi.any(),
-                        array: Joi.array(),
-                        boolean: Joi.boolean(),
-                        date: Joi.date(),
-                        func: Joi.func(),
-                        number: Joi.number(),
-                        object: Joi.object(),
-                        string: Joi.string(),
-                        alternatives: Joi.alternatives().try(Joi.number(), Joi.string())
-                    }
-                },
-            }
-        };
-
-        Helper.createServer({}, routes, function (err, server) {
-
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].get.description).to.equal('note one<br/><br/>note two');
-                done();
-            });
-        });
-    });
-    */
 
 });

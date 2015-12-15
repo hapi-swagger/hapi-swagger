@@ -1,17 +1,17 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('proxies', function () {
 
-    var requestOptions = {
+lab.experiment('proxies', () => {
+
+    const requestOptions = {
         method: 'GET',
         url: '/swagger.json',
         headers: {
@@ -19,7 +19,7 @@ lab.experiment('proxies', function () {
         }
     };
 
-    var routes = {
+    let routes = {
         method: 'GET',
         path: '/test',
         handler: Helper.defaultHandler,
@@ -30,13 +30,13 @@ lab.experiment('proxies', function () {
 
 
 
-    lab.test('basePath option', function (done) {
+    lab.test('basePath option', (done) => {
 
-        var options = {
+        const options = {
             basePath: '/v2'
         };
 
-        Helper.createServer(options, routes, function (err, server) {
+        Helper.createServer(options, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -50,14 +50,14 @@ lab.experiment('proxies', function () {
     });
 
 
-    lab.test('schemes and host options', function (done) {
+    lab.test('schemes and host options', (done) => {
 
-        var options = {
+        const options = {
             schemes: ['https'],
             host: 'testhost'
         };
 
-        Helper.createServer(options, routes, function (err, server) {
+        Helper.createServer(options, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -71,16 +71,16 @@ lab.experiment('proxies', function () {
     });
 
 
-    lab.test('x-forwarded options', function (done) {
+    lab.test('x-forwarded options', (done) => {
 
-        var options = {};
+        const options = {};
 
         requestOptions.headers = {
             'x-forwarded-host': 'proxyhost',
             'x-forwarded-proto': 'https'
         };
 
-        Helper.createServer(options, routes, function (err, server) {
+        Helper.createServer(options, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -94,7 +94,7 @@ lab.experiment('proxies', function () {
     });
 
 
-    lab.test('adding facade for proxy using route options 1', function (done) {
+    lab.test('adding facade for proxy using route options 1', (done) => {
 
         routes = {
             method: 'POST',
@@ -135,7 +135,7 @@ lab.experiment('proxies', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -173,7 +173,7 @@ lab.experiment('proxies', function () {
     });
 
 
-    lab.test('adding facade for proxy using route options 2 - naming', function (done) {
+    lab.test('adding facade for proxy using route options 2 - naming', (done) => {
 
         routes = {
             method: 'POST',
@@ -202,7 +202,7 @@ lab.experiment('proxies', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -225,7 +225,7 @@ lab.experiment('proxies', function () {
     });
 
 
-    lab.test('adding facade for proxy using route options 3 - defination reuse', function (done) {
+    lab.test('adding facade for proxy using route options 3 - defination reuse', (done) => {
 
         routes = [{
             method: 'POST',
@@ -279,7 +279,7 @@ lab.experiment('proxies', function () {
             }
         }];
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -308,7 +308,7 @@ lab.experiment('proxies', function () {
 
 
 
-    lab.test('adding facade for proxy using route options 4 - defination name clash', function (done) {
+    lab.test('adding facade for proxy using route options 4 - defination name clash', (done) => {
 
         routes = [{
             method: 'POST',
@@ -361,7 +361,7 @@ lab.experiment('proxies', function () {
             }
         }];
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 

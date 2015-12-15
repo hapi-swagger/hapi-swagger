@@ -1,19 +1,18 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('security', function () {
+lab.experiment('security', () => {
 
 
     // example from http://petstore.swagger.io/v2/swagger.json
-    var swaggerOptions = {
+    const swaggerOptions = {
         'securityDefinitions': {
             'petstore_auth': {
                 'type': 'oauth2',
@@ -34,7 +33,7 @@ lab.experiment('security', function () {
     };
 
     // route with examples of security objects from http://petstore.swagger.io/v2/swagger.json
-    var routes = [{
+    const routes = [{
         method: 'POST',
         path: '/bookmarks/1/',
         config: {
@@ -85,9 +84,9 @@ lab.experiment('security', function () {
 
 
 
-    lab.test('passes through securityDefinitions', function (done) {
+    lab.test('passes through securityDefinitions', (done) => {
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'GET',
             url: '/swagger.json',
             headers: {
@@ -95,7 +94,7 @@ lab.experiment('security', function () {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -108,15 +107,15 @@ lab.experiment('security', function () {
     });
 
 
-    lab.test('passes through security objects for whole api', function (done) {
+    lab.test('passes through security objects for whole api', (done) => {
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'GET',
             url: '/swagger.json'
         };
 
         // plugin routes should be not be affected by auth on API
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -129,15 +128,15 @@ lab.experiment('security', function () {
     });
 
 
-    lab.test('passes through security objects on routes', function (done) {
+    lab.test('passes through security objects on routes', (done) => {
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'GET',
             url: '/swagger.json'
         };
 
         // plugin routes should be not be affected by auth on API
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 

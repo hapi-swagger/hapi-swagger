@@ -17,23 +17,23 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=0.10.40"
+    "node": ">=4.0.0"
   },
   "dependencies": {
-    "handlebars": "^4.0.0",
-    "boom": "^2.8.0",
-    "hoek": "^2.14.0",
-    "joi": "~6.9.0",
+    "handlebars": "^4.0.5",
+    "boom": "^3.0.0",
+    "hoek": "^3.0.4",
+    "joi": "~7.0.1",
     "http-status": "0.2.0"
   },
   "devDependencies": {
-    "inert": "^3.0.0",
-    "vision": "^2.0.1",
+    "inert": "^3.2.0",
+    "vision": "^4.0.1",
     "blipp": "^2.1.3",
-    "lab": "6.2.0",
-    "code": "1.5.0",
-    "hapi": "^11.0.0",
-    "wreck": "6.3.0",
+    "lab": "8.0.0",
+    "code": "2.0.1",
+    "hapi": "^11.1.1",
+    "wreck": "7.0.0",
     "coveralls": "2.11.6",
     "h2o2": "4.0.1",
     "hapi-auth-bearer-token": "3.1.1"

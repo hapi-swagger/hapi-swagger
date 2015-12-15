@@ -1,17 +1,16 @@
 'use strict';
-var Code = require('code'),
-    Lab = require('lab');
+const Code = require('code');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
-
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('info', function () {
 
-    var routes = [{
+lab.experiment('info', () => {
+
+    const routes = [{
         method: 'GET',
         path: '/test',
         handler: Helper.defaultHandler,
@@ -21,9 +20,9 @@ lab.experiment('info', function () {
     }];
 
 
-    lab.test('no info object passed', function (done) {
+    lab.test('no info object passed', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -36,13 +35,13 @@ lab.experiment('info', function () {
     });
 
 
-    lab.test('no info title property passed', function (done) {
+    lab.test('no info title property passed', (done) => {
 
-        var swaggerOptions = {
+        const swaggerOptions = {
             info: {}
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -56,13 +55,13 @@ lab.experiment('info', function () {
 
 
 
-    lab.test('min valid info object', function (done) {
+    lab.test('min valid info object', (done) => {
 
-        var swaggerOptions = {
+        const swaggerOptions = {
             info: { title: 'test title for lab' }
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -75,9 +74,9 @@ lab.experiment('info', function () {
     });
 
 
-    lab.test('full info object', function (done) {
+    lab.test('full info object', (done) => {
 
-        var swaggerOptions = {
+        const swaggerOptions = {
             info: {
                 'title': 'Swagger Petstore',
                 'description': 'This is a sample server Petstore server.',
@@ -93,7 +92,7 @@ lab.experiment('info', function () {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {

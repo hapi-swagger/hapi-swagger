@@ -1,17 +1,16 @@
 'use strict';
-var Code = require('code'),
-    Lab = require('lab');
+const Code = require('code');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
-
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('filter', function () {
 
-    var routes = [{
+lab.experiment('filter', () => {
+
+    const routes = [{
         method: 'GET',
         path: '/actors',
         handler: Helper.defaultHandler,
@@ -49,9 +48,9 @@ lab.experiment('filter', function () {
     }];
 
 
-    lab.test('filter by tags=a', function (done) {
+    lab.test('filter by tags=a', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json?tags=a' }, function (response) {
@@ -66,9 +65,9 @@ lab.experiment('filter', function () {
     });
 
 
-    lab.test('filter by tags=a', function (done) {
+    lab.test('filter by tags=a', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json?tags=a,b,c,d' }, function (response) {
@@ -83,9 +82,9 @@ lab.experiment('filter', function () {
     });
 
 
-    lab.test('filter by tags=a,c', function (done) {
+    lab.test('filter by tags=a,c', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json?tags=a,c' }, function (response) {
@@ -100,9 +99,9 @@ lab.experiment('filter', function () {
     });
 
 
-    lab.test('filter by tags=a,-b', function (done) {
+    lab.test('filter by tags=a,-b', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json?tags=a,-b' }, function (response) {
@@ -117,9 +116,9 @@ lab.experiment('filter', function () {
     });
 
 
-    lab.test('filter by tags=a,+c', function (done) {
+    lab.test('filter by tags=a,+c', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             // note %2B is a '+' plus char url encoded
@@ -135,9 +134,9 @@ lab.experiment('filter', function () {
     });
 
 
-    lab.test('filter by tags=x', function (done) {
+    lab.test('filter by tags=x', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             // note %2B is a '+' plus char url encoded

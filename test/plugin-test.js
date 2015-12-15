@@ -1,21 +1,21 @@
 'use strict';
-var Code = require('code'),
-    Hapi = require('hapi'),
-    Inert = require('inert'),
-    Joi = require('joi'),
-    Lab = require('lab'),
-    Vision = require('vision');
+const Code = require('code');
+const Hapi = require('hapi');
+const Inert = require('inert');
+const Joi = require('joi');
+const Lab = require('lab');
+const Vision = require('vision');
+const HapiSwagger = require('../lib/index.js');
+const Helper = require('../test/helper.js');
 
-var HapiSwagger = require('../lib/index.js'),
-    Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('index', function () {
 
-    var routes = [{
+lab.experiment('index', () => {
+
+    const routes = [{
         method: 'POST',
         path: '/store/',
         config: {
@@ -33,7 +33,7 @@ lab.experiment('index', function () {
     }];
 
 
-    lab.test('plug-in register no vision dependency', function (done) {
+    lab.test('plug-in register no vision dependency', (done) => {
 
         try {
             var server = new Hapi.Server();
@@ -54,10 +54,10 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('plug-in register no inert dependency', function (done) {
+    lab.test('plug-in register no inert dependency', (done) => {
 
         try {
-            var server = new Hapi.Server();
+            const server = new Hapi.Server();
             server.connection();
             server.register([
                 Vision,
@@ -75,9 +75,9 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('plug-in register no options', function (done) {
+    lab.test('plug-in register no options', (done) => {
 
-        var server = new Hapi.Server();
+        const server = new Hapi.Server();
         server.connection();
         server.register([
             Inert,
@@ -97,9 +97,9 @@ lab.experiment('index', function () {
 
 
 
-    lab.test('plug-in register test', function (done) {
+    lab.test('plug-in register test', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -114,10 +114,10 @@ lab.experiment('index', function () {
     });
 
 
-    Helper.createServer({}, routes, function (err, server) {
+    Helper.createServer({}, routes, (err, server) => {
 
         expect(err).to.equal(null);
-        lab.test('default jsonPath url', function (done) {
+        lab.test('default jsonPath url', (done) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
@@ -126,7 +126,7 @@ lab.experiment('index', function () {
             });
         });
 
-        lab.test('default documentationPath url', function (done) {
+        lab.test('default documentationPath url', (done) => {
 
             server.inject({ method: 'GET', url: '/documentation' }, function (response) {
 
@@ -135,7 +135,7 @@ lab.experiment('index', function () {
             });
         });
 
-        lab.test('default swaggerUIPath url', function (done) {
+        lab.test('default swaggerUIPath url', (done) => {
 
             server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
 
@@ -147,17 +147,17 @@ lab.experiment('index', function () {
     });
 
 
-    var swaggerOptions = {
+    let swaggerOptions = {
         'jsonPath': '/test.json',
         'documentationPath': '/testdoc',
         'swaggerUIPath': '/testui/'
     };
 
 
-    Helper.createServer(swaggerOptions, routes, function (err, server) {
+    Helper.createServer(swaggerOptions, routes, (err, server) => {
 
         expect(err).to.equal(null);
-        lab.test('repathed jsonPath url', function (done) {
+        lab.test('repathed jsonPath url', (done) => {
 
             server.inject({ method: 'GET', url: '/test.json' }, function (response) {
 
@@ -166,7 +166,7 @@ lab.experiment('index', function () {
             });
         });
 
-        lab.test('repathed documentationPath url', function (done) {
+        lab.test('repathed documentationPath url', (done) => {
 
             server.inject({ method: 'GET', url: '/testdoc' }, function (response) {
 
@@ -175,7 +175,7 @@ lab.experiment('index', function () {
             });
         });
 
-        lab.test('repathed swaggerUIPath url', function (done) {
+        lab.test('repathed swaggerUIPath url', (done) => {
 
             server.inject({ method: 'GET', url: '/testui/swagger-ui.js' }, function (response) {
 
@@ -187,13 +187,13 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('disable documentation path', function (done) {
+    lab.test('disable documentation path', (done) => {
 
         swaggerOptions = {
             'enableDocumentationPage': false
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/documentation' }, function (response) {
@@ -205,13 +205,13 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('payloadType = form global', function (done) {
+    lab.test('payloadType = form global', (done) => {
 
         swaggerOptions = {
             'payloadType': 'json'
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -227,13 +227,13 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('payloadType = json global', function (done) {
+    lab.test('payloadType = json global', (done) => {
 
         swaggerOptions = {
             'payloadType': 'form'
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -249,13 +249,13 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('pathPrefixSize global', function (done) {
+    lab.test('pathPrefixSize global', (done) => {
 
         swaggerOptions = {
             'pathPrefixSize': 2
         };
 
-        var prefixRoutes = [{
+        const prefixRoutes = [{
             method: 'GET',
             path: '/foo/bar/extra',
             config: {
@@ -264,7 +264,7 @@ lab.experiment('index', function () {
             }
         }];
 
-        Helper.createServer(swaggerOptions, prefixRoutes, function (err, server) {
+        Helper.createServer(swaggerOptions, prefixRoutes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -278,10 +278,10 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('expanded none', function (done) {
+    lab.test('expanded none', (done) => {
 
         // TODO find a way to test impact of property change
-        Helper.createServer({ 'expanded': 'none' }, routes, function (err, server) {
+        Helper.createServer({ 'expanded': 'none' }, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -293,23 +293,9 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('expanded list', function (done) {
+    lab.test('expanded list', (done) => {
 
-        Helper.createServer({ 'expanded': 'list' }, routes, function (err, server) {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
-    });
-
-
-    lab.test('expanded full', function (done) {
-
-        Helper.createServer({ 'expanded': 'full' }, routes, function (err, server) {
+        Helper.createServer({ 'expanded': 'list' }, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -321,9 +307,23 @@ lab.experiment('index', function () {
     });
 
 
-    lab.test('pass through of tags querystring', function (done) {
+    lab.test('expanded full', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({ 'expanded': 'full' }, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(response.statusCode).to.equal(200);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('pass through of tags querystring', (done) => {
+
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/documentation?tags=reduced' }, function (response) {

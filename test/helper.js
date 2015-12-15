@@ -1,14 +1,14 @@
 'use strict';
-var BearerToken = require('hapi-auth-bearer-token'),
-    H2o2 = require('h2o2'),
-    Hapi = require('hapi'),
-    Inert = require('inert'),
-    Vision = require('vision'),
-    Wreck = require('wreck');
+const BearerToken = require('hapi-auth-bearer-token');
+const H2o2 = require('h2o2');
+const Hapi = require('hapi');
+const Inert = require('inert');
+const Vision = require('vision');
+const Wreck = require('wreck');
+const HapiSwagger = require('../lib/index.js');
 
-var HapiSwagger = require('../lib/index.js');
+const helper = module.exports = {};
 
-var helper = module.exports = {};
 
 
 /**
@@ -20,8 +20,8 @@ var helper = module.exports = {};
 */
 helper.createServer = function (swaggerOptions, routes, callback) {
 
-    var err = null,
-        server = new Hapi.Server();
+    let err = null;
+    const server = new Hapi.Server();
 
     server.connection();
 
@@ -33,7 +33,7 @@ helper.createServer = function (swaggerOptions, routes, callback) {
             register: HapiSwagger,
             options: swaggerOptions
         }
-    ], function (err) {
+    ], (err) => {
 
         server.route(routes);
         server.start(function (err) {
@@ -57,8 +57,8 @@ helper.createServer = function (swaggerOptions, routes, callback) {
 */
 helper.createAuthServer = function (swaggerOptions, routes, callback) {
 
-    var err = null,
-        server = new Hapi.Server();
+    let err = null;
+    const server = new Hapi.Server();
 
     server.connection();
 
@@ -71,7 +71,7 @@ helper.createAuthServer = function (swaggerOptions, routes, callback) {
             register: HapiSwagger,
             options: swaggerOptions
         }
-    ], function (err) {
+    ], (err) => {
 
         server.auth.strategy('bearer', 'bearer-access-token', {
             'accessTokenName': 'access_token',
@@ -169,8 +169,8 @@ helper.replyWithJSON  = function (err, res, request, reply, settings, ttl) {
 */
 helper.objWithNoOwnProperty = function () {
 
-    var sides = { a: 1, b: 2, c: 3 };
-    var Triangle = function () {
+    const  sides = { a: 1, b: 2, c: 3 };
+    let Triangle = function () {
 
     };
     Triangle.prototype = sides;

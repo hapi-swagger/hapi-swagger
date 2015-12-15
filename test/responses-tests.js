@@ -1,18 +1,18 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
+const Responses = require('../lib/responses.js');
 
-var Helper = require('../test/helper.js'),
-    Responses = require('../lib/responses.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('responses', function () {
 
-    var headers = {
+lab.experiment('responses', () => {
+
+    const headers = {
         'X-Rate-Limit-Limit': {
             'description': 'The number of allowed requests in the current period',
             'type': 'integer'
@@ -27,7 +27,7 @@ lab.experiment('responses', function () {
         }
     };
 
-    var example = {
+    const example = {
         'application/json': {
             'a': 5,
             'b': 5,
@@ -36,12 +36,12 @@ lab.experiment('responses', function () {
         }
     };
 
-    var err400 = Joi.object().description('Bad Request').meta({ headers: headers, example: example }),
-        err404 = Joi.object().description('Unsupported Media Type').meta({ headers: headers, example: example }),
-        err429 = Joi.object().description('Too Many Requests').meta({ headers: headers, example: example }),
-        err500 = Joi.object().description('Internal Server Error').meta({ headers: headers, example: example });
+    const err400 = Joi.object().description('Bad Request').meta({ headers: headers, example: example });
+    const err404 = Joi.object().description('Unsupported Media Type').meta({ headers: headers, example: example });
+    const err429 = Joi.object().description('Too Many Requests').meta({ headers: headers, example: example });
+    const err500 = Joi.object().description('Internal Server Error').meta({ headers: headers, example: example });
 
-    var joiSumModel = Joi.object({
+    const joiSumModel = Joi.object({
         id: Joi.string().required().example('x78P9c'),
         a: Joi.number().required().example(5),
         b: Joi.number().required().example(5),
@@ -51,7 +51,7 @@ lab.experiment('responses', function () {
         modified: Joi.string().isoDate().description('ISO date string').example('2015-12-01')
     }).description('json body for sum').label('Sum');
 
-    var joiListModel = Joi.object({
+    const joiListModel = Joi.object({
         items: Joi.array().items(joiSumModel),
         count: Joi.number().required(),
         pageSize: Joi.number().required(),
@@ -59,7 +59,7 @@ lab.experiment('responses', function () {
         pageCount: Joi.number().required()
     }).label('List');
 
-    var standardHTTP = {
+    const standardHTTP = {
         '200': {
             'description': 'Success',
             'schema': joiSumModel,
@@ -79,7 +79,7 @@ lab.experiment('responses', function () {
         }
     };
 
-    var swaggerSumModel = {
+    const swaggerSumModel = {
         'properties': {
             'id': {
                 'type': 'string',
@@ -126,9 +126,9 @@ lab.experiment('responses', function () {
     };
 
 
-    lab.test('using hapi response.schema', function (done) {
+    lab.test('using hapi response.schema', (done) => {
 
-        var routes = {
+        const routes = {
             method: 'POST',
             path: '/store/',
             config: {
@@ -150,7 +150,7 @@ lab.experiment('responses', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ url: '/swagger.json' }, function (response) {
 
@@ -172,9 +172,9 @@ lab.experiment('responses', function () {
 
 
 
-    lab.test('using hapi response.schema with child objects', function (done) {
+    lab.test('using hapi response.schema with child objects', (done) => {
 
-        var routes = {
+        const routes = {
             method: 'POST',
             path: '/store/',
             config: {
@@ -196,7 +196,7 @@ lab.experiment('responses', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ url: '/swagger.json' }, function (response) {
 
@@ -219,9 +219,9 @@ lab.experiment('responses', function () {
     });
 
 
-    lab.test('using hapi response.status', function (done) {
+    lab.test('using hapi response.status', (done) => {
 
-        var routes = {
+        const routes = {
             method: 'POST',
             path: '/store/',
             config: {
@@ -246,7 +246,7 @@ lab.experiment('responses', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ url: '/swagger.json' }, function (response) {
 
@@ -268,9 +268,9 @@ lab.experiment('responses', function () {
 
 
 
-    lab.test('using hapi response.status without 200', function (done) {
+    lab.test('using hapi response.status without 200', (done) => {
 
-        var routes = {
+        const routes = {
             method: 'POST',
             path: '/store/',
             config: {
@@ -294,7 +294,7 @@ lab.experiment('responses', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ url: '/swagger.json' }, function (response) {
 
@@ -310,9 +310,9 @@ lab.experiment('responses', function () {
     });
 
 
-    lab.test('using route base override', function (done) {
+    lab.test('using route base override', (done) => {
 
-        var routes = {
+        const routes = {
             method: 'POST',
             path: '/store/',
             config: {
@@ -333,7 +333,7 @@ lab.experiment('responses', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ url: '/swagger.json' }, function (response) {
 
@@ -348,9 +348,9 @@ lab.experiment('responses', function () {
     });
 
 
-    lab.test('failback to default', function (done) {
+    lab.test('failback to default', (done) => {
 
-        var routes = {
+        const routes = {
             method: 'POST',
             path: '/store/',
             config: {
@@ -366,7 +366,7 @@ lab.experiment('responses', function () {
             }
         };
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ url: '/swagger.json' }, function (response) {
 
@@ -384,11 +384,11 @@ lab.experiment('responses', function () {
     });
 
 
-    lab.test('No ownProperty', function (done) {
+    lab.test('No ownProperty', (done) => {
 
-        var objA = Helper.objWithNoOwnProperty(),
-            objB = Helper.objWithNoOwnProperty(),
-            objC = Helper.objWithNoOwnProperty();
+        const objA = Helper.objWithNoOwnProperty();
+        const objB = Helper.objWithNoOwnProperty();
+        const objC = Helper.objWithNoOwnProperty();
 
         //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
         expect(Responses.build({}, {}, {}, {})).to.deep.equal({
@@ -406,11 +406,6 @@ lab.experiment('responses', function () {
 
         done();
     });
-
-
-
-
-
 
 
 });

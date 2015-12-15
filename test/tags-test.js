@@ -1,16 +1,16 @@
 'use strict';
-var Code = require('code'),
-    Lab = require('lab');
+const Code = require('code');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('tags', function () {
 
-    var routes = [{
+lab.experiment('tags', () => {
+
+    const routes = [{
         method: 'GET',
         path: '/test',
         handler: Helper.defaultHandler,
@@ -20,9 +20,9 @@ lab.experiment('tags', function () {
     }];
 
 
-    lab.test('no tag objects passed', function (done) {
+    lab.test('no tag objects passed', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -35,15 +35,15 @@ lab.experiment('tags', function () {
     });
 
 
-    lab.test('name property passed', function (done) {
+    lab.test('name property passed', (done) => {
 
-        var swaggerOptions = {
+        const swaggerOptions = {
             tags: [{
                 'name': 'test'
             }]
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -56,9 +56,9 @@ lab.experiment('tags', function () {
     });
 
 
-    lab.test('full tag object', function (done) {
+    lab.test('full tag object', (done) => {
 
-        var swaggerOptions = {
+        const swaggerOptions = {
             tags: [{
                 'name': 'test',
                 'description': 'Everything about test',
@@ -69,7 +69,7 @@ lab.experiment('tags', function () {
             }]
         };
 
-        Helper.createServer(swaggerOptions, routes, function (err, server) {
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {

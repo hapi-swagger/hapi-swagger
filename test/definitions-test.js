@@ -1,18 +1,17 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
-
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('definitions', function () {
 
-    var routes = [{
+lab.experiment('definitions', () => {
+
+    const routes = [{
         method: 'POST',
         path: '/test/',
         config: {
@@ -42,12 +41,12 @@ lab.experiment('definitions', function () {
     }];
 
 
-    lab.test('payload with inline definition', function (done) {
+    lab.test('payload with inline definition', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
-            var defination = {
+            const defination = {
                 'properties': {
                     'a': {
                         'description': 'the first number',

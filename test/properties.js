@@ -1,17 +1,17 @@
 'use strict';
-var Code = require('code'),
-    Joi = require('joi'),
-    Lab = require('lab');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Properties = require('../lib/properties.js');
 
-var Properties = require('../lib/properties.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('property - ', function () {
 
-    lab.test('parse types', function (done) {
+lab.experiment('property - ', () => {
+
+    lab.test('parse types', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string())).to.deep.equal({ 'type': 'string' });
         expect(Properties.parseProperty('x', Joi.number())).to.deep.equal({ 'type': 'number' });
@@ -30,7 +30,7 @@ lab.experiment('property - ', function () {
 
 
 
-    lab.test('parse type string', function (done) {
+    lab.test('parse type string', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string())).to.deep.equal({ 'type': 'string' });
 
@@ -59,7 +59,7 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse type date', function (done) {
+    lab.test('parse type date', (done) => {
 
         expect(Properties.parseProperty('x', Joi.date())).to.deep.equal({ 'type': 'string', 'format': 'date' });
 
@@ -73,7 +73,7 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse type number', function (done) {
+    lab.test('parse type number', (done) => {
 
         expect(Properties.parseProperty('x', Joi.number().integer())).to.deep.equal({ 'type': 'integer' });
         expect(Properties.parseProperty('x', Joi.number().min(5))).to.deep.equal({ 'type': 'number', 'minimum': 5 });
@@ -92,7 +92,7 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse type array', function (done) {
+    lab.test('parse type array', (done) => {
 
 
         // basic child types
@@ -144,7 +144,7 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse type object', function (done) {
+    lab.test('parse type object', (done) => {
 
         //console.log(JSON.stringify(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }), {}, [], 'formData' )));
 
@@ -177,9 +177,9 @@ lab.experiment('property - ', function () {
 
 
 
-    lab.test('parse deep structure with children', function (done) {
+    lab.test('parse deep structure with children', (done) => {
 
-        var deepStructure = Joi.object({
+        const deepStructure = Joi.object({
             outer1: Joi.object({
                 inner1: Joi.string()
             }),
@@ -188,7 +188,7 @@ lab.experiment('property - ', function () {
             })
         }).description('body description').notes(['body notes']);
 
-        var deepStructureJSON = {
+        const deepStructureJSON = {
             'type': 'object',
             'description': 'body description',
             'notes': [
@@ -223,9 +223,9 @@ lab.experiment('property - ', function () {
 
 
 
-    lab.test('parse deep structure with child description, notes, name etc', function (done) {
+    lab.test('parse deep structure with child description, notes, name etc', (done) => {
 
-        var deepStructure = Joi.object({
+        const deepStructure = Joi.object({
             outer1: Joi.object({
                 inner1: Joi.string()
                     .description('child description')
@@ -245,7 +245,7 @@ lab.experiment('property - ', function () {
         });
 
 
-        var deepStructureJSON = {
+        const deepStructureJSON = {
             'type': 'object',
             'name': 'x',
             'properties': {
@@ -295,14 +295,14 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse description', function (done) {
+    lab.test('parse description', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().description('text description'))).to.deep.equal({ 'type': 'string', 'description': 'text description' });
         done();
     });
 
 
-    lab.test('parse notes', function (done) {
+    lab.test('parse notes', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().notes('text notes'))).to.deep.equal({ 'type': 'string', 'notes': ['text notes'] });
         expect(Properties.parseProperty('x', Joi.string().notes(['text notes', 'text notes']))).to.deep.equal({ 'type': 'string', 'notes': ['text notes', 'text notes'] });
@@ -310,14 +310,14 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse tags', function (done) {
+    lab.test('parse tags', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().tags(['api', 'v2']))).to.deep.equal({ 'type': 'string', 'tags': ['api', 'v2'] });
         done();
     });
 
 
-    lab.test('parse allow', function (done) {
+    lab.test('parse allow', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().allow('decimal', 'binary'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
         expect(Properties.parseProperty('x', Joi.number().allow(1,2,3,4,5))).to.deep.equal({ 'type': 'number', 'enum': [1,2,3,4,5] });
@@ -337,7 +337,7 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse valid', function (done) {
+    lab.test('parse valid', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
         expect(Properties.parseProperty('x', Joi.number().valid(1,2,3,4,5))).to.deep.equal({ 'type': 'number', 'enum': [1,2,3,4,5] });
@@ -347,28 +347,28 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse required', function (done) {
+    lab.test('parse required', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().required())).to.deep.equal({ 'type': 'string', 'required': true });
         done();
     });
 
 
-    lab.test('parse optional', function (done) {
+    lab.test('parse optional', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().optional())).to.deep.equal({ 'type': 'string' });
         done();
     });
 
 
-    lab.test('parse example', function (done) {
+    lab.test('parse example', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().example('example value'))).to.deep.equal({ 'type': 'string', 'example': 'example value' });
         done();
     });
 
 
-    lab.test('parse default', function (done) {
+    lab.test('parse default', (done) => {
 
         // TODO x- the description ie any.default([value, [description]])
         expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary').default('decimal'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'], 'default': 'decimal' });
@@ -376,7 +376,7 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('parse forbidden', function (done) {
+    lab.test('parse forbidden', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string().forbidden())).to.deep.equal(undefined);
         done();
@@ -401,9 +401,9 @@ lab.experiment('property - ', function () {
 
 
 
-    lab.test('joiToSwaggerDefinition', function (done) {
+    lab.test('joiToSwaggerDefinition', (done) => {
 
-        var joiStructure = Joi.object({
+        const joiStructure = Joi.object({
             a: Joi.number()
                 .required()
                 .description('the first number'),
@@ -424,7 +424,7 @@ lab.experiment('property - ', function () {
 
         //console.log(JSON.stringify(   Properties.joiToSwaggerDefinition(joiStructure, {})    ));
 
-        var structureJSON = {
+        const structureJSON = {
             'a': {
                 'type': 'number',
                 'description': 'the first number',
@@ -453,9 +453,9 @@ lab.experiment('property - ', function () {
     });
 
 
-    lab.test('joiToSwaggerParameters', function (done) {
+    lab.test('joiToSwaggerParameters', (done) => {
 
-        var joiStructure = Joi.object({
+        const joiStructure = Joi.object({
             a: Joi.number()
                 .required()
                 .description('the first number'),
@@ -476,7 +476,7 @@ lab.experiment('property - ', function () {
 
         //console.log(JSON.stringify(   Properties.joiToSwaggerParameters(joiStructure , 'query')    ));
 
-        var structureJSON = [
+        const structureJSON = [
             {
                 'type': 'number',
                 'description': 'the first number',

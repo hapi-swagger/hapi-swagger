@@ -1,18 +1,17 @@
 'use strict';
-var Code = require('code'),
-    Lab = require('lab');
+const Code = require('code');
+const Lab = require('lab');
+const Group = require('../lib/group.js');
+const Helper = require('../test/helper.js');
 
-var Group = require('../lib/group.js'),
-    Helper = require('../test/helper.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
-
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('group', function () {
 
-    var routes = [{
+lab.experiment('group', () => {
+
+    const routes = [{
         method: 'GET',
         path: '/actors',
         handler: Helper.defaultHandler,
@@ -43,9 +42,9 @@ lab.experiment('group', function () {
     }];
 
 
-    lab.test('test groups tagging of paths', function (done) {
+    lab.test('test groups tagging of paths', (done) => {
 
-        Helper.createServer({}, routes, function (err, server) {
+        Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -63,41 +62,41 @@ lab.experiment('group', function () {
     });
 
 
-    lab.test('getNameByPath 1', function (done) {
+    lab.test('getNameByPath 1', (done) => {
 
-        var name = Group.getNameByPath({ pathPrefixSize: 1 }, '/lala/foo');
+        const name = Group.getNameByPath({ pathPrefixSize: 1 }, '/lala/foo');
         expect(name).to.equal('lala');
         done();
     });
 
 
-    lab.test('getNameByPath 2', function (done) {
+    lab.test('getNameByPath 2', (done) => {
 
-        var name = Group.getNameByPath({ pathPrefixSize: 1 }, '/');
+        const name = Group.getNameByPath({ pathPrefixSize: 1 }, '/');
         expect(name).to.equal('');
         done();
     });
 
 
-    lab.test('getNameByPath 3', function (done) {
+    lab.test('getNameByPath 3', (done) => {
 
-        var name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala/foo');
+        const name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala/foo');
         expect(name).to.equal('lala/foo');
         done();
     });
 
 
-    lab.test('getNameByPath 4', function (done) {
+    lab.test('getNameByPath 4', (done) => {
 
-        var name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala/foo/blah');
+        const name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala/foo/blah');
         expect(name).to.equal('lala/foo');
         done();
     });
 
 
-    lab.test('getNameByPath 5', function (done) {
+    lab.test('getNameByPath 5', (done) => {
 
-        var name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala');
+        const name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala');
         expect(name).to.equal('lala');
         done();
     });

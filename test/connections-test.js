@@ -1,20 +1,20 @@
 'use strict';
-var Code = require('code'),
-    Hapi = require('hapi'),
-    Hoek = require('hoek'),
-    Inert = require('inert'),
-    Lab = require('lab'),
-    Vision = require('vision');
+const Code = require('code');
+const Hapi = require('hapi');
+const Hoek = require('hoek');
+const Inert = require('inert');
+const Lab = require('lab');
+const Vision = require('vision');
+const HapiSwagger = require('../lib/index.js');
 
-var HapiSwagger = require('../lib/index.js');
-
-var expect = Code.expect,
-    lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-lab.experiment('connections', function () {
 
-    var server = new Hapi.Server();
+lab.experiment('connections', () => {
+
+    const server = new Hapi.Server();
 
     lab.before(function ( done ){
 
@@ -22,7 +22,7 @@ lab.experiment('connections', function () {
         server.connection({ host: 'localhost', port: 3001, labels: 'b' });
         server.connection({ host: 'localhost', port: 3002, labels: 'c' });
 
-        var plugin1 = function (plugin, options, next) {
+        let plugin1 = function (plugin, options, next) {
 
             plugin.route({
                 method: 'GET',
@@ -41,7 +41,7 @@ lab.experiment('connections', function () {
         plugin1.attributes = { name: 'plugin1' };
 
 
-        var plugin2 = function (plugin, options, next) {
+        let plugin2 = function (plugin, options, next) {
 
             plugin.route({
                 method: 'GET',
@@ -60,7 +60,7 @@ lab.experiment('connections', function () {
         plugin2.attributes = { name: 'plugin2' };
 
 
-        var swaggerOptions = {
+        let swaggerOptions = {
             schemes: ['http'],
             info: {
                 'title': 'Test API Documentation',
@@ -77,8 +77,8 @@ lab.experiment('connections', function () {
             }
         };
 
-        var swaggerOptionsA = Hoek.clone(swaggerOptions),
-            swaggerOptionsB = Hoek.clone(swaggerOptions);
+        let swaggerOptionsA = Hoek.clone(swaggerOptions);
+        let swaggerOptionsB = Hoek.clone(swaggerOptions);
 
         swaggerOptionsA.host = 'localhost:3000';
         swaggerOptionsB.host = 'localhost:3001';
@@ -117,9 +117,9 @@ lab.experiment('connections', function () {
 
 
 
-    lab.test('server connection a', function (done) {
+    lab.test('server connection a', (done) => {
 
-        var a = server.select('a');
+        const a = server.select('a');
         a.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
             expect(response.statusCode).to.equal(200);
@@ -128,9 +128,9 @@ lab.experiment('connections', function () {
     });
 
 
-    lab.test('server connection b', function (done) {
+    lab.test('server connection b', (done) => {
 
-        var b = server.select('b');
+        const b = server.select('b');
         b.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
             expect(response.statusCode).to.equal(200);
@@ -139,9 +139,9 @@ lab.experiment('connections', function () {
     });
 
 
-    lab.test('server connection c', function (done) {
+    lab.test('server connection c', (done) => {
 
-        var c = server.select('c');
+        const c = server.select('c');
         c.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
             expect(response.statusCode).to.equal(404);

@@ -1,8 +1,8 @@
 'use strict';
-var Joi = require('joi');
+const Joi = require('joi');
 
 
-var sumModel = Joi.object({
+const sumModel = Joi.object({
     id: Joi.string().required().example('x78P9c'),
     a: Joi.number().required().example(5),
     b: Joi.number().required().example(5),
@@ -12,7 +12,7 @@ var sumModel = Joi.object({
     modified: Joi.string().isoDate().description('ISO date string').example('2015-12-01')
 }).label('Sum').description('json body for sum');
 
-var listModel = Joi.object({
+const listModel = Joi.object({
     items: Joi.array().items(sumModel),
     count: Joi.number().required(),
     pageSize: Joi.number().required(),
@@ -20,7 +20,7 @@ var listModel = Joi.object({
     pageCount: Joi.number().required()
 }).label('List');
 
-var headers = {
+const headers = {
     'X-Rate-Limit-Limit': {
         'description': 'The number of allowed requests in the current period',
         'type': 'integer'
@@ -35,7 +35,7 @@ var headers = {
     }
 };
 
-var example = {
+const example = {
     'application/json': {
         'a': 5,
         'b': 5,
@@ -44,12 +44,12 @@ var example = {
     }
 };
 
-var err400 = Joi.object().description('Bad Request').meta({ headers: headers, example: example }),
-    err404 = Joi.object().description('Unsupported Media Type').meta({ headers: headers, example: example }),
-    err429 = Joi.object().description('Too Many Requests').meta({ headers: headers, example: example }),
-    err500 = Joi.object().description('Internal Server Error').meta({ headers: headers, example: example });
+const err400 = Joi.object().description('Bad Request').meta({ headers: headers, example: example });
+const err404 = Joi.object().description('Unsupported Media Type').meta({ headers: headers, example: example });
+const err429 = Joi.object().description('Too Many Requests').meta({ headers: headers, example: example });
+const err500 = Joi.object().description('Internal Server Error').meta({ headers: headers, example: example });
 
-var standardHTTP = {
+const standardHTTP = {
     '200': {
         'description': 'Success',
         'schema': sumModel,
@@ -69,7 +69,7 @@ var standardHTTP = {
     }
 };
 
-var extendedHTTP = {
+const extendedHTTP = {
     '400': {
         'description': 'Bad Request'
     },
@@ -81,7 +81,7 @@ var extendedHTTP = {
     }
 };
 
-var fileHTTP = {
+const fileHTTP = {
     '400': {
         'description': 'Bad Request'
     },
@@ -100,7 +100,7 @@ var fileHTTP = {
  * @param  {Object} request
  * @param  {Object} reply
  */
-var defaultHandler = function (request, reply) {
+const defaultHandler = function (request, reply) {
 
     reply('ok');
 };

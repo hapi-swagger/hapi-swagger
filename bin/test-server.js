@@ -1,15 +1,14 @@
 'use strict';
+const BearerToken = require('hapi-auth-bearer-token');
+const Blipp = require('blipp');
+const H2o2 = require('h2o2');
+const Hapi = require('hapi');
+const Inert = require('inert');
+const Vision = require('vision');
 
-var BearerToken = require('hapi-auth-bearer-token'),
-    Blipp = require('blipp'),
-    H2o2 = require('h2o2'),
-    Hapi = require('hapi'),
-    Inert = require('inert'),
-    Vision = require('vision');
-
-var HapiSwagger = require('../'),
-    Pack = require('../package'),
-    Routes = require('./routes');
+const HapiSwagger = require('../');
+const Pack = require('../package');
+const Routes = require('./routes');
 
 
 /**
@@ -18,7 +17,7 @@ var HapiSwagger = require('../'),
  * @param  {Object} token
  * @param  {Function} callback
  */
-var validateBearer = function (token, callback) {
+const validateBearer = function (token, callback) {
 
     if (token === '12345') {
         callback(null, true, {
@@ -37,13 +36,13 @@ var validateBearer = function (token, callback) {
 
 
 
-var server = new Hapi.Server();
+let server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000
 });
 
-var swaggerOptions = {
+let swaggerOptions = {
     info: {
         'title': 'Test API Documentation',
         'description': 'This is a sample example of API documentation.',
@@ -84,13 +83,13 @@ server.register([
     {
         register: HapiSwagger,
         options: swaggerOptions
-    }], function (err) {
+    }], (err) => {
 
         server.auth.strategy('bearer', 'bearer-access-token', {
             'accessTokenName': 'access_token',
             'validateFunc': validateBearer
         });
-        server.start(function () {
+        server.start(() => {
 
             console.log('server running at:', server.info.uri);
         });
