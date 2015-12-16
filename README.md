@@ -98,6 +98,7 @@ Options for UI:
 * `host`: (string) The host (name or ip) serving the API including port if any i.e. `localhost:8080`
 * `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
 * `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints
+* `enableDocumentation`:  (boolean) Add documentation page - default: `true`,
 * `documentationPath`:  (string) The path of the documentation page - default: `/documentation`,
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
@@ -209,7 +210,7 @@ A working demo of more complex uses of response object can be found in the [be-m
 
 
 ### Status Codes
-You can add HTTP status codes to each of the endpoints. As HAPI routes don not directly have a property for status codes so you need to add them the plugin configuration. The status codes need to be added as an array of objects with an error code and description. The `description` is required:
+You can add HTTP status codes to each of the endpoints. As HAPI routes don not directly have a property for status codes so you need to add them the plugin configuration. The status codes need to be added as an array of objects with an error code and description. The `description` is required, the schema is optional and unlike added response object the example above this method does not validate the API response.
 
 ```Javascript
 config: {
@@ -220,7 +221,12 @@ config: {
     plugins: {
 			'hapi-swagger': {
 				responses: {
-            		'200': {'description': 'Success',},
+            		'200': {
+                        'description': 'Success',
+                        'scahema': Joi.object({
+                                equals: Joi.number(),
+                            }).label('Result')
+                    },
             		'400': {'description': 'Bad Request'}
 			    }
 			},

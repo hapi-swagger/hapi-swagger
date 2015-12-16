@@ -190,7 +190,7 @@ lab.experiment('index', () => {
     lab.test('disable documentation path', (done) => {
 
         swaggerOptions = {
-            'enableDocumentationPage': false
+            'enableDocumentation': false
         };
 
         Helper.createServer(swaggerOptions, routes, (err, server) => {
