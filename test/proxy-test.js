@@ -163,8 +163,7 @@ lab.experiment('proxies', () => {
                         'name': 'body',
                         'schema': {
                             '$ref': '#/definitions/microformatsapi_payload'
-                        },
-                        'type': 'object'
+                        }
                     }
                 ]);
                 done();
@@ -215,8 +214,7 @@ lab.experiment('proxies', () => {
                         'name': 'body',
                         'schema': {
                             '$ref': '#/definitions/testname'
-                        },
-                        'type': 'object'
+                        }
                     }
                 ]);
                 done();

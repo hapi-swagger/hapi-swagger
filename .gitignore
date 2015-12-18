@@ -9,6 +9,7 @@ lib-cov
 
 data.json
 lcov.info
+coverage.html
 
 node_modules
 npm-debug.log
