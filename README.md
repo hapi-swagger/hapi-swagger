@@ -200,7 +200,7 @@ Route options are add into your route config i.e.
     'path': '/tools/microformats',
     'config': {
         'description':'parse microformats',
-        'tags': ['api'],        
+        'tags': ['api'],
         'plugins': {
         'hapi-swagger': {
             'responseMessages': [
@@ -323,7 +323,7 @@ HAPI provides a proxy plug-in [h2o2](https://github.com/hapijs/h2o2). Under some
     path: '/tools/microformats',
     config: {
         description:'parse microformats',
-        tags: ['api'],        
+        tags: ['api'],
         plugins: {
             'hapi-swagger': {
                 payloadType: 'form',

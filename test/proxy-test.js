@@ -1,247 +1,399 @@
-/*
-Mocha test
-This test was created for PR #159 
-*/
+'use strict';
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Helper = require('../test/helper.js');
 
-var Chai            = require('chai'),
-    Hapi            = require('hapi'),
-    Joi             = require('joi'),
-    Inert           = require('inert'),
-    Vision          = require('vision'),
-	  H2o2            = require('h2o2'),
-    Wreck           = require('wreck'),
-    HapiSwagger     = require('../lib/index.js');
-    assert          = Chai.assert;
+const expect = Code.expect;
+const lab = exports.lab = Lab.script();
 
 
-var defaultHandler = function(request, response) {
-  reply('ok');
-};
 
+lab.experiment('proxies', () => {
 
-var replyWithJSON = function( err, res, request, reply, settings, ttl ){
-    Wreck.read(res, { json: true }, function (err, payload) {
-        reply(payload);
-    });
-}
-
-
-describe('proxy test', function() {
-
-    var server;
-
-
-    var routes = [{
-      method: 'POST',
-      path: '/tools/microformats',
-      config: {
-        description:'parse microformats',
-        tags: ['api'],        
-        plugins: {
-          'hapi-swagger': {
-            payloadType: 'form',
-            validate: {
-              payload: {
-                url: Joi.string().uri().required(),
-                callback: Joi.string(),
-                collapsewhitespace: Joi.boolean(),
-                dateformat: Joi.any().allow(['auto', 'w3c', 'rfc3339', 'html5'])
-              }
-            }
-          },
-        },
-        handler: {
-          proxy: {
-            host: 'glennjones.net',
-            protocol: 'http',
-            onResponse: replyWithJSON
-          }
+    const requestOptions = {
+        method: 'GET',
+        url: '/swagger.json',
+        headers: {
+            host: 'localhost'
         }
-      }
-    },{
-      method: 'POST',
-      path: '/tools/microformats/',
-      config: {
-        description:'parse microformats',
-        tags: ['api'],
-        plugins: {
-          'hapi-swagger': {
-            nickname: 'microformatsapi',
-            validate: {
-              payload: {
-                url: Joi.string().uri().required(),
-                callback: Joi.string(),
-                collapsewhitespace: Joi.boolean(),
-                dateformat: Joi.any().allow(['auto', 'w3c', 'rfc3339', 'html5'])
-              }
-            }
-          },
-        },
-        handler: {
-          proxy: {
-            host: 'glennjones.net',
-            protocol: 'http',
-            onResponse: replyWithJSON
-          }
+    };
+
+    let routes = {
+        method: 'GET',
+        path: '/test',
+        handler: Helper.defaultHandler,
+        config: {
+            tags: ['api']
         }
-      }
-    }];
+    };
 
 
 
-  beforeEach(function(done) {
-    server = new Hapi.Server();
-    server.connection();
-    server.register([Inert, Vision, H2o2, HapiSwagger], function(err){
-      server.start(function(err){
-        server.route(routes);
-        assert.ifError(err);
-        done();
-      });
-    });
-  });
+    lab.test('basePath option', (done) => {
 
-  afterEach(function(done) {
-    server.stop(function() {
-      server = null;
-      done();
-    });
-  });
+        const options = {
+            basePath: '/v2'
+        };
 
+        Helper.createServer(options, routes, (err, server) => {
 
-    it('returned user built parameters', function(done) {
-      server.inject({ method: 'GET', url: '/docs?path=tools '}, function (response) {
-        //console.log(JSON.stringify(response.result.apis[0].operations[0].parameters));
+            server.inject(requestOptions, function (response) {
 
-        var optionClassModel = JSON.parse(JSON.stringify(response.result.apis[0].operations[0].parameters));
-        assert.deepEqual(optionClassModel, [
-            {
-                "type": "string",
-                "required": true,
-                "name": "url",
-                "paramType": "form"
-            },
-            {
-                "type": "string",
-                "defaultValue": null,
-                "name": "callback",
-                "paramType": "form"
-            },
-            {
-                "type": "boolean",
-                "defaultValue": null,
-                "name": "collapsewhitespace",
-                "paramType": "form"
-            },
-            {
-                "type": "any",
-                "defaultValue": null,
-                "enum": [
-                    "auto",
-                    "w3c",
-                    "rfc3339",
-                    "html5"
-                ],
-                "name": "dateformat",
-                "paramType": "form"
-            }
-        ]);
-        done();
-      });
-    });
-    
-    
-    
-    it('returned user built model', function(done) {
-      server.inject({ method: 'GET', url: '/docs?path=tools '}, function (response) {
-        //console.log(JSON.stringify(response.result));
-
-        var optionClassModel = JSON.parse(JSON.stringify(response.result.models));
-        assert.deepEqual(optionClassModel, {
-          "microformatsapi": {
-              "id": "microformatsapi",
-              "type": "object",
-              "properties": {
-                  "url": {
-                      "type": "string",
-                      "required": true
-                  },
-                  "callback": {
-                      "type": "string",
-                      "defaultValue": null
-                  },
-                  "collapsewhitespace": {
-                      "type": "boolean",
-                      "defaultValue": null
-                  },
-                  "dateformat": {
-                      "type": "any",
-                      "defaultValue": null,
-                      "enum": [
-                          "auto",
-                          "w3c",
-                          "rfc3339",
-                          "html5"
-                      ]
-                  }
-              }
-          }
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.basePath).to.equal(options.basePath);
+                done();
+            });
         });
-        done();
-      });
     });
 
-/*
 
+    lab.test('schemes and host options', (done) => {
 
-    it('return a classname based on path_method', function(done) {
-      server.inject({ method: 'GET', url: '/docs?path=tools '}, function (response) {
+        const options = {
+            schemes: ['https'],
+            host: 'testhost'
+        };
 
-        var pathMethodModel = JSON.parse(JSON.stringify(response.result.models.testmethodid_GET_response));
-        //console.log(JSON.stringify(pathMethodModel));
+        Helper.createServer(options, routes, (err, server) => {
 
-        assert.deepEqual(pathMethodModel, {
-            "id": "testmethodid_GET_response",
-            "type": "object",
-            "properties": {
-                "methodGet": {
-                    "type": "string",
-                    "required": true
-                }
-            }
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.host).to.equal(options.host);
+                expect(response.result.schemes).to.deep.equal(options.schemes);
+                done();
+            });
         });
-        done();
-      });
     });
 
 
-    it('return a shortid based classname', function(done) {
-      server.inject({ method: 'GET', url: '/docs?path=test '}, function (response) {
+    lab.test('x-forwarded options', (done) => {
 
-        var name = response.result.apis[4].operations[0].type;
-        //console.log(name)
+        const options = {};
 
-        var shortidModel = JSON.parse(JSON.stringify(response.result.models[name]));
-        //console.log(JSON.stringify(shortidModel));
+        requestOptions.headers = {
+            'x-forwarded-host': 'proxyhost',
+            'x-forwarded-proto': 'https'
+        };
 
-        assert.deepEqual(shortidModel, {
-            "id": name,
-            "type": "object",
-            "properties": {
-                "_id": {
-                    "type": "any",
-                    "required": true
+        Helper.createServer(options, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.host).to.equal(requestOptions.headers['x-forwarded-host']);
+                expect(response.result.schemes).to.deep.equal(['https']);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('adding facade for proxy using route options 1', (done) => {
+
+        routes = {
+            method: 'POST',
+            path: '/tools/microformats/',
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        nickname: 'microformatsapi',
+                        validate: {
+                            payload: {
+                                a: Joi.number()
+                                    .required()
+                                    .description('the first number'),
+                                b: Joi.number()
+                                    .required()
+                                    .description('the first number')
+                            },
+                            query: {
+                                testquery: Joi.string()
+                            },
+                            params: {
+                                testparam: Joi.string()
+                            },
+                            headers: {
+                                testheaders: Joi.string()
+                            }
+                        }
+                    }
                 },
-                "name": {
-                    "type": "string",
-                    "required": false
+                handler: {
+                    proxy: {
+                        host: 'glennjones.net',
+                        protocol: 'http',
+                        onResponse: Helper.replyWithJSON
+                    }
                 }
             }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/tools/microformats/'].post.parameters).to.deep.equal([
+                    {
+                        'type': 'string',
+                        'in': 'header',
+                        'name': 'testheaders'
+                    },
+                    {
+                        'type': 'string',
+                        'in': 'path',
+                        'name': 'testparam'
+                    },
+                    {
+                        'type': 'string',
+                        'in': 'query',
+                        'name': 'testquery'
+                    },
+                    {
+                        'in': 'body',
+                        'name': 'body',
+                        'schema': {
+                            '$ref': '#/definitions/microformatsapi_payload'
+                        },
+                        'type': 'object'
+                    }
+                ]);
+                done();
+            });
         });
-        done();
-      });
     });
-    
-    */
+
+
+    lab.test('adding facade for proxy using route options 2 - naming', (done) => {
+
+        routes = {
+            method: 'POST',
+            path: '/tools/microformats/',
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        nickname: 'microformatsapi',
+                        validate: {
+                            payload: Joi.object({
+                                a: Joi.number()
+                                    .required()
+                                    .description('the first number')
+                            }).label('testname')
+                        }
+                    }
+                },
+                handler: {
+                    proxy: {
+                        host: 'glennjones.net',
+                        protocol: 'http',
+                        onResponse: Helper.replyWithJSON
+                    }
+                }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/tools/microformats/'].post.parameters).to.deep.equal([
+                    {
+                        'in': 'body',
+                        'name': 'body',
+                        'schema': {
+                            '$ref': '#/definitions/testname'
+                        },
+                        'type': 'object'
+                    }
+                ]);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('adding facade for proxy using route options 3 - defination reuse', (done) => {
+
+        routes = [{
+            method: 'POST',
+            path: '/tools/microformats/1',
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        nickname: 'microformatsapi1',
+                        validate: {
+                            payload: Joi.object({
+                                a: Joi.number()
+                                    .required()
+                                    .description('the first number')
+                            }).label('testname')
+                        }
+                    }
+                },
+                handler: {
+                    proxy: {
+                        host: 'glennjones.net',
+                        protocol: 'http',
+                        onResponse: Helper.replyWithJSON
+                    }
+                }
+            }
+        }, {
+            method: 'POST',
+            path: '/tools/microformats/2',
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        nickname: 'microformatsapi2',
+                        validate: {
+                            payload: Joi.object({
+                                a: Joi.number()
+                                    .required()
+                                    .description('the first number')
+                            }).label('testname')
+                        }
+                    }
+                },
+                handler: {
+                    proxy: {
+                        host: 'glennjones.net',
+                        protocol: 'http',
+                        onResponse: Helper.replyWithJSON
+                    }
+                }
+            }
+        }];
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.definitions).to.deep.equal({
+                    'testname': {
+                        'properties': {
+                            'a': {
+                                'type': 'number',
+                                'description': 'the first number'
+                            }
+                        },
+                        'required': [
+                            'a'
+                        ],
+                        'type': 'object'
+                    }
+                });
+
+                done();
+            });
+        });
+    });
+
+
+
+    lab.test('adding facade for proxy using route options 4 - defination name clash', (done) => {
+
+        routes = [{
+            method: 'POST',
+            path: '/tools/microformats/1',
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        nickname: 'microformatsapi1',
+                        validate: {
+                            payload: Joi.object({
+                                a: Joi.number()
+                                    .required()
+                                    .description('the first number')
+                            }).label('testname')
+                        }
+                    }
+                },
+                handler: {
+                    proxy: {
+                        host: 'glennjones.net',
+                        protocol: 'http',
+                        onResponse: Helper.replyWithJSON
+                    }
+                }
+            }
+        }, {
+            method: 'POST',
+            path: '/tools/microformats/2',
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        nickname: 'microformatsapi2',
+                        validate: {
+                            payload: Joi.object({
+                                b: Joi.string()
+                                    .description('the string')
+                            }).label('testname')
+                        }
+                    }
+                },
+                handler: {
+                    proxy: {
+                        host: 'glennjones.net',
+                        protocol: 'http',
+                        onResponse: Helper.replyWithJSON
+                    }
+                }
+            }
+        }];
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.definitions).to.deep.equal({
+                    'testname': {
+                        'properties': {
+                            'a': {
+                                'type': 'number',
+                                'description': 'the first number'
+                            }
+                        },
+                        'required': [
+                            'a'
+                        ],
+                        'type': 'object'
+                    },
+                    'microformatsapi2_payload': {
+                        'properties': {
+                            'b': {
+                                'type': 'string',
+                                'description': 'the string'
+                            }
+                        },
+                        'type': 'object'
+                    }
+                });
+                done();
+            });
+        });
+    });
 
 });

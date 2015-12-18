@@ -6,11 +6,12 @@ lib-cov
 *.out
 *.pid
 *.gz
-coverage/*
+
+data.json
+lcov.info
+
 node_modules
 npm-debug.log
 .DS_Store
 .vscode
-
-public/swaggerui 2.0.8 mod
-public/swaggerui 2.0.10 mod
+.coveralls.yml
