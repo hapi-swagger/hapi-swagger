@@ -20,11 +20,12 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "handlebars": "^4.0.5",
     "boom": "^3.0.0",
+    "handlebars": "^4.0.5",
     "hoek": "^3.0.4",
+    "http-status": "0.2.0",
     "joi": "~7.0.1",
-    "http-status": "0.2.0"
+    "json-schema-ref-parser": "^1.4.0"
   },
   "devDependencies": {
     "inert": "^3.2.0",
@@ -35,8 +36,7 @@
     "hapi": "^11.1.1",
     "wreck": "7.0.0",
     "coveralls": "2.11.6",
-    "h2o2": "4.0.1",
-    "hapi-auth-bearer-token": "3.1.1"
+    "h2o2": "4.0.1"
   },
   "scripts": {
     "start": "node ./bin/test-server",

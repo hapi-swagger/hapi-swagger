@@ -289,6 +289,28 @@ validate: {
 }
 ```
 
+### Default values and examples
+You can add both default values and examples to your JOI objects which are displayed within the Swagger interface. Defaults are turned into pre-fill values, either in the JSON of a payload or in the text inputs of forms.
+
+```Javascript
+validate: {
+    payload: Joi.object({
+        a: Joi.number().default('10'),
+        b: Joi.nunber().default('15')
+    }).label('Sum')
+}
+```
+
+Examples are only shown in the JSON objects and are not used in the text inputs of forms. This is a limitations of Swagger.
+```Javascript
+validate: {
+    payload: Joi.object({
+        a: Joi.number().example('10'),
+        b: Joi.nunber().example('15')
+    }).label('Sum')
+}
+```
+
 ### Headers and .unknown()
 A common issue with the use of headers is that you may only want to validate some of the headers sent in a request and you are not concerned about other headers that maybe sent also. You can use JOI .unknown() to allow any all other headers to be sent without validation errors.
 ```Javascript

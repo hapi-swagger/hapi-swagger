@@ -306,7 +306,7 @@ module.exports = [{
             payload: {
                 a: Joi.number()
                     .required()
-                    .description('the first number'),
+                    .description('the first number').default(10),
 
                 b: Joi.number()
                     .required()
