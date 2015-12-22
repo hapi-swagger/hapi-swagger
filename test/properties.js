@@ -383,6 +383,56 @@ lab.experiment('property - ', () => {
     });
 
 
+    lab.test('parse label', (done) => {
+
+        // this example has both child object labels and array labels
+
+        let definatition = {};
+        const parsed = Properties.parseProperties(
+            Joi.object().keys( {
+                ans_list: Joi.array().items(
+                    Joi.object().keys( {
+                        v1: Joi.number(),
+                        v2: Joi.number()
+                    } ).label('ans-o')
+                ).label('ans-l')
+            } ).label('ans-parent'), definatition, 'query');
+
+        const parsedExpected = {
+            'ans-l': {
+                type: 'array',
+                items: {
+                    '$ref': '#/definitions/ans-o'
+                },
+                collectionFormat: 'multi'
+            }
+        };
+        const definatitionExpected = {
+            'ans-o': {
+                'type': 'object',
+                'properties': {
+                    'v1': {
+                        'type': 'number'
+                    },
+                    'v2': {
+                        'type': 'number'
+                    }
+                }
+            }
+        };
+
+        expect(parsed).to.deep.equal(parsedExpected);
+        expect(definatition).to.deep.equal(definatitionExpected);
+
+        done();
+    });
+
+
+
+
+
+
+
     /*  not yet 'x',
     any.invalid(value)
     any.strip()
