@@ -27,19 +27,19 @@ You will also need to install the `inert` and `vision` plugs-ins which support t
 In your apps main .js file add the following code to created a `server` object:
 
 ```Javascript
-var Hapi            = require('hapi'),
-    Inert           = require('inert'),
-    Vision          = require('vision'),
-    HapiSwagger     = require('hapi-swagger'),
-    Pack            = require('./package');
+const Hapi = require('hapi');
+const Inert = require('inert');
+const Vision = require('vision');
+const HapiSwagger = require('hapi-swagger');
+const Pack = require('./package');
 
-var server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
         host: 'localhost',
         port: 3000
     });
 
-var swaggerOptions = {
+const swaggerOptions = {
     info: {
             'title': 'Test API Documentation',
             'version': Pack.version,
@@ -52,8 +52,8 @@ server.register([
     {
         register: HapiSwagger,
         options: swaggerOptions
-    }], function (err) {
-        server.start(function(){
+    }], (err) => {
+        server.start( () => {
             console.log('Server running at:', server.info.uri);
         });
     });
@@ -124,7 +124,7 @@ Info object (this information will be added into the UI):
 
 ### Option example
 ```Javascript
-var swaggerOptions = {
+const swaggerOptions = {
         'info': {
             'title': 'Test API Documentation',
             'version': '5.14.3',
@@ -179,7 +179,7 @@ HAPI allow you to define a response object for an API endpoint. The response obj
 
 An very simple example of the use of the response object:
 ```Javascript
-var responseModel = Joi.object({
+const responseModel = Joi.object({
     equals: Joi.number(),
 }).label('Result');
 ```
@@ -442,11 +442,12 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
 
 
 ### Lab test
-The project has integration and unit tests. To run the test within the project type the following command.
+The project has integration and unit tests. To run the test within the project type one of the following commands.
 ```bash
 $ lab
 $ lab -r html -o coverage.html
 $ lab -r html -o coverage.html --lint
+$ lab -r console -o stdout -r html -o coverage.html --lint
 ```
 
 If you are considering sending a pull request please add tests for the functionality you add or change.

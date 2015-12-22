@@ -24,7 +24,7 @@
     "handlebars": "^4.0.5",
     "hoek": "^3.0.4",
     "http-status": "0.2.0",
-    "joi": "~7.0.1",
+    "joi": "7.0.1",
     "json-schema-ref-parser": "^1.4.0"
   },
   "devDependencies": {
