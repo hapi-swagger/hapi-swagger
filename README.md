@@ -19,7 +19,7 @@ You can add the module to your HAPI using npm:
     $ npm install hapi-swagger --save
 
 If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static
-content serving. If you wish just to used swagger.json without the documentation for example with swagger-codegen simply set `enableDocumentation` to false
+content serving. If you wish just to used swagger.json without the documentation for example with swagger-codegen simply set `enableDocumentation` to `false`.
 
     $ npm install inert --save
     $ npm install vision --save
@@ -105,8 +105,9 @@ Options for UI:
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
+* `sortPaths`: (string) the path sort method for JSON. `unsorted` or `path-method`,
 * `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
-* `tags`: (object) Containing [Tag Object] (https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in swagger-ui.
+* `tags`: (object) Containing [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in swagger-ui.
 * `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 
 Defaults for routes settings (these can also be set a individual path level):
@@ -146,7 +147,31 @@ const swaggerOptions = {
 * `produces`: (array) The mimetypes produced  - default: `['application/json']`
 * `security:`: (array) Containing [Security Requirement Object](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#securityRequirementObject). No defaults are provided.
 
-
+### Grouping endpoints with tags
+Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs to match path of your endpoinds, so in the example below all enpoints with the path `/store` and `/sum` will be group togther.
+```Javascript
+let swaggerOptions = {
+    info: {
+        'title': 'Test API Documentation',
+        'version': Pack.version,
+    },
+    tags: [{
+        'name': 'store',
+        'description': 'Storing a sum',
+        'externalDocs': {
+            'description': 'Find out more about storage',
+            'url': 'http://example.org'
+        }
+    }, {
+        'name': 'sum',
+        'description': 'API of sums',
+        'externalDocs': {
+            'description': 'Find out more about sums',
+            'url': 'http://example.org'
+        }
+    }]
+};
+```
 
 ### Route option example
 The route level options are always placed within the `plugins.hapi-swagger` object under `config`. These options are only assigned to the route they are apply to.
@@ -282,7 +307,7 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
 The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, such as filetype and schema validation.
 
 ### Naming
-There are times when you may wish to name a object so that its label in the Swagger interface make more sense to humans. This is most common when you have endpoint which take JSON structures. To label a object simply wrap it as a JOI object and chain the label function as below.
+There are times when you may wish to name a object so that its label in the Swagger interface make more sense to humans. This is most common when you have endpoint which take JSON structures. To label a object simply wrap it as a JOI object and chain the label function as below. __You need to give different structure its own unique name.__
 ```Javascript
 validate: {
     payload: Joi.object({

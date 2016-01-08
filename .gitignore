@@ -17,5 +17,5 @@ npm-debug.log
 .vscode
 .coveralls.yml
 
-public/static.html
-public/static.json
+public/swaggerui/static.html
+public/swaggerui/static.json
