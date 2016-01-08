@@ -81,6 +81,17 @@ lab.experiment('utilities', () => {
     });
 
 
+    lab.test('isJoiArray', (done) => {
+
+        expect(Utilities.isJoiArray({})).to.equal(false);
+        expect(Utilities.isJoiArray(Joi.object())).to.equal(false);
+        expect(Utilities.isJoiArray(Joi.array().items({
+            id: Joi.string()
+        }))).to.equal(true);
+        done();
+    });
+
+
     lab.test('hasJoiMeta', (done) => {
 
         expect(Utilities.hasJoiMeta({})).to.equal(false);
