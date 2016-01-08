@@ -80,9 +80,9 @@ lab.experiment('definitions', () => {
                 // console.log(JSON.stringify(response.result.paths['/test/'].post.parameters[0].schem));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters[0].schema).to.deep.equal({
-                    '$ref': '#/definitions/test_payload'
+                    '$ref': '#/definitions/parameters_test_post'
                 });
-                expect(response.result.definitions.test_payload).to.deep.equal(defination);
+                expect(response.result.definitions.parameters_test_post).to.deep.equal(defination);
                 done();
             });
 

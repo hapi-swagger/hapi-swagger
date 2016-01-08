@@ -50,24 +50,29 @@ lab.experiment('child-models', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
+
                 expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.deep.equal({
-                    '$ref': '#/definitions/foov1bar_payload'
+                    '$ref': '#/definitions/parameters_foov1bar_post'
                 });
-                expect(response.result.definitions.foov1bar_payload).to.deep.equal({
+
+                expect(response.result.definitions.parameters_foov1bar_post).to.deep.equal({
                     'properties': {
                         'outer1': {
-                            'properties': {
-                                'inner1': {
-                                    'type': 'string'
-                                }
-                            }
+                            '$ref': '#/definitions/outer1',
+                            'type': 'object'
                         },
                         'outer2': {
-                            'properties': {
-                                'inner2': {
-                                    'type': 'string'
-                                }
-                            }
+                            '$ref': '#/definitions/outer2',
+                            'type': 'object'
+                        }
+                    },
+                    'type': 'object'
+                });
+
+                expect(response.result.definitions.outer1).to.deep.equal({
+                    'properties': {
+                        'inner1': {
+                            'type': 'string'
                         }
                     },
                     'type': 'object'

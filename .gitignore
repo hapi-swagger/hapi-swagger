@@ -16,3 +16,6 @@ npm-debug.log
 .DS_Store
 .vscode
 .coveralls.yml
+
+public/static.html
+public/static.json

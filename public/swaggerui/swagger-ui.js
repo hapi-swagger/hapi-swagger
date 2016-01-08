@@ -2977,6 +2977,11 @@ function schemaToHTML(name, schema, models, modelPropertyMacro) {
       model = {definition: schema};
     }
 
+    // Glenn Jones - add title for child models
+    if(model.definition && model.definition.title){
+        modelName = model.definition.title;
+    }
+
     if (skipRef !== true) {
       references[modelName] = _.isUndefined(model) ? {} : model.definition;
     }
@@ -30860,7 +30865,7 @@ Emitter.prototype.hasListeners = function(event){
  * TODO: combatible error handling?
  */
 
-module.exports = function(arr, fn, initial){  
+module.exports = function(arr, fn, initial){
   var idx = 0;
   var len = arr.length;
   var curr = arguments.length == 3
@@ -30870,7 +30875,7 @@ module.exports = function(arr, fn, initial){
   while (idx < len) {
     curr = fn.call(null, curr, arr[idx], ++idx, arr);
   }
-  
+
   return curr;
 };
 },{}]},{},[1])(1)

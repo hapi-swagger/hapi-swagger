@@ -162,7 +162,7 @@ lab.experiment('proxies', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/microformatsapi_payload'
+                            '$ref': '#/definitions/parameters_microformatsapi_post'
                         }
                     }
                 ]);
@@ -379,7 +379,7 @@ lab.experiment('proxies', () => {
                         ],
                         'type': 'object'
                     },
-                    'microformatsapi2_payload': {
+                    'parameters_microformatsapi2_post': {
                         'properties': {
                             'b': {
                                 'type': 'string',

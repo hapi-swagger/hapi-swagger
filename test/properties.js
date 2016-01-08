@@ -2,10 +2,12 @@
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
+const Helper = require('../test/helper.js');
 const Properties = require('../lib/properties.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
+
 
 
 
@@ -146,10 +148,16 @@ lab.experiment('property - ', () => {
 
     lab.test('parse type object', (done) => {
 
-        //console.log(JSON.stringify(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }), {}, [], 'formData' )));
+        //console.log(JSON.stringify(Properties.parseProperty('x', Joi.object({ 'text': Joi.string() }), {}, [], 'formData' )));
 
+        /* Change from inline to definiation objects
         expect(Properties.parseProperty('x', Joi.object({ 'text': Joi.string() }))).to.deep.equal({ 'type': 'object', 'name': 'x', 'properties': { 'text': { 'type': 'string' } } });
         expect(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }))).to.deep.equal({ 'type': 'object', 'name': 'x', 'properties': { 'text': { 'type': 'string' } } });
+        */
+        expect(Properties.parseProperty('x', Joi.object({ 'text': Joi.string() }), {}, [], 'formData')).to.deep.equal({ 'type': 'object', 'name': 'x', 'schema': { '$ref': '#/definitions/x' } });
+        expect(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }), {}, [], 'formData')).to.deep.equal({ 'type': 'object', 'name': 'x', 'schema': { '$ref': '#/definitions/x' } });
+
+
 
 
         /*  not yet 'x-',
@@ -172,125 +180,6 @@ lab.experiment('property - ', () => {
         object.optionalKeys(children)
         */
 
-        done();
-    });
-
-
-
-    lab.test('parse deep structure with children', (done) => {
-
-        const deepStructure = Joi.object({
-            outer1: Joi.object({
-                inner1: Joi.string()
-            }),
-            outer2: Joi.object({
-                inner2: Joi.string()
-            })
-        }).description('body description').notes(['body notes']);
-
-        const deepStructureJSON = {
-            'type': 'object',
-            'description': 'body description',
-            'notes': [
-                'body notes'
-            ],
-            'name': 'x',
-            'properties': {
-                'outer1': {
-                    'type': 'object',
-                    'name': 'outer1',
-                    'properties': {
-                        'inner1': {
-                            'type': 'string'
-                        }
-                    }
-                },
-                'outer2': {
-                    'type': 'object',
-                    'name': 'outer2',
-                    'properties': {
-                        'inner2': {
-                            'type': 'string'
-                        }
-                    }
-                }
-            }
-        };
-
-        expect(Properties.parseProperty('x', deepStructure)).to.deep.equal(deepStructureJSON);
-        done();
-    });
-
-
-
-    lab.test('parse deep structure with child description, notes, name etc', (done) => {
-
-        const deepStructure = Joi.object({
-            outer1: Joi.object({
-                inner1: Joi.string()
-                    .description('child description')
-                    .notes(['child notes'])
-                    .tags(['child', 'api'])
-                    .required()
-            }),
-            outer2: Joi.object({
-                inner2: Joi.number()
-                    .description('child description')
-                    .notes(['child notes'])
-                    .tags(['child', 'api'])
-                    .min(5)
-                    .max(10)
-                    .required()
-            })
-        });
-
-
-        const deepStructureJSON = {
-            'type': 'object',
-            'name': 'x',
-            'properties': {
-                'outer1': {
-                    'type': 'object',
-                    'name': 'outer1',
-                    'properties': {
-                        'inner1': {
-                            'type': 'string',
-                            'description': 'child description',
-                            'notes': [
-                                'child notes'
-                            ],
-                            'tags': [
-                                'child',
-                                'api'
-                            ],
-                            'required': true
-                        }
-                    }
-                },
-                'outer2': {
-                    'type': 'object',
-                    'name': 'outer2',
-                    'properties': {
-                        'inner2': {
-                            'type': 'number',
-                            'description': 'child description',
-                            'notes': [
-                                'child notes'
-                            ],
-                            'tags': [
-                                'child',
-                                'api'
-                            ],
-                            'required': true,
-                            'minimum': 5,
-                            'maximum': 10
-                        }
-                    }
-                }
-            }
-        };
-
-        expect(Properties.parseProperty('x', deepStructure)).to.deep.equal(deepStructureJSON);
         done();
     });
 
@@ -449,9 +338,7 @@ lab.experiment('property - ', () => {
 
 
 
-
-
-    lab.test('joiToSwaggerDefinition', (done) => {
+    lab.test('toParameters', (done) => {
 
         const joiStructure = Joi.object({
             a: Joi.number()
@@ -472,59 +359,7 @@ lab.experiment('property - ', () => {
                 .description('the result of the sum')
         });
 
-        //console.log(JSON.stringify(   Properties.joiToSwaggerDefinition(joiStructure, {})    ));
-
-        const structureJSON = {
-            'a': {
-                'type': 'number',
-                'description': 'the first number',
-                'required': true
-            },
-            'b': {
-                'type': 'number',
-                'description': 'the second number',
-                'required': true
-            },
-            'operator': {
-                'type': 'string',
-                'description': 'the opertator i.e. + - / or *',
-                'required': true,
-                'default': '+'
-            },
-            'equals': {
-                'type': 'number',
-                'description': 'the result of the sum',
-                'required': true
-            }
-        };
-
-        expect(Properties.joiToSwaggerDefinition(joiStructure, 'query')).to.deep.equal(structureJSON);
-        done();
-    });
-
-
-    lab.test('joiToSwaggerParameters', (done) => {
-
-        const joiStructure = Joi.object({
-            a: Joi.number()
-                .required()
-                .description('the first number'),
-
-            b: Joi.number()
-                .required()
-                .description('the second number'),
-
-            operator: Joi.string()
-                .required()
-                .default('+')
-                .description('the opertator i.e. + - / or *'),
-
-            equals: Joi.number()
-                .required()
-                .description('the result of the sum')
-        });
-
-        //console.log(JSON.stringify(   Properties.joiToSwaggerParameters(joiStructure , 'query')    ));
+        //console.log(JSON.stringify(   Properties.toParameters(joiStructure , 'query')    ));
 
         const structureJSON = [
             {
@@ -558,11 +393,83 @@ lab.experiment('property - ', () => {
             }
         ];
 
-        expect(Properties.joiToSwaggerParameters(joiStructure, 'query')).to.deep.equal(structureJSON);
+        expect(Properties.toParameters(joiStructure, {}, 'query')).to.deep.equal(structureJSON);
         done();
     });
 
 
 
 
+});
+
+
+
+lab.experiment('property deep - ', () => {
+
+    const deepStructure = Joi.object({
+        outer1: Joi.object({
+            inner1: Joi.string()
+                .description('child description')
+                .notes(['child notes'])
+                .tags(['child', 'api'])
+                .required()
+        }),
+        outer2: Joi.object({
+            inner2: Joi.number()
+                .description('child description')
+                .notes(['child notes'])
+                .tags(['child', 'api'])
+                .min(5)
+                .max(10)
+                .required()
+        })
+    });
+
+
+    lab.test('parse structure with child description, notes, name etc', (done) => {
+
+
+        const routes = [{
+            method: 'POST',
+            path: '/path/two',
+            config: {
+                tags: ['api'],
+                handler: Helper.defaultHandler,
+                response: {
+                    schema: deepStructure
+                }
+            }
+        }];
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result.definitions));
+                expect(response.result.definitions.outer1).to.deep.equal({
+                    'properties': {
+                        'inner1': {
+                            'description': 'child description',
+                            'type': 'string',
+                            'notes': [
+                                'child notes'
+                            ],
+                            'tags': [
+                                'child',
+                                'api'
+                            ]
+                        }
+                    },
+                    'required': [
+                        'inner1'
+                    ],
+                    'type': 'object'
+                });
+                done();
+            });
+        });
+
+
+    });
 });

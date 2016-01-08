@@ -70,7 +70,8 @@ let swaggerOptions = {
             'description': 'Find out more',
             'url': 'http://example.org'
         }
-    }]
+    }],
+    derefJSONSchema: false
 };
 
 

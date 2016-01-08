@@ -1,6 +1,7 @@
 # hapi-swagger
 
-This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x to v11.x  When installed it will self document HTTP API interface in a project.
+This is a [The OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [HAPI](http://hapijs.com/) v9.x to v12.x  When installed it will self document the API interface
+in a project.
 
 [![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=flat-square)](http://travis-ci.org/glennjones/hapi-swagger)
 [![Coverage Status](https://img.shields.io/coveralls/glennjones/hapi-swagger/dev.svg?style=flat-square)](https://coveralls.io/r/glennjones/hapi-swagger)
@@ -17,10 +18,8 @@ You can add the module to your HAPI using npm:
 
     $ npm install hapi-swagger --save
 
-If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static content serving.
-
-This is not required if to generate a swagger.json for use in a different documentation site
-or swagger-codegen simply set `enableDocumentation` to false
+If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static
+content serving. If you wish just to used swagger.json without the documentation for example with swagger-codegen simply set `enableDocumentation` to false
 
     $ npm install inert --save
     $ npm install vision --save
@@ -107,7 +106,8 @@ Options for UI:
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
-* `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
+* `tags`: (object) Containing [Tag Object] (https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in swagger-ui.
+* `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 
 Defaults for routes settings (these can also be set a individual path level):
 * `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
