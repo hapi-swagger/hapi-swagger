@@ -1,6 +1,6 @@
 # hapi-swagger
 
-This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x to v11.x  When installed it will self document HTTP API interface in a project.
+This is a [Swagger UI](https://github.com/wordnik/swagger-ui) plug-in for [HAPI](http://hapijs.com/) v9.x to v12.x  When installed it will self document HTTP API interface in a project.
 
 [![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=flat-square)](http://travis-ci.org/glennjones/hapi-swagger)
 [![Coverage Status](https://img.shields.io/coveralls/glennjones/hapi-swagger/dev.svg?style=flat-square)](https://coveralls.io/r/glennjones/hapi-swagger)
@@ -17,7 +17,10 @@ You can add the module to your HAPI using npm:
 
     $ npm install hapi-swagger --save
 
-You will also need to install the `inert` and `vision` plugs-ins which support templates and static content serving.
+If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static content serving.
+
+This is not required if to generate a swagger.json for use in a different documentation site
+or swagger-codegen simply set `enableDocumentation` to false
 
     $ npm install inert --save
     $ npm install vision --save
