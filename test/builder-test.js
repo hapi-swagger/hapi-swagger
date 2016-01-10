@@ -31,8 +31,8 @@ lab.experiment('info', () => {
                 expect(response.result.swagger).to.equal('2.0');
                 expect(response.result.schemes).to.deep.equal(['http']);
                 expect(response.result.basePath).to.equal('/');
-                expect(response.result.consumes).to.deep.equal(['application/json']);
-                expect(response.result.produces).to.deep.equal(['application/json']);
+                expect(response.result.consumes).to.not.exist();
+                expect(response.result.produces).to.not.exist();
                 done();
             });
 
@@ -46,8 +46,8 @@ lab.experiment('info', () => {
             'swagger': '5.9.45',
             'schemes': ['https'],
             'basePath': '/base',
-            'consumes': ['application/xml'],
-            'produces': ['application/xml'],
+            'consumes': ['application/x-www-form-urlencoded'],
+            'produces': ['application/json', 'application/xml'],
             'externalDocs': {
                 'description': 'Find out more about HAPI',
                 'url': 'http://hapijs.com'
@@ -64,8 +64,8 @@ lab.experiment('info', () => {
                 expect(response.result.swagger).to.equal('2.0');
                 expect(response.result.schemes).to.deep.equal(['https']);
                 expect(response.result.basePath).to.equal('/base');
-                expect(response.result.consumes).to.deep.equal(['application/xml']);
-                expect(response.result.produces).to.deep.equal(['application/xml']);
+                expect(response.result.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
+                expect(response.result.produces).to.deep.equal(['application/json', 'application/xml']);
                 expect(response.result.externalDocs).to.deep.equal(swaggerOptions.externalDocs);
                 done();
             });

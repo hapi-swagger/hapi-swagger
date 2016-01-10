@@ -317,11 +317,6 @@ lab.experiment('property - ', () => {
     });
 
 
-
-
-
-
-
     /*  not yet 'x',
     any.invalid(value)
     any.strip()
@@ -335,7 +330,6 @@ lab.experiment('property - ', () => {
     any.raw(isRaw)
     any.empty(schema)
     */
-
 
 
     lab.test('toParameters', (done) => {

@@ -1,5 +1,6 @@
 'use strict';
 const Joi = require('joi');
+const js2xmlparser = require('js2xmlparser');
 
 
 const sumModel = Joi.object({
@@ -101,6 +102,24 @@ const resultHTTPStatus = {
 
 
 /**
+ * allows a reply to have either a json or xml response
+ *
+ * @param  {String} name
+ * @param  {Object} json
+ * @param  {Object} request
+ * @param  {Object} reply
+ */
+const replyByType = function (name, json, request, reply) {
+
+    if (request.headers.accept === 'application/xml') {
+        reply(js2xmlparser(name, json)).type('application/xml');
+    } else {
+        reply(json).type('application/json');
+    }
+};
+
+
+/**
  * mock handler for routes
  *
  * @param  {Object} request
@@ -126,12 +145,12 @@ const defaultHandler = function (request, reply) {
     };
 
     if (request.path.indexOf('/sum/') > -1) {
-        reply({ 'equals': 43 });
+        replyByType('result', { 'equals': 43 }, request, reply);
     } else {
         if (request.path === '/store/' && request.method === 'get') {
-            reply(list);
+            replyByType('list', list, request, reply);
         } else {
-            reply(sum);
+            replyByType('sum', sum, request, reply);
         }
     }
 };
@@ -298,7 +317,9 @@ module.exports = [{
             'hapi-swagger': {
                 responses: sumHTTPStatus,
                 payloadType: 'form',
-                nickname: 'storeit'
+                produces: ['application/json', 'application/xml'],
+                consumes: ['application/json', 'application/xml']
+
             }
         },
         tags: ['api', 'reduced', 'three'],
@@ -315,7 +336,7 @@ module.exports = [{
                 operator: Joi.string()
                     .required()
                     .default('+')
-                    .valid(['+','-','/','*'])
+                    .valid(['+', '-', '/', '*'])
                     .description('the opertator i.e. + - / or *'),
 
                 equals: Joi.number()
@@ -356,7 +377,7 @@ module.exports = [{
                 operator: Joi.string()
                     .required()
                     .default('+')
-                    .valid(['+','-','/','*'])
+                    .valid(['+', '-', '/', '*'])
                     .description('the opertator i.e. + - / or *'),
 
                 equals: Joi.number()
@@ -412,7 +433,7 @@ module.exports = [{
                 operator: Joi.string()
                     .required()
                     .default('+')
-                    .valid(['+','-','/','*'])
+                    .valid(['+', '-', '/', '*'])
                     .description('the opertator i.e. + - / or *'),
 
                 equals: Joi.number()
