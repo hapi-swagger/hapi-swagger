@@ -157,6 +157,33 @@ const defaultHandler = function (request, reply) {
 
 
 module.exports = [{
+    method: 'POST',
+    path: '/servers/{id}/{note?}',
+    config: {
+        description: 'Descriptio TWO',
+        tags: ['api'],
+        plugins: {
+            'hapi-swagger': {
+                consumes: ['multipart/form-data']
+            }
+        },
+        handler: function (request, reply) {
+
+            console.log('Params', request.params);
+            reply({ action: 'Delete Server' });
+        },
+        validate: {
+            payload: {
+                file: Joi.any()
+                    .meta({ swaggerType: 'file' })
+                    .description('json file')
+            }
+        },
+        plugins: {
+            lout: true
+        }
+    }
+}, {
     method: 'PUT',
     path: '/sum/add/{a}/{b}',
     config: {
@@ -452,7 +479,8 @@ module.exports = [{
         plugins: {
             'hapi-swagger': {
                 responses: fileHTTPStatus,
-                payloadType: 'form'
+                payloadType: 'form',
+                consumes: ['multipart/form-data']
             }
         },
         tags: ['api', 'reduced', 'three'],

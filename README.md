@@ -467,7 +467,11 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
     ?tags=mountains,+beach,-horses
     this will show routes WITH 'mountains' AND 'beach' AND NO 'horses'
 
+### Features from HAPI that cannot be ported to Swagger
+Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
+* __`Joi.alternatives()`__ This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tooles using swagger build to typesafe languages. This maybe be added to the next version of Swagger
+* __`{/filePath*}`__ The path parameters with the `*` char are not supported as is `{/filePath*3} the pattern` This will mostly likely be added to the next version of Swagger.
 
 ### Lab test
 The project has integration and unit tests. To run the test within the project type one of the following commands.
@@ -477,6 +481,8 @@ $ lab -r html -o coverage.html
 $ lab -r html -o coverage.html --lint
 $ lab -r console -o stdout -r html -o coverage.html --lint
 ```
+
+
 
 If you are considering sending a pull request please add tests for the functionality you add or change.
 

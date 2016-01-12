@@ -45,7 +45,6 @@ lab.experiment('path', () => {
     };
 
 
-
     lab.test('summary and description', (done) => {
 
         Helper.createServer({}, routes, (err, server) => {
@@ -217,6 +216,35 @@ lab.experiment('path', () => {
     });
 
 
+    lab.test('auto "application/x-www-form-urlencoded" do not add two', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.validate = {
+            payload: {
+                file: Joi.string()
+                    .description('json file')
+            }
+        },
+        testRoutes.config.plugins = {
+            'hapi-swagger': {
+                consumes: ['application/x-www-form-urlencoded']
+            }
+        };
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
+                done();
+            });
+        });
+    });
+
+
     lab.test('payloadType form', (done) => {
 
         let testRoutes = Hoek.clone(routes);
@@ -234,6 +262,31 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('path parameters {note*}', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.path = '/servers/{id}/{note?}';
+        testRoutes.config.validate = {
+            params: {
+                id: Joi.number().integer().required().description('ID of server to delete'),
+                note: Joi.string().description('Note..')
+            }
+        };
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/servers/{id}/{note}']).to.exist();
                 done();
             });
         });
