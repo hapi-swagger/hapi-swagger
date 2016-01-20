@@ -276,7 +276,7 @@ lab.experiment('property - ', () => {
 
         // this example has both child object labels and array labels
 
-        let definatition = {};
+        let definition = {};
         const parsed = Properties.parseProperties(
             Joi.object().keys( {
                 ans_list: Joi.array().items(
@@ -285,10 +285,10 @@ lab.experiment('property - ', () => {
                         v2: Joi.number()
                     } ).label('ans-o')
                 ).label('ans-l')
-            } ).label('ans-parent'), definatition, 'query');
+            } ).label('ans-parent'), definition, 'query');
 
         const parsedExpected = {
-            'ans-l': {
+            'ans_list': {
                 type: 'array',
                 items: {
                     '$ref': '#/definitions/ans-o'
@@ -296,7 +296,7 @@ lab.experiment('property - ', () => {
                 collectionFormat: 'multi'
             }
         };
-        const definatitionExpected = {
+        const definitionExpected = {
             'ans-o': {
                 'type': 'object',
                 'properties': {
@@ -311,7 +311,7 @@ lab.experiment('property - ', () => {
         };
 
         expect(parsed).to.deep.equal(parsedExpected);
-        expect(definatition).to.deep.equal(definatitionExpected);
+        expect(definition).to.deep.equal(definitionExpected);
 
         done();
     });
