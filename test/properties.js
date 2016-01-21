@@ -212,6 +212,7 @@ lab.experiment('property - ', () => {
         expect(Properties.parseProperty('x', Joi.number().allow(1,2,3,4,5))).to.deep.equal({ 'type': 'number', 'enum': [1,2,3,4,5] });
         expect(Properties.parseProperty('x', Joi.string().allow('decimal', 'binary', ''))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
         expect(Properties.parseProperty('x', Joi.string().allow(''))).to.deep.equal({ 'type': 'string' });
+        expect(Properties.parseProperty('x', Joi.string().allow(null))).to.deep.equal({ 'type': 'string' });
 
         //console.log(JSON.stringify(Properties.parseProperty('x', Joi.array().allow('a','b','c'), {}, 'query')))
         expect(Properties.parseProperty('x', Joi.array().allow('a', 'b', 'c'), {}, 'query')).to.deep.equal({
