@@ -157,33 +157,89 @@ const defaultHandler = function (request, reply) {
 
 
 module.exports = [{
-    method: 'POST',
-    path: '/servers/{id}/{note?}',
+    method: 'PUT',
+    path: '/contenttype/1',
     config: {
-        description: 'Descriptio TWO',
+        handler: defaultHandler,
+        description: 'Add',
         tags: ['api'],
         plugins: {
             'hapi-swagger': {
-                consumes: ['multipart/form-data']
+                consumes: ['application/json','application/json;charset=UTF-8','application/json; charset=UTF-8'],
+                order: 2
             }
-        },
-        handler: function (request, reply) {
-
-            console.log('Params', request.params);
-            reply({ action: 'Delete Server' });
         },
         validate: {
             payload: {
-                file: Joi.any()
-                    .meta({ swaggerType: 'file' })
-                    .description('json file')
+                a: Joi.number()
+                    .required()
+                    .description('the first number'),
+
+                b: Joi.number()
+                    .required()
+                    .description('the second number')
             }
         },
-        plugins: {
-            lout: true
+        payload:{
+            allow: ['application/json','application/json;charset=UTF-8','application/json; charset=UTF-8']
         }
     }
-}, {
+},{
+    method: 'PUT',
+    path: '/contenttype/2',
+    config: {
+        handler: defaultHandler,
+        description: 'Add',
+        tags: ['api'],
+        plugins: {
+            'hapi-swagger': {
+                produces: ['application/json','application/xml'],
+                order: 1
+            }
+        },
+        validate: {
+            payload: Joi.object({
+                a: Joi.number()
+                    .required()
+                    .description('the first number'),
+
+                b: Joi.number()
+                    .required()
+                    .description('the second number')
+            }).label('sum_input')
+        }
+    }
+},{
+    method: 'PUT',
+    path: '/contenttype/3',
+    config: {
+        handler: defaultHandler,
+        description: 'Add',
+        tags: ['api'],
+        plugins: {
+            'hapi-swagger': {
+                order: 1
+            }
+        },
+        validate: {
+            payload: {
+                a: Joi.number()
+                    .required()
+                    .description('the first number'),
+
+                b: Joi.number()
+                    .required()
+                    .description('the second number')
+            },
+            headers: Joi.object({
+                'content-type': Joi.string().valid([
+                    'application/json',
+                    'application/json;charset=UTF-8',
+                    'application/json; charset=UTF-8'])
+            }).unknown()
+        }
+    }
+},{
     method: 'PUT',
     path: '/sum/add/{a}/{b}',
     config: {
@@ -193,7 +249,7 @@ module.exports = [{
         notes: ['Adds together two numbers and return the result. As an option you can have the result return as a binary number.'],
         plugins: {
             'hapi-swagger': {
-                responses: resultHTTPStatus
+                consumes: ['application/json', 'application/xml']
             }
         },
         validate: {
@@ -205,14 +261,9 @@ module.exports = [{
                 b: Joi.number()
                     .required()
                     .description('the second number')
-            },
-            headers: Joi.object({
-                'x-format': Joi.string()
-                    .valid('decimal', 'binary')
-                    .default('decimal')
-                    .description('return result as decimal or binary')
-            }).unknown()
+            }
         }
+
     }
 }, {
     method: 'PUT',
@@ -249,7 +300,8 @@ module.exports = [{
         tags: ['api'],
         plugins: {
             'hapi-swagger': {
-                responses: resultHTTPStatus
+                responses: resultHTTPStatus,
+                order: 3
             }
         },
         validate: {
@@ -273,7 +325,8 @@ module.exports = [{
         notes: ['Multiples the two numbers together and return the result'],
         plugins: {
             'hapi-swagger': {
-                responses: resultHTTPStatus
+                responses: resultHTTPStatus,
+                order: 2
             }
         },
         tags: ['api'],

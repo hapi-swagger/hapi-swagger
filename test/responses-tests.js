@@ -366,7 +366,7 @@ lab.experiment('responses', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.paths['/store/'].post.responses).to.deep.equal({
-                    '200': {
+                    'default': {
                         'schema': {
                             'type': 'string'
                         },
@@ -381,14 +381,14 @@ lab.experiment('responses', () => {
 
     lab.test('No ownProperty', (done) => {
 
-        const objA = Helper.objWithNoOwnProperty();
+        let objA = Helper.objWithNoOwnProperty();
         const objB = Helper.objWithNoOwnProperty();
         const objC = Helper.objWithNoOwnProperty();
 
         //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
 
         expect(Responses.build({}, {}, {}, {})).to.deep.equal({
-            '200': {
+            'default': {
                 'schema': {
                     'type': 'string'
                 },
@@ -396,7 +396,7 @@ lab.experiment('responses', () => {
             }
         });
         expect(Responses.build(objA, objB, objC, {})).to.deep.equal({
-            '200': {
+            'default': {
                 'schema': {
                     'type': 'string'
                 },
@@ -404,8 +404,13 @@ lab.experiment('responses', () => {
             }
         });
 
-        objA[200] = { description : 'Successful' };
-        expect(Responses.build( objA,objB,objC,{ } )).to.deep.equal({ 200:{ 'description': 'Successful' } });
+        objA = { 200: { description: 'Successful' } };
+        //console.log(JSON.stringify( Responses.build(objA, objB, objC, {}) ));
+        expect(Responses.build(objA, objB, objC, {})).to.deep.equal({
+            '200': {
+                'description': 'Successful'
+            }
+        });
 
         done();
     });

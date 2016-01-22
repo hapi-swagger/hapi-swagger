@@ -1,6 +1,6 @@
 # hapi-swagger
 
-This is a [The OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [HAPI](http://hapijs.com/) v9.x to v12.x  When installed it will self document the API interface
+This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [HAPI](http://hapijs.com/) v9.x to v12.x  When installed it will self document the API interface
 in a project.
 
 [![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=flat-square)](http://travis-ci.org/glennjones/hapi-swagger)
@@ -9,7 +9,7 @@ in a project.
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
 
 
-__NEW VERSION (v3.0.0 DEC 2015) - PLEASE REVIEW UPDATE INFORMATION - [Breaking changes in release notes](https://github.com/glennjones/hapi-swagger/issues/180)__
+__NEW VERSION (v3.x DEC 2015) - PLEASE REVIEW UPDATE INFORMATION - [Breaking changes in release notes](https://github.com/glennjones/hapi-swagger/issues/180)__
 
 
 ## Install
@@ -19,7 +19,7 @@ You can add the module to your HAPI using npm:
     $ npm install hapi-swagger --save
 
 If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static
-content serving. If you wish just to used swagger.json without the documentation for example with swagger-codegen simply set `enableDocumentation` to `false`.
+content serving. If you wish just to used swagger.json without the documentation for example with swagger-codegen simply set `options.enableDocumentation` to `false`.
 
     $ npm install inert --save
     $ npm install vision --save
@@ -27,6 +27,7 @@ content serving. If you wish just to used swagger.json without the documentation
 ## Adding the plug-in into your project
 
 In your apps main .js file add the following code to created a `server` object:
+
 
 ```Javascript
 const Hapi = require('hapi');
@@ -41,7 +42,7 @@ server.connection({
         port: 3000
     });
 
-const swaggerOptions = {
+const options = {
     info: {
             'title': 'Test API Documentation',
             'version': Pack.version,
@@ -52,8 +53,8 @@ server.register([
     Inert,
     Vision,
     {
-        register: HapiSwagger,
-        options: swaggerOptions
+        'register': HapiSwagger,
+        'options': options
     }], (err) => {
         server.start( () => {
             console.log('Server running at:', server.info.uri);
@@ -97,7 +98,7 @@ There are number of options for advance use cases. Most of the time you should o
 
 Options for UI:
 * `schemes`: (array) The transfer protocol of the API ie `['http']`
-* `host`: (string) The host (name or ip) serving the API including port if any i.e. `localhost:8080`
+* `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
 * `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
 * `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints
 * `enableDocumentation`:  (boolean) Add documentation page - default: `true`,
@@ -105,9 +106,11 @@ Options for UI:
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
-* `sortPaths`: (string) the path sort method for JSON. `unsorted` or `path-method`,
+* `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI.
 * `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
-* `tags`: (object) Containing [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in swagger-ui.
+* `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
+* `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
+* `sortPaths`: (string) a sort method for `path` objects in JSON. `unsorted` or `path-method`
 * `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 
 Defaults for routes settings (these can also be set a individual path level):
@@ -146,8 +149,9 @@ const swaggerOptions = {
 * `consumes`: (array) The mimetypes consumed  - default: `['application/json']`
 * `produces`: (array) The mimetypes produced  - default: `['application/json']`
 * `security:`: (array) Containing [Security Requirement Object](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#securityRequirementObject). No defaults are provided.
+* `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints = 'ordered'`
 
-### Grouping endpoints with tags
+## Grouping endpoints with tags
 Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs to match path of your endpoinds, so in the example below all enpoints with the path `/store` and `/sum` will be group togther.
 ```Javascript
 let swaggerOptions = {
@@ -156,6 +160,9 @@ let swaggerOptions = {
         'version': Pack.version,
     },
     tags: [{
+        'name': 'users',
+        'description': 'Users data'
+    },{
         'name': 'store',
         'description': 'Storing a sum',
         'externalDocs': {
@@ -172,8 +179,29 @@ let swaggerOptions = {
     }]
 };
 ```
+The groups are order in the same sequence you add them to the `tags` array in the plug-in options. You can enforce the order by name A-Z by switching the plugin `options.sortTags = 'name'`.
 
-### Route option example
+## Ordering the endpoints with groups
+The endpoints within the UI groups can be order with the property `options.sortEndpoints`, by default the are ordered A-Z using the `path` information. Can also order them by `method`. Finnally if you wish to enforce you own order then you added route option `order` to each endpoint and switch `options.sortEndpoints = 'ordered'`.
+```Javascript
+{
+    method: 'PUT',
+    path: '/test',
+    config: {
+        description: 'Add',
+        tags: [
+            'api'
+        ],
+        plugins: {
+            'hapi-swagger': {
+                order: 2
+            }
+        }
+    }
+}
+```
+
+## Route option example
 The route level options are always placed within the `plugins.hapi-swagger` object under `config`. These options are only assigned to the route they are apply to.
 ```Javascript
 {
@@ -202,7 +230,7 @@ The route level options are always placed within the `plugins.hapi-swagger` obje
 
 
 
-### Response Object
+## Response Object
 HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
 
 An very simple example of the use of the response object:
@@ -237,7 +265,7 @@ A working demo of more complex uses of response object can be found in the [be-m
 
 
 
-### Status Codes
+## Status Codes
 You can add HTTP status codes to each of the endpoints. As HAPI routes don not directly have a property for status codes so you need to add them the plugin configuration. The status codes need to be added as an array of objects with an error code and description. The `description` is required, the schema is optional and unlike added response object the example above this method does not validate the API response.
 
 ```Javascript
@@ -271,7 +299,7 @@ config: {
     }
 }
 ```
-### File upload
+## File upload
 The plug-in has basic support for file uploads into your API's. Below is an example of a route with a file upload, the three important elements are:
 
 * `payloadType: 'form'` in the plugins section creates a form for upload
@@ -306,7 +334,7 @@ The plug-in has basic support for file uploads into your API's. Below is an exam
 ```
 The  https://github.com/glennjones/be-more-hapi project has an example of file upload with the handler function dealing with validation, such as filetype and schema validation.
 
-### Naming
+## Naming
 There are times when you may wish to name a object so that its label in the Swagger interface make more sense to humans. This is most common when you have endpoint which take JSON structures. To label a object simply wrap it as a JOI object and chain the label function as below. __You need to give different structure its own unique name.__
 ```Javascript
 validate: {
@@ -317,7 +345,7 @@ validate: {
 }
 ```
 
-### Default values and examples
+## Default values and examples
 You can add both default values and examples to your JOI objects which are displayed within the Swagger interface. Defaults are turned into pre-fill values, either in the JSON of a payload or in the text inputs of forms.
 
 ```Javascript
@@ -339,7 +367,7 @@ validate: {
 }
 ```
 
-### Headers and .unknown()
+## Headers and .unknown()
 A common issue with the use of headers is that you may only want to validate some of the headers sent in a request and you are not concerned about other headers that maybe sent also. You can use JOI .unknown() to allow any all other headers to be sent without validation errors.
 ```Javascript
 validate: {
@@ -386,6 +414,7 @@ The all the files in the URLs below are added by the plugin, but you must server
   <script src='{{hapiSwagger.swaggerUIPath}}lib/highlight.7.3.pack.js' type='text/javascript'></script>
   <script src='{{hapiSwagger.swaggerUIPath}}lib/marked.js' type='text/javascript'></script>
   <script src='{{hapiSwagger.swaggerUIPath}}lib/swagger-oauth.js' type='text/javascript'></script>
+  <script src='{{hapiSwagger.swaggerUIPath}}extend.js' type='text/javascript'></script>
 
   <!-- Some basic translations -->
   <script src='{{hapiSwagger.swaggerUIPath}}/lang/translator.js' type='text/javascript'></script>
@@ -420,7 +449,8 @@ The all the files in the URLs below are added by the plugin, but you must server
           log("Unable to Load SwaggerUI");
         },
         docExpansion: "{{hapiSwagger.expanded}}",
-        apisSorter: "alpha",
+        apisSorter: apisSorter.{{hapiSwagger.sortTags}},
+        operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
         showRequestHeaders: false
       });
 
@@ -432,6 +462,12 @@ The all the files in the URLs below are added by the plugin, but you must server
         }
       }
   });
+
+  // creates a list of tags in the order they where created
+    var tags = []
+    {{#each hapiSwagger.tags}}
+    tags.push('{{name}}');
+    {{/each}}
 </script>
 ```
 
@@ -467,13 +503,14 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
     ?tags=mountains,+beach,-horses
     this will show routes WITH 'mountains' AND 'beach' AND NO 'horses'
 
-### Features from HAPI that cannot be ported to Swagger
+## Features from HAPI that cannot be ported to Swagger
 Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
-* __`Joi.alternatives()`__ This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tooles using swagger build to typesafe languages. This maybe be added to the next version of Swagger
-* __`{/filePath*}`__ The path parameters with the `*` char are not supported as is `{/filePath*3} the pattern` This will mostly likely be added to the next version of Swagger.
+* __`Joi.alternatives()`__ This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tooles using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec
+* __`{/filePath*}`__ The path parameters with the `*` char are not supported, either is the `{/filePath*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
+* __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.
 
-### Lab test
+## Lab test
 The project has integration and unit tests. To run the test within the project type one of the following commands.
 ```bash
 $ lab
@@ -487,8 +524,11 @@ $ lab -r console -o stdout -r html -o coverage.html --lint
 If you are considering sending a pull request please add tests for the functionality you add or change.
 
 
-### Thanks
-I would like all that have contributed to the project over the last couple of years.
+## Thanks
+I would like all that have contributed to the project over the last couple of years. This is a hard project to maintain getting HAPI to work with Swagger
+is like putting a round plug in a square hole. Without the help of others it would not be possible.
 
-### Issues
+## Issues
 If you find any issue please file here on github and I will try and fix them.
+
+

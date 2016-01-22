@@ -1,8 +1,7 @@
 'use strict';
 const Code = require('code');
 const Lab = require('lab');
-const Hoek = require('hoek');
-const Sort = require('../lib/sort.js');
+const Helper = require('../test/helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -13,97 +12,127 @@ lab.experiment('sort', () => {
 
     const routes = [{
         method: 'POST',
-        path: '/a',
+        path: '/x',
         config: {
-            tags: ['api']
-        }
-    },{
-        method: 'GET',
-        path: '/a',
-        config: {
-            tags: ['api']
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 7
+                }
+            }
         }
     }, {
         method: 'GET',
         path: '/b',
         config: {
-            tags: ['api']
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 5
+                }
+            }
         }
     }, {
         method: 'GET',
         path: '/b/c',
         config: {
-            tags: ['api']
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 4
+                }
+            }
+        }
+    }, {
+        method: 'POST',
+        path: '/b/c/d',
+        config: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 1
+                }
+            }
         }
     }, {
         method: 'GET',
-        path: '/b/a/b',
+        path: '/b/c/d',
         config: {
-            tags: ['api']
-        }
-    }, {
-        method: 'GET',
-        path: '/b/a/b',
-        config: {
-            tags: ['api']
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 2
+                }
+            }
         }
     },{
         method: 'DELETE',
         path: '/a',
         config: {
-            tags: ['api']
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 3
+                }
+            }
+        }
+    },{
+        method: 'POST',
+        path: '/a',
+        config: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 7
+                }
+            }
+        }
+    },{
+        method: 'GET',
+        path: '/a',
+        config: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+                'hapi-swagger': {
+                    order: 6
+                }
+            }
         }
     }];
 
 
-    lab.test('sort unsort default', (done) => {
+    lab.test('sort ordered unsorted', (done) => {
 
-        let testRoutes = Hoek.clone(routes);
-        Sort.paths('unsorted', testRoutes);
+        Helper.createServer({ sortPaths: 'unsorted' }, routes, (err, server) => {
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
-        //console.log(JSON.stringify(testRoutes));
-        expect(testRoutes[0]).to.deep.equal({
-            'method':'POST',
-            'path':'/a',
-            'config':{
-                'tags':['api']
-            }
+                //console.log(JSON.stringify(response.result.paths['/a']));
+                expect(Object.keys(response.result.paths['/a'])).to.deep.equal(['get', 'post', 'delete']);
+                done();
+            });
         });
-        expect(testRoutes[6]).to.deep.equal({
-            'method':'DELETE',
-            'path':'/a',
-            'config':{
-                'tags':['api']
-            }
-        });
-        done();
     });
 
 
+    lab.test('sort ordered path-method', (done) => {
 
-    lab.test('sort path-method', (done) => {
+        Helper.createServer({ sortPaths: 'path-method' }, routes, (err, server) => {
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
-        let testRoutes = Hoek.clone(routes);
-        Sort.paths('path-method', testRoutes);
-
-        //console.log(JSON.stringify(testRoutes));
-        expect(testRoutes[4]).to.deep.equal({
-            'method':'GET',
-            'path':'/b/a/b',
-            'config':{
-                'tags':['api']
-            }
+                //console.log(JSON.stringify(Object.keys(response.result.paths['/a'])));
+                expect(Object.keys(response.result.paths['/a'])).to.deep.equal(['delete', 'get', 'post']);
+                done();
+            });
         });
-        expect(testRoutes[0]).to.deep.equal({
-            'method':'DELETE',
-            'path':'/a',
-            'config':{
-                'tags':['api']
-            }
-        });
-        done();
     });
-
 
 
 });

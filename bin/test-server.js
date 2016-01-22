@@ -57,21 +57,30 @@ let swaggerOptions = {
         }
     },
     tags: [{
-        'name': 'store',
-        'description': 'Storing a sum',
+        'name': 'contenttype',
+        'description': 'temp endpoints for content-type',
         'externalDocs': {
             'description': 'Find out more',
             'url': 'http://example.org'
-        }
+        },
+        'x-order': 1
     }, {
         'name': 'sum',
-        'description': 'API of sums',
+        'description': 'working with maths',
         'externalDocs': {
             'description': 'Find out more',
             'url': 'http://example.org'
-        }
-    }],
-    derefJSONSchema: false
+        },
+        'x-order': 2
+    }, {
+        'name': 'store',
+        'description': 'storing data',
+        'externalDocs': {
+            'description': 'Find out more',
+            'url': 'http://example.org'
+        },
+        'x-order': 3
+    }]
 };
 
 
