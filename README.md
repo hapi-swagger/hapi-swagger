@@ -56,8 +56,12 @@ server.register([
         'register': HapiSwagger,
         'options': options
     }], (err) => {
-        server.start( () => {
-            console.log('Server running at:', server.info.uri);
+        server.start( (err) => {
+           if (err) {
+                console.log(err);
+            } else {
+                console.log('Server running at:', server.info.uri);
+            }
         });
     });
 
@@ -74,7 +78,7 @@ You can even specify more tags and then later generate tag-specific documentatio
     method: 'GET',
     path: '/todo/{id}/',
     config: {
-        handler: handlers.mapUsername,
+        handler: handlers.getToDo,
         description: 'Get todo',
         notes: 'Returns a todo item by the id passed in the path',
         tags: ['api'],
@@ -110,7 +114,6 @@ Options for UI:
 * `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
 * `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
 * `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
-* `sortPaths`: (string) a sort method for `path` objects in JSON. `unsorted` or `path-method`
 * `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 
 Defaults for routes settings (these can also be set a individual path level):
@@ -131,7 +134,7 @@ Info object (this information will be added into the UI):
 
 ### Option example
 ```Javascript
-const swaggerOptions = {
+const options = {
         'info': {
             'title': 'Test API Documentation',
             'version': '5.14.3',
@@ -154,7 +157,7 @@ const swaggerOptions = {
 ## Grouping endpoints with tags
 Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs to match path of your endpoinds, so in the example below all enpoints with the path `/store` and `/sum` will be group togther.
 ```Javascript
-let swaggerOptions = {
+let options = {
     info: {
         'title': 'Test API Documentation',
         'version': Pack.version,

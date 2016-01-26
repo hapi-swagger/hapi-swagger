@@ -20,7 +20,6 @@ const helper = module.exports = {};
 */
 helper.createServer = function (swaggerOptions, routes, callback) {
 
-    let err = null;
     const server = new Hapi.Server();
 
     server.connection();
@@ -40,11 +39,13 @@ helper.createServer = function (swaggerOptions, routes, callback) {
 
             if (err) {
                 callback(err, null);
+            } else {
+                callback(null, server);
             }
         });
     });
 
-    callback(err, server);
+
 };
 
 
@@ -57,7 +58,6 @@ helper.createServer = function (swaggerOptions, routes, callback) {
 */
 helper.createAuthServer = function (swaggerOptions, routes, callback) {
 
-    let err = null;
     const server = new Hapi.Server();
 
     server.connection();
@@ -82,11 +82,14 @@ helper.createAuthServer = function (swaggerOptions, routes, callback) {
 
             if (err) {
                 callback(err, null);
+            } else {
+                callback(null, server);
             }
+
         });
     });
 
-    callback(err, server);
+
 };
 
 

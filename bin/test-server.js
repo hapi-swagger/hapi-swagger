@@ -57,29 +57,19 @@ let swaggerOptions = {
         }
     },
     tags: [{
-        'name': 'contenttype',
-        'description': 'temp endpoints for content-type',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
-        },
-        'x-order': 1
-    }, {
         'name': 'sum',
         'description': 'working with maths',
         'externalDocs': {
             'description': 'Find out more',
             'url': 'http://example.org'
-        },
-        'x-order': 2
+        }
     }, {
         'name': 'store',
         'description': 'storing data',
         'externalDocs': {
             'description': 'Find out more',
             'url': 'http://example.org'
-        },
-        'x-order': 3
+        }
     }]
 };
 
@@ -99,10 +89,15 @@ server.register([
             'accessTokenName': 'access_token',
             'validateFunc': validateBearer
         });
-        server.start(() => {
+        server.route(Routes);
 
-            console.log('server running at:', server.info.uri);
+        server.start((err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Server running at:', server.info.uri);
+            }
         });
     });
 
-server.route(Routes);
+
