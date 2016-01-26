@@ -144,10 +144,10 @@ const defaultHandler = function (request, reply) {
         'pageCount': 1
     };
 
-    if (request.path.indexOf('/sum/') > -1) {
+    if (request.path.indexOf('/v1/sum/') > -1) {
         replyByType('result', { 'equals': 43 }, request, reply);
     } else {
-        if (request.path === '/store/' && request.method === 'get') {
+        if (request.path === '/v1/store/' && request.method === 'get') {
             replyByType('list', list, request, reply);
         } else {
             replyByType('sum', sum, request, reply);
@@ -158,7 +158,7 @@ const defaultHandler = function (request, reply) {
 
 module.exports = [{
     method: 'PUT',
-    path: '/sum/add/{a}/{b}',
+    path: '/v1/sum/add/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Add',
@@ -184,7 +184,7 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/sum/subtract/{a}/{b}',
+    path: '/v1/sum/subtract/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Subtract',
@@ -209,7 +209,7 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/sum/divide/{a}/{b}',
+    path: '/v1/sum/divide/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Divide',
@@ -235,7 +235,7 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/sum/multiple/{a}/{b}',
+    path: '/v1/sum/multiple/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Multiple',
@@ -261,7 +261,7 @@ module.exports = [{
     }
 }, {
     method: 'GET',
-    path: '/store/',
+    path: '/v1/store/',
     config: {
         handler: defaultHandler,
         description: 'List sums',
@@ -284,7 +284,7 @@ module.exports = [{
     }
 }, {
     method: 'GET',
-    path: '/store/{id}',
+    path: '/v1/store/{id}',
     config: {
         handler: defaultHandler,
         description: 'Get sum',
@@ -305,7 +305,7 @@ module.exports = [{
     }
 }, {
     method: 'POST',
-    path: '/store/',
+    path: '/v1/store/',
     config: {
         handler: defaultHandler,
         description: 'Add sum',
@@ -344,7 +344,7 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/store/{id}',
+    path: '/v1/store/{id}',
     config: {
         handler: defaultHandler,
         description: 'Update sum',
@@ -385,7 +385,7 @@ module.exports = [{
     }
 }, {
     method: 'DELETE',
-    path: '/store/{id}',
+    path: '/v1/store/{id}',
     config: {
         handler: defaultHandler,
         description: 'Delete sums',
@@ -406,7 +406,7 @@ module.exports = [{
     }
 }, {
     method: 'POST',
-    path: '/store/payload/',
+    path: '/v1/store/payload/',
     config: {
         handler: defaultHandler,
         description: 'Add sum, with JSON object',
@@ -441,7 +441,7 @@ module.exports = [{
     }
 }, {
     method: 'POST',
-    path: '/store/file/',
+    path: '/v1/store/file/',
     config: {
         handler: defaultHandler,
         description: 'Add sum, with JSON file',
