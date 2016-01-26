@@ -436,6 +436,13 @@ The all the files in the URLs below are added by the plugin, but you must server
       if(window.SwaggerTranslator) {
         window.SwaggerTranslator.translate();
       }
+
+      // pull validatorUrl string or null form server
+      var validatorUrl = null;
+      {{#if hapiSwagger.validatorUrl}}
+      validatorUrl: '{{hapiSwagger.validatorUrl}}';
+      {{/if}}
+
       window.swaggerUi = new SwaggerUi({
         url: url,
         dom_id: "swagger-ui-container",
@@ -454,7 +461,8 @@ The all the files in the URLs below are added by the plugin, but you must server
         docExpansion: "{{hapiSwagger.expanded}}",
         apisSorter: apisSorter.{{hapiSwagger.sortTags}},
         operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
-        showRequestHeaders: false
+        showRequestHeaders: false,
+        validatorUrl: validatorUrl
       });
 
       window.swaggerUi.load();
