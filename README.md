@@ -231,7 +231,7 @@ The route level options are always placed within the `plugins.hapi-swagger` obje
 
 
 ## Response Object
-HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validation and description the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
+HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validate and describe the output of an API. It uses the same JOI validation objects to describe the input parameters. The plugin turns these object into visual description and examples in the Swagger UI.
 
 An very simple example of the use of the response object:
 ```Javascript
