@@ -48,6 +48,6 @@
     "test-cov-coveralls": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls"
   },
   "peerDependencies": {
-    "hapi": "^9.0.1 || ^10.0.0 || ^11.0.0 || ^12.0.0"
+    "hapi": "^9.0.1 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0"
   }
 }
