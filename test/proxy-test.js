@@ -151,7 +151,8 @@ lab.experiment('proxies', () => {
                     {
                         'type': 'string',
                         'in': 'path',
-                        'name': 'testparam'
+                        'name': 'testparam',
+                        'required': false
                     },
                     {
                         'type': 'string',

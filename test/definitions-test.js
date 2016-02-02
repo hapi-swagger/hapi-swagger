@@ -77,7 +77,7 @@ lab.experiment('definitions', () => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
-                // console.log(JSON.stringify(response.result.paths['/test/'].post.parameters[0].schem));
+                //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters[0].schema).to.deep.equal({
                     '$ref': '#/definitions/parameters_test_post'

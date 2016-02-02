@@ -1,16 +1,12 @@
 # hapi-swagger
 
-This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [HAPI](http://hapijs.com/) v9.x to v12.x  When installed it will self document the API interface
+This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [HAPI](http://hapijs.com/) v9.x to v13.x  When installed it will self document the API interface
 in a project.
 
 [![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=flat-square)](http://travis-ci.org/glennjones/hapi-swagger)
 [![Coverage Status](https://img.shields.io/coveralls/glennjones/hapi-swagger/dev.svg?style=flat-square)](https://coveralls.io/r/glennjones/hapi-swagger)
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
-
-
-__NEW VERSION (v3.x DEC 2015) - PLEASE REVIEW UPDATE INFORMATION - [Breaking changes in release notes](https://github.com/glennjones/hapi-swagger/issues/180)__
-
 
 ## Install
 

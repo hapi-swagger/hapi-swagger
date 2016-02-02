@@ -246,7 +246,7 @@ lab.experiment('property - ', () => {
 
     lab.test('parse optional', (done) => {
 
-        expect(Properties.parseProperty('x', Joi.string().optional())).to.deep.equal({ 'type': 'string' });
+        expect(Properties.parseProperty('x', Joi.string().optional())).to.deep.equal({ 'type': 'string', 'required': false  });
         done();
     });
 
