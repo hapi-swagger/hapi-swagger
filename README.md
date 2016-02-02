@@ -278,7 +278,7 @@ config: {
 				responses: {
             		'200': {
                         'description': 'Success',
-                        'scahema': Joi.object({
+                        'schema': Joi.object({
                                 equals: Joi.number(),
                             }).label('Result')
                     },
