@@ -418,7 +418,7 @@ module.exports = [{
         },
         tags: ['api', 'reduced', 'three'],
         validate: {
-            payload: {
+            payload: Joi.object({
                 a: Joi.number()
                     .required()
                     .description('the first number'),
@@ -436,7 +436,7 @@ module.exports = [{
                 equals: Joi.number()
                     .required()
                     .description('the result of the sum')
-            }
+            }).label('Compact Sum')
         }
     }
 }, {

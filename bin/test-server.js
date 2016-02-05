@@ -72,7 +72,8 @@ let swaggerOptions = {
             'description': 'Find out more',
             'url': 'http://example.org'
         }
-    }]
+    }],
+    jsonEditor: true
 };
 
 

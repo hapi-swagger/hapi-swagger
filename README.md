@@ -106,8 +106,9 @@ Options for UI:
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
+* `jsonEditor`: (boolean) If UI should use JSON Edtior - default: `false`
 * `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI.
-* `lang`: (string) The language of the UI either `en`, `es`, `pt` or `ru`  - default: `en`
+* `lang`: (string) The language of the UI `en`, `es`, `fr`, `it`, `ja`, `pl`, `pt`, `ru`, `tr` or`zh-cn`  - default: `en`
 * `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
 * `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
 * `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
