@@ -31,124 +31,129 @@
     <script src='{{hapiSwagger.swaggerUIPath}}/lang/translator.js' type='text/javascript'></script>
     <script src='{{hapiSwagger.swaggerUIPath}}/lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
 
-    <script type="text/javascript">
-        $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = "{{{hapiSwagger.jsonPath}}}";
-      }
-
-      // Pre load translate...
-      if(window.SwaggerTranslator) {
-        window.SwaggerTranslator.translate();
-      }
-
-      // pull validatorUrl string or null form server
-      var validatorUrl = null;
-      {{#if hapiSwagger.validatorUrl}}
-      validatorUrl: '{{hapiSwagger.validatorUrl}}';
-      {{/if}}
-
-      window.swaggerUi = new SwaggerUi({
-        url: url,
-        dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-        onComplete: function(swaggerApi, swaggerUi){
-          if(typeof initOAuth == "function") {
-            initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret",
-              realm: "your-realms",
-              appName: "your-app-name",
-              scopeSeparator: ","
-            });
-          }
-
-          if(window.SwaggerTranslator) {
-            window.SwaggerTranslator.translate();
-          }
-
-          $('pre code').each(function(i, e) {
-            hljs.highlightBlock(e)
-          });
-
-          //addApiKeyAuthorization();
-        },
-        onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
-        },
-        docExpansion: "{{hapiSwagger.expanded}}",
-        apisSorter: apisSorter.{{hapiSwagger.sortTags}},
-        operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
-        showRequestHeaders: false,
-        validatorUrl: validatorUrl,
-        jsonEditor: {{hapiSwagger.jsonEditor}}
-      });
-
-
-     /*
-
-      function addApiKeyAuthorization(){
-        var key = encodeURIComponent($('#input_apiKey')[0].value);
-        if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("authorization", key, "header");
-            window.swaggerUi.api.clientAuthorizations.add("authorization", apiKeyAuth);
-            log("added key " + key);
-        }
-      }
-
-
-      $('#input_apiKey').change(addApiKeyAuthorization);
-
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-
-      var apiKey = "Bearer 12345";
-      $('#input_apiKey').val(apiKey);
-
-      */
-
-
-      window.swaggerUi.load();
-
-      function log() {
-        if ('console' in window) {
-          console.log.apply(console, arguments);
-        }
-      }
-  });
-
+<script type="text/javascript">
 
     // creates a list of tags in the order they where created
     var tags = []
     {{#each hapiSwagger.tags}}
     tags.push('{{name}}');
     {{/each}}
+
+
+    $(function () {
+
+        $('#input_apiKey').hide();
+
+        var url = window.location.search.match(/url=([^&]+)/);
+        if (url && url.length > 1) {
+            url = decodeURIComponent(url[1]);
+        } else {
+            url = "{{{hapiSwagger.jsonPath}}}";
+        }
+
+        // Pre load translate...
+        if(window.SwaggerTranslator) {
+            window.SwaggerTranslator.translate();
+        }
+
+        // pull validatorUrl string or null form server
+        var validatorUrl = null;
+        {{#if hapiSwagger.validatorUrl}}
+        validatorUrl: '{{hapiSwagger.validatorUrl}}';
+        {{/if}}
+
+        window.swaggerUi = new SwaggerUi({
+            url: url,
+            dom_id: "swagger-ui-container",
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+            onComplete: function (swaggerApi, swaggerUi) {
+                if (typeof initOAuth == "function") {
+                    initOAuth({
+                        clientId: "your-client-id",
+                        clientSecret: "your-client-secret",
+                        realm: "your-realms",
+                        appName: "your-app-name",
+                        scopeSeparator: ","
+                    });
+                }
+
+                if (window.SwaggerTranslator) {
+                    window.SwaggerTranslator.translate();
+                }
+
+                $('pre code').each(function (i, e) {
+                    hljs.highlightBlock(e)
+                });
+
+                if (Array.isArray(swaggerApi.auths) && swaggerApi.auths.length > 0 && swaggerApi.auths[0].type === "apiKey") {
+                    auth = swaggerApi.auths[0].value;
+                    $('#input_apiKey').show();
+                }
+                //addApiKeyAuthorization();
+            },
+            onFailure: function (data) {
+                log("Unable to Load SwaggerUI");
+            },
+            docExpansion: "{{hapiSwagger.expanded}}",
+            apisSorter: apisSorter.{{hapiSwagger.sortTags }},
+            operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints }},
+            showRequestHeaders: false,
+            validatorUrl: validatorUrl,
+            jsonEditor: {{hapiSwagger.jsonEditor }}
+        });
+
+
+        function addApiKeyAuthorization() {
+            var key = $('#input_apiKey')[0].value;
+            if (key && key.trim() != "") {
+                var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization(auth.name, key, auth.in);
+                window.swaggerUi.api.clientAuthorizations.add(auth.name, apiKeyAuth);
+                log("added key " + key);
+            }
+        }
+
+
+        $('#input_apiKey').change(addApiKeyAuthorization);
+
+        /*
+        // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
+
+        var apiKey = "Bearer 12345";
+        $('#input_apiKey').val(apiKey);
+
+        */
+
+
+        window.swaggerUi.load();
+
+        function log() {
+            if ('console' in window) {
+                console.log.apply(console, arguments);
+            }
+        }
+  });
+
+
+
     </script>
 </head>
 
 <body class="swagger-section">
-    <div id='header'>
-        <div class="swagger-ui-wrap">
-            <a id="logo" href="http://swagger.io">swagger</a>
-            <form id='api_selector'>
-                <!--
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-      -->
-            </form>
-        </div>
+<div id='header'>
+    <div class="swagger-ui-wrap">
+        <a id="logo" href="http://swagger.io">swagger</a>
+        <form id='api_selector' onsubmit="return false">
+            <div class='input'><input placeholder="api_key" id="input_apiKey" style="display:none" name="apiKey" type="text"/></div>
+            <!--
+            <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
+            <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
+            -->
+        </form>
     </div>
+</div>
 
-    <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-    <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 
 </html>
-
-
-
-

@@ -35,6 +35,14 @@ const validateBearer = function (token, callback) {
 };
 
 
+const goodOptions = {
+    reporters: [{
+        reporter: require('good-console'),
+        events: { log: '*', response: '*' }
+    }]
+};
+
+
 
 let server = new Hapi.Server();
 server.connection({
@@ -73,7 +81,15 @@ let swaggerOptions = {
             'url': 'http://example.org'
         }
     }],
-    jsonEditor: true
+    jsonEditor: true,
+    securityDefinitions: {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    security: [{ 'Bearer': [] }]
 };
 
 
@@ -83,6 +99,10 @@ server.register([
     Blipp,
     H2o2,
     BearerToken,
+    {
+        register: require('good'),
+        options: goodOptions
+    },
     {
         register: HapiSwagger,
         options: swaggerOptions

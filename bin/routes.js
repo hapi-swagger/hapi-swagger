@@ -169,6 +169,7 @@ module.exports = [{
                 consumes: ['application/json', 'application/xml']
             }
         },
+        auth: 'bearer',
         validate: {
             params: {
                 a: Joi.number()
