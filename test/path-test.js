@@ -422,4 +422,28 @@ lab.experiment('path', () => {
     });
 
 
+
+    lab.test('route deprecated', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.plugins = {
+            'hapi-swagger': {
+                deprecated: true
+            }
+        };
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.deprecated).to.equal(true);
+                done();
+            });
+        });
+    });
+
+
 });
