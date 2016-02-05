@@ -451,7 +451,8 @@ module.exports = [{
             'hapi-swagger': {
                 responses: fileHTTPStatus,
                 payloadType: 'form',
-                consumes: ['multipart/form-data']
+                consumes: ['multipart/form-data'],
+                deprecated: true
             }
         },
         tags: ['api', 'reduced', 'three'],
