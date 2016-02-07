@@ -93,12 +93,24 @@ let swaggerOptions = {
 };
 
 
+// swaggerOptions.auth = 'bearer';
+
+// the auth.strategy needs to be registered before it can be used in options for swagger
+server.register([BearerToken], (err) => {
+
+    server.auth.strategy('bearer', 'bearer-access-token', {
+        'accessTokenName': 'access_token',
+        'validateFunc': validateBearer
+    });
+});
+
+
+
 server.register([
     Inert,
     Vision,
     Blipp,
     H2o2,
-    BearerToken,
     {
         register: require('good'),
         options: goodOptions
@@ -108,10 +120,6 @@ server.register([
         options: swaggerOptions
     }], (err) => {
 
-        server.auth.strategy('bearer', 'bearer-access-token', {
-            'accessTokenName': 'access_token',
-            'validateFunc': validateBearer
-        });
         server.route(Routes);
 
         server.start((err) => {

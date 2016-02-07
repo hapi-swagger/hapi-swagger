@@ -105,6 +105,7 @@ Options for UI:
 * `documentationPath`:  (string) The path of the documentation page - default: `/documentation`,
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
+* `auth`: (false || string || object) The [authentication configuration](http://hapijs.com/api#route-options) for plug-in routes. - default: `false`
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `jsonEditor`: (boolean) If UI should use JSON Edtior - default: `false`
 * `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI.
@@ -112,7 +113,7 @@ Options for UI:
 * `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
 * `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
 * `securityDefinitions:`: (array) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
-* `validatorUrl`: (string) sets the external validating URL Can swtich off by setting to `null`
+* `validatorUrl`: (string || null) sets the external validating URL Can swtich off by setting to `null`
 
 Defaults for routes settings (these can also be set a individual path level):
 * `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`

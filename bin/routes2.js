@@ -1,74 +1,44 @@
 'use strict';
 const Joi = require('joi');
 
-module.exports = [{
-    method: 'GET',
-    path: '/ratings1/{image}',
-    config: {
-        handler: function (request, reply) {
+var Person = Joi.object({
+    ssn: Joi.string().required()
+});
 
-            reply('hello');
-        },
-        tags: ['api'],
-        validate: {
-            params: {
-                image: Joi.string().required()
+var CreatePerson = Person.keys({
+    password: Joi.string().required()
+}).label('CreatePerson');
+
+var UpdatePerson = Person.keys({
+    password: Joi.string()
+}).label('UpdatePerson');
+
+
+module.exports = [
+    {
+        method: 'POST',
+        path: '/person',
+        config: {
+            handler: function () { },
+            tags: ['api'],
+            validate: {
+                payload: Joi.Object({
+                    person: CreatePerson.required()
+                }).label('Post Person')
+            }
+        }
+    },
+    {
+        method: 'PUT',
+        path: '/person',
+        config: {
+            handler: function () { },
+            tags: ['api'],
+            validate: {
+                payload: Joi.Object({
+                    person: UpdatePerson.required()
+                }).label('Put Person')
             }
         }
     }
-},{
-    method: 'GET',
-    path: '/ratings2/{image}',
-    config: {
-        handler: function (request, reply) {
-
-            reply('hello');
-        },
-        tags: ['api'],
-        validate: {
-            params: {
-                image: Joi.string().optional()
-            }
-        }
-    }
-},{
-    method: 'GET',
-    path: '/ratings3/{image}',
-    config: {
-        handler: function (request, reply) {
-
-            reply('hello');
-        },
-        tags: ['api'],
-        validate: {
-            params: {
-                image: Joi.string()
-            }
-        }
-    }
-},{
-    method: 'GET',
-    path: '/ratings4/{image?}',
-    config: {
-        handler: function (request, reply) {
-
-            reply('hello');
-        },
-        tags: ['api'],
-        validate: {
-            params: {
-                image: Joi.string()
-            }
-        }
-    }
-},{
-    method: 'GET',
-    path: '/{path*}',
-    handler: {
-        directory: {
-            path: './public',
-            listing: false,
-            index: true
-        }
-    }
-}];
+];
