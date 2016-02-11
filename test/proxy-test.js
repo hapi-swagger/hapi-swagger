@@ -101,7 +101,7 @@ lab.experiment('proxies', () => {
         requestOptions.headers = {
             'x-arr-ssl': 'information about the SSL server certificate',
             'disguised-host': 'requested-host',
-            'host': 'internal-host',
+            'host': 'internal-host'
         };
 
         Helper.createServer(options, routes, (err, server) => {
