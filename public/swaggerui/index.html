@@ -95,11 +95,11 @@
                 log("Unable to Load SwaggerUI");
             },
             docExpansion: "{{hapiSwagger.expanded}}",
-            apisSorter: apisSorter.{{hapiSwagger.sortTags }},
-            operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints }},
+            apisSorter: apisSorter.{{hapiSwagger.sortTags}},
+            operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
             showRequestHeaders: false,
             validatorUrl: validatorUrl,
-            jsonEditor: {{hapiSwagger.jsonEditor }}
+            jsonEditor: {{#if isTrue}}true{{else}}false{{/if}}
         });
 
 
