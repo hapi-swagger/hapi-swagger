@@ -94,6 +94,29 @@ lab.experiment('proxies', () => {
     });
 
 
+    lab.test('Azure Web Sites options', (done) => {
+
+        const options = {};
+
+        requestOptions.headers = {
+            'x-arr-ssl': 'information about the SSL server certificate',
+            'disguised-host': 'requested-host',
+            'host': 'internal-host',
+        };
+
+        Helper.createServer(options, routes, (err, server) => {
+
+            server.inject(requestOptions, (response) => {
+
+                expect(err).to.equal(null);
+                expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
+                expect(response.result.schemes).to.deep.equal(['https']);
+                done();
+            });
+        });
+    });
+
+
     lab.test('adding facade for proxy using route options 1', (done) => {
 
         routes = {
