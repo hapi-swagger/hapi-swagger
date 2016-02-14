@@ -475,6 +475,7 @@ module.exports = [{
     path: '/custom',
     config: {
         handler: function (request, reply) {
+
             reply.view('custom.html', {});
         }
     }
