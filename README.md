@@ -152,6 +152,7 @@ const options = {
 * `produces`: (array) The mimetypes produced  - default: `['application/json']`
 * `security:`: (array) Containing [Security Requirement Object](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#securityRequirementObject). No defaults are provided.
 * `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints = 'ordered'`
+* `deprecated`: (boolean) Weather a endpoint has been deprecated - default: `false`
 
 ## Grouping endpoints with tags
 Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs to match path of your endpoinds, so in the example below all enpoints with the path `/store` and `/sum` will be group togther.
@@ -399,86 +400,121 @@ The all the files in the URLs below are added by the plugin, but you must server
 
 ```html
 <link rel="icon" type="image/png" href="{{hapiSwagger.swaggerUIPath}}images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="{{hapiSwagger.swaggerUIPath}}images/favicon-16x16.png" sizes="16x16" />
-  <link href='{{hapiSwagger.swaggerUIPath}}css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='{{hapiSwagger.swaggerUIPath}}css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='{{hapiSwagger.swaggerUIPath}}css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='{{hapiSwagger.swaggerUIPath}}css/reset.css' media='print' rel='stylesheet' type='text/css'/>
-  <link href='{{hapiSwagger.swaggerUIPath}}css/print.css' media='print' rel='stylesheet' type='text/css'/>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.slideto.min.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.wiggle.min.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/handlebars-2.0.0.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/underscore-min.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/backbone-min.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}swagger-ui.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/highlight.7.3.pack.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/marked.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}lib/swagger-oauth.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}extend.js' type='text/javascript'></script>
+<link rel="icon" type="image/png" href="{{hapiSwagger.swaggerUIPath}}images/favicon-16x16.png" sizes="16x16" />
+<link href='{{hapiSwagger.swaggerUIPath}}css/typography.css' media='screen' rel='stylesheet' type='text/css' />
+<link href='{{hapiSwagger.swaggerUIPath}}css/reset.css' media='screen' rel='stylesheet' type='text/css' />
+<link href='{{hapiSwagger.swaggerUIPath}}css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+<link href='{{hapiSwagger.swaggerUIPath}}css/reset.css' media='print' rel='stylesheet' type='text/css' />
+<link href='{{hapiSwagger.swaggerUIPath}}css/print.css' media='print' rel='stylesheet' type='text/css' />
+<script src='{{hapiSwagger.swaggerUIPath}}lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.slideto.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.wiggle.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/handlebars-2.0.0.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/js-yaml.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/lodash.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/backbone-min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}swagger-ui.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/highlight.7.3.pack.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/jsoneditor.min.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/marked.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/swagger-oauth.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}extend.js' type='text/javascript'></script>
 
-  <!-- Some basic translations -->
-  <script src='{{hapiSwagger.swaggerUIPath}}/lang/translator.js' type='text/javascript'></script>
-  <script src='{{hapiSwagger.swaggerUIPath}}/lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
+<!-- Some basic translations -->
+<script src='{{hapiSwagger.swaggerUIPath}}/lang/translator.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}/lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
 
-  <script type="text/javascript">
-    $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = "{{{hapiSwagger.jsonPath}}}";
-      }
+<script type="text/javascript">
 
-      // Pre load translate...
-      if(window.SwaggerTranslator) {
-        window.SwaggerTranslator.translate();
-      }
-
-      // pull validatorUrl string or null form server
-      var validatorUrl = null;
-      {{#if hapiSwagger.validatorUrl}}
-      validatorUrl: '{{hapiSwagger.validatorUrl}}';
-      {{/if}}
-
-      window.swaggerUi = new SwaggerUi({
-        url: url,
-        dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-        onComplete: function(swaggerApi, swaggerUi){
-          if(window.SwaggerTranslator) {
-            window.SwaggerTranslator.translate();
-          }
-          $('pre code').each(function(i, e) {
-            hljs.highlightBlock(e)
-          });
-        },
-        onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
-        },
-        docExpansion: "{{hapiSwagger.expanded}}",
-        apisSorter: apisSorter.{{hapiSwagger.sortTags}},
-        operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
-        showRequestHeaders: false,
-        validatorUrl: validatorUrl
-      });
-
-      window.swaggerUi.load();
-
-      function log() {
-        if ('console' in window) {
-          console.log.apply(console, arguments);
-        }
-      }
-  });
-
-  // creates a list of tags in the order they where created
+    // creates a list of tags in the order they where created
     var tags = []
     {{#each hapiSwagger.tags}}
     tags.push('{{name}}');
     {{/each}}
-</script>
+
+
+    $(function () {
+
+        $('#input_apiKey').hide();
+
+        var url = window.location.search.match(/url=([^&]+)/);
+        if (url && url.length > 1) {
+            url = decodeURIComponent(url[1]);
+        } else {
+            url = "{{{hapiSwagger.jsonPath}}}";
+        }
+
+        // Pre load translate...
+        if(window.SwaggerTranslator) {
+            window.SwaggerTranslator.translate();
+        }
+
+        // pull validatorUrl string or null form server
+        var validatorUrl = null;
+        {{#if hapiSwagger.validatorUrl}}
+        validatorUrl: '{{hapiSwagger.validatorUrl}}';
+        {{/if}}
+
+        window.swaggerUi = new SwaggerUi({
+            url: url,
+            dom_id: "swagger-ui-container",
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+            onComplete: function (swaggerApi, swaggerUi) {
+                if (typeof initOAuth == "function") {
+                    initOAuth({
+                        clientId: "your-client-id",
+                        clientSecret: "your-client-secret",
+                        realm: "your-realms",
+                        appName: "your-app-name",
+                        scopeSeparator: ","
+                    });
+                }
+
+                if (window.SwaggerTranslator) {
+                    window.SwaggerTranslator.translate();
+                }
+
+                $('pre code').each(function (i, e) {
+                    hljs.highlightBlock(e)
+                });
+
+                if (Array.isArray(swaggerApi.auths) && swaggerApi.auths.length > 0 && swaggerApi.auths[0].type === "apiKey") {
+                    auth = swaggerApi.auths[0].value;
+                    $('#input_apiKey').show();
+                }
+                //addApiKeyAuthorization();
+            },
+            onFailure: function (data) {
+                log("Unable to Load SwaggerUI");
+            },
+            docExpansion: "{{hapiSwagger.expanded}}",
+            apisSorter: apisSorter.{{hapiSwagger.sortTags}},
+            operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
+            showRequestHeaders: false,
+            validatorUrl: '{{hapiSwagger.validatorUrl}}',
+            jsonEditor: {{#if isTrue}}true{{else}}false{{/if}}
+        });
+
+        function addApiKeyAuthorization() {
+            var key = $('#input_apiKey')[0].value;
+            if (key && key.trim() != "") {
+                var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization(auth.name, key, auth.in);
+                window.swaggerUi.api.clientAuthorizations.add(auth.name, apiKeyAuth);
+                log("added key " + key);
+            }
+        }
+
+        $('#input_apiKey').change(addApiKeyAuthorization);
+
+        window.swaggerUi.load();
+
+        function log() {
+            if ('console' in window) {
+                console.log.apply(console, arguments);
+            }
+        }
+  });
 ```
 
 
@@ -486,9 +522,8 @@ The all the files in the URLs below are added by the plugin, but you must server
 Place the HTML code below into the body fo web page where you wish the interface to render
 
 ```html
-<section id="swagger">
+<section class="swagger-section">
     <h1 class="entry-title api-title">API</h1>
-    <div id="message-bar" class="swagger-ui-wrap"></div>
     <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </section>
 ```

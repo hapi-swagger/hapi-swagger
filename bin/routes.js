@@ -472,6 +472,14 @@ module.exports = [{
     }
 }, {
     method: 'GET',
+    path: '/custom',
+    config: {
+        handler: function (request, reply) {
+            reply.view('custom.html', {});
+        }
+    }
+}, {
+    method: 'GET',
     path: '/{path*}',
     handler: {
         directory: {

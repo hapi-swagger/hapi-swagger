@@ -132,3 +132,11 @@ server.register([
     });
 
 
+
+
+// add templates only for testing custom.html
+server.views({
+    path: 'bin',
+    engines: { html: require('handlebars') },
+    isCached: false
+});
