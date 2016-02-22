@@ -272,9 +272,6 @@ lab.experiment('path', () => {
     });
 
 
-
-
-
     lab.test('payloadType form', (done) => {
 
         let testRoutes = Hoek.clone(routes);
@@ -296,6 +293,114 @@ lab.experiment('path', () => {
             });
         });
     });
+
+
+    lab.test('accept header', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.validate.headers = Joi.object({
+            accept: Joi.string().required().valid(['application/json', 'application/vnd.api+json'])
+        }).unknown();
+
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.produces).to.deep.equal(['application/json','application/vnd.api+json']);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('accept header - no emum', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.validate.headers = Joi.object({
+            accept: Joi.string().required().default('application/vnd.api+json')
+        }).unknown();
+
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.parameters[0]).to.deep.equal({
+                    'required': true,
+                    'default': 'application/vnd.api+json',
+                    'in': 'header',
+                    'name': 'accept',
+                    'type': 'string'
+                });
+                expect(response.result.paths['/test'].post.produces).to.not.exist();
+                done();
+            });
+        });
+    });
+
+
+
+    lab.test('accept header - default first', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.validate.headers = Joi.object({
+            accept: Joi.string().required().valid(['application/json', 'application/vnd.api+json']).default('application/vnd.api+json')
+        }).unknown();
+
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.produces).to.deep.equal(['application/vnd.api+json', 'application/json']);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('accept header acceptToProduce set to false', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.validate.headers = Joi.object({
+            accept: Joi.string().required().valid(['application/json', 'application/vnd.api+json']).default('application/vnd.api+json')
+        }).unknown();
+
+
+        Helper.createServer({ 'acceptToProduce': false }, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.parameters[0]).to.deep.equal({
+                    'enum': [
+                        'application/json',
+                        'application/vnd.api+json'
+                    ],
+                    'required': true,
+                    'default': 'application/vnd.api+json',
+                    'in': 'header',
+                    'name': 'accept',
+                    'type': 'string'
+                });
+                expect(response.result.paths['/test'].post.produces).to.not.exist();
+                done();
+            });
+        });
+    });
+
 
 
     lab.test('path parameters {note?}', (done) => {

@@ -437,7 +437,10 @@ module.exports = [{
                 equals: Joi.number()
                     .required()
                     .description('the result of the sum')
-            }).label('Compact Sum')
+            }).label('Compact Sum'),
+            headers: Joi.object({
+                accept: Joi.string().required().valid(['application/json', 'application/vnd.api+json']).default('application/vnd.api+json')
+            }).unknown()
         }
     }
 }, {

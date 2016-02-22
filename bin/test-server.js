@@ -104,6 +104,13 @@ server.register([BearerToken], (err) => {
     });
 });
 
+server.ext('onRequest', function (request, reply) {
+
+    //console.log(request.headers.accept);                     // accessing request header
+    //reply('My response').header('x-some-header', 'hello');   // setting a response with custom header
+    //request.headers.accept = request.headers.Accept;
+    return reply.continue();
+});
 
 
 server.register([
