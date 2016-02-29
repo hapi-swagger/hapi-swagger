@@ -408,6 +408,9 @@ lab.experiment('responses', () => {
         //console.log(JSON.stringify( Responses.build(objA, objB, objC, {}) ));
         expect(Responses.build(objA, objB, objC, {})).to.deep.equal({
             '200': {
+                'schema': {
+                    'type': 'string'
+                },
                 'description': 'Successful'
             }
         });
