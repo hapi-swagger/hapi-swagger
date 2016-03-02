@@ -554,6 +554,7 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 * __`Joi.alternatives()`__ This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tooles using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec
 * __`{/filePath*}`__ The path parameters with the `*` char are not supported, either is the `{/filePath*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
 * __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.
+* __`payload: function (value, options, next) {next(null, value);}`__  The use of custom functions to validate pramaters is not support beyond replacing them with an emtpy model call "Hidden Model".
 
 ## Lab test
 The project has integration and unit tests. To run the test within the project type one of the following commands.
