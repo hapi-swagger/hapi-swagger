@@ -217,6 +217,42 @@ lab.experiment('plugin', () => {
         });
     });
 
+    lab.test('should take the plugin route prefix into account when rendering the UI', (done) => {
+
+        const server = new Hapi.Server();
+        server.connection();
+        server.register([
+            Inert,
+            Vision,
+            {
+                register: HapiSwagger,
+                routes: {
+                    prefix: '/implicitPrefix'
+                },
+                options: {}
+            }
+        ], (err) => {
+
+            expect(err).to.not.exist();
+
+            server.route(routes);
+            server.start(function (err) {
+
+                expect(err).to.not.exist();
+                server.inject({ method: 'GET', url: '/implicitPrefix/documentation' }, function (response) {
+
+                    expect(response.statusCode).to.equal(200);
+                    const htmlContent = response.result;
+                    expect(htmlContent).to.contain([
+                        '/implicitPrefix/swaggerui/swagger-ui.js',
+                        '/implicitPrefix/swagger.json'
+                    ]);
+
+                    done();
+                });
+            });
+        });
+    });
 
     lab.test('payloadType = form global', (done) => {
 
