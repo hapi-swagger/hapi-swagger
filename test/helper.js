@@ -20,9 +20,21 @@ const helper = module.exports = {};
 */
 helper.createServer = function (swaggerOptions, routes, callback) {
 
+    helper.createServerWithConnection({}, swaggerOptions, routes, callback);
+};
+
+/**
+* creates a Hapi server
+*
+* @param  {Object} swaggerOptions
+* @param  {Object} routes
+* @param  {Function} callback
+*/
+helper.createServerWithConnection = function (connectionOptions, swaggerOptions, routes, callback) {
+
     const server = new Hapi.Server();
 
-    server.connection();
+    server.connection(connectionOptions);
 
     server.register([
         Inert,

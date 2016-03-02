@@ -117,6 +117,35 @@ lab.experiment('proxies', () => {
     });
 
 
+    lab.test('iisnode options', (done) => {
+
+        const connectionOptions = {
+            port: '\\\\.\\pipe\\GUID-expected-here'
+        };
+
+        const options = {};
+
+        requestOptions.headers = {
+            'disguised-host': 'requested-host',
+            'host': 'internal-host',
+        };
+
+        Helper.createServerWithConnection(connectionOptions, options, routes, (err, server) => {
+
+            server.inject(requestOptions, (response) => {
+
+                // Stop because otherwise consecutive test runs would error
+                // with EADDRINUSE.
+                server.stop(done);
+
+                expect(err).to.equal(null);
+                expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
+                expect(response.result.schemes).to.deep.equal(['http']);
+            });
+        });
+    });
+
+
     lab.test('adding facade for proxy using route options 1', (done) => {
 
         routes = {
