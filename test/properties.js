@@ -333,6 +333,20 @@ lab.experiment('property - ', () => {
     */
 
 
+    lab.test('parse default with function', (done) => {
+
+        // TODO review memory issue that may come with this
+        const dateStr = new Date().toISOString();
+        expect(Properties.parseProperty('x', Joi.string().default(
+            function () {
+
+                return dateStr;
+            }, 'default date'))).to.deep.equal({ 'type': 'string', 'default': dateStr });
+        done();
+    });
+
+
+
     lab.test('toParameters', (done) => {
 
         const joiStructure = Joi.object({

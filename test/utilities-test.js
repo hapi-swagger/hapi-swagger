@@ -15,7 +15,7 @@ lab.experiment('utilities', () => {
 
     lab.test('isObject', (done) => {
 
-        expect(Utilities.isObject(function(){})).to.equal(false);
+        expect(Utilities.isObject(function () { })).to.equal(false);
         expect(Utilities.isObject({})).to.equal(true);
         expect(Utilities.isObject(Joi.object())).to.equal(true);
         expect(Utilities.isObject(null)).to.equal(false);
@@ -29,7 +29,7 @@ lab.experiment('utilities', () => {
 
     lab.test('isFunction', (done) => {
 
-        expect(Utilities.isFunction(function(){})).to.equal(true);
+        expect(Utilities.isFunction(function () { })).to.equal(true);
         expect(Utilities.isFunction({})).to.equal(false);
         expect(Utilities.isFunction(Joi.object())).to.equal(false);
         expect(Utilities.isFunction(null)).to.equal(false);
