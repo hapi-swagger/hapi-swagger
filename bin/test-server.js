@@ -92,7 +92,7 @@ let swaggerOptions = {
     security: [{ 'Bearer': [] }]
 };
 
-
+// swaggerOptions.derefJSONSchema = true;
 // swaggerOptions.auth = 'bearer';
 
 // the auth.strategy needs to be registered before it can be used in options for swagger

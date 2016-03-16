@@ -24,7 +24,7 @@
     "handlebars": "^4.0.5",
     "hoek": "^3.0.4",
     "http-status": "0.2.0",
-    "joi": "7.2.3",
+    "joi": "8.0.4",
     "json-schema-ref-parser": "^2.2.0",
     "shortid": "2.2.4"
   },

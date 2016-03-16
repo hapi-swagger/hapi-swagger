@@ -253,9 +253,21 @@ lab.experiment('property - ', () => {
 
     lab.test('parse example', (done) => {
 
+        //console.log(Properties.parseProperty('x', Joi.array().items(Joi.string()).example(['example','value'])));
+
         expect(Properties.parseProperty('x', Joi.string().example('example value'))).to.deep.equal({ 'type': 'string', 'example': 'example value' });
+        expect(Properties.parseProperty('x', Joi.number().example(5))).to.deep.equal({ 'type': 'number', 'example': 5 });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.string()).example(['example','value']))).to.deep.equal({
+            type: 'array',
+            example: ['example','value'],
+            items: {
+                type: 'string'
+            }
+        });
         done();
     });
+
+
 
 
     lab.test('parse default', (done) => {
