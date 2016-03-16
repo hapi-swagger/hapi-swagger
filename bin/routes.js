@@ -345,7 +345,7 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/v1/store/{id}',
+    path: '/v1/store/{id?}',
     config: {
         handler: defaultHandler,
         description: 'Update sum',

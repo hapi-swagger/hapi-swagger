@@ -127,7 +127,7 @@ lab.experiment('proxies', () => {
 
         requestOptions.headers = {
             'disguised-host': 'requested-host',
-            'host': 'internal-host',
+            'host': 'internal-host'
         };
 
         Helper.createServerWithConnection(connectionOptions, options, routes, (err, server) => {
