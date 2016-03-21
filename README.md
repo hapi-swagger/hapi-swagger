@@ -106,6 +106,7 @@ Options for UI:
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `auth`: (false || string || object) The [authentication configuration](http://hapijs.com/api#route-options) for plug-in routes. - default: `false`
+* `connectionLabel`: (string) The connection label name that should be documented. Uses only one cneection
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `jsonEditor`: (boolean) If UI should use JSON Edtior - default: `false`
 * `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI.
@@ -387,6 +388,50 @@ validate: {
          'authorization': Joi.string().required()
     }).unknown()
 }
+```
+
+## API on one connection and documentation on another
+By default `hapi-swaggger` will document the server connection it is loaded on, you can change this by using the `options.connectionLabel` property to select another connection.
+
+Create two connections, the API connection needs to support CORS so the client-side Javascript in swaggerui  can access the API endpoints across the different host connections.
+```Javascript
+let server = new Hapi.Server();
+server.connection({ host: 'localhost', port: 3000, labels: 'api', routes: { cors: true } });
+server.connection({ host: 'localhost', port: 3001, labels: 'docs' });
+```
+Then add the `options.connectionLabel` property with the value set to the label name of the API connection. Register your plugins using the `select` property to specify which connection to add the functionally to.
+
+```Javascript
+let options = {
+    info: {
+        'title': 'Test API Documentation',
+        'description': 'This is a sample example of API documentation.',
+    },
+    connectionLabel: 'api'
+};
+
+server.register([
+    Inert,
+    Vision,
+    {
+        register: apiRoutesPlugin,
+        select: ['api']
+    },
+    {
+        register: HapiSwagger,
+        options: options,
+        select: ['docs']
+    }
+], (err) => {
+
+    server.start((err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Server running');
+        }
+    });
+});
 ```
 
 

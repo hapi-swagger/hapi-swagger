@@ -24,7 +24,7 @@
     "handlebars": "^4.0.5",
     "hoek": "^3.0.4",
     "http-status": "0.2.0",
-    "joi": "8.0.4",
+    "joi": "8.0.5",
     "json-schema-ref-parser": "^2.2.0",
     "shortid": "2.2.4"
   },
@@ -34,13 +34,13 @@
     "blipp": "^2.3.0",
     "good": "^6.5.0",
     "good-console": "^5.3.0",
-    "lab": "8.2.0",
-    "code": "2.1.0",
+    "lab": "10.3.0",
+    "code": "2.1.1",
     "hapi": "^13.0.0",
-    "wreck": "7.0.0",
-    "coveralls": "2.11.6",
-    "h2o2": "5.0.0",
-    "hapi-auth-bearer-token": "4.0.0",
+    "wreck": "7.0.2",
+    "coveralls": "2.11.8",
+    "h2o2": "5.1.0",
+    "hapi-auth-bearer-token": "4.0.2",
     "js2xmlparser": "1.0.0"
   },
   "scripts": {
