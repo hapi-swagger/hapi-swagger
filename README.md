@@ -610,8 +610,6 @@ $ lab -r html -o coverage.html --lint
 $ lab -r console -o stdout -r html -o coverage.html --lint
 ```
 
-
-
 If you are considering sending a pull request please add tests for the functionality you add or change.
 
 
