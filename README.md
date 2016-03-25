@@ -106,6 +106,7 @@ Options for UI:
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `auth`: (false || string || object) The [authentication configuration](http://hapijs.com/api#route-options) for plug-in routes. - default: `false`
+* `plugins`: (object) - Plugins to load. default: `{}`
 * `connectionLabel`: (string) The connection label name that should be documented. Uses only one cneection
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `jsonEditor`: (boolean) If UI should use JSON Edtior - default: `false`
