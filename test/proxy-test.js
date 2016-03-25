@@ -432,7 +432,7 @@ lab.experiment('proxies', () => {
                         ],
                         'type': 'object'
                     },
-                    'parameters_microformatsapi2_post': {
+                    'Model 1': {
                         'properties': {
                             'b': {
                                 'type': 'string',

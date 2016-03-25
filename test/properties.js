@@ -106,22 +106,21 @@ lab.experiment('property - ', () => {
         expect(Properties.parseProperty('x', Joi.array().items(Joi.date()))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string', 'format': 'date' } });
         expect(Properties.parseProperty('x', Joi.array().items(Joi.binary()))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string', 'format': 'binary' } });
 
-        // complex child types
-        expect(Properties.parseProperty('x', Joi.array().items({ 'text': Joi.string() }), {}, 'formData')).to.deep.equal({
+        expect(Properties.parseProperty('x', Joi.array().items({ 'text': Joi.string() }), {}, {}, 'formData')).to.deep.equal({
             'type': 'array',
             'items': {
                 '$ref': '#/definitions/x'
             },
             'collectionFormat': 'multi'
         });
-        expect(Properties.parseProperty('x', Joi.array().items(Joi.object({ 'text': Joi.string() })), {}, 'formData')).to.deep.equal({
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.object({ 'text': Joi.string() })), {}, {}, 'formData')).to.deep.equal({
             'type': 'array',
             'items': {
                 '$ref': '#/definitions/x'
             },
             'collectionFormat': 'multi'
         });
-        expect(Properties.parseProperty('x', Joi.array().items(Joi.object({ 'text': Joi.string() })), {}, 'query')).to.deep.equal({
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.object({ 'text': Joi.string() })), {}, {}, 'query')).to.deep.equal({
             'type': 'array',
             'items': {
                 '$ref': '#/definitions/x'
@@ -215,7 +214,7 @@ lab.experiment('property - ', () => {
         expect(Properties.parseProperty('x', Joi.string().allow(null))).to.deep.equal({ 'type': 'string' });
 
         //console.log(JSON.stringify(Properties.parseProperty('x', Joi.array().allow('a','b','c'), {}, 'query')))
-        expect(Properties.parseProperty('x', Joi.array().allow('a', 'b', 'c'), {}, 'query')).to.deep.equal({
+        expect(Properties.parseProperty('x', Joi.array().allow('a', 'b', 'c'), {}, {}, 'query')).to.deep.equal({
             'type': 'array',
             'enum': ['a', 'b', 'c'],
             'items': {
@@ -298,7 +297,7 @@ lab.experiment('property - ', () => {
                         v2: Joi.number()
                     } ).label('ans-o')
                 ).label('ans-l')
-            } ).label('ans-parent'), definition, 'query');
+            } ).label('ans-parent'), definition, null, 'query');
 
         const parsedExpected = {
             'ans_list': {
@@ -414,7 +413,7 @@ lab.experiment('property - ', () => {
             }
         ];
 
-        expect(Properties.toParameters(joiStructure, {}, 'query')).to.deep.equal(structureJSON);
+        expect(Properties.toParameters(joiStructure, {}, null, 'query')).to.deep.equal(structureJSON);
         done();
     });
 

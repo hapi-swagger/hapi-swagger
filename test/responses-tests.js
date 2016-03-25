@@ -485,9 +485,9 @@ lab.experiment('responses', () => {
             server.inject({ url: '/swagger.json' }, function (response) {
 
                 expect(err).to.equal(null);
-                // console.log(JSON.stringify(response.result.definitions));
+                //console.log(JSON.stringify(response.result.definitions));
                 expect(response.result.definitions.labelA).to.exist();
-                expect(response.result.definitions.response_pathtwo_post).to.exist();
+                expect(response.result.definitions['Model 1']).to.exist();
                 done();
             });
         });

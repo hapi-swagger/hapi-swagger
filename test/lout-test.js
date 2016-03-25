@@ -678,6 +678,7 @@ lab.experiment('lout examples', () => {
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
+                //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 // the 40 to 45 difference is in one route having a number of methods
                 expect(response.result.paths).to.have.length(40);

@@ -8,7 +8,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-const Routes = require('./routes');
+const Routes = require('./altroutes');
 
 
 /**
@@ -51,8 +51,6 @@ server.connection({
 });
 
 let swaggerOptions = {
-    basePath: '/v1/',
-    pathPrefixSize: 2,
     info: {
         'title': 'Test API Documentation',
         'description': 'This is a sample example of API documentation.',
@@ -89,7 +87,8 @@ let swaggerOptions = {
             'in': 'header'
         }
     },
-    security: [{ 'Bearer': [] }]
+    security: [{ 'Bearer': [] }],
+    derefJSONSchema: false
 };
 
 // swaggerOptions.derefJSONSchema = true;
