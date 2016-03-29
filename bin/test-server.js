@@ -8,7 +8,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-const Routes = require('./altroutes');
+const Routes = require('./routes');
 
 
 /**
@@ -51,6 +51,8 @@ server.connection({
 });
 
 let swaggerOptions = {
+    basePath: '/v1/',
+    pathPrefixSize: 2,
     info: {
         'title': 'Test API Documentation',
         'description': 'This is a sample example of API documentation.',

@@ -87,6 +87,7 @@ lab.experiment('alternatives', () => {
                     }
                 ]);
 
+
                 expect(response.result.paths['/store2/'].post.parameters).to.deep.equal([
                     {
                         'name': 'body',

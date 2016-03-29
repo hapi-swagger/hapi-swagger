@@ -215,7 +215,7 @@ lab.experiment('proxies', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/parameters_microformatsapi_post'
+                            '$ref': '#/definitions/Model 1'
                         }
                     }
                 ]);

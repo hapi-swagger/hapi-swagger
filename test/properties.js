@@ -299,6 +299,9 @@ lab.experiment('property - ', () => {
                 ).label('ans-l')
             } ).label('ans-parent'), definition, null, 'query');
 
+       // console.log( JSON.stringify(parsed));
+       // console.log( JSON.stringify(definition));
+
         const parsedExpected = {
             'ans_list': {
                 type: 'array',

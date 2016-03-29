@@ -52,10 +52,10 @@ lab.experiment('child-models', () => {
                 expect(response.statusCode).to.equal(200);
 
                 expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.deep.equal({
-                    '$ref': '#/definitions/parameters_foov1bar_post'
+                    '$ref': '#/definitions/Model 1'
                 });
 
-                expect(response.result.definitions.parameters_foov1bar_post).to.deep.equal({
+                expect(response.result.definitions['Model 1']).to.deep.equal({
                     'properties': {
                         'outer1': {
                             '$ref': '#/definitions/outer1',

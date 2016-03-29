@@ -106,6 +106,83 @@ helper.createAuthServer = function (swaggerOptions, routes, callback) {
 
 
 /**
+* creates a Hapi server using promises
+*
+* @param  {Object} swaggerOptions
+* @param  {Object} routes
+* @param  {Function} callback
+*/
+helper.createServerWithPromises = function (swaggerOptions, routes, callback) {
+
+    const server = new Hapi.Server();
+
+    // start server using promises
+    registerPlugins()
+        .then( (msg) => {
+            console.log(msg);
+            return startServer(server);
+        })
+        .then( (msg) => {
+            console.log(msg);
+            console.log('Server running at:', server.info.uri);
+            return registerViews(server);
+        })
+        .then( (msg) => {
+            console.log(msg);
+            callback(null, server);
+        })
+        .catch( (msg) => {
+            console.log(err);
+            callback(err, null);
+        });
+};
+
+
+/**
+* a registers plugins using a promise
+*
+* @return {Object}
+*/
+const registerPlugins = function () {
+
+    return new Promise((resolve, reject) =>
+        server.register([
+            Inert,
+            Vision,
+            H2o2,
+            {
+                register: HapiSwagger,
+                options: swaggerOptions
+            }
+        ], (err) => {
+            (err)
+                ? reject('Failed to configure main plugin group: ${err}')
+                : resolve('Main plugin group setup');
+        }
+        ));
+
+};
+
+/**
+* starts server using a promise
+*
+* @return {Object}
+*/
+const startServer = function () {
+
+    return new Promise((resolve, reject) => {
+
+        server.route(Routes);
+        server.start((err) => {
+            (err)
+                ? reject('Failed to start server: ${err}')
+                : resolve('Started server');
+        });
+    });
+};
+
+
+/**
 * a handler function used to mock a response
 *
 * @param  {Object} request
