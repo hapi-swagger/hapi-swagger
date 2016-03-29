@@ -270,6 +270,9 @@
 .swagger-section .swagger-ui-wrap .icon-btn {
   cursor: pointer;
 }
+.swagger-section .swagger-ui-wrap .info  {
+  padding-bottom: 30px;
+}
 .swagger-section .swagger-ui-wrap .info_title {
   padding-bottom: 10px;
   font-weight: bold;
@@ -595,6 +598,7 @@
 }
 .swagger-section .swagger-ui-wrap .markdown h4 {
   color: #666666;
+  text-transform: uppercase;
 }
 .swagger-section .swagger-ui-wrap .markdown pre {
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
@@ -614,7 +618,7 @@
   font-size: 0.9em;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource {
-  border-bottom: 1px solid #dddddd;
+  padding-bottom: 30px;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource:hover div.heading h2 a,
 .swagger-section .swagger-ui-wrap ul#resources li.resource.active div.heading h2 a {
@@ -913,11 +917,11 @@
   color: #c8787a;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading {
-  background-color: #e7f6ec;
-  border: 1px solid #c3e8d1;
+  background-color: white;
+  border: 1px solid #CCC;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.http_method a {
-  background-color: #10a54a;
+  background-color: #555;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li {
   border-right: 1px solid #dddddd;
@@ -925,11 +929,11 @@
   color: #10a54a;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a {
-  color: #10a54a;
+  color: #555;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content {
-  background-color: #ebf7f0;
-  border: 1px solid #c3e8d1;
+  background-color: white;
+  border: 1px solid #ccc;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content h4 {
   color: #10a54a;
@@ -963,11 +967,11 @@
   color: #dcb67f;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading {
-  background-color: #e7f0f7;
-  border: 1px solid #c3d9ec;
+  background-color: #FFF;
+  border: 1px solid #CCC;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.http_method a {
-  background-color: #0f6ab4;
+  background-color: black;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li {
   border-right: 1px solid #dddddd;
@@ -1235,7 +1239,7 @@
   cursor: pointer;
 }
 .swagger-section #header {
-  background-color: #89bf04;
+  background-color: black;
   padding: 14px;
 }
 .swagger-section #input_baseUrl {
@@ -1282,9 +1286,11 @@
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url(../images/logo_small.png) no-repeat left center;
-  padding: 20px 0 20px 40px;
+  background-size: contain;
+
+  padding: 20px 0 20px 0px;
   color: white;
+  font-weight: 300;
 }
 .swagger-section #content_message {
   margin: 10px 15px;
