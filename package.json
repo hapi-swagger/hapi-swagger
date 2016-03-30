@@ -21,13 +21,11 @@
   },
   "dependencies": {
     "boom": "^3.1.2",
-    "farmhash": "^1.1.1",
     "handlebars": "^4.0.5",
     "hoek": "^3.0.4",
     "http-status": "0.2.0",
     "joi": "8.0.5",
-    "json-schema-ref-parser": "^2.2.0",
-    "shortid": "2.2.4"
+    "json-schema-ref-parser": "^2.2.0"
   },
   "devDependencies": {
     "inert": "^3.2.0",
