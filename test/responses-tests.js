@@ -454,8 +454,26 @@ lab.experiment('responses', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.definitions));
-                expect(response.result.definitions.response_pathtwo_get_200).to.exist();
-                expect(response.result.definitions.response_pathtwo_post_200).to.exist();
+                expect(response.result.definitions['Model 1']).to.exist();
+                expect(response.result.definitions['Model 2']).to.exist();
+                expect(response.result.definitions).to.deep.equal({
+                    'Model 1': {
+                        'type': 'object',
+                        'properties': {
+                            'value2222': {
+                                'type': 'boolean'
+                            }
+                        }
+                    },
+                    'Model 2': {
+                        'type': 'object',
+                        'properties': {
+                            'value1111': {
+                                'type': 'boolean'
+                            }
+                        }
+                    }
+                });
                 done();
             });
         });
@@ -487,6 +505,64 @@ lab.experiment('responses', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(response.result.definitions.labelA).to.exist();
+                done();
+            });
+        });
+    });
+
+
+
+    lab.test('array with required #249', (done) => {
+
+        const dataPointSchema = Joi.object().keys({
+            date: Joi.date().required(),
+            value: Joi.number().required()
+        }).label('datapoint').required();
+
+        const exampleSchema = Joi.array().items(dataPointSchema).label('datapointlist').required();
+
+        const routes = [{
+            method: 'POST',
+            path: '/path/two',
+            config: {
+                tags: ['api'],
+                handler: Helper.defaultHandler,
+                response: { schema: exampleSchema }
+            }
+        }];
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.definitions));
+                expect(err).to.equal(null);
+                expect(response.result.definitions.datapoint).to.exist();
+                expect(response.result.definitions).to.deep.equal({
+                    'datapoint': {
+                        'properties': {
+                            'date': {
+                                'type': 'string',
+                                'format': 'date'
+                            },
+                            'value': {
+                                'type': 'number'
+                            }
+                        },
+                        'required': [
+                            'date',
+                            'value'
+                        ],
+                        'type': 'object'
+                    },
+                    'datapointlist': {
+                        'type': 'array',
+                        'items': {
+                            '$ref': '#/definitions/datapoint'
+                        },
+                        'required': true
+                    }
+                });
                 done();
             });
         });
