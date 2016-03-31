@@ -31,32 +31,99 @@ lab.experiment('property - ', () => {
     });
 
 
+    lab.test('parse meta', (done) => {
+
+        // TODO add all meta data properties
+        expect(Properties.parseProperty('x', Joi.string().meta({ 'x': 'y' }))).to.deep.equal({ 'type': 'string', 'x-meta': { 'x': 'y' } });
+        expect(Properties.parseProperty('x', Joi.string().forbidden())).to.deep.equal(undefined);
+        expect(Properties.parseProperty('x', Joi.string().valid(['a', 'b']))).to.deep.equal({ type: 'string', enum: ['a', 'b'] });
+        expect(Properties.parseProperty('x', Joi.string().valid(['a', 'b', '']))).to.deep.equal({ type: 'string', enum: ['a', 'b'] });
+        expect(Properties.parseProperty('x', Joi.string().valid(['a', 'b', null]))).to.deep.equal({ type: 'string', enum: ['a', 'b'] });
+        expect(Properties.parseProperty('x', Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp')).default).to.exist();
+
+
+        //console.log(JSON.stringify(Properties.parseProperty('x',Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp'))));
+
+
+        done();
+    });
+
+
 
     lab.test('parse type string', (done) => {
 
         expect(Properties.parseProperty('x', Joi.string())).to.deep.equal({ 'type': 'string' });
 
-        /*  not yet 'x',
-        string.insensitive()
-        string.min(limit, [encoding])
-        string.max(limit, [encoding])
-        string.creditCard()
-        string.length(limit, [encoding])
-        string.regex(pattern, [name])
-        string.replace(pattern, replacement)
-        string.alphanum()
-        string.token()
-        string.email([options])
-        string.ip([options])
-        string.uri([options])
-        string.guid()
-        string.hex()
-        string.hostname()
-        string.lowercase()
-        string.uppercase()
-        string.trim()
-        string.isoDate()
+        //console.log(JSON.stringify( Properties.parseProperty('x', Joi.string().max(5)) ));
+
+
+        expect(Properties.parseProperty('x', Joi.string().min(5))).to.deep.equal({ 'type': 'string', 'minimum': 5 });
+        expect(Properties.parseProperty('x', Joi.string().max(10))).to.deep.equal({ 'type': 'string', 'maximum': 10 });
+
+        expect(Properties.parseProperty('x', Joi.string().length(20,'utf8'))).to.deep.equal({ 'type': 'string', 'x-constraint': { 'length': 20 } });
+        //expect(Properties.parseProperty('x', Joi.string().insensitive())).to.deep.equal({ 'type': 'string', 'x-constraint': { 'insensitive': true } });
+
+        expect(Properties.parseProperty('x', Joi.string().creditCard())).to.deep.equal({ 'type': 'string', 'x-format': { 'creditCard': true } });
+        expect(Properties.parseProperty('x', Joi.string().alphanum())).to.deep.equal({ 'type': 'string', 'x-format': { 'alphanum': true } });
+        expect(Properties.parseProperty('x', Joi.string().token())).to.deep.equal({ 'type': 'string', 'x-format': { 'token': true } });
+
+        expect(Properties.parseProperty('x', Joi.string().email({
+            errorLevel: 256,
+            tldWhitelist:['example.com'],
+            minDomainAtoms:2
+        }))).to.deep.equal({ 'type': 'string', 'x-format': {
+            'email': {
+                'errorLevel': 256,
+                'tldWhitelist': [
+                    'example.com'
+                ],
+                'minDomainAtoms': 2
+            }
+        } });
+
+        expect(Properties.parseProperty('x', Joi.string().ip({
+            version: [
+                'ipv4',
+                'ipv6'
+            ],
+            cidr: 'required'
+        }))).to.deep.equal({ 'type': 'string', 'x-format': {
+            'ip': {
+                'version': [
+                    'ipv4',
+                    'ipv6'
+                ],
+                'cidr': 'required'
+            }
+        } });
+
+         /* TODO fix this so that regexp work or document the fact it does not work
+        expect(Properties.parseProperty('x', Joi.string().uri({
+            scheme: [
+                'git',
+                /git\+https?/
+            ]
+        }))).to.deep.equal({ 'type': 'string', 'x-format': {
+            'uri': {
+                'scheme': [
+                    'git',
+                    {}
+                ]
+            }
+        } });
         */
+
+        expect(Properties.parseProperty('x', Joi.string().guid())).to.deep.equal({ 'type': 'string', 'x-format': { 'guid': true } });
+        expect(Properties.parseProperty('x', Joi.string().hex())).to.deep.equal({ 'type': 'string', 'x-format': { 'hex': true } });
+        expect(Properties.parseProperty('x', Joi.string().guid())).to.deep.equal({ 'type': 'string', 'x-format': { 'guid': true } });
+        expect(Properties.parseProperty('x', Joi.string().hostname())).to.deep.equal({ 'type': 'string', 'x-format': { 'hostname': true } });
+        expect(Properties.parseProperty('x', Joi.string().isoDate())).to.deep.equal({ 'type': 'string', 'x-format': { 'isoDate': true } });
+
+        expect(Properties.parseProperty('x', Joi.string().lowercase())).to.deep.equal({ 'type': 'string', 'x-convert': { 'lowercase': true } });
+        expect(Properties.parseProperty('x', Joi.string().uppercase())).to.deep.equal({ 'type': 'string', 'x-convert': { 'uppercase': true } });
+        expect(Properties.parseProperty('x', Joi.string().trim())).to.deep.equal({ 'type': 'string', 'x-convert': { 'trim': true } });
+
+
         done();
     });
 
@@ -77,19 +144,19 @@ lab.experiment('property - ', () => {
 
     lab.test('parse type number', (done) => {
 
+        // mapped direct to openapi
         expect(Properties.parseProperty('x', Joi.number().integer())).to.deep.equal({ 'type': 'integer' });
         expect(Properties.parseProperty('x', Joi.number().min(5))).to.deep.equal({ 'type': 'number', 'minimum': 5 });
         expect(Properties.parseProperty('x', Joi.number().max(10))).to.deep.equal({ 'type': 'number', 'maximum': 10 });
 
-        /*  not yet 'x',
-        expect( Properties.parseProperty('x',Joi.number().greater(10))).to.deep.equal( {'type':'number'} );
-        expect( Properties.parseProperty('x',Joi.number().less(10))).to.deep.equal( {'type':'number'} );
-        expect( Properties.parseProperty('x',Joi.number().integer())).to.deep.equal( {'type':'integer'} );
-        expect( Properties.parseProperty('x',Joi.number().precision(2))).to.deep.equal( {'type':'number'} );
-        expect( Properties.parseProperty('x',Joi.number().multiple(2))).to.deep.equal( {'type':'number'} );
-        expect( Properties.parseProperty('x',Joi.number().positive())).to.deep.equal( {'type':'number'} );
-        expect( Properties.parseProperty('x',Joi.number().negative())).to.deep.equal( {'type':'number'} );
-        */
+        // x-* mappings
+        expect(Properties.parseProperty('x', Joi.number().greater(10))).to.deep.equal({ 'type': 'number', 'x-constraint': { 'greater': 10 } });
+        expect(Properties.parseProperty('x', Joi.number().less(10))).to.deep.equal({ 'type': 'number', 'x-constraint': { 'less': 10 } });
+        expect(Properties.parseProperty('x', Joi.number().precision(2))).to.deep.equal({ 'type': 'number', 'x-constraint': { 'precision': 2 } });
+        expect(Properties.parseProperty('x', Joi.number().multiple(2))).to.deep.equal({ 'type': 'number', 'x-constraint': { 'multiple': 2 } });
+        expect(Properties.parseProperty('x', Joi.number().positive())).to.deep.equal({ 'type': 'number', 'x-constraint': { 'positive': true } });
+        expect(Properties.parseProperty('x', Joi.number().negative())).to.deep.equal({ 'type': 'number', 'x-constraint': { 'negative': true } });
+
         done();
     });
 
@@ -129,302 +196,20 @@ lab.experiment('property - ', () => {
         });
 
 
-        // expect(Properties.parseProperty('x', Joi.array().items({ 'count': Joi.number() }))).to.deep.equal({ 'type': 'array', 'items': { '$ref': '#/definitions/x' } });
+        // mapped direct to openapi
         expect(Properties.parseProperty('x', Joi.array().min(5))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'minItems': 5 });
         expect(Properties.parseProperty('x', Joi.array().max(10))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'maxItems': 10 });
 
-        /*  not yet 'x-',
-        array.sparse(enabled)
-        array.single(enabled)
-        array.ordered(type)
-        array.length(limit)
-        array.unique()
-        */
+        // x-* mappings
+        expect(Properties.parseProperty('x', Joi.array().sparse())).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'sparse': true } });
+        expect(Properties.parseProperty('x', Joi.array().single())).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'single': true } });
+        expect(Properties.parseProperty('x', Joi.array().length(2))).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'length': 2 } });
+        expect(Properties.parseProperty('x', Joi.array().unique())).to.deep.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'unique': true } });
 
         done();
+
     });
-
-
-    lab.test('parse type object', (done) => {
-
-        //console.log(JSON.stringify(Properties.parseProperty('x', Joi.object({ 'text': Joi.string() }), {}, [], 'formData' )));
-
-        /* Change from inline to definiation objects
-        expect(Properties.parseProperty('x', Joi.object({ 'text': Joi.string() }))).to.deep.equal({ 'type': 'object', 'name': 'x', 'properties': { 'text': { 'type': 'string' } } });
-        expect(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }))).to.deep.equal({ 'type': 'object', 'name': 'x', 'properties': { 'text': { 'type': 'string' } } });
-        */
-        expect(Properties.parseProperty('x', Joi.object({ 'text': Joi.string() }), {}, [], 'formData')).to.deep.equal({ 'type': 'object', 'name': 'x', 'schema': { '$ref': '#/definitions/x' } });
-        expect(Properties.parseProperty('x', Joi.object().keys({ 'text': Joi.string() }), {}, [], 'formData')).to.deep.equal({ 'type': 'object', 'name': 'x', 'schema': { '$ref': '#/definitions/x' } });
-
-
-
-
-        /*  not yet 'x-',
-        {}
-        object.min(limit)
-        object.max(limit)
-        object.length(limit)
-        object.pattern(regex, schema)
-        object.and(peers)
-        object.nand(peers)
-        object.or(peers)
-        object.xor(peers)
-        object.with(key, peers)
-        object.without(key, peers)
-        object.rename(from, to, [options])
-        object.assert(ref, schema, [message])
-        object.unknown([allow])
-        object.type(constructor, [name])
-        object.requiredKeys(children)
-        object.optionalKeys(children)
-        */
-
-        done();
-    });
-
-
-    lab.test('parse description', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().description('text description'))).to.deep.equal({ 'type': 'string', 'description': 'text description' });
-        done();
-    });
-
-
-    lab.test('parse notes', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().notes('text notes'))).to.deep.equal({ 'type': 'string', 'notes': ['text notes'] });
-        expect(Properties.parseProperty('x', Joi.string().notes(['text notes', 'text notes']))).to.deep.equal({ 'type': 'string', 'notes': ['text notes', 'text notes'] });
-        done();
-    });
-
-
-    lab.test('parse tags', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().tags(['api', 'v2']))).to.deep.equal({ 'type': 'string', 'tags': ['api', 'v2'] });
-        done();
-    });
-
-
-    lab.test('parse allow', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().allow('decimal', 'binary'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
-        expect(Properties.parseProperty('x', Joi.number().allow(1,2,3,4,5))).to.deep.equal({ 'type': 'number', 'enum': [1,2,3,4,5] });
-        expect(Properties.parseProperty('x', Joi.string().allow('decimal', 'binary', ''))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
-        expect(Properties.parseProperty('x', Joi.string().allow(''))).to.deep.equal({ 'type': 'string' });
-        expect(Properties.parseProperty('x', Joi.string().allow(null))).to.deep.equal({ 'type': 'string' });
-
-        //console.log(JSON.stringify(Properties.parseProperty('x', Joi.array().allow('a','b','c'), {}, 'query')))
-        expect(Properties.parseProperty('x', Joi.array().allow('a', 'b', 'c'), {}, {}, 'query')).to.deep.equal({
-            'type': 'array',
-            'enum': ['a', 'b', 'c'],
-            'items': {
-                'type': 'string'
-            },
-            'collectionFormat': 'multi'
-        });
-        done();
-    });
-
-
-    lab.test('parse valid', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
-        expect(Properties.parseProperty('x', Joi.number().valid(1,2,3,4,5))).to.deep.equal({ 'type': 'number', 'enum': [1,2,3,4,5] });
-        expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary', ''))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'] });
-        expect(Properties.parseProperty('x', Joi.string().valid(''))).to.deep.equal({ 'type': 'string' });
-        done();
-    });
-
-
-    lab.test('parse required', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().required())).to.deep.equal({ 'type': 'string', 'required': true });
-        done();
-    });
-
-
-    lab.test('parse optional', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().optional())).to.deep.equal({ 'type': 'string', 'required': false  });
-        done();
-    });
-
-
-    lab.test('parse example', (done) => {
-
-        //console.log(Properties.parseProperty('x', Joi.array().items(Joi.string()).example(['example','value'])));
-
-        expect(Properties.parseProperty('x', Joi.string().example('example value'))).to.deep.equal({ 'type': 'string', 'example': 'example value' });
-        expect(Properties.parseProperty('x', Joi.number().example(5))).to.deep.equal({ 'type': 'number', 'example': 5 });
-        expect(Properties.parseProperty('x', Joi.array().items(Joi.string()).example(['example','value']))).to.deep.equal({
-            type: 'array',
-            example: ['example','value'],
-            items: {
-                type: 'string'
-            }
-        });
-        done();
-    });
-
-
-
-
-    lab.test('parse default', (done) => {
-
-        // TODO x- the description ie any.default([value, [description]])
-        expect(Properties.parseProperty('x', Joi.string().valid('decimal', 'binary').default('decimal'))).to.deep.equal({ 'type': 'string', 'enum': ['decimal', 'binary'], 'default': 'decimal' });
-        done();
-    });
-
-
-    lab.test('parse forbidden', (done) => {
-
-        expect(Properties.parseProperty('x', Joi.string().forbidden())).to.deep.equal(undefined);
-        done();
-    });
-
-
-    lab.test('parse label', (done) => {
-
-        // this example has both child object labels and array labels
-
-        let definition = {};
-        const parsed = Properties.parseProperties(
-            Joi.object().keys( {
-                ans_list: Joi.array().items(
-                    Joi.object().keys( {
-                        v1: Joi.number(),
-                        v2: Joi.number()
-                    } ).label('ans-o')
-                ).label('ans-l')
-            } ).label('ans-parent'), definition, null, 'query');
-
-       // console.log( JSON.stringify(parsed));
-       // console.log( JSON.stringify(definition));
-
-        const parsedExpected = {
-            'ans_list': {
-                type: 'array',
-                items: {
-                    '$ref': '#/definitions/ans-o'
-                },
-                collectionFormat: 'multi'
-            }
-        };
-        const definitionExpected = {
-            'ans-o': {
-                'type': 'object',
-                'properties': {
-                    'v1': {
-                        'type': 'number'
-                    },
-                    'v2': {
-                        'type': 'number'
-                    }
-                }
-            }
-        };
-
-        expect(parsed).to.deep.equal(parsedExpected);
-        expect(definition).to.deep.equal(definitionExpected);
-
-        done();
-    });
-
-
-    /*  not yet 'x',
-    any.invalid(value)
-    any.strip()
-    any.meta(meta)
-    any.unit(name)
-    any.options(options)
-    any.strict(isStrict)
-    any.concat(schema)
-    any.when(ref, options)
-    any.label(name)
-    any.raw(isRaw)
-    any.empty(schema)
-    */
-
-
-    lab.test('parse default with function', (done) => {
-
-        // TODO review memory issue that may come with this
-        const dateStr = new Date().toISOString();
-        expect(Properties.parseProperty('x', Joi.string().default(
-            function () {
-
-                return dateStr;
-            }, 'default date'))).to.deep.equal({ 'type': 'string', 'default': dateStr });
-        done();
-    });
-
-
-
-    lab.test('toParameters', (done) => {
-
-        const joiStructure = Joi.object({
-            a: Joi.number()
-                .required()
-                .description('the first number'),
-
-            b: Joi.number()
-                .required()
-                .description('the second number'),
-
-            operator: Joi.string()
-                .required()
-                .default('+')
-                .description('the opertator i.e. + - / or *'),
-
-            equals: Joi.number()
-                .required()
-                .description('the result of the sum')
-        });
-
-        //console.log(JSON.stringify(   Properties.toParameters(joiStructure , 'query')    ));
-
-        const structureJSON = [
-            {
-                'type': 'number',
-                'description': 'the first number',
-                'required': true,
-                'name': 'a',
-                'in': 'query'
-            },
-            {
-                'type': 'number',
-                'description': 'the second number',
-                'required': true,
-                'name': 'b',
-                'in': 'query'
-            },
-            {
-                'type': 'string',
-                'description': 'the opertator i.e. + - / or *',
-                'required': true,
-                'default': '+',
-                'name': 'operator',
-                'in': 'query'
-            },
-            {
-                'type': 'number',
-                'description': 'the result of the sum',
-                'required': true,
-                'name': 'equals',
-                'in': 'query'
-            }
-        ];
-
-        expect(Properties.toParameters(joiStructure, {}, null, 'query')).to.deep.equal(structureJSON);
-        done();
-    });
-
-
-
-
 });
-
 
 
 lab.experiment('property deep - ', () => {
@@ -436,6 +221,7 @@ lab.experiment('property deep - ', () => {
                 .notes(['child notes'])
                 .tags(['child', 'api'])
                 .required()
+                .label('inner1')
         }),
         outer2: Joi.object({
             inner2: Joi.number()
@@ -445,8 +231,34 @@ lab.experiment('property deep - ', () => {
                 .min(5)
                 .max(10)
                 .required()
+                .label('inner2')
         })
     });
+
+
+    //console.log(JSON.stringify( Properties.parseProperties( deepStructure, {}, {}, null, false ) ));
+
+    lab.test('parse structure with child labels', (done) => {
+
+        expect( Properties.parseProperties( deepStructure, {}, {}, null, false ) ).to.deep.equal({
+            'outer1': {
+                'type': 'object',
+                'name': 'outer1',
+                'schema': {
+                    '$ref': '#/definitions/outer1'
+                }
+            },
+            'outer2': {
+                'type': 'object',
+                'name': 'outer2',
+                'schema': {
+                    '$ref': '#/definitions/outer2'
+                }
+            }
+        });
+        done();
+    });
+
 
 
     lab.test('parse structure with child description, notes, name etc', (done) => {

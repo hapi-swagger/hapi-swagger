@@ -52,7 +52,7 @@ lab.experiment('alternatives', () => {
     }];
 
 
-    lab.test('x-hapi-alternatives', (done) => {
+    lab.test('x-alternatives', (done) => {
 
         Helper.createServer({ derefJSONSchema: true }, routes, (err, server) => {
 
@@ -64,7 +64,7 @@ lab.experiment('alternatives', () => {
                 expect(response.result.paths['/store/'].post.parameters).to.deep.equal([
                     {
                         'in': 'body',
-                        'x-hapi-alternatives': [
+                        'x-alternatives': [
                             {
                                 'type': 'number'
                             },
@@ -73,7 +73,7 @@ lab.experiment('alternatives', () => {
                             }
                         ],
                         'schema': {
-                            'x-hapi-alternatives': [
+                            'x-alternatives': [
                                 {
                                     'type': 'number'
                                 },
@@ -92,7 +92,7 @@ lab.experiment('alternatives', () => {
                     {
                         'name': 'body',
                         'schema': {
-                            'x-hapi-alternatives': [
+                            'x-alternatives': [
                                 {
                                     'name': 'alt1',
                                     'schema': {
@@ -134,7 +134,7 @@ lab.experiment('alternatives', () => {
                                 'name'
                             ]
                         },
-                        'x-hapi-alternatives': [
+                        'x-alternatives': [
                             {
                                 'name': 'alt1',
                                 'schema': {

@@ -51,7 +51,7 @@ lab.experiment('file', () => {
                     {
                         'type': 'file',
                         'required': true,
-                        'x-hapi-meta': {
+                        'x-meta': {
                             'swaggerType': 'file'
                         },
                         'name': 'file',
@@ -79,7 +79,7 @@ lab.experiment('file', () => {
                 expect(response.result.paths['/test/'].post.parameters).to.deep.equal([
                     {
                         'required': true,
-                        'x-hapi-meta': {
+                        'x-meta': {
                             'anything': 'test'
                         },
                         'in': 'formData',

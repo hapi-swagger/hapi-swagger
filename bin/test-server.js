@@ -80,6 +80,13 @@ let swaggerOptions = {
             'description': 'Find out more',
             'url': 'http://example.org'
         }
+    }, {
+        'name': 'properties',
+        'description': 'test the use of extended hapi/joi properties',
+        'externalDocs': {
+            'description': 'Find out more',
+            'url': 'http://example.org'
+        }
     }],
     jsonEditor: true,
     securityDefinitions: {

@@ -157,6 +157,90 @@ const defaultHandler = function (request, reply) {
 
 
 module.exports = [{
+    method: 'GET',
+    path: '/v1/properties/string',
+    config: {
+        handler: defaultHandler,
+        description: 'String properties',
+        tags: ['api'],
+        validate: {
+            query: {
+                a: Joi.string().min(5).description('min'),
+                b: Joi.string().max(10).description('max'),
+                c: Joi.string().length(20,'utf8').description('length'),
+                d: Joi.string().creditCard().description('creditCard'),
+                e: Joi.string().alphanum().description('alphanum'),
+                f: Joi.string().token().description('token'),
+                g: Joi.string().email({
+                    errorLevel: 256,
+                    tldWhitelist:['example.com'],
+                    minDomainAtoms:2
+                }).description('email'),
+                h: Joi.string().ip({
+                    version: [
+                        'ipv4',
+                        'ipv6'
+                    ],
+                    cidr: 'required'
+                }).description('ip'),
+                i: Joi.string().uri({
+                    scheme: [
+                        'git',
+                        /git\+https?/
+                    ]
+                }).description('uri'),
+                j: Joi.string().guid().description('guid'),
+                k: Joi.string().hex().description('hex'),
+                l: Joi.string().guid().description('guid'),
+                m: Joi.string().hostname().description('hostname'),
+                n: Joi.string().isoDate().description('isoDate'),
+                o: Joi.string().insensitive().description('insensitive'),
+                p: Joi.string().lowercase().description('lowercase'),
+                q: Joi.string().uppercase().description('uppercase')
+            }
+        }
+    }
+},{
+    method: 'GET',
+    path: '/v1/properties/number',
+    config: {
+        handler: defaultHandler,
+        description: 'Number properties',
+        tags: ['api'],
+        validate: {
+            query: {
+                a: Joi.number().min(5).description('min'),
+                b: Joi.number().max(10).description('max'),
+                c: Joi.number().greater(20).description('greater'),
+                d: Joi.number().less(20).description('less'),
+                e: Joi.number().multiple(2).description('multiple'),
+                f: Joi.number().precision(2).description('precision'),
+                g: Joi.number().positive().description('positive'),
+                h: Joi.number().negative().description('negative'),
+                i: Joi.number().integer().description('integer')
+            }
+        }
+
+    }
+},{
+    method: 'GET',
+    path: '/v1/properties/array',
+    config: {
+        handler: defaultHandler,
+        description: 'Array properties',
+        tags: ['api'],
+        validate: {
+            query: {
+                a: Joi.array().min(5).description('min'),
+                b: Joi.array().max(10).description('max'),
+                c: Joi.array().sparse().description('sparse'),
+                d: Joi.array().single().description('single'),
+                f: Joi.array().length(2).description('length'),
+                g: Joi.array().unique().description('unique')
+            }
+        }
+    }
+},{
     method: 'PUT',
     path: '/v1/sum/add/{a}/{b}',
     config: {

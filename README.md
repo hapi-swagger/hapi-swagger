@@ -601,6 +601,15 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 * __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.
 * __`payload: function (value, options, next) {next(null, value);}`__  The use of custom functions to validate pramaters is not support beyond replacing them with an emtpy model call "Hidden Model".
 
+
+## Additional HAPI data added to swagger.json using `x-*`
+The OpenAPI spec allows for the addition of new properties and structures as long as they their name start with `x-`. Where possible I have mapped many of Hapi/Joi properties into the swagger.json file.
+
+This includes `Joi.alternatives()` where `try(...)` defines more than one possible structure. The inclusion of alternatives model means the the swagger.json may also contain `x-alt-definitions` object to store alternatives models.
+
+
+
+
 ## Lab test
 The project has integration and unit tests. To run the test within the project type one of the following commands.
 ```bash
