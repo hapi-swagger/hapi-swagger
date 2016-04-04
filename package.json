@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git://github.com/glennjones/hapi-swagger.git"
   },
-  "main": "index",
+  "main": "index.js",
   "keywords": [
     "api",
     "docs",
@@ -43,7 +43,7 @@
     "js2xmlparser": "1.0.0"
   },
   "scripts": {
-    "start": "node ./bin/test-server",
+    "start": "node ./bin/test-server.js",
     "test": "lab -a code -t 100",
     "test-cov-html": "lab -a code  -r html -o coverage.html",
     "test-cov-coveralls": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls"

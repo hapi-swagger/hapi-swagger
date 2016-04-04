@@ -46,8 +46,7 @@ let swaggerOptions = {
             'url': 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
         }
     },
-    connectionLabel: 'api',
-    host: 'localhost:3000'
+    connectionLabel: 'api'
 };
 
 //connectionToDocument: server.select(['api']),
