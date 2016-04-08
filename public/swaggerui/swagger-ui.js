@@ -1051,10 +1051,11 @@ SwaggerAuthorizations.prototype.apply = function (obj, securities) {
 /**
  * ApiKeyAuthorization allows a query param or header to be injected
  */
-var ApiKeyAuthorization = module.exports.ApiKeyAuthorization = function (name, value, type) {
+var ApiKeyAuthorization = module.exports.ApiKeyAuthorization = function (name, value, type, prefixKey) {
   this.name = name;
   this.value = value;
   this.type = type;
+  this.prefixKey = prefixKey || '';
 };
 
 ApiKeyAuthorization.prototype.apply = function (obj) {
@@ -1087,7 +1088,7 @@ ApiKeyAuthorization.prototype.apply = function (obj) {
     return true;
   } else if (this.type === 'header') {
     if(typeof obj.headers[this.name] === 'undefined') {
-      obj.headers[this.name] = this.value;
+      obj.headers[this.name] = this.prefixKey + this.value;
     }
 
     return true;
@@ -25010,7 +25011,8 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     var keyAuth = new SwaggerClient.ApiKeyAuthorization(
       this.model.name,
       $('#input_apiKey_entry').val(),
-      this.model.in
+      this.model.in,
+      auth.prefixKey
     );
     this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
     this.router.load();

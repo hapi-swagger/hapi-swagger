@@ -93,7 +93,8 @@ let swaggerOptions = {
         'Bearer': {
             'type': 'apiKey',
             'name': 'Authorization',
-            'in': 'header'
+            'in': 'header',
+            'prefixKey': 'Bearer '
         }
     },
     security: [{ 'Bearer': [] }],
