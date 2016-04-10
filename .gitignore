@@ -17,5 +17,4 @@ npm-debug.log
 .vscode
 .coveralls.yml
 
-public/swaggerui/static.html
-public/swaggerui/static.json
+bin/bearer.js

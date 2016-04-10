@@ -159,6 +159,38 @@ module.exports = [{
             }
         }
     }
+},{
+    method: 'POST',
+    path: '/time/1',
+    config: {
+        tags: ['api'],
+        handler: (request, reply) => {
+
+            reply({ 'time': request.params.timestamp }).type('application/json');
+        },
+        validate: {
+            payload: {
+                timestamp: Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp').raw().example(1458333333333)
+            }
+        }
+    }
+},{
+    method: 'POST',
+    path: '/time/2',
+    config: {
+        tags: ['api'],
+        handler: (request, reply) => {
+
+            reply({ 'time': request.params.timestamp }).type('application/json');
+        },
+        validate: {
+            payload: {
+                timestamp: Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp').raw().example(1458333333333)
+            }
+        }
+    }
 }];
+
+
 
 

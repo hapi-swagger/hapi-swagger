@@ -151,7 +151,6 @@ const options = {
 * `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 * `consumes`: (array) The mimetypes consumed  - default: `['application/json']`
 * `produces`: (array) The mimetypes produced  - default: `['application/json']`
-* `security:`: (array) Containing [Security Requirement Object](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#securityRequirementObject). No defaults are provided.
 * `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints = 'ordered'`
 * `deprecated`: (boolean) Weather a endpoint has been deprecated - default: `false`
 
