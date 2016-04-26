@@ -551,4 +551,32 @@ lab.experiment('path', () => {
     });
 
 
+    lab.test('custom operationId for code-gen apps', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.plugins = {
+            'hapi-swagger': {
+                id: 'add'
+            }
+        };
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.operationId).to.equal('add');
+                done();
+            });
+        });
+    });
+
+
+
+
+
+
+
 });

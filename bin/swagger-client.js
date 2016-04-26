@@ -125,7 +125,7 @@ server.register([
                     url: server.info.uri + '/swagger.json',
                     success: () => {
 
-                        client.sum.putV1SumAB({ a: 7, b: 7 }, { responseContentType: 'application/json' }, (result) => {
+                        client.sum.putV1SumAddAB({ a: 7, b: 7 }, { responseContentType: 'application/json' }, (result) => {
 
                             console.log('result', result);
                         });
