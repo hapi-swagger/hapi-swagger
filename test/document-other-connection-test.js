@@ -97,7 +97,7 @@ lab.experiment('document another connection', () => {
                             'description': 'Successful'
                         }
                     },
-                    'operationId': 'plugin1',
+                    'operationId': 'getPlugin1',
                     'summary': 'plugin1'
                 }
             });
@@ -162,7 +162,7 @@ lab.experiment('document another connection error', () => {
                             'description': 'Successful'
                         }
                     },
-                    'operationId': 'plugin1',
+                    'operationId': 'getPlugin1',
                     'summary': 'plugin1'
                 }
             });

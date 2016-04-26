@@ -116,5 +116,20 @@ lab.experiment('utilities', () => {
     });
 
 
+    lab.test('toTitleCase', (done) => {
+
+        expect(Utilities.toTitleCase('test')).to.equal('Test');
+        expect(Utilities.toTitleCase('tesT')).to.equal('Test');
+        done();
+    });
+
+
+    lab.test('createId', (done) => {
+
+        expect(Utilities.createId('PUT', 'v1/sum/add/{a}/{b}')).to.equal('putV1SumAddAB');
+        expect(Utilities.createId('PUT', 'sum')).to.equal('putSum');
+        done();
+    });
+
 
 });
