@@ -35,6 +35,14 @@ const validateBearer = function (token, callback) {
 };
 
 
+const goodOptions = {
+    reporters: [{
+        reporter: require('good-console'),
+        events: { log: '*', response: '*' }
+    }]
+};
+
+
 
 let server = new Hapi.Server();
 server.connection({
@@ -43,6 +51,8 @@ server.connection({
 });
 
 let swaggerOptions = {
+    basePath: '/v1/',
+    pathPrefixSize: 2,
     info: {
         'title': 'Test API Documentation',
         'description': 'This is a sample example of API documentation.',
@@ -57,21 +67,58 @@ let swaggerOptions = {
         }
     },
     tags: [{
-        'name': 'store',
-        'description': 'Storing a sum',
+        'name': 'sum',
+        'description': 'working with maths',
         'externalDocs': {
             'description': 'Find out more',
             'url': 'http://example.org'
         }
     }, {
-        'name': 'sum',
-        'description': 'API of sums',
+        'name': 'store',
+        'description': 'storing data',
         'externalDocs': {
             'description': 'Find out more',
             'url': 'http://example.org'
         }
-    }]
+    }, {
+        'name': 'properties',
+        'description': 'test the use of extended hapi/joi properties',
+        'externalDocs': {
+            'description': 'Find out more',
+            'url': 'http://example.org'
+        }
+    }],
+    jsonEditor: true,
+    securityDefinitions: {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    security: [{ 'Bearer': [] }],
+    derefJSONSchema: false
 };
+
+// swaggerOptions.derefJSONSchema = true;
+// swaggerOptions.auth = 'bearer';
+
+// the auth.strategy needs to be registered before it can be used in options for swagger
+server.register([BearerToken], (err) => {
+
+    server.auth.strategy('bearer', 'bearer-access-token', {
+        'accessTokenName': 'access_token',
+        'validateFunc': validateBearer
+    });
+});
+
+server.ext('onRequest', function (request, reply) {
+
+    //console.log(request.headers.accept);                     // accessing request header
+    //reply('My response').header('x-some-header', 'hello');   // setting a response with custom header
+    //request.headers.accept = request.headers.Accept;
+    return reply.continue();
+});
 
 
 server.register([
@@ -79,20 +126,32 @@ server.register([
     Vision,
     Blipp,
     H2o2,
-    BearerToken,
+    {
+        register: require('good'),
+        options: goodOptions
+    },
     {
         register: HapiSwagger,
         options: swaggerOptions
     }], (err) => {
 
-        server.auth.strategy('bearer', 'bearer-access-token', {
-            'accessTokenName': 'access_token',
-            'validateFunc': validateBearer
-        });
-        server.start(() => {
+        server.route(Routes);
 
-            console.log('server running at:', server.info.uri);
+        server.start((err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Server running at:', server.info.uri);
+            }
         });
     });
 
-server.route(Routes);
+
+
+
+// add templates only for testing custom.html
+server.views({
+    path: 'bin',
+    engines: { html: require('handlebars') },
+    isCached: false
+});

@@ -64,7 +64,7 @@ lab.experiment('group', () => {
 
     lab.test('getNameByPath 1', (done) => {
 
-        const name = Group.getNameByPath({ pathPrefixSize: 1 }, '/lala/foo');
+        const name = Group.getNameByPath(1, '/', '/lala/foo');
         expect(name).to.equal('lala');
         done();
     });
@@ -72,7 +72,7 @@ lab.experiment('group', () => {
 
     lab.test('getNameByPath 2', (done) => {
 
-        const name = Group.getNameByPath({ pathPrefixSize: 1 }, '/');
+        const name = Group.getNameByPath(1, '/', '/');
         expect(name).to.equal('');
         done();
     });
@@ -80,7 +80,7 @@ lab.experiment('group', () => {
 
     lab.test('getNameByPath 3', (done) => {
 
-        const name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala/foo');
+        const name = Group.getNameByPath(2, '/', '/lala/foo');
         expect(name).to.equal('lala/foo');
         done();
     });
@@ -88,7 +88,7 @@ lab.experiment('group', () => {
 
     lab.test('getNameByPath 4', (done) => {
 
-        const name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala/foo/blah');
+        const name = Group.getNameByPath(2, '/', '/lala/foo/blah');
         expect(name).to.equal('lala/foo');
         done();
     });
@@ -96,7 +96,31 @@ lab.experiment('group', () => {
 
     lab.test('getNameByPath 5', (done) => {
 
-        const name = Group.getNameByPath({ pathPrefixSize: 2 }, '/lala');
+        const name = Group.getNameByPath(2, '/', '/lala');
+        expect(name).to.equal('lala');
+        done();
+    });
+
+
+    lab.test('getNameByPath with basePath = /v3/', (done) => {
+
+        const name = Group.getNameByPath(2, '/v3/', '/v3/lala');
+        expect(name).to.equal('lala');
+        done();
+    });
+
+
+    lab.test('getNameByPath with basePath = /v3/', (done) => {
+
+        const name = Group.getNameByPath(2, '/v3/', '/v3/lala/foo');
+        expect(name).to.equal('lala');
+        done();
+    });
+
+
+    lab.test('getNameByPath with basePath = /v3', (done) => {
+
+        const name = Group.getNameByPath(2, '/v3', '/v3/lala/foo');
         expect(name).to.equal('lala');
         done();
     });

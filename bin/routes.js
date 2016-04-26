@@ -1,5 +1,6 @@
 'use strict';
 const Joi = require('joi');
+const js2xmlparser = require('js2xmlparser');
 
 
 const sumModel = Joi.object({
@@ -101,6 +102,24 @@ const resultHTTPStatus = {
 
 
 /**
+ * allows a reply to have either a json or xml response
+ *
+ * @param  {String} name
+ * @param  {Object} json
+ * @param  {Object} request
+ * @param  {Object} reply
+ */
+const replyByType = function (name, json, request, reply) {
+
+    if (request.headers.accept === 'application/xml') {
+        reply(js2xmlparser(name, json)).type('application/xml');
+    } else {
+        reply(json).type('application/json');
+    }
+};
+
+
+/**
  * mock handler for routes
  *
  * @param  {Object} request
@@ -125,21 +144,105 @@ const defaultHandler = function (request, reply) {
         'pageCount': 1
     };
 
-    if (request.path.indexOf('/sum/') > -1) {
-        reply({ 'equals': 43 });
+    if (request.path.indexOf('/v1/sum/') > -1) {
+        replyByType('result', { 'equals': 43 }, request, reply);
     } else {
-        if (request.path === '/store/' && request.method === 'get') {
-            reply(list);
+        if (request.path === '/v1/store/' && request.method === 'get') {
+            replyByType('list', list, request, reply);
         } else {
-            reply(sum);
+            replyByType('sum', sum, request, reply);
         }
     }
 };
 
 
 module.exports = [{
+    method: 'GET',
+    path: '/v1/properties/string',
+    config: {
+        handler: defaultHandler,
+        description: 'String properties',
+        tags: ['api'],
+        validate: {
+            query: {
+                a: Joi.string().min(5).description('min'),
+                b: Joi.string().max(10).description('max'),
+                c: Joi.string().length(20,'utf8').description('length'),
+                d: Joi.string().creditCard().description('creditCard'),
+                e: Joi.string().alphanum().description('alphanum'),
+                f: Joi.string().token().description('token'),
+                g: Joi.string().email({
+                    errorLevel: 256,
+                    tldWhitelist:['example.com'],
+                    minDomainAtoms:2
+                }).description('email'),
+                h: Joi.string().ip({
+                    version: [
+                        'ipv4',
+                        'ipv6'
+                    ],
+                    cidr: 'required'
+                }).description('ip'),
+                i: Joi.string().uri({
+                    scheme: [
+                        'git',
+                        /git\+https?/
+                    ]
+                }).description('uri'),
+                j: Joi.string().guid().description('guid'),
+                k: Joi.string().hex().description('hex'),
+                l: Joi.string().guid().description('guid'),
+                m: Joi.string().hostname().description('hostname'),
+                n: Joi.string().isoDate().description('isoDate'),
+                o: Joi.string().insensitive().description('insensitive'),
+                p: Joi.string().lowercase().description('lowercase'),
+                q: Joi.string().uppercase().description('uppercase')
+            }
+        }
+    }
+},{
+    method: 'GET',
+    path: '/v1/properties/number',
+    config: {
+        handler: defaultHandler,
+        description: 'Number properties',
+        tags: ['api'],
+        validate: {
+            query: {
+                a: Joi.number().min(5).description('min'),
+                b: Joi.number().max(10).description('max'),
+                c: Joi.number().greater(20).description('greater'),
+                d: Joi.number().less(20).description('less'),
+                e: Joi.number().multiple(2).description('multiple'),
+                f: Joi.number().precision(2).description('precision'),
+                g: Joi.number().positive().description('positive'),
+                h: Joi.number().negative().description('negative'),
+                i: Joi.number().integer().description('integer')
+            }
+        }
+
+    }
+},{
+    method: 'GET',
+    path: '/v1/properties/array',
+    config: {
+        handler: defaultHandler,
+        description: 'Array properties',
+        tags: ['api'],
+        validate: {
+            query: {
+                a: Joi.array().min(5).description('min'),
+                b: Joi.array().max(10).description('max'),
+                c: Joi.array().sparse().description('sparse'),
+                d: Joi.array().single().description('single'),
+                f: Joi.array().length(2).description('length'),
+                g: Joi.array().unique().description('unique')
+            }
+        }
+    }
+},{
     method: 'PUT',
-    path: '/sum/add/{a}/{b}',
+    path: '/v1/sum/add/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Add',
@@ -147,9 +250,10 @@ module.exports = [{
         notes: ['Adds together two numbers and return the result. As an option you can have the result return as a binary number.'],
         plugins: {
             'hapi-swagger': {
-                responses: resultHTTPStatus
+                consumes: ['application/json', 'application/xml']
             }
         },
+        auth: 'bearer',
         validate: {
             params: {
                 a: Joi.number()
@@ -159,18 +263,13 @@ module.exports = [{
                 b: Joi.number()
                     .required()
                     .description('the second number')
-            },
-            headers: Joi.object({
-                'x-format': Joi.string()
-                    .valid('decimal', 'binary')
-                    .default('decimal')
-                    .description('return result as decimal or binary')
-            }).unknown()
+            }
         }
+
     }
 }, {
     method: 'PUT',
-    path: '/sum/subtract/{a}/{b}',
+    path: '/v1/sum/subtract/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Subtract',
@@ -195,7 +294,7 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/sum/divide/{a}/{b}',
+    path: '/v1/sum/divide/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Divide',
@@ -203,7 +302,8 @@ module.exports = [{
         tags: ['api'],
         plugins: {
             'hapi-swagger': {
-                responses: resultHTTPStatus
+                responses: resultHTTPStatus,
+                order: 3
             }
         },
         validate: {
@@ -220,14 +320,15 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/sum/multiple/{a}/{b}',
+    path: '/v1/sum/multiple/{a}/{b}',
     config: {
         handler: defaultHandler,
         description: 'Multiple',
         notes: ['Multiples the two numbers together and return the result'],
         plugins: {
             'hapi-swagger': {
-                responses: resultHTTPStatus
+                responses: resultHTTPStatus,
+                order: 2
             }
         },
         tags: ['api'],
@@ -245,7 +346,7 @@ module.exports = [{
     }
 }, {
     method: 'GET',
-    path: '/store/',
+    path: '/v1/store/',
     config: {
         handler: defaultHandler,
         description: 'List sums',
@@ -268,7 +369,7 @@ module.exports = [{
     }
 }, {
     method: 'GET',
-    path: '/store/{id}',
+    path: '/v1/store/{id}',
     config: {
         handler: defaultHandler,
         description: 'Get sum',
@@ -289,7 +390,7 @@ module.exports = [{
     }
 }, {
     method: 'POST',
-    path: '/store/',
+    path: '/v1/store/',
     config: {
         handler: defaultHandler,
         description: 'Add sum',
@@ -298,7 +399,9 @@ module.exports = [{
             'hapi-swagger': {
                 responses: sumHTTPStatus,
                 payloadType: 'form',
-                nickname: 'storeit'
+                produces: ['application/json', 'application/xml'],
+                consumes: ['application/json', 'application/xml']
+
             }
         },
         tags: ['api', 'reduced', 'three'],
@@ -306,7 +409,7 @@ module.exports = [{
             payload: {
                 a: Joi.number()
                     .required()
-                    .description('the first number'),
+                    .description('the first number').default(10),
 
                 b: Joi.number()
                     .required()
@@ -315,7 +418,7 @@ module.exports = [{
                 operator: Joi.string()
                     .required()
                     .default('+')
-                    .valid(['+','-','/','*'])
+                    .valid(['+', '-', '/', '*'])
                     .description('the opertator i.e. + - / or *'),
 
                 equals: Joi.number()
@@ -326,7 +429,7 @@ module.exports = [{
     }
 }, {
     method: 'PUT',
-    path: '/store/{id}',
+    path: '/v1/store/{id?}',
     config: {
         handler: defaultHandler,
         description: 'Update sum',
@@ -356,7 +459,7 @@ module.exports = [{
                 operator: Joi.string()
                     .required()
                     .default('+')
-                    .valid(['+','-','/','*'])
+                    .valid(['+', '-', '/', '*'])
                     .description('the opertator i.e. + - / or *'),
 
                 equals: Joi.number()
@@ -367,7 +470,7 @@ module.exports = [{
     }
 }, {
     method: 'DELETE',
-    path: '/store/{id}',
+    path: '/v1/store/{id}',
     config: {
         handler: defaultHandler,
         description: 'Delete sums',
@@ -388,7 +491,7 @@ module.exports = [{
     }
 }, {
     method: 'POST',
-    path: '/store/payload/',
+    path: '/v1/store/payload/',
     config: {
         handler: defaultHandler,
         description: 'Add sum, with JSON object',
@@ -400,7 +503,7 @@ module.exports = [{
         },
         tags: ['api', 'reduced', 'three'],
         validate: {
-            payload: {
+            payload: Joi.object({
                 a: Joi.number()
                     .required()
                     .description('the first number'),
@@ -412,18 +515,21 @@ module.exports = [{
                 operator: Joi.string()
                     .required()
                     .default('+')
-                    .valid(['+','-','/','*'])
+                    .valid(['+', '-', '/', '*'])
                     .description('the opertator i.e. + - / or *'),
 
                 equals: Joi.number()
                     .required()
                     .description('the result of the sum')
-            }
+            }).label('Compact Sum'),
+            headers: Joi.object({
+                accept: Joi.string().required().valid(['application/json', 'application/vnd.api+json']).default('application/vnd.api+json')
+            }).unknown()
         }
     }
 }, {
     method: 'POST',
-    path: '/store/file/',
+    path: '/v1/store/file/',
     config: {
         handler: defaultHandler,
         description: 'Add sum, with JSON file',
@@ -431,7 +537,9 @@ module.exports = [{
         plugins: {
             'hapi-swagger': {
                 responses: fileHTTPStatus,
-                payloadType: 'form'
+                payloadType: 'form',
+                consumes: ['multipart/form-data'],
+                deprecated: true
             }
         },
         tags: ['api', 'reduced', 'three'],
@@ -447,6 +555,15 @@ module.exports = [{
             maxBytes: 1048576,
             parse: true,
             output: 'stream'
+        }
+    }
+}, {
+    method: 'GET',
+    path: '/custom',
+    config: {
+        handler: function (request, reply) {
+
+            reply.view('custom.html', {});
         }
     }
 }, {

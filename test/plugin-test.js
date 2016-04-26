@@ -13,7 +13,7 @@ const lab = exports.lab = Lab.script();
 
 
 
-lab.experiment('index', () => {
+lab.experiment('plugin', () => {
 
     const routes = [{
         method: 'POST',
@@ -44,6 +44,8 @@ lab.experiment('index', () => {
             ], function (err) {
 
                 server.start(function (err) {
+
+                    done();
                 });
             });
             server.route(routes);
@@ -65,6 +67,8 @@ lab.experiment('index', () => {
             ], function (err) {
 
                 server.start(function (err) {
+
+                    done();
                 });
             });
             server.route(routes);
@@ -114,19 +118,25 @@ lab.experiment('index', () => {
     });
 
 
-    Helper.createServer({}, routes, (err, server) => {
 
-        expect(err).to.equal(null);
-        lab.test('default jsonPath url', (done) => {
+    lab.test('default jsonPath url', (done) => {
 
+        Helper.createServer({}, routes, (err, server) => {
+
+            expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
                 done();
             });
         });
+    });
 
-        lab.test('default documentationPath url', (done) => {
+
+
+    lab.test('default documentationPath url', (done) => {
+
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/documentation' }, function (response) {
 
@@ -134,8 +144,12 @@ lab.experiment('index', () => {
                 done();
             });
         });
+    });
 
-        lab.test('default swaggerUIPath url', (done) => {
+
+
+    lab.test('default swaggerUIPath url', (done) => {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
 
@@ -143,7 +157,6 @@ lab.experiment('index', () => {
                 done();
             });
         });
-
     });
 
 
@@ -204,6 +217,42 @@ lab.experiment('index', () => {
         });
     });
 
+    lab.test('should take the plugin route prefix into account when rendering the UI', (done) => {
+
+        const server = new Hapi.Server();
+        server.connection();
+        server.register([
+            Inert,
+            Vision,
+            {
+                register: HapiSwagger,
+                routes: {
+                    prefix: '/implicitPrefix'
+                },
+                options: {}
+            }
+        ], (err) => {
+
+            expect(err).to.not.exist();
+
+            server.route(routes);
+            server.start(function (err) {
+
+                expect(err).to.not.exist();
+                server.inject({ method: 'GET', url: '/implicitPrefix/documentation' }, function (response) {
+
+                    expect(response.statusCode).to.equal(200);
+                    const htmlContent = response.result;
+                    expect(htmlContent).to.contain([
+                        '/implicitPrefix/swaggerui/swagger-ui.js',
+                        '/implicitPrefix/swagger.json'
+                    ]);
+
+                    done();
+                });
+            });
+        });
+    });
 
     lab.test('payloadType = form global', (done) => {
 
@@ -335,6 +384,9 @@ lab.experiment('index', () => {
 
         });
     });
+
+
+
 
 
 });

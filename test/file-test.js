@@ -44,14 +44,18 @@ lab.experiment('file', () => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
+                //console.log(JSON.stringify(response.result.paths['/test/'].post.parameters));
                 expect(err).to.equal(null);
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters).to.deep.equal([
                     {
-                        'name': 'file',
-                        'in': 'formData',
+                        'type': 'file',
                         'required': true,
-                        'type': 'file'
+                        'x-meta': {
+                            'swaggerType': 'file'
+                        },
+                        'name': 'file',
+                        'in': 'formData'
                     }
                 ]);
                 done();
@@ -69,13 +73,17 @@ lab.experiment('file', () => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
+                //console.log(JSON.stringify(response.result.paths['/test/']));
                 expect(err).to.equal(null);
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters).to.deep.equal([
                     {
-                        'name': 'file',
-                        'in': 'formData',
                         'required': true,
+                        'x-meta': {
+                            'anything': 'test'
+                        },
+                        'in': 'formData',
+                        'name': 'file',
                         'type': 'string'
                     }
                 ]);

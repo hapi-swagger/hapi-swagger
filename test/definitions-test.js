@@ -38,6 +38,36 @@ lab.experiment('definitions', () => {
                 }
             }
         }
+    },{
+        method: 'POST',
+        path: '/test/2',
+        config: {
+            handler: Helper.defaultHandler,
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    a: Joi.string(),
+                    b: Joi.object({
+                        c: Joi.string()
+                    })
+                }).label('Model')
+            }
+        }
+    },{
+        method: 'POST',
+        path: '/test/3',
+        config: {
+            handler: Helper.defaultHandler,
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    a: Joi.string(),
+                    b: Joi.object({
+                        c: Joi.string()
+                    })
+                }).label('Model 1')
+            }
+        }
     }];
 
 
@@ -77,12 +107,32 @@ lab.experiment('definitions', () => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
-                // console.log(JSON.stringify(response.result.paths['/test/'].post.parameters[0].schem));
+                //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters[0].schema).to.deep.equal({
-                    '$ref': '#/definitions/test_payload'
+                    '$ref': '#/definitions/Model 1'
                 });
-                expect(response.result.definitions.test_payload).to.deep.equal(defination);
+                expect(response.result.definitions['Model 1']).to.deep.equal(defination);
+                done();
+            });
+
+        });
+    });
+
+
+    lab.test('override definition named Model', (done) => {
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.definitions.b).to.exists();
+                expect(response.result.definitions.Model).to.exists();
+                expect(response.result.definitions['Model 1']).to.exists();
+
                 done();
             });
 
