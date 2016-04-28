@@ -155,7 +155,7 @@ lab.experiment('proxies', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        nickname: 'microformatsapi',
+                        id: 'microformatsapi',
                         validate: {
                             payload: {
                                 a: Joi.number()
@@ -234,7 +234,7 @@ lab.experiment('proxies', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        nickname: 'microformatsapi',
+                        id: 'microformatsapi',
                         validate: {
                             payload: Joi.object({
                                 a: Joi.number()
@@ -285,7 +285,7 @@ lab.experiment('proxies', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        nickname: 'microformatsapi1',
+                        id: 'microformatsapi1',
                         validate: {
                             payload: Joi.object({
                                 a: Joi.number()
@@ -310,7 +310,7 @@ lab.experiment('proxies', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        nickname: 'microformatsapi2',
+                        id: 'microformatsapi2',
                         validate: {
                             payload: Joi.object({
                                 a: Joi.number()
@@ -368,7 +368,7 @@ lab.experiment('proxies', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        nickname: 'microformatsapi1',
+                        id: 'microformatsapi1',
                         validate: {
                             payload: Joi.object({
                                 a: Joi.number()
@@ -393,7 +393,7 @@ lab.experiment('proxies', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        nickname: 'microformatsapi2',
+                        id: 'microformatsapi2',
                         validate: {
                             payload: Joi.object({
                                 b: Joi.string()
