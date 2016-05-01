@@ -541,11 +541,16 @@ The all the files in the URLs below are added by the plugin, but you must server
         });
 
         function addApiKeyAuthorization() {
-            var key = $('#input_apiKey')[0].value;
-            if (key && key.trim() != "") {
-                var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization(auth.name, key, auth.in);
-                window.swaggerUi.api.clientAuthorizations.add(auth.name, apiKeyAuth);
-                log("added key " + key);
+            if($('#input_apiKey')){
+                var key = $('#input_apiKey')[0].value;
+                if (key && key.trim() != "") {
+                    if('{{{hapiSwagger.keyPrefix}}}' !== ''){
+                       key = '{{{hapiSwagger.keyPrefix}}}' + key;
+                    }
+                    var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization(auth.name, key, auth.in);
+                    window.swaggerUi.api.clientAuthorizations.add(auth.name, apiKeyAuth);
+                    log("added key " + key);
+                }
             }
         }
 

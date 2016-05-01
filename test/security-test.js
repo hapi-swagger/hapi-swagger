@@ -26,11 +26,14 @@ lab.experiment('security', () => {
             'api_key': {
                 'type': 'apiKey',
                 'name': 'api_key',
-                'in': 'header'
+                'in': 'header',
+                'x-keyPrefix': 'Bearer '
             }
         },
         'security': [{ 'api_key': [] }]
     };
+
+
 
     // route with examples of security objects from http://petstore.swagger.io/v2/swagger.json
     const routes = [{
@@ -160,4 +163,81 @@ lab.experiment('security', () => {
         });
     });
 
+
+    lab.test('passes through x-keyPrefix', (done) => {
+
+        const prefixBearerOptions = {
+            debug: true,
+            securityDefinitions: {
+                'Bearer': {
+                    'type': 'apiKey',
+                    'name': 'Authorization',
+                    'in': 'header',
+                    'x-keyPrefix': 'Bearer '
+                }
+            },
+            security: [{ 'Bearer': [] }]
+        };
+
+        const requestOptions = {
+            method: 'GET',
+            url: '/documentation/debug'
+        };
+
+        // plugin routes should be not be affected by auth on API
+        Helper.createServer(prefixBearerOptions, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.parse(response.result).keyPrefix);
+                expect(JSON.parse(response.result).keyPrefix).to.equal('Bearer ');
+                done();
+            });
+        });
+    });
+
+
+    lab.test('no keyPrefix', (done) => {
+
+        const prefixOauth2Options = {
+            debug: true,
+            securityDefinitions: {
+                'Oauth2': {
+                    'type': 'oauth2',
+                    'authorizationUrl': 'http://petstore.swagger.io/api/oauth/dialog',
+                    'flow': 'implicit',
+                    'scopes': {
+                        'write:pets': 'modify pets in your account',
+                        'read:pets': 'read your pets'
+                    }
+                }
+            },
+            security: [{ 'Oauth2': [] }]
+        };
+
+        const requestOptions = {
+            method: 'GET',
+            url: '/documentation/debug'
+        };
+
+        // plugin routes should be not be affected by auth on API
+        Helper.createServer(prefixOauth2Options, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+               // console.log(JSON.parse(response.result).keyPrefix);
+                expect(JSON.parse(response.result).keyPrefix).to.equal(undefined);
+                done();
+            });
+        });
+    });
+
 });
+
+
+
+
+
+

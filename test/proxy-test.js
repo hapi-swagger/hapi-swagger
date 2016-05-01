@@ -155,7 +155,7 @@ lab.experiment('proxies', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        id: 'microformatsapi',
+                        nickname: 'microformatsapi',
                         validate: {
                             payload: {
                                 a: Joi.number()
