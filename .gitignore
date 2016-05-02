@@ -18,3 +18,5 @@ npm-debug.log
 .coveralls.yml
 
 bin/bearer.js
+bin/upload-file.js
+bin/upload-file-large.js
