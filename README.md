@@ -80,7 +80,7 @@ You can even specify more tags and then later generate tag-specific documentatio
         tags: ['api'],
         validate: {
             params: {
-                username: Joi.number()
+                id : Joi.number()
                         .required()
                         .description('the id for the todo item'),
             }
@@ -632,5 +632,3 @@ is like putting a round plug in a square hole. Without the help of others it wou
 
 ## Issues
 If you find any issue please file here on github and I will try and fix them.
-
-
