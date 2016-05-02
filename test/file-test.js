@@ -63,6 +63,33 @@ lab.experiment('file', () => {
         });
     });
 
+    lab.test('upload with binary file type', (done) => {
+        routes.config.validate.payload.file = Joi.binary().meta({ swaggerType: 'file' }).required();
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths['/test/'].post.parameters));
+                expect(err).to.equal(null);
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test/'].post.parameters).to.deep.equal([
+                    {
+                        'type': 'file',
+                        'format': 'binary',
+                        'required': true,
+                        'x-meta': {
+                            'swaggerType': 'file'
+                        },
+                        'name': 'file',
+                        'in': 'formData'
+                    }
+                ]);
+                done();
+            });
+        });
+    });
+
 
 
     lab.test('file type not fired on other meta properties', (done) => {
