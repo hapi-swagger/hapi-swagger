@@ -52,7 +52,12 @@ server.register([
     {
         register: HapiSwagger,
         options: swaggerOptions
-    }], (err) => {
+    }],
+    (err) => {
+
+        if (err) {
+            console.log(err);
+        }
 
         /*
         Two of the routes below uses `id: 'add'` in the route options. It is used to make the swagger-client path more human

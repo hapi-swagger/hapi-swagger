@@ -75,7 +75,12 @@ server.register([
     {
         register: HapiSwagger,
         options: swaggerOptions
-    }], (err) => {
+    }],
+    (err) => {
+
+        if (err) {
+            console.log(err);
+        }
 
         server.route(Routes);
 

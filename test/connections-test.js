@@ -88,6 +88,8 @@ lab.experiment('connections', () => {
             Vision
         ], function (err) {
 
+            expect(err).to.equal(undefined);
+
             // interface a - add swagger UI
             server.register([
                 plugin1,
@@ -96,6 +98,8 @@ lab.experiment('connections', () => {
                     options: swaggerOptionsA
                 }], { select: ['a'] }, function (err) {
 
+                    expect(err).to.equal(undefined);
+
                     // interface b - add swagger UI
                     server.register([
                         plugin2,
@@ -103,6 +107,8 @@ lab.experiment('connections', () => {
                             register: HapiSwagger,
                             options: swaggerOptionsB
                         }], { select: ['b'] }, function (err) {
+
+                            expect(err).to.equal(undefined);
 
                             server.start(function () {
 

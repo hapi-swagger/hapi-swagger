@@ -85,6 +85,10 @@ server.register([
     Vision
 ], (err) => {
 
+    if (err) {
+        console.log(err);
+    }
+
     // interface a - add swagger UI
     server.register([
         plugin1,
@@ -93,6 +97,10 @@ server.register([
             options: swaggerOptionsA
         }], { select: ['a'] }, (err) => {
 
+            if (err) {
+                console.log(err);
+            }
+
             // interface b - add swagger UI
             server.register([
                 plugin2,
@@ -100,6 +108,10 @@ server.register([
                     register: HapiSwagger,
                     options: swaggerOptionsB
                 }], { select: ['b'] }, (err) => {
+
+                    if (err) {
+                        console.log(err);
+                    }
 
                     server.start(() => {
 
@@ -110,4 +122,3 @@ server.register([
 
 
 server.route(Routes);
-

@@ -2,6 +2,7 @@
 const BearerToken = require('hapi-auth-bearer-token');
 const H2o2 = require('h2o2');
 const Hapi = require('hapi');
+const Boom = require('boom');
 const Inert = require('inert');
 const Vision = require('vision');
 const Wreck = require('wreck');
@@ -46,6 +47,10 @@ helper.createServerWithConnection = function (connectionOptions, swaggerOptions,
         }
     ], (err) => {
 
+        if (err) {
+            return callback(err, null);
+        }
+
         server.route(routes);
         server.start(function (err) {
 
@@ -85,6 +90,10 @@ helper.createAuthServer = function (swaggerOptions, routes, callback) {
         }
     ], (err) => {
 
+        if (err) {
+            return callback(err, null);
+        }
+
         server.auth.strategy('bearer', 'bearer-access-token', {
             'accessTokenName': 'access_token',
             'validateFunc': helper.validateBearer
@@ -117,10 +126,10 @@ helper.createServerWithPromises = function (swaggerOptions, routes, callback) {
     const server = new Hapi.Server();
 
     // start server using promises
-    registerPlugins()
+    registerPlugins(server, swaggerOptions)
         .then( (msg) => {
             console.log(msg);
-            return startServer(server);
+            return startServer(server, routes);
         })
         .then( (msg) => {
             console.log(msg);
@@ -131,7 +140,7 @@ helper.createServerWithPromises = function (swaggerOptions, routes, callback) {
             console.log(msg);
             callback(null, server);
         })
-        .catch( (msg) => {
+        .catch( (err) => {
             console.log(err);
             callback(err, null);
         });
@@ -143,7 +152,7 @@ helper.createServerWithPromises = function (swaggerOptions, routes, callback) {
 *
 * @return {Object}
 */
-const registerPlugins = function () {
+const registerPlugins = function (server, swaggerOptions) {
 
     return new Promise((resolve, reject) =>
         server.register([
@@ -163,16 +172,29 @@ const registerPlugins = function () {
 
 };
 
+const registerViews = function (server) {
+
+    return new Promise((resolve) => {
+
+        server.views({
+            path: 'bin',
+            engines: { html: require('handlebars') },
+            isCached: false
+        });
+        resolve('Templates views setup');
+    });
+};
+
 /**
 * starts server using a promise
 *
 * @return {Object}
 */
-const startServer = function () {
+const startServer = function (server, routes) {
 
     return new Promise((resolve, reject) => {
 
-        server.route(Routes);
+        server.route(routes);
         server.start((err) => {
             (err)
                 ? reject('Failed to start server: ${err}')
@@ -244,6 +266,7 @@ helper.validateBearer = function (token, callback) {
 * @param  {Object} settings
 * @param  {Int} ttl
 */
+/* eslint no-unused-vars: [2, { "argsIgnorePattern": "ttl" } ] */
 helper.replyWithJSON  = function (err, res, request, reply, settings, ttl) {
 
     Wreck.read(res, { json: true }, function (err, payload) {

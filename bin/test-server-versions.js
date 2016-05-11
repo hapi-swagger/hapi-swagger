@@ -68,7 +68,8 @@ server.register([
     }, {
         register: HapiApiVersion,
         options: versionOptions
-    }], (err) => {
+    }],
+    (err) => {
 
         if (err) {
             throw err;

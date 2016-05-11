@@ -111,6 +111,10 @@ let swaggerOptions = {
 // the auth.strategy needs to be registered before it can be used in options for swagger
 server.register([BearerToken], (err) => {
 
+    if (err) {
+        console.log(err);
+    }
+
     server.auth.strategy('bearer', 'bearer-access-token', {
         'accessTokenName': 'access_token',
         'validateFunc': validateBearer
@@ -138,7 +142,12 @@ server.register([
     {
         register: HapiSwagger,
         options: swaggerOptions
-    }], (err) => {
+    }],
+    (err) => {
+
+        if (err) {
+            console.log(err);
+        }
 
         server.route(Routes);
 

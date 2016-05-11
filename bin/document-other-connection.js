@@ -78,6 +78,10 @@ server.register([
     }
 ], (err) => {
 
+    if (err) {
+        console.log(err);
+    }
+
     server.start((err) => {
         if (err) {
             console.log(err);
