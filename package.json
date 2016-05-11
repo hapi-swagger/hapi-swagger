@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start": "node ./bin/test-server.js",
-    "test": "lab -a code -t 100",
+    "test": "lab -L -a code -t 100",
     "test-cov-html": "lab -a code  -r html -o coverage.html",
     "test-cov-coveralls": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls"
   },
