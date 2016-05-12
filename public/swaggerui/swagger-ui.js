@@ -4903,7 +4903,7 @@ Operation.prototype.asCurl = function (args1, args2) {
   
   // For some reason the original swagger-ui implementation generates the wrong curl output when we have the 'Accept' header with vender/version.
   // Replaces the header by the 'Content-Type' and it's not practical because will confuse user.
-  obj.headers['Accept'] = this.getHeaderParams(args1)['Accept']
+  obj.headers['Accept'] = this.getHeaderParams(args1)['Accept'];
 
   var results = [];
 
