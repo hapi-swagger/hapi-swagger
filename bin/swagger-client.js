@@ -19,6 +19,7 @@ server.connection({
 
 let swaggerOptions = {
     basePath: '/v1/',
+    suppressVersionFromBasePath: false,
     pathPrefixSize: 2,
     info: {
         'title': 'Test API Documentation',
