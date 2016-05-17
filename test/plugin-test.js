@@ -217,6 +217,44 @@ lab.experiment('plugin', () => {
         });
     });
 
+
+    lab.test('disable swagger UI', (done) => {
+
+        swaggerOptions = {
+            'enableSwaggerUI': false,
+            'enableDocumentation': false
+        };
+
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
+
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('disable swagger UI overriden by enableDocumentation', (done) => {
+
+        swaggerOptions = {
+            'enableSwaggerUI': false,
+            'enableDocumentation': true
+        };
+
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
+
+                expect(response.statusCode).to.equal(200);
+                done();
+            });
+        });
+    });
+
     lab.test('should take the plugin route prefix into account when rendering the UI', (done) => {
 
         const server = new Hapi.Server();

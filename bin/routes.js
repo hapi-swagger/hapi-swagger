@@ -40,7 +40,7 @@ const sumHTTPStatus = {
         'schema': sumModel
     },
     '400': {
-        'description': 'Bad Request',
+        'description': 'Bad request (Reason #1)  \nBad request (Reason #2)',
         'schema': errorModel
     },
     '500': {
