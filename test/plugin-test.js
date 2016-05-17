@@ -160,6 +160,18 @@ lab.experiment('plugin', () => {
     });
 
 
+    lab.test('swaggerUIPath + extend.js remapping', (done) => {
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swaggerui/extend.js' }, function (response) {
+
+                expect(response.statusCode).to.equal(200);
+                done();
+            });
+        });
+    });
+
+
     let swaggerOptions = {
         'jsonPath': '/test.json',
         'documentationPath': '/testdoc',

@@ -467,8 +467,8 @@ The all the files in the URLs below are added by the plugin, but you must server
 <script src='{{hapiSwagger.swaggerUIPath}}extend.js' type='text/javascript'></script>
 
 <!-- Some basic translations -->
-<script src='{{hapiSwagger.swaggerUIPath}}/lang/translator.js' type='text/javascript'></script>
-<script src='{{hapiSwagger.swaggerUIPath}}/lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lang/translator.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
 
 <script type="text/javascript">
 
