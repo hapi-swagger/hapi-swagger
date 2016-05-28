@@ -79,6 +79,34 @@ lab.experiment('plugin', () => {
     });
 
 
+    lab.test('plug-in register more than once', (done) => {
+
+        const server = new Hapi.Server();
+        server.connection();
+        server.route(routes);
+
+        const promise = server.register([
+            Inert,
+            Vision,
+            {
+                register: HapiSwagger,
+                options: {
+                    enableDocumentation: true
+                }
+            }
+        ],{once: true}).then(() => {
+            return server.start();
+        }).then(() => {
+            return server.stop();
+        }).then(() => {
+            return server.start();
+        }).then((aServer) => {
+            Code.expect(aServer).to.equal(expectedValue);
+        });
+
+    });
+
+
     lab.test('plug-in register no options', (done) => {
 
         const server = new Hapi.Server();
