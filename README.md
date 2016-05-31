@@ -101,9 +101,10 @@ Options for UI:
 * `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
 * `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
 * `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints
+* `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
 * `enableDocumentation`:  (boolean) Add documentation page - default: `true`,
 * `documentationPath`:  (string) The path of the documentation page - default: `/documentation`,
-* `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
+* `enableSwaggerUI`:  (boolean) Add files that support SwaggerUI. Only removes files if `enableDocumentation` is also set to false - default: `true`,
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `auth`: (false || string || object) The [authentication configuration](http://hapijs.com/api#route-options) for plug-in routes. - default: `false`
 * `connectionLabel`: (string) The connection label name that should be documented. Uses only one cneection
@@ -466,8 +467,8 @@ The all the files in the URLs below are added by the plugin, but you must server
 <script src='{{hapiSwagger.swaggerUIPath}}extend.js' type='text/javascript'></script>
 
 <!-- Some basic translations -->
-<script src='{{hapiSwagger.swaggerUIPath}}/lang/translator.js' type='text/javascript'></script>
-<script src='{{hapiSwagger.swaggerUIPath}}/lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lang/translator.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lang/{{hapiSwagger.lang}}.js' type='text/javascript'></script>
 
 <script type="text/javascript">
 

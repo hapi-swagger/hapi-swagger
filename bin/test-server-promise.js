@@ -108,9 +108,11 @@ const registerBearer = function () {
                 'validateFunc': validateBearer
             });
 
-            (err)
-                ? reject('Failed to configure bearer token plugin: ${err}')
-                : resolve('Bearer token plugin setup');
+            if (err) {
+                reject('Failed to configure bearer token plugin:', err);
+            } else {
+                resolve('Bearer token plugin setup');
+            }
         }
         );
 
@@ -134,9 +136,11 @@ const registerPlugins = function () {
                 options: swaggerOptions
             }
         ], (err) => {
-            (err)
-                ? reject('Failed to configure main plugin group: ${err}')
-                : resolve('Main plugin group setup');
+            if (err) {
+                reject('Failed to configure main plugin group:', err);
+            } else {
+                resolve('Main plugin group setup');
+            }
         }
         ));
 
@@ -161,11 +165,12 @@ const startServer = function () {
 
     return new Promise((resolve, reject) => {
 
-        server.route(Routes);
         server.start((err) => {
-            (err)
-                ? reject('Failed to start server: ${err}')
-                : resolve('Started server');
+            if (err) {
+                reject('Failed to start server:', err);
+            } else {
+                resolve('Started server');
+            }
         });
     });
 };
@@ -173,23 +178,28 @@ const startServer = function () {
 
 // start server using promises
 registerBearer()
-    .then( (msg) => {
+    .then((msg) => {
         console.log(msg);
         return registerPlugins(server);
     })
-    .then( (msg) => {
+    .then((msg) => {
         console.log(msg);
+        server.route(Routes);
         return startServer(server);
     })
-    .then( (msg) => {
-        console.log(msg);
+    .then((msg) => {
         console.log('Server running at:', server.info.uri);
         return registerViews(server);
     })
-    .then( (msg) => {
+    .then((msg) => {
         console.log(msg);
     })
-    .catch( (err) => {
+    .catch((err) => {
         console.log(err);
     });
+
+
+
+
+
 

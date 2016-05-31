@@ -79,6 +79,51 @@ lab.experiment('plugin', () => {
     });
 
 
+    lab.test('plug-in register more than once', (done) => {
+
+        const server = new Hapi.Server();
+        server.connection();
+        server.route(routes);
+
+        const startServer = function () {
+
+            return new Promise((resolve, reject) => {
+
+                server.start((err) => {
+                    if (err) {
+                        reject('Failed to start server:', err);
+                    } else {
+                        resolve('Started server');
+                    }
+                });
+            });
+        };
+
+        return server.register([
+            Inert,
+            Vision,
+            {
+                register: HapiSwagger,
+                options: {
+                    enableDocumentation: true
+                }
+            }
+        ]).then(() => {
+            return startServer();
+        }).then(() => {
+            return server.stop();
+        }).then(() => {
+            return startServer();
+        }).then((msg) => {
+            Code.expect(msg).to.equal('Started server');
+            done();
+        }).catch((err) => {
+            done(err);
+        });
+
+    });
+
+
     lab.test('plug-in register no options', (done) => {
 
         const server = new Hapi.Server();
@@ -160,6 +205,18 @@ lab.experiment('plugin', () => {
     });
 
 
+    lab.test('swaggerUIPath + extend.js remapping', (done) => {
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swaggerui/extend.js' }, function (response) {
+
+                expect(response.statusCode).to.equal(200);
+                done();
+            });
+        });
+    });
+
+
     let swaggerOptions = {
         'jsonPath': '/test.json',
         'documentationPath': '/testdoc',
@@ -212,6 +269,44 @@ lab.experiment('plugin', () => {
             server.inject({ method: 'GET', url: '/documentation' }, function (response) {
 
                 expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('disable swagger UI', (done) => {
+
+        swaggerOptions = {
+            'enableSwaggerUI': false,
+            'enableDocumentation': false
+        };
+
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
+
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('disable swagger UI overriden by enableDocumentation', (done) => {
+
+        swaggerOptions = {
+            'enableSwaggerUI': false,
+            'enableDocumentation': true
+        };
+
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
+
+                expect(response.statusCode).to.equal(200);
                 done();
             });
         });
