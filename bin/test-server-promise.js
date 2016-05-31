@@ -176,22 +176,6 @@ const startServer = function () {
 };
 
 
-const stopServer = function () {
-
-    return new Promise((resolve, reject) => {
-
-        server.stop((err) => {
-            if (err) {
-                reject('Failed to stop server:', err);
-            } else {
-                resolve('Stopped server');
-            }
-        });
-    });
-};
-
-
-
 // start server using promises
 registerBearer()
     .then((msg) => {
@@ -204,7 +188,6 @@ registerBearer()
         return startServer(server);
     })
     .then((msg) => {
-        console.log(msg);
         console.log('Server running at:', server.info.uri);
         return registerViews(server);
     })

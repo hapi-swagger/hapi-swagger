@@ -85,7 +85,21 @@ lab.experiment('plugin', () => {
         server.connection();
         server.route(routes);
 
-        const promise = server.register([
+        const startServer = function () {
+
+            return new Promise((resolve, reject) => {
+
+                server.start((err) => {
+                    if (err) {
+                        reject('Failed to start server:', err);
+                    } else {
+                        resolve('Started server');
+                    }
+                });
+            });
+        };
+
+        return server.register([
             Inert,
             Vision,
             {
@@ -94,14 +108,17 @@ lab.experiment('plugin', () => {
                     enableDocumentation: true
                 }
             }
-        ],{once: true}).then(() => {
-            return server.start();
+        ]).then(() => {
+            return startServer();
         }).then(() => {
             return server.stop();
         }).then(() => {
-            return server.start();
-        }).then((aServer) => {
-            Code.expect(aServer).to.equal(expectedValue);
+            return startServer();
+        }).then((msg) => {
+            Code.expect(msg).to.equal('Started server');
+            done();
+        }).catch((err) => {
+            done(err);
         });
 
     });
