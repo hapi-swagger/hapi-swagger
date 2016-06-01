@@ -8,7 +8,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 lab.experiment('group', () => {
 
     const routes = [{
@@ -41,10 +40,79 @@ lab.experiment('group', () => {
         }
     }];
 
+    const routesWithVersionInPath = [{
+        method: 'GET',
+        path: '/v1/actors',
+        handler: Helper.defaultHandler,
+        config: {
+            tags: ['api']
+        }
+    }, {
+        method: 'GET',
+        path: '/v1/movies',
+        handler: Helper.defaultHandler,
+        config: {
+            tags: ['api']
+        }
+    }, {
+        method: 'GET',
+        path: '/v1/movies/movie',
+        handler: Helper.defaultHandler,
+        config: {
+            tags: ['api']
+        }
+    }, {
+        method: 'GET',
+        path: '/v1/movies/movie/actor',
+        handler: Helper.defaultHandler,
+        config: {
+            tags: ['api']
+        }
+    }];
 
     lab.test('test groups tagging of paths', (done) => {
 
         Helper.createServer({}, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/actors'].get.tags[0]).to.equal('actors');
+                expect(response.result.paths['/movies'].get.tags[0]).to.equal('movies');
+                expect(response.result.paths['/movies/movie'].get.tags[0]).to.equal('movies');
+                expect(response.result.paths['/movies/movie/actor'].get.tags[0]).to.equal('movies');
+                done();
+            });
+
+        });
+    });
+
+
+    lab.test('test groups tagging of paths having basePath', (done) => {
+
+        Helper.createServer({ basePath: '/api/' }, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/actors'].get.tags[0]).to.equal('actors');
+                expect(response.result.paths['/movies'].get.tags[0]).to.equal('movies');
+                expect(response.result.paths['/movies/movie'].get.tags[0]).to.equal('movies');
+                expect(response.result.paths['/movies/movie/actor'].get.tags[0]).to.equal('movies');
+                done();
+            });
+
+        });
+    });
+
+
+    lab.test('test groups tagging of paths having suppressing version from base path', (done) => {
+
+        Helper.createServer({ basePath: '/', suppressVersionFromBasePath: true, pathPrefixSize: 2 }, routesWithVersionInPath, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
