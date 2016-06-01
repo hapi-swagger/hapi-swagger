@@ -55,9 +55,13 @@ server.register([
         options: swaggerOptions
     }], (err) => {
 
-        // The routes below use repeated an id `add`. It is used to make the client path more human readable. ie `sum.add` or `math.add`
-        // This will make json output by the plugin invalid against the OpenAPI spec, but should work in most codegen applications.
-        // Please `id` with care and remove it if not needed. The mathematics example shows the auto naming without the use of `id`.
+        /*
+        Two of the routes below uses `id: 'add'` in the route options. It is used to make the swagger-client path more human
+        readable. ie `sum.add` or `math.add`. If the same `id` is used more than once across the whole API it will make
+        json output by the plugin invalid against the OpenAPI spec, but the json should still work in most codegen applications.
+
+        Please `id` with care and remove it if not needed. The mathematics example is created using auto naming without the use of `id`.
+        */
 
         server.route([{
             method: 'PUT',
@@ -150,7 +154,14 @@ server.register([
 
 
                         // call the endpoint
-                        client.mathematics.putMathematicsAddAB({ a: 8, b: 8 }, { responseContentType: 'application/json' }, (result) => {
+                        client.math.add({ a: 8, b: 8 }, { responseContentType: 'application/json' }, (result) => {
+
+                            console.log('result', result);
+                        });
+
+
+                        // call the endpoint
+                        client.mathematics.putMathematicsAddAB({ a: 9, b: 9 }, { responseContentType: 'application/json' }, (result) => {
 
                             console.log('result', result);
                         });
