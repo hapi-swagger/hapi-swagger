@@ -526,7 +526,30 @@ lab.experiment('path', () => {
         });
     });
 
+    lab.test('path, basePath suppressing version fragment', (done) => {
 
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.path = '/api/v3/servers';
+        testRoutes.config.validate = {
+            params: {
+                id: Joi.number().integer().required().description('ID of server to delete'),
+                note: Joi.string().description('Note..')
+            }
+        };
+
+        Helper.createServer({ basePath: '/api', suppressVersionFromBasePath: true }, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/servers']).to.exist();
+                done();
+            });
+        });
+    });
+    
 
     lab.test('route deprecated', (done) => {
 
