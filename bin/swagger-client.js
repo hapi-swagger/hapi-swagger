@@ -1,8 +1,6 @@
 'use strict';
 const Blipp = require('blipp');
 const Hapi = require('hapi');
-const Inert = require('inert');
-const Vision = require('vision');
 const Joi = require('joi');
 const Swagger = require('swagger-client');
 
@@ -17,47 +15,19 @@ server.connection({
     port: 3000
 });
 
-let swaggerOptions = {
-    basePath: '/v1/',
-    pathPrefixSize: 2,
-    info: {
-        'title': 'Test API Documentation',
-        'description': 'This is a sample example of API documentation.',
-        'version': Pack.version,
-        'termsOfService': 'https://github.com/glennjones/hapi-swagger/',
-        'contact': {
-            'email': 'glennjonesnet@gmail.com'
-        },
-        'license': {
-            'name': 'MIT',
-            'url': 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
-        }
-    },
-    tags: [{
-        'name': 'sum',
-        'description': 'working with maths',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
-        }
-    }, {
-        'name': 'store',
-        'description': 'storing data',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
-        }
-    }, {
-        'name': 'properties',
-        'description': 'test the use of extended hapi/joi properties',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
-        }
-    }],
-    derefJSONSchema: false
-};
 
+let swaggerOptions = {
+    enableDocumentation: false,
+    enableSwaggerUI: false,
+    tags: [{
+        'name': 'sum'
+    },{
+        'name': 'math'
+    },{
+        'name': 'mathematics'
+    }],
+    derefJSONSchema: true
+};
 
 
 const defaultHandler = function (request, reply) {
@@ -79,27 +49,73 @@ const defaultHandler = function (request, reply) {
 
 
 server.register([
-    Inert,
-    Vision,
     Blipp,
     {
         register: HapiSwagger,
         options: swaggerOptions
     }], (err) => {
 
+        // The routes below use repeated an id `add`. It is used to make the client path more human readable. ie `sum.add` or `math.add`
+        // This will make json output by the plugin invalid against the OpenAPI spec, but should work in most codegen applications.
+        // Please `id` with care and remove it if not needed. The mathematics example shows the auto naming without the use of `id`.
+
         server.route([{
             method: 'PUT',
-            path: '/v1/sum/add/{a}/{b}',
+            path: '/sum/add/{a}/{b}',
             config: {
                 handler: defaultHandler,
                 description: 'Add',
-                tags: ['api', 'reduced'],
-                notes: ['Adds together two numbers and return the result. As an option you can have the result return as a binary number.'],
+                tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        consumes: ['application/json', 'application/xml']
+                        'id': 'add'  // refer to notes above
                     }
                 },
+                validate: {
+                    params: {
+                        a: Joi.number()
+                            .required()
+                            .description('the first number'),
+
+                        b: Joi.number()
+                            .required()
+                            .description('the second number')
+                    }
+                }
+
+            }
+        },{
+            method: 'PUT',
+            path: '/math/add/{a}/{b}',
+            config: {
+                handler: defaultHandler,
+                description: 'Add',
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        'id': 'add' // refer to notes above
+                    }
+                },
+                validate: {
+                    params: {
+                        a: Joi.number()
+                            .required()
+                            .description('the first number'),
+
+                        b: Joi.number()
+                            .required()
+                            .description('the second number')
+                    }
+                }
+
+            }
+        },{
+            method: 'PUT',
+            path: '/mathematics/add/{a}/{b}',
+            config: {
+                handler: defaultHandler,
+                description: 'Add',
+                tags: ['api'],
                 validate: {
                     params: {
                         a: Joi.number()
@@ -121,29 +137,25 @@ server.register([
             } else {
                 console.log('Server running at:', server.info.uri);
 
+                // create swagger client using json output from plugin
                 var client = new Swagger({
                     url: server.info.uri + '/swagger.json',
                     success: () => {
 
-                        client.sum.putV1SumAddAB({ a: 7, b: 7 }, { responseContentType: 'application/json' }, (result) => {
+                        // call the endpoint
+                        client.sum.add({ a: 7, b: 7 }, { responseContentType: 'application/json' }, (result) => {
+
+                            console.log('result', result);
+                        });
+
+
+                        // call the endpoint
+                        client.mathematics.putMathematicsAddAB({ a: 8, b: 8 }, { responseContentType: 'application/json' }, (result) => {
 
                             console.log('result', result);
                         });
                     }
                 });
-
             }
         });
     });
-
-
-
-
-// add templates only for testing custom.html
-server.views({
-    path: 'bin',
-    engines: { html: require('handlebars') },
-    isCached: false
-});
-
-
