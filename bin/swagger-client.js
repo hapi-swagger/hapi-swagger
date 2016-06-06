@@ -5,7 +5,6 @@ const Joi = require('joi');
 const Swagger = require('swagger-client');
 
 const HapiSwagger = require('../');
-const Pack = require('../package');
 
 
 

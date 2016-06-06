@@ -4900,10 +4900,15 @@ Operation.prototype.asCurl = function (args1, args2) {
   var obj = this.execute(args1, opts);
 
   this.clientAuthorizations.apply(obj, this.operation.security);
-  
-  // For some reason the original swagger-ui implementation generates the wrong curl output when we have the 'Accept' header with vender/version.
-  // Replaces the header by the 'Content-Type' and it's not practical because will confuse user.
-  obj.headers['Accept'] = this.getHeaderParams(args1)['Accept'];
+
+  /*
+  hapi-swagger change
+  For some reason the original swagger-ui implementation generates the wrong curl output when we have the 'Accept' header with vender/version. Replaces the header by the 'Content-Type' and it's not practical because will confuse user.
+  */
+  if(!obj.headers){
+    obj.headers = [];
+  }
+  obj.headers['Accept'] = (args2.responseContentType)?  args2.responseContentType : this.getHeaderParams(args1)['Accept'];
 
   var results = [];
 
@@ -26114,6 +26119,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
     if (!contentTypeEl.length) { return; }
     contentType = contentTypeEl.val();
+
+    /*
+    hapi-swagger change
+    Used to update cURL on select change. Temp taken out
+
+    var curlCommand = this.model.asCurl(this.model, {responseContentType: contentType});
+    curlCommand = curlCommand.replace('!', '&#33;');
+    $( 'div.curl', $(this.el)).html('<pre>' + _.escape(curlCommand) + '</pre>');
+    */
 
     if (contentType.indexOf('xml') > -1) {
       xmlSnippetEl.show();

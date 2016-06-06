@@ -132,4 +132,26 @@ lab.experiment('utilities', () => {
     });
 
 
+    lab.test('replaceInPath', (done) => {
+
+        const pathReplacements = [{
+            replaceIn: 'all',
+            pattern: /v([0-9]+)\//,
+            replacement: ''
+        },{
+            replaceIn: 'groups',
+            pattern: /[.].*$/,
+            replacement: ''
+        }];
+
+        expect(Utilities.replaceInPath('api/v1/users', ['endpoints'], pathReplacements)).to.equal('api/users');
+        expect(Utilities.replaceInPath('api/v2/users', ['groups'], pathReplacements)).to.equal('api/users');
+        expect(Utilities.replaceInPath('api/users.get', ['groups'], pathReplacements)).to.equal('api/users');
+        expect(Utilities.replaceInPath('api/users.search', ['groups'], pathReplacements)).to.equal('api/users');
+        done();
+    });
+
+
+
+
 });

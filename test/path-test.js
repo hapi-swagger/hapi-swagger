@@ -537,7 +537,18 @@ lab.experiment('path', () => {
             }
         };
 
-        Helper.createServer({ basePath: '/api', suppressVersionFromBasePath: true }, testRoutes, (err, server) => {
+
+        const options = {
+            basePath: '/api',
+            pathReplacements: [{
+                replaceIn: 'all',
+                pattern: /v([0-9]+)\//,
+                replacement: ''
+            }]
+        };
+
+
+        Helper.createServer(options, testRoutes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
@@ -549,7 +560,7 @@ lab.experiment('path', () => {
             });
         });
     });
-    
+
 
     lab.test('route deprecated', (done) => {
 

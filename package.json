@@ -42,7 +42,8 @@
     "hapi-auth-bearer-token": "^4.0.2",
     "js2xmlparser": "^1.0.0",
     "hapi-auth-jwt2": "^5.7.0",
-    "swagger-client": "^2.1.14"
+    "swagger-client": "^2.1.14",
+    "hapi-api-version": "^1.1.0"
   },
   "scripts": {
     "start": "node ./bin/test-server.js",
