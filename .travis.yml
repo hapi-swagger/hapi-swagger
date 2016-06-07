@@ -1,5 +1,7 @@
 language: node_js
 node_js:
-  - "5.0"
-  - "4.0"
-script: "npm run-script test-cov-coveralls"
+  - "6"
+  - "4"
+  - "5"
+after_success:
+  - "npm run test-cov-coveralls"
