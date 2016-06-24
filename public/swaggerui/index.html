@@ -99,7 +99,7 @@
             operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
             showRequestHeaders: false,
             validatorUrl: validatorUrl,
-            jsonEditor: {{#if isTrue}}true{{else}}false{{/if}}
+            jsonEditor: {{#if hapiSwagger.jsonEditor}}true{{else}}false{{/if}}
         });
 
 
