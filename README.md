@@ -108,7 +108,7 @@ Options for UI:
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `auth`: (false || string || object) The [authentication configuration](http://hapijs.com/api#route-options) for plug-in routes. - default: `false`
 * `connectionLabel`: (string) The connection label name that should be documented. Uses only one cneection
-* `expanded`: (boolean) If UI is expanded when opened - default: `true`
+* `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
 * `jsonEditor`: (boolean) If UI should use JSON Edtior - default: `false`
 * `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI.
 * `lang`: (string) The language of the UI `en`, `es`, `fr`, `it`, `ja`, `pl`, `pt`, `ru`, `tr` or`zh-cn`  - default: `en`
