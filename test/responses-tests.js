@@ -190,8 +190,8 @@ lab.experiment('responses', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.paths['/store/'].post.responses[200]).to.exist();
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
-                expect(response.result.paths['/store/'].post.responses[400].headers).to.deep.equal(headers);
-                expect(response.result.paths['/store/'].post.responses[400].example).to.deep.equal(example);
+                expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
+                expect(response.result.paths['/store/'].post.responses[400].example).to.equal(example);
                 done();
             });
         });
@@ -231,10 +231,10 @@ lab.experiment('responses', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.paths['/store/'].post.responses));
-                expect(response.result.paths['/store/'].post.responses[200]).to.deep.equal(undefined);
+                expect(response.result.paths['/store/'].post.responses[200]).to.equal(undefined);
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
-                expect(response.result.paths['/store/'].post.responses[400].headers).to.deep.equal(headers);
-                expect(response.result.paths['/store/'].post.responses[400].example).to.deep.equal(example);
+                expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
+                expect(response.result.paths['/store/'].post.responses[400].example).to.equal(example);
                 done();
             });
         });
@@ -272,7 +272,7 @@ lab.experiment('responses', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
-                expect(response.result.paths['/store/'].post.responses[400].headers).to.deep.equal(headers);
+                expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
                 done();
             });
         });
@@ -317,13 +317,13 @@ lab.experiment('responses', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
-                expect(response.result.definitions.ResultSet).to.deep.equal({
+                expect(response.result.definitions.ResultSet).to.equal({
                     'type': 'array',
                     'items': {
                         '$ref': '#/definitions/Result'
                     }
                 });
-                expect(response.result.definitions.Result).to.deep.equal({
+                expect(response.result.definitions.Result).to.equal({
                     'properties': {
                         'equals': {
                             'type': 'number'
@@ -365,7 +365,7 @@ lab.experiment('responses', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses).to.deep.equal({
+                expect(response.result.paths['/store/'].post.responses).to.equal({
                     'default': {
                         'schema': {
                             'type': 'string'
@@ -387,7 +387,7 @@ lab.experiment('responses', () => {
 
         //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
 
-        expect(Responses.build({}, {}, {}, {})).to.deep.equal({
+        expect(Responses.build({}, {}, {}, {})).to.equal({
             'default': {
                 'schema': {
                     'type': 'string'
@@ -395,7 +395,7 @@ lab.experiment('responses', () => {
                 'description': 'Successful'
             }
         });
-        expect(Responses.build(objA, objB, objC, {})).to.deep.equal({
+        expect(Responses.build(objA, objB, objC, {})).to.equal({
             'default': {
                 'schema': {
                     'type': 'string'
@@ -406,7 +406,7 @@ lab.experiment('responses', () => {
 
         objA = { 200: { description: 'Successful' } };
         //console.log(JSON.stringify( Responses.build(objA, objB, objC, {}) ));
-        expect(Responses.build(objA, objB, objC, {})).to.deep.equal({
+        expect(Responses.build(objA, objB, objC, {})).to.equal({
             '200': {
                 'schema': {
                     'type': 'string'
@@ -456,7 +456,7 @@ lab.experiment('responses', () => {
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(response.result.definitions['Model 1']).to.exist();
                 expect(response.result.definitions['Model 2']).to.exist();
-                expect(response.result.definitions).to.deep.equal({
+                expect(response.result.definitions).to.equal({
                     'Model 1': {
                         'type': 'object',
                         'properties': {
@@ -538,7 +538,7 @@ lab.experiment('responses', () => {
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(err).to.equal(null);
                 expect(response.result.definitions.datapoint).to.exist();
-                expect(response.result.definitions).to.deep.equal({
+                expect(response.result.definitions).to.equal({
                     'datapoint': {
                         'properties': {
                             'date': {

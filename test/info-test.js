@@ -28,7 +28,7 @@ lab.experiment('info', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal({ 'title': 'API documentation' });
+                expect(response.result.info).to.equal({ 'title': 'API documentation' });
                 done();
             });
         });
@@ -47,7 +47,7 @@ lab.experiment('info', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal({ 'title': 'API documentation' });
+                expect(response.result.info).to.equal({ 'title': 'API documentation' });
                 done();
             });
         });
@@ -67,7 +67,7 @@ lab.experiment('info', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal(swaggerOptions.info);
+                expect(response.result.info).to.equal(swaggerOptions.info);
                 done();
             });
         });
@@ -98,7 +98,7 @@ lab.experiment('info', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.deep.equal(swaggerOptions.info);
+                expect(response.result.info).to.equal(swaggerOptions.info);
                 done();
             });
         });

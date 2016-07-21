@@ -51,12 +51,22 @@ let swaggerOptions = {
 
 //connectionToDocument: server.select(['api']),
 
-let goodOptions = {
-    opsInterval: 1000,
-    reporters: [{
-        reporter: require('good-console'),
-        events: { log: '*', response: '*' }
-    }]
+const goodOptions = {
+    ops: {
+        interval: 1000
+    },
+    reporters: {
+        console: [{
+            module: 'good-squeeze',
+            name: 'Squeeze',
+            args: [{
+                log: '*',
+                response: '*'
+            }]
+        }, {
+            module: 'good-console'
+        }, 'stdout']
+    }
 };
 
 server.register([

@@ -51,11 +51,11 @@ lab.experiment('child-models', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
 
-                expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.deep.equal({
+                expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.equal({
                     '$ref': '#/definitions/Model 1'
                 });
 
-                expect(response.result.definitions['Model 1']).to.deep.equal({
+                expect(response.result.definitions['Model 1']).to.equal({
                     'properties': {
                         'outer1': {
                             '$ref': '#/definitions/outer1',
@@ -69,7 +69,7 @@ lab.experiment('child-models', () => {
                     'type': 'object'
                 });
 
-                expect(response.result.definitions.outer1).to.deep.equal({
+                expect(response.result.definitions.outer1).to.equal({
                     'properties': {
                         'inner1': {
                             'type': 'string'

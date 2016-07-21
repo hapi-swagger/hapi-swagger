@@ -109,10 +109,10 @@ lab.experiment('definitions', () => {
 
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test/'].post.parameters[0].schema).to.deep.equal({
+                expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
                     '$ref': '#/definitions/Model 1'
                 });
-                expect(response.result.definitions['Model 1']).to.deep.equal(defination);
+                expect(response.result.definitions['Model 1']).to.equal(defination);
                 done();
             });
 
@@ -128,7 +128,7 @@ lab.experiment('definitions', () => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
-                //console.log(JSON.stringify(response.result));
+                //console.log(JSON.stringify(response.result.definitions));
                 expect(response.result.definitions.b).to.exists();
                 expect(response.result.definitions.Model).to.exists();
                 expect(response.result.definitions['Model 1']).to.exists();

@@ -617,12 +617,18 @@ This includes `Joi.alternatives()` where `try(...)` defines more than one possib
 
 ## Lab test
 The project has integration and unit tests. To run the test within the project type one of the following commands.
+or
+```bash
+$ npm test
+``
+or
 ```bash
 $ lab
 $ lab -r html -o coverage.html
 $ lab -r html -o coverage.html --lint
 $ lab -r console -o stdout -r html -o coverage.html --lint
 ```
+
 
 If you are considering sending a pull request please add tests for the functionality you add or change.
 

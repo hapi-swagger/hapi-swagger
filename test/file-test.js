@@ -47,7 +47,7 @@ lab.experiment('file', () => {
                 //console.log(JSON.stringify(response.result.paths['/test/'].post.parameters));
                 expect(err).to.equal(null);
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/test/'].post.parameters).to.equal([
                     {
                         'type': 'file',
                         'required': true,
@@ -73,7 +73,7 @@ lab.experiment('file', () => {
                 //console.log(JSON.stringify(response.result.paths['/test/'].post.parameters));
                 expect(err).to.equal(null);
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/test/'].post.parameters).to.equal([
                     {
                         'type': 'file',
                         'format': 'binary',
@@ -103,7 +103,7 @@ lab.experiment('file', () => {
                 //console.log(JSON.stringify(response.result.paths['/test/']));
                 expect(err).to.equal(null);
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/test/'].post.parameters).to.equal([
                     {
                         'required': true,
                         'x-meta': {

@@ -266,7 +266,7 @@ helper.validateBearer = function (token, callback) {
 * @param  {Object} settings
 * @param  {Int} ttl
 */
-/* eslint no-unused-vars: [2, { "argsIgnorePattern": "ttl" } ] */
+/* eslint no-unused-vars:0 */
 helper.replyWithJSON  = function (err, res, request, reply, settings, ttl) {
 
     Wreck.read(res, { json: true }, function (err, payload) {

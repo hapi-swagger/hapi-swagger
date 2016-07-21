@@ -64,7 +64,7 @@ lab.experiment('proxies', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.host).to.equal(options.host);
-                expect(response.result.schemes).to.deep.equal(options.schemes);
+                expect(response.result.schemes).to.equal(options.schemes);
                 done();
             });
         });
@@ -87,7 +87,7 @@ lab.experiment('proxies', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.host).to.equal(requestOptions.headers['x-forwarded-host']);
-                expect(response.result.schemes).to.deep.equal(['https']);
+                expect(response.result.schemes).to.equal(['https']);
                 done();
             });
         });
@@ -110,7 +110,7 @@ lab.experiment('proxies', () => {
 
                 expect(err).to.equal(null);
                 expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
-                expect(response.result.schemes).to.deep.equal(['https']);
+                expect(response.result.schemes).to.equal(['https']);
                 done();
             });
         });
@@ -140,7 +140,7 @@ lab.experiment('proxies', () => {
 
                 expect(err).to.equal(null);
                 expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
-                expect(response.result.schemes).to.deep.equal(['http']);
+                expect(response.result.schemes).to.equal(['http']);
             });
         });
     });
@@ -194,7 +194,7 @@ lab.experiment('proxies', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/tools/microformats/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/tools/microformats/'].post.parameters).to.equal([
                     {
                         'type': 'string',
                         'in': 'header',
@@ -261,7 +261,7 @@ lab.experiment('proxies', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/tools/microformats/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/tools/microformats/'].post.parameters).to.equal([
                     {
                         'in': 'body',
                         'name': 'body',
@@ -337,7 +337,7 @@ lab.experiment('proxies', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.deep.equal({
+                expect(response.result.definitions).to.equal({
                     'testname': {
                         'properties': {
                             'a': {
@@ -419,7 +419,7 @@ lab.experiment('proxies', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.deep.equal({
+                expect(response.result.definitions).to.equal({
                     'testname': {
                         'properties': {
                             'a': {

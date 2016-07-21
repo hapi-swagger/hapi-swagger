@@ -103,7 +103,7 @@ lab.experiment('security', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.securityDefinitions).to.deep.equal(swaggerOptions.securityDefinitions);
+                expect(response.result.securityDefinitions).to.equal(swaggerOptions.securityDefinitions);
                 done();
             });
         });
@@ -124,7 +124,7 @@ lab.experiment('security', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.security).to.deep.equal(swaggerOptions.security);
+                expect(response.result.security).to.equal(swaggerOptions.security);
                 done();
             });
         });
@@ -145,12 +145,12 @@ lab.experiment('security', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/bookmarks/1/'].post.security).to.deep.equal([
+                expect(response.result.paths['/bookmarks/1/'].post.security).to.equal([
                     {
                         'api_key': []
                     }
                 ]);
-                expect(response.result.paths['/bookmarks/2/'].post.security).to.deep.equal([
+                expect(response.result.paths['/bookmarks/2/'].post.security).to.equal([
                     {
                         'petstore_auth': [
                             'write:pets',
@@ -227,7 +227,7 @@ lab.experiment('security', () => {
             server.inject(requestOptions, function (response) {
 
                 expect(err).to.equal(null);
-               // console.log(JSON.parse(response.result).keyPrefix);
+                //console.log(JSON.parse(response.result).keyPrefix);
                 expect(JSON.parse(response.result).keyPrefix).to.equal(undefined);
                 done();
             });

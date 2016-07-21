@@ -53,11 +53,11 @@ lab.experiment('utilities', () => {
     lab.test('deleteEmptyProperties', (done) => {
 
         //console.log( JSON.stringify(Utilities.deleteEmptyProperties(objWithNoOwnProperty())) );
-        expect(Utilities.deleteEmptyProperties({})).to.deep.equal({});
-        expect(Utilities.deleteEmptyProperties({ 'name': 'test' })).to.deep.equal({ 'name': 'test' });
-        expect(Utilities.deleteEmptyProperties({ 'name': null })).to.deep.equal({});
-        expect(Utilities.deleteEmptyProperties({ 'name': undefined })).to.deep.equal({});
-        expect(Utilities.deleteEmptyProperties({ 'name': [] })).to.deep.equal({});
+        expect(Utilities.deleteEmptyProperties({})).to.equal({});
+        expect(Utilities.deleteEmptyProperties({ 'name': 'test' })).to.equal({ 'name': 'test' });
+        expect(Utilities.deleteEmptyProperties({ 'name': null })).to.equal({});
+        expect(Utilities.deleteEmptyProperties({ 'name': undefined })).to.equal({});
+        expect(Utilities.deleteEmptyProperties({ 'name': [] })).to.equal({});
         // this needs JSON.stringify to compare outputs
         expect( JSON.stringify(Utilities.deleteEmptyProperties( Helper.objWithNoOwnProperty() ))).to.equal('{}');
         done();

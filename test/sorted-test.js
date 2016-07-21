@@ -116,7 +116,7 @@ lab.experiment('sort', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 //console.log(JSON.stringify(response.result.paths['/a']));
-                expect(Object.keys(response.result.paths['/a'])).to.deep.equal(['post', 'get', 'delete']);
+                expect(Object.keys(response.result.paths['/a'])).to.equal(['post', 'get', 'delete']);
                 done();
             });
         });
@@ -130,7 +130,7 @@ lab.experiment('sort', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 //console.log(JSON.stringify(Object.keys(response.result.paths['/a'])));
-                expect(Object.keys(response.result.paths['/a'])).to.deep.equal(['delete', 'get', 'post']);
+                expect(Object.keys(response.result.paths['/a'])).to.equal(['delete', 'get', 'post']);
                 done();
             });
         });

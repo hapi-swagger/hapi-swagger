@@ -61,7 +61,7 @@ lab.experiment('alternatives', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/store/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/store/'].post.parameters).to.equal([
                     {
                         'in': 'body',
                         'x-alternatives': [
@@ -88,7 +88,7 @@ lab.experiment('alternatives', () => {
                 ]);
 
 
-                expect(response.result.paths['/store2/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/store2/'].post.parameters).to.equal([
                     {
                         'name': 'body',
                         'schema': {
@@ -169,6 +169,7 @@ lab.experiment('alternatives', () => {
                         'in': 'body'
                     }
                 ]);
+
                 done();
             });
         });

@@ -29,7 +29,7 @@ lab.experiment('info', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.swagger).to.equal('2.0');
-                expect(response.result.schemes).to.deep.equal(['http']);
+                expect(response.result.schemes).to.equal(['http']);
                 expect(response.result.basePath).to.equal('/');
                 expect(response.result.consumes).to.not.exist();
                 expect(response.result.produces).to.not.exist();
@@ -62,11 +62,11 @@ lab.experiment('info', () => {
                 expect(response.statusCode).to.equal(200);
                 //console.log(JSON.stringify(response.result))
                 expect(response.result.swagger).to.equal('2.0');
-                expect(response.result.schemes).to.deep.equal(['https']);
+                expect(response.result.schemes).to.equal(['https']);
                 expect(response.result.basePath).to.equal('/base');
-                expect(response.result.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
-                expect(response.result.produces).to.deep.equal(['application/json', 'application/xml']);
-                expect(response.result.externalDocs).to.deep.equal(swaggerOptions.externalDocs);
+                expect(response.result.consumes).to.equal(['application/x-www-form-urlencoded']);
+                expect(response.result.produces).to.equal(['application/json', 'application/xml']);
+                expect(response.result.externalDocs).to.equal(swaggerOptions.externalDocs);
                 done();
             });
 

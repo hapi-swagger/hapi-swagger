@@ -28,7 +28,7 @@ lab.experiment('tags', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.tags).to.deep.equal([]);
+                expect(response.result.tags).to.equal([]);
                 done();
             });
         });
@@ -75,7 +75,7 @@ lab.experiment('tags', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.tags).to.deep.equal(swaggerOptions.tags);
+                expect(response.result.tags).to.equal(swaggerOptions.tags);
                 done();
             });
         });

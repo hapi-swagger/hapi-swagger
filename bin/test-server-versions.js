@@ -23,10 +23,21 @@ const options = {
 };
 
 const goodOptions = {
-    reporters: [{
-        reporter: require('good-console'),
-        events: { log: '*', response: '*' }
-    }]
+    ops: {
+        interval: 1000
+    },
+    reporters: {
+        console: [{
+            module: 'good-squeeze',
+            name: 'Squeeze',
+            args: [{
+                log: '*',
+                response: '*'
+            }]
+        }, {
+            module: 'good-console'
+        }, 'stdout']
+    }
 };
 
 const versionOptions = {

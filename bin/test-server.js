@@ -8,7 +8,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-const Routes = require('./routes');
+let Routes = require('./routes');
 
 
 /**
@@ -34,15 +34,23 @@ const validateBearer = function (token, callback) {
     }
 };
 
-
 const goodOptions = {
-    reporters: [{
-        reporter: require('good-console'),
-        events: { log: '*', response: '*' }
-    }]
+    ops: {
+        interval: 1000
+    },
+    reporters: {
+        console: [{
+            module: 'good-squeeze',
+            name: 'Squeeze',
+            args: [{
+                log: '*',
+                response: '*'
+            }]
+        }, {
+            module: 'good-console'
+        }, 'stdout']
+    }
 };
-
-
 
 let server = new Hapi.Server();
 server.connection({

@@ -52,7 +52,7 @@ lab.experiment('validation', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/test'].post.parameters).to.equal([
                     {
                         'schema': {
                             '$ref': '#/definitions/Hidden Model'
@@ -61,7 +61,7 @@ lab.experiment('validation', () => {
                         'in': 'body'
                     }
                 ]);
-                expect(response.result.definitions).to.deep.equal({
+                expect(response.result.definitions).to.equal({
                     'Hidden Model': {
                         'type': 'object'
                     }

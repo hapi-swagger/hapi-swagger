@@ -39,7 +39,7 @@ lab.experiment('dereference', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/store/'].post.parameters).to.deep.equal([
+                expect(response.result.paths['/store/'].post.parameters).to.equal([
                     {
                         'in': 'body',
                         'name': 'body',
@@ -74,11 +74,12 @@ lab.experiment('dereference', () => {
 
             //console.log(JSON.stringify(json));
             expect(err).to.exists();
-            expect(err).to.deep.equal({ 'error': 'fail to dereference schema' });
+            expect(err).to.equal({ 'error': 'fail to dereference schema' });
             expect(json).to.not.exists();
             done();
         });
 
     });
+
 
 });

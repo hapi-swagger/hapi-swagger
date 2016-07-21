@@ -113,12 +113,16 @@ lab.experiment('plugin', () => {
                 }
             }
         ]).then(() => {
+            
             return startServer();
         }).then(() => {
+
             return server.stop();
         }).then(() => {
+
             return startServer();
         }).then((msg) => {
+
             expect(msg).to.equal('Started server');
         });
 

@@ -97,8 +97,8 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.paths['/test'].post.consumes));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
-                expect(response.result.paths['/test'].post.produces).to.deep.equal(['application/json', 'application/xml']);
+                expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
+                expect(response.result.paths['/test'].post.produces).to.equal(['application/json', 'application/xml']);
                 done();
             });
         });
@@ -127,8 +127,8 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
-                expect(response.result.paths['/test'].post.produces).to.deep.equal(['application/json', 'application/xml']);
+                expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
+                expect(response.result.paths['/test'].post.produces).to.equal(['application/json', 'application/xml']);
                 done();
             });
         });
@@ -153,7 +153,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
+                expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
                 done();
             });
         });
@@ -179,7 +179,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['multipart/form-data']);
+                expect(response.result.paths['/test'].post.consumes).to.equal(['multipart/form-data']);
                 done();
             });
         });
@@ -209,7 +209,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['multipart/form-data']);
+                expect(response.result.paths['/test'].post.consumes).to.equal(['multipart/form-data']);
                 done();
             });
         });
@@ -238,7 +238,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
+                expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
                 done();
             });
         });
@@ -288,7 +288,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.deep.equal(['application/x-www-form-urlencoded']);
+                expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
                 done();
             });
         });
@@ -310,7 +310,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.produces).to.deep.equal(['application/json','application/vnd.api+json']);
+                expect(response.result.paths['/test'].post.produces).to.equal(['application/json','application/vnd.api+json']);
                 done();
             });
         });
@@ -332,7 +332,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.parameters[0]).to.deep.equal({
+                expect(response.result.paths['/test'].post.parameters[0]).to.equal({
                     'required': true,
                     'default': 'application/vnd.api+json',
                     'in': 'header',
@@ -362,7 +362,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.produces).to.deep.equal(['application/vnd.api+json', 'application/json']);
+                expect(response.result.paths['/test'].post.produces).to.equal(['application/vnd.api+json', 'application/json']);
                 done();
             });
         });
@@ -384,7 +384,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.parameters[0]).to.deep.equal({
+                expect(response.result.paths['/test'].post.parameters[0]).to.equal({
                     'enum': [
                         'application/json',
                         'application/vnd.api+json'
@@ -446,7 +446,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/servers/{id}/{note}'].post.parameters).to.deep.equal([{
+                expect(response.result.paths['/servers/{id}/{note}'].post.parameters).to.equal([{
                     'required': true,
                     'type': 'integer',
                     'description': 'ID of server to delete',
@@ -483,7 +483,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/servers/{id}/{note}'].post.parameters).to.deep.equal([{
+                expect(response.result.paths['/servers/{id}/{note}'].post.parameters).to.equal([{
                     'required': false,
                     'type': 'integer',
                     'description': 'ID of server to delete',

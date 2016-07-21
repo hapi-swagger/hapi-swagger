@@ -84,7 +84,7 @@ lab.experiment('document another connection', () => {
 
             //console.log(JSON.stringify(response.result.paths['/plugin1']))
             expect(response.statusCode).to.equal(200);
-            expect(response.result.paths['/plugin1']).to.deep.equal({
+            expect(response.result.paths['/plugin1']).to.equal({
                 'get': {
                     'tags': [
                         'plugin1'
@@ -149,7 +149,7 @@ lab.experiment('document another connection error', () => {
 
             //console.log(JSON.stringify(response.result.paths));
             expect(response.statusCode).to.equal(200);
-            expect(response.result.paths['/plugin1']).to.deep.equal({
+            expect(response.result.paths['/plugin1']).to.equal({
                 'get': {
                     'tags': [
                         'plugin1'
