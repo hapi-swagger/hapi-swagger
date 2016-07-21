@@ -149,7 +149,7 @@ const registerPlugins = function () {
 
 const registerViews = function () {
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
         server.views({
             path: 'bin',
@@ -187,7 +187,7 @@ registerBearer()
         server.route(Routes);
         return startServer(server);
     })
-    .then((msg) => {
+    .then(() => {
         console.log('Server running at:', server.info.uri);
         return registerViews(server);
     })
@@ -197,9 +197,3 @@ registerBearer()
     .catch((err) => {
         console.log(err);
     });
-
-
-
-
-
-

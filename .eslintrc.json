@@ -1,8 +1,10 @@
 {
     "rules": {
+        "no-console": 0,
         "indent": [
             2,
-            4
+            4,
+            { "SwitchCase": 1 }
         ],
         "quotes": [
             2,
@@ -18,6 +20,7 @@
         ]
     },
     "env": {
+        "node": true,
         "es6": true,
         "browser": true
     },

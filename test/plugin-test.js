@@ -43,8 +43,10 @@ lab.experiment('plugin', () => {
                 HapiSwagger
             ], function (err) {
 
+                expect(err).to.equal(undefined);
                 server.start(function (err) {
 
+                    expect(err).to.exist();
                     done();
                 });
             });
@@ -66,8 +68,10 @@ lab.experiment('plugin', () => {
                 HapiSwagger
             ], function (err) {
 
+                expect(err).to.equal(undefined);
                 server.start(function (err) {
 
+                    expect(err).to.exist();
                     done();
                 });
             });
@@ -79,7 +83,7 @@ lab.experiment('plugin', () => {
     });
 
 
-    lab.test('plug-in register more than once', (done) => {
+    lab.test('plug-in register more than once', () => {
 
         const server = new Hapi.Server();
         server.connection();
@@ -115,10 +119,7 @@ lab.experiment('plugin', () => {
         }).then(() => {
             return startServer();
         }).then((msg) => {
-            Code.expect(msg).to.equal('Started server');
-            done();
-        }).catch((err) => {
-            done(err);
+            expect(msg).to.equal('Started server');
         });
 
     });
@@ -134,6 +135,7 @@ lab.experiment('plugin', () => {
             HapiSwagger
         ], function (err) {
 
+            expect(err).to.equal(undefined);
             server.start(function (err) {
 
                 expect(err).to.equal(undefined);
