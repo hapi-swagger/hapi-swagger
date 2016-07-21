@@ -601,6 +601,7 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
 ## Features from HAPI that cannot be ported to Swagger
 Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
+* __`Joi.lazy()`__ This new `JOI` feature needs more research to see if its possible to visual describe recursive objects before its supported.
 * __`Joi.alternatives()`__ This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tooles using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec
 * __`{/filePath*}`__ The path parameters with the `*` char are not supported, either is the `{/filePath*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
 * __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.
@@ -620,7 +621,7 @@ The project has integration and unit tests. To run the test within the project t
 or
 ```bash
 $ npm test
-``
+```
 or
 ```bash
 $ lab
