@@ -538,7 +538,7 @@ The all the files in the URLs below are added by the plugin, but you must server
             operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
             showRequestHeaders: false,
             validatorUrl: '{{hapiSwagger.validatorUrl}}',
-            jsonEditor: {{#if isTrue}}true{{else}}false{{/if}}
+            jsonEditor: {{#if hapiSwagger.jsonEditor}}true{{else}}false{{/if}}
         });
 
         function addApiKeyAuthorization() {
