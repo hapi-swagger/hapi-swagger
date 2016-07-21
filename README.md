@@ -102,12 +102,12 @@ Options for UI:
 * `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
 * `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints
 * `jsonPath`: (string) The path of JSON that describes the API - default: `/swagger.json`
-* `enableDocumentation`:  (boolean) Add documentation page - default: `true`,
-* `documentationPath`:  (string) The path of the documentation page - default: `/documentation`,
-* `enableSwaggerUI`:  (boolean) Add files that support SwaggerUI. Only removes files if `enableDocumentation` is also set to false - default: `true`,
+* `enableDocumentation`:  (boolean) Add documentation page - default: `true`
+* `documentationPath`:  (string) The path of the documentation page - default: `/documentation`
+* `enableSwaggerUI`:  (boolean) Add files that support SwaggerUI. Only removes files if `enableDocumentation` is also set to false - default: `true`
 * `swaggerUIPath`: (string) The path for the interface files - default: `/swaggerui/`
 * `auth`: (false || string || object) The [authentication configuration](http://hapijs.com/api#route-options) for plug-in routes. - default: `false`
-* `connectionLabel`: (string) The connection label name that should be documented. Uses only one cneection
+* `connectionLabel`: (string) The connection label name that should be documented. Uses only one connection
 * `expanded`: (boolean) If UI is expanded when opened - default: `true`
 * `jsonEditor`: (boolean) If UI should use JSON Edtior - default: `false`
 * `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI.
