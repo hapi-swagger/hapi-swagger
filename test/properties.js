@@ -31,6 +31,15 @@ lab.experiment('property - ', () => {
     });
 
 
+    lab.test('parse simple meta', (done) => {
+
+        expect(Properties.parseProperty('x', Joi.string().description('this is bob') )).to.equal({ 'type': 'string', 'description': 'this is bob' });
+        expect(Properties.parseProperty('x', Joi.string().example('bob') )).to.equal({ 'type': 'string', 'x-example': 'bob' });
+
+        done();
+    });
+
+
     lab.test('parse meta', (done) => {
 
         // TODO add all meta data properties
@@ -40,10 +49,7 @@ lab.experiment('property - ', () => {
         expect(Properties.parseProperty('x', Joi.string().valid(['a', 'b', '']))).to.equal({ type: 'string', enum: ['a', 'b'] });
         expect(Properties.parseProperty('x', Joi.string().valid(['a', 'b', null]))).to.equal({ type: 'string', enum: ['a', 'b'] });
         expect(Properties.parseProperty('x', Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp')).default).to.exist();
-
-
         //console.log(JSON.stringify(Properties.parseProperty('x',Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp'))));
-
 
         done();
     });
