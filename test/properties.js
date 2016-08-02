@@ -212,6 +212,16 @@ lab.experiment('property - ', () => {
         expect(Properties.parseProperty('x', Joi.array().length(2))).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'length': 2 } });
         expect(Properties.parseProperty('x', Joi.array().unique())).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'unique': true } });
 
+        // TODO test examples on arrays and child arrays
+        /*
+        console.log(JSON.stringify(Properties.parseProperty('x', Joi.object().keys({
+            points: Joi.array().items(
+                Joi.array()
+            )
+        }), {}, {}, null, false)));
+        */
+
+
         done();
 
     });
