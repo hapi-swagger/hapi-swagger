@@ -158,15 +158,15 @@ const options = {
 ## Examples
 There are a number of examples of different uses of `hapi-swagger` in the examples directory. These files contain a full HAPI node app:
 
-*  `connections.js` - how to uses plugin with muiltple server connections
+*  `connections.js` - how to uses the plug-in with muiltple server connections
 *  `connections-sep-docs.js` - how to have API on one connection and documentation on another
 *  `custom.js` - how build a custom documentation page with its own CSS and JS
-*  `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
-*  `options.js` - how to use many of the plug-in options
-*  `promises.js` - how to setup plug-in using promises
-*  `swagger-client.js` - how to plug-in to build an interface with `swagger-client`
+*  `jwt.js` - how to used the plug-in in combination with JSON Web Tokens (JWT) `securityDefinition`
+*  `options.js` - how to use many of the plug-ins options
+*  `promises.js` - how to setup the plug-in using promises
+*  `swagger-client.js` - how use the plug-in to build an lib interface with `swagger-client`
 *  `upload-file.js` - how create documenation for a file upload
-*  `versions.js` - how to use plug-in with `hapi-api-version` for versioning of an API
+*  `versions.js` - how to use the plug-in with `hapi-api-version` for versioning of an API
 
 
 ## Grouping endpoints with tags
