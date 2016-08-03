@@ -116,7 +116,8 @@ Options for UI:
 * `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
 * `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 * `validatorUrl`: (string || null) sets the external validating URL Can swtich off by setting to `null`
-* `cache`: (object) allows for the caching of the `swagger.json`, please see caching sections for details
+* `cache`: (object) allows for the caching of the `swagger.json`, please see "Caching" sections for details
+* `pathReplacements` : (object) method for modifing path and group names in documenetation, please see "Rewriting paths and groupings" sections for details
 
 Defaults for routes settings (these can also be set a individual path level):
 * `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
@@ -629,6 +630,22 @@ options.cache = {
 * `expiresAt` - time of day expressed in 24h notation using the 'HH:MM' format, at which point all cache records expire. Uses local time. Cannot be used together with `expiresIn`.
 
 
+## Rewriting paths and groupings
+There are time you may wish to modified now groups and endpoint paths are displayed within the output documentation. A good example of this when using the `hapi-api-version` plug-in.
+
+Example of removing version numbers from both paths and groups ie `v2` or `v3`
+```
+ pathReplacements: [{
+    replaceIn: 'all',
+    pattern: /v([0-9]+)\//,
+    replacement: ''
+}]
+```
+
+* `replaceIn` (string) defines what to alter, can be:  'groups', 'endpoints' or 'all'
+* `pattern` (regex) patten for matching
+* `replacement` (string) replacement string
+
 ## Features from HAPI that cannot be ported to Swagger
 Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
@@ -644,6 +661,8 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 The OpenAPI spec allows for the addition of new properties and structures as long as they their name start with `x-`. Where possible I have mapped many of Hapi/Joi properties into the swagger.json file.
 
 This includes `Joi.alternatives()` where `try(...)` defines more than one possible structure. The inclusion of alternatives model means the the swagger.json may also contain `x-alt-definitions` object to store alternatives models.
+
+
 
 
 ## Lab test
