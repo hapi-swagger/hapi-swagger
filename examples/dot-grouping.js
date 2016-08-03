@@ -6,7 +6,6 @@
 // in the group naming
 
 const Hapi = require('hapi');
-const Joi = require('joi');
 const Blipp = require('blipp');
 const Inert = require('inert');
 const Vision = require('vision');
