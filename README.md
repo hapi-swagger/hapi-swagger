@@ -116,6 +116,7 @@ Options for UI:
 * `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
 * `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 * `validatorUrl`: (string || null) sets the external validating URL Can swtich off by setting to `null`
+* `cache`: (object) allows for the caching of the `swagger.json`, please see caching sections for details
 
 Defaults for routes settings (these can also be set a individual path level):
 * `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
@@ -612,6 +613,22 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
     ?tags=mountains,+beach,-horses
     this will show routes WITH 'mountains' AND 'beach' AND NO 'horses'
 
+
+## Caching
+It can take some time to create the `swagger.json` data if your server has many complex routes. So `hapi-swagger` can cache its `swagger.json` data. The cache options are those of HAPI
+```
+options.cache: {
+    expiresIn: 24 * 60 * 60 * 1000
+}
+options.cache = {
+    expiresAt: '23:59'
+}
+```
+
+* `expiresIn` - relative expiration expressed in milliseconds since the item was saved in the cache. Cannot be used together with `expiresAt`.
+* `expiresAt` - time of day expressed in 24h notation using the 'HH:MM' format, at which point all cache records expire. Uses local time. Cannot be used together with `expiresIn`.
+
+
 ## Features from HAPI that cannot be ported to Swagger
 Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
@@ -627,8 +644,6 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 The OpenAPI spec allows for the addition of new properties and structures as long as they their name start with `x-`. Where possible I have mapped many of Hapi/Joi properties into the swagger.json file.
 
 This includes `Joi.alternatives()` where `try(...)` defines more than one possible structure. The inclusion of alternatives model means the the swagger.json may also contain `x-alt-definitions` object to store alternatives models.
-
-
 
 
 ## Lab test
@@ -650,7 +665,7 @@ If you are considering sending a pull request please add tests for the functiona
 
 
 ## Thanks
-I would like all that have contributed to the project over the last couple of years. This is a hard project to maintain getting HAPI to work with Swagger
+I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger
 is like putting a round plug in a square hole. Without the help of others it would not be possible.
 
 ## Issues
