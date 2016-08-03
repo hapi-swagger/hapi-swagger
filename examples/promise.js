@@ -1,4 +1,7 @@
 'use strict';
+
+// `promises.js` - how to setup plug-in using promises
+
 const BearerToken = require('hapi-auth-bearer-token');
 const Blipp = require('blipp');
 const Hapi = require('hapi');
@@ -7,7 +10,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-const Routes = require('./routes');
+let Routes = require('./assets/routes-complex.js');
 
 
 /**

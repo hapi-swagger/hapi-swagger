@@ -1,4 +1,7 @@
 'use strict';
+
+// `custom.js` - how build a custom documentation page with its own CSS and JS
+
 const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Inert = require('inert');
@@ -6,7 +9,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-const Routes = require('./custom-routes');
+let Routes = require('./assets/routes-simple');
 
 
 const goodOptions = {
@@ -109,7 +112,7 @@ server.register([
 
 // add templates only for testing custom.html
 server.views({
-    path: 'bin',
+    path: 'examples/assets',
     engines: { html: require('handlebars') },
     isCached: false
 });

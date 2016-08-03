@@ -1,4 +1,7 @@
 'use strict';
+
+// `connections-sep-docs.js` - how to have API on one connection and documentation on another
+
 const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Inert = require('inert');
@@ -7,6 +10,8 @@ const Vision = require('vision');
 const HapiSwagger = require('../');
 let server = new Hapi.Server();
 
+
+// the API is on 3000 and the documentation is on 3001
 server.connection({ host: 'localhost', port: 3000, labels: 'api', routes: { cors: true } });
 server.connection({ host: 'localhost', port: 3001, labels: 'docs' });
 

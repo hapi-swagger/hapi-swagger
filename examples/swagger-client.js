@@ -1,11 +1,12 @@
 'use strict';
+
+// `swagger-client.js` - how to plug-in to build an interface with `swagger-client`
+
 const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Joi = require('joi');
 const Swagger = require('swagger-client');
-
 const HapiSwagger = require('../');
-
 
 
 let server = new Hapi.Server();

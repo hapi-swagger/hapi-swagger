@@ -113,7 +113,7 @@ lab.experiment('plugin', () => {
                 }
             }
         ]).then(() => {
-            
+
             return startServer();
         }).then(() => {
 

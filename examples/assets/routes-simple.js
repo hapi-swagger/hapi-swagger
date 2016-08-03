@@ -481,14 +481,4 @@ module.exports = [{
             reply.view('custom.html', {});
         }
     }
-}, {
-    method: 'GET',
-    path: '/{path*}',
-    handler: {
-        directory: {
-            path: './public',
-            listing: false,
-            index: true
-        }
-    }
 }];

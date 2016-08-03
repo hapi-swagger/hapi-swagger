@@ -1,18 +1,22 @@
 'use strict';
 
+// `connections.js` - how to uses plugin with muiltple server connections
+
 const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Hoek = require('hoek');
 const Inert = require('inert');
 const Vision = require('vision');
 
+
 const HapiSwagger = require('../');
 const Pack = require('../package');
-const Routes = require('./routes');
+let Routes = require('./assets/routes-simple');
 
 
 let server = new Hapi.Server();
 
+// only the connections a and b on ports 3000 and 3001 will have documentation
 server.connection({ host: 'localhost', port: 3000, labels: 'a' });
 server.connection({ host: 'localhost', port: 3001, labels: 'b' });
 server.connection({ host: 'localhost', port: 3002, labels: 'c' });

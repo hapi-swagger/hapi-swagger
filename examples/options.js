@@ -1,4 +1,7 @@
 'use strict';
+
+// `options.js` - how to use many of the plug-in options
+
 const BearerToken = require('hapi-auth-bearer-token');
 const Blipp = require('blipp');
 const H2o2 = require('h2o2');
@@ -8,7 +11,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./routes');
+let Routes = require('./assets/routes-complex.js');
 
 
 /**

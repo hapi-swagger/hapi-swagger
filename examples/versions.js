@@ -1,5 +1,7 @@
 'use strict';
 
+// `versions.js` - how to use plug-in with `hapi-api-version` for versioning of an API
+
 const Hapi = require('hapi');
 const Joi = require('joi');
 const Blipp = require('blipp');

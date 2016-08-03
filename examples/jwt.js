@@ -1,4 +1,7 @@
 'use strict';
+
+// `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
+
 var Hapi = require('hapi');
 var jwt = require('jsonwebtoken');
 const Blipp = require('blipp');
