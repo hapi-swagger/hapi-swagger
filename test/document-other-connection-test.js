@@ -84,7 +84,9 @@ lab.experiment('document another connection', () => {
 
             //console.log(JSON.stringify(response.result.paths['/plugin1']))
             expect(response.statusCode).to.equal(200);
-            expect(response.result.paths['/plugin1']).to.equal({
+            expect(response.result.host).to.equal('localhost:3000');
+            expect(response.result.paths['/plugin1']).to.deep.equal({
+
                 'get': {
                     'tags': [
                         'plugin1'
