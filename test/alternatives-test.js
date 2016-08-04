@@ -70,7 +70,7 @@ lab.experiment('alternatives', () => {
                                 width: Joi.number(),
                                 height: Joi.number()
                             }),
-                            otherwise: Joi.any()
+                            otherwise: Joi.forbidden()
                         }).label('Extra')
                 })
             }
@@ -244,9 +244,6 @@ lab.experiment('alternatives', () => {
                                                 },
                                                 'type': 'object'
                                             }
-                                        },
-                                        {
-                                            'type': 'string'
                                         }
                                     ],
                                     'properties': {
