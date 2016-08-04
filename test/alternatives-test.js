@@ -69,7 +69,7 @@ lab.experiment('alternatives', () => {
                             then: Joi.object({
                                 width: Joi.number(),
                                 height: Joi.number()
-                            }),
+                            }).label('Dimensions'),
                             otherwise: Joi.forbidden()
                         }).label('Extra')
                 })
@@ -232,7 +232,7 @@ lab.experiment('alternatives', () => {
                                     'x-alternatives': [
                                         {
                                             'type': 'object',
-                                            'name': 'Extra',
+                                            'name': 'Dimensions',
                                             'schema': {
                                                 'properties': {
                                                     'width': {
