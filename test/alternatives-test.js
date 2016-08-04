@@ -49,6 +49,32 @@ lab.experiment('alternatives', () => {
                 }).label('Model 1')).label('Alt')
             }
         }
+    },{
+        method: 'POST',
+        path: '/store4/',
+        config: {
+            handler: Helper.defaultHandler,
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    type: Joi.string().valid('string', 'number', 'image').label('Type'),
+                    data: Joi.alternatives()
+                        .when('type', { is: 'string', then: Joi.string() })
+                        .when('type', { is: 'number', then: Joi.number() })
+                        .when('type', { is: 'image', then: Joi.string().uri() })
+                        .label('Typed Data'),
+                    extra: Joi.alternatives()
+                        .when('type', {
+                            is: 'image',
+                            then: Joi.object({
+                                width: Joi.number(),
+                                height: Joi.number()
+                            }),
+                            otherwise: Joi.forbidden()
+                        }).label('Extra')
+                })
+            }
+        }
     }];
 
 
@@ -169,6 +195,71 @@ lab.experiment('alternatives', () => {
                         'in': 'body'
                     }
                 ]);
+
+                expect(response.result.paths['/store4/'].post.parameters).to.equal([
+                    {
+                        'in': 'body',
+                        'name': 'body',
+                        'schema': {
+                            'properties': {
+                                'type': {
+                                    'type': 'string',
+                                    'enum': [
+                                        'string',
+                                        'number',
+                                        'image'
+                                    ]
+                                },
+                                'data': {
+                                    'type': 'string',
+                                    'x-alternatives': [
+                                        {
+                                            'type': 'string'
+                                        },
+                                        {
+                                            'type': 'number'
+                                        },
+                                        {
+                                            'type': 'string',
+                                            'x-format': {
+                                                'uri': true
+                                            }
+                                        }
+                                    ]
+                                },
+                                'extra': {
+                                    'type': 'object',
+                                    'x-alternatives': [
+                                        {
+                                            'type': 'object',
+                                            'name': 'Extra',
+                                            'schema': {
+                                                'properties': {
+                                                    'width': {
+                                                        'type': 'number'
+                                                    },
+                                                    'height': {
+                                                        'type': 'number'
+                                                    }
+                                                },
+                                                'type': 'object'
+                                            }
+                                        }
+                                    ],
+                                    'properties': {
+                                        'width': {
+                                            'type': 'number'
+                                        },
+                                        'height': {
+                                            'type': 'number'
+                                        }
+                                    }
+                                }
+                            }, 'type': 'object'
+                        }
+                    }
+                ]);
+
 
                 done();
             });
