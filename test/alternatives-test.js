@@ -75,6 +75,32 @@ lab.experiment('alternatives', () => {
                 })
             }
         }
+    },{
+        method: 'POST',
+        path: '/store5/',
+        config: {
+            handler: Helper.defaultHandler,
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    type: Joi.string().valid('string', 'number', 'image').label('Type'),
+                    data: Joi.alternatives()
+                        .when('type', { is: 'string', then: Joi.string() })
+                        .when('type', { is: 'number', then: Joi.number() })
+                        .when('type', { is: 'image', then: Joi.string().uri() })
+                        .label('Typed Data'),
+                    extra: Joi.alternatives()
+                        .when('type', {
+                            is: 'image',
+                            then: Joi.object({
+                                width: Joi.number(),
+                                height: Joi.number()
+                            }).label('Dimensions'),
+                            otherwise: Joi.forbidden()
+                        }).label('Extra')
+                })
+            }
+        }
     }];
 
 

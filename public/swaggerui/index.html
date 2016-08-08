@@ -90,6 +90,11 @@
                     $('#input_apiKey').show();
                 }
                 addApiKeyAuthorization();
+
+                // load complete custom js
+                {{#if hapiSwagger.uiCompleteScript}}
+                    {{{hapiSwagger.uiCompleteScript}}}
+                {{/if}}
             },
             onFailure: function (data) {
                 log("Unable to Load SwaggerUI");

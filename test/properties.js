@@ -15,6 +15,7 @@ lab.experiment('property - ', () => {
 
     lab.test('parse types', (done) => {
 
+        expect(Properties.parseProperty('x', Joi.object())).to.equal({ 'type': 'object' });
         expect(Properties.parseProperty('x', Joi.string())).to.equal({ 'type': 'string' });
         expect(Properties.parseProperty('x', Joi.number())).to.equal({ 'type': 'number' });
         expect(Properties.parseProperty('x', Joi.boolean())).to.equal({ 'type': 'boolean' });
@@ -211,20 +212,57 @@ lab.experiment('property - ', () => {
         expect(Properties.parseProperty('x', Joi.array().single())).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'single': true } });
         expect(Properties.parseProperty('x', Joi.array().length(2))).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'length': 2 } });
         expect(Properties.parseProperty('x', Joi.array().unique())).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'unique': true } });
-
-        // TODO test examples on arrays and child arrays
-        /*
-        console.log(JSON.stringify(Properties.parseProperty('x', Joi.object().keys({
-            points: Joi.array().items(
-                Joi.array()
-            )
-        }), {}, {}, null, false)));
-        */
-
-
         done();
 
     });
+});
+
+
+lab.test('parse type object', (done) => {
+
+    expect(Properties.parseProperty('x', Joi.object() )).to.equal({ 'type': 'object' });
+
+    let definitions = {};
+    // test both path and definition structure from two type of object creation
+    expect(Properties.parseProperty('x', Joi.object().keys({ a: Joi.string() }), definitions, {}, 'formData')).to.equal({
+        'name': 'x',
+        'schema': {
+            '$ref': '#/definitions/x'
+        },
+        'type': 'object'
+    });
+    expect(definitions).to.equal({
+        'x': {
+            'properties': {
+                'a': {
+                    'type': 'string'
+                }
+            },
+            'type': 'object'
+        }
+    });
+
+    expect(Properties.parseProperty('x', Joi.object({a: Joi.string()}), definitions, {}, 'formData' )).to.equal({
+        'name': 'x',
+        'schema': {
+            '$ref': '#/definitions/x'
+        },
+        'type': 'object'
+    });
+    expect(definitions).to.equal({
+        'x': {
+            'properties': {
+                'a': {
+                    'type': 'string'
+                }
+            },
+            'type': 'object'
+        }
+    });
+
+
+    done();
+
 });
 
 

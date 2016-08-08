@@ -650,7 +650,8 @@ Example of removing version numbers from both paths and groups ie `v2` or `v3`
 Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
 * __`Joi.lazy()`__ This new `JOI` feature needs more research to see if its possible to visual describe recursive objects before its supported.
-* __`Joi.alternatives()`__ This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tools using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec
+* __`Joi.alternatives()`__  This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tools using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec. (Experimental support allow for the first of any options to be displayed)
+* __`Joi.forbidden()`__ There is only limited support `.forbidden()` with `.alternatives()`
 * __`array.ordered(type)`__ This allows for different typed items within an array. i.e. string or int.
 * __`{/filePath*}`__ The path parameters with the `*` char are not supported, either is the `{/filePath*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
 * __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.

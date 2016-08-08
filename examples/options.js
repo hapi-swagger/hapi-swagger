@@ -109,10 +109,7 @@ let swaggerOptions = {
         }
     },
     security: [{ 'Bearer': [] }],
-    derefJSONSchema: false,
-    cache: {
-        expiresIn: 24 * 60 * 60 * 1000
-    }
+    derefJSONSchema: false
 };
 
 // swaggerOptions.derefJSONSchema = true;
