@@ -174,6 +174,7 @@ lab.experiment('property - ', () => {
         // basic child types
         expect(Properties.parseProperty('x', Joi.array())).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
         expect(Properties.parseProperty('x', Joi.array().items())).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
+        expect(Properties.parseProperty('x', Joi.array().items(Joi.object()))).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
         expect(Properties.parseProperty('x', Joi.array().items(Joi.string()))).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
         expect(Properties.parseProperty('x', Joi.array().items(Joi.number()))).to.equal({ 'type': 'array', 'items': { 'type': 'number' } });
         expect(Properties.parseProperty('x', Joi.array().items(Joi.boolean()))).to.equal({ 'type': 'array', 'items': { 'type': 'boolean' } });
@@ -220,7 +221,9 @@ lab.experiment('property - ', () => {
 
 lab.test('parse type object', (done) => {
 
+
     expect(Properties.parseProperty('x', Joi.object() )).to.equal({ 'type': 'object' });
+
 
     let definitions = {};
     // test both path and definition structure from two type of object creation
@@ -242,7 +245,7 @@ lab.test('parse type object', (done) => {
         }
     });
 
-    expect(Properties.parseProperty('x', Joi.object({a: Joi.string()}), definitions, {}, 'formData' )).to.equal({
+    expect(Properties.parseProperty('x', Joi.object({ a: Joi.string() }), definitions, {}, 'formData')).to.equal({
         'name': 'x',
         'schema': {
             '$ref': '#/definitions/x'
@@ -259,6 +262,7 @@ lab.test('parse type object', (done) => {
             'type': 'object'
         }
     });
+
 
 
     done();

@@ -62,7 +62,7 @@ server.connection({
 });
 
 let swaggerOptions = {
-    basePath: '/v1/',
+    basePath: '/v1',
     pathPrefixSize: 2,
     info: {
         'title': 'Test API Documentation',
@@ -109,7 +109,10 @@ let swaggerOptions = {
         }
     },
     security: [{ 'Bearer': [] }],
-    derefJSONSchema: false
+    derefJSONSchema: false,
+    cache: {
+        expiresIn: 24 * 60 * 60 * 1000
+    }
 };
 
 // swaggerOptions.derefJSONSchema = true;

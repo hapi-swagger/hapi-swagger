@@ -294,9 +294,14 @@ lab.experiment('responses', () => {
                                 'description': 'Success',
                                 'schema': Joi.array().items(Joi.object({
                                     equals: Joi.number()
-                                }).label('Result')).label('ResultSet')
+                                })).label('Result')
                             },
-                            '400': { 'description': 'Bad Request' }
+                            '400': {
+                                'description': 'Bad Request',
+                                'schema': Joi.array().items(Joi.object({
+                                    equals: Joi.string()
+                                }))
+                            }
                         }
                     }
                 },
@@ -316,11 +321,13 @@ lab.experiment('responses', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
-                expect(response.result.definitions.ResultSet).to.equal({
-                    'type': 'array',
-                    'items': {
-                        '$ref': '#/definitions/Result'
+                expect(response.result.paths['/store/'].post.responses[200]).to.equal({
+                    'description': 'Success',
+                    'schema': {
+                        'type': 'array',
+                        'items': {
+                            '$ref': '#/definitions/Result'
+                        }
                     }
                 });
                 expect(response.result.definitions.Result).to.equal({
@@ -332,6 +339,8 @@ lab.experiment('responses', () => {
                     'type': 'object'
                 });
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
+                expect(response.result.definitions.response_postStore_400).exists();
+
 
                 done();
             });
