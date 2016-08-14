@@ -77,4 +77,51 @@ lab.experiment('plugin', () => {
     });
 
 
+    lab.test('model cache using weakmap', (done) => {
+
+        // test if a joi object weakmap cache
+        // the Joi object should only be parsed once
+
+        let joiObj = Joi.object({
+            a: Joi.number(),
+            b: Joi.number(),
+            operator: Joi.string(),
+            equals: Joi.number()
+        });
+
+        const tempRoutes = [{
+            method: 'POST',
+            path: '/store1/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: joiObj
+                }
+            }
+        },{
+            method: 'POST',
+            path: '/store2/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: joiObj
+                }
+            }
+        }];
+
+        Helper.createServer({}, tempRoutes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                done();
+            });
+        });
+    });
+
+
 });

@@ -139,4 +139,54 @@ lab.experiment('definitions', () => {
         });
     });
 
+    lab.test('reuseModels = false', (done) => {
+
+        // forces two models even though the model hash is the same
+
+        const tempRoutes = [{
+            method: 'POST',
+            path: '/store1/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object({
+                        a: Joi.number(),
+                        b: Joi.number(),
+                        operator: Joi.string(),
+                        equals: Joi.number()
+                    }).label('A')
+                }
+            }
+        }, {
+            method: 'POST',
+            path: '/store2/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object({
+                        a: Joi.number(),
+                        b: Joi.number(),
+                        operator: Joi.string(),
+                        equals: Joi.number()
+                    }).label('B')
+                }
+            }
+        }];
+
+        Helper.createServer({ reuseModels: false }, tempRoutes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.definitions.A).to.exist();
+                expect(response.result.definitions.B).to.exist();
+                done();
+            });
+        });
+    });
+
 });

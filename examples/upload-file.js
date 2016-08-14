@@ -112,22 +112,23 @@ server.register([
     {
         register: HapiSwagger,
         options: swaggerOptions
-    }], (err) => {
+    }],
+    (err) => {
 
-    if (err) {
-        console.log(err);
-    }
-
-    server.route(routes);
-
-    server.start((startErr) => {
-        if (startErr) {
-            console.log(startErr);
-        } else {
-            console.log('Server running at:', server.info.uri);
+        if (err) {
+            console.log(err);
         }
+
+        server.route(routes);
+
+        server.start((startErr) => {
+            if (startErr) {
+                console.log(startErr);
+            } else {
+                console.log('Server running at:', server.info.uri);
+            }
+        });
     });
-});
 
 
 // add templates only for testing custom.html

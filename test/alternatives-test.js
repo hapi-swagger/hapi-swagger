@@ -144,39 +144,6 @@ lab.experiment('alternatives', () => {
                     {
                         'name': 'body',
                         'schema': {
-                            'x-alternatives': [
-                                {
-                                    'name': 'alt1',
-                                    'schema': {
-                                        'properties': {
-                                            'name': {
-                                                'type': 'string'
-                                            }
-                                        },
-                                        'required': [
-                                            'name'
-                                        ],
-                                        'type': 'object'
-                                    },
-                                    'type': 'object'
-                                },
-                                {
-                                    'name': 'alt2',
-                                    'schema': {
-                                        'properties': {
-                                            'name': {
-                                                'type': 'string'
-                                            }
-                                        },
-                                        'required': [
-                                            'name'
-                                        ],
-                                        'type': 'object'
-                                    },
-                                    'type': 'object'
-                                }
-                            ],
-                            'type': 'object',
                             'properties': {
                                 'name': {
                                     'type': 'string'
@@ -184,10 +151,12 @@ lab.experiment('alternatives', () => {
                             },
                             'required': [
                                 'name'
-                            ]
+                            ],
+                            'type': 'object'
                         },
                         'x-alternatives': [
                             {
+                                'type': 'object',
                                 'name': 'alt1',
                                 'schema': {
                                     'properties': {
@@ -199,10 +168,10 @@ lab.experiment('alternatives', () => {
                                         'name'
                                     ],
                                     'type': 'object'
-                                },
-                                'type': 'object'
+                                }
                             },
                             {
+                                'type': 'object',
                                 'name': 'alt2',
                                 'schema': {
                                     'properties': {
@@ -214,8 +183,7 @@ lab.experiment('alternatives', () => {
                                         'name'
                                     ],
                                     'type': 'object'
-                                },
-                                'type': 'object'
+                                }
                             }
                         ],
                         'in': 'body'

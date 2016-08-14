@@ -28,7 +28,7 @@ lab.experiment('info', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.equal({ 'title': 'API documentation' });
+                expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
                 done();
             });
         });
@@ -47,7 +47,7 @@ lab.experiment('info', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.equal({ 'title': 'API documentation' });
+                expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
                 done();
             });
         });
@@ -58,7 +58,10 @@ lab.experiment('info', () => {
     lab.test('min valid info object', (done) => {
 
         const swaggerOptions = {
-            info: { title: 'test title for lab' }
+            info: {
+                'title': 'test title for lab',
+                'version': '0.0.1'
+            }
         };
 
         Helper.createServer(swaggerOptions, routes, (err, server) => {

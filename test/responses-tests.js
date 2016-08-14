@@ -3,10 +3,12 @@ const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
 const Helper = require('../test/helper.js');
+const Defaults = require('../lib/defaults.js');
 const Responses = require('../lib/responses.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
+const responses = new Responses( Defaults );
 
 
 
@@ -279,6 +281,55 @@ lab.experiment('responses', () => {
     });
 
 
+    lab.test('using route merging response and plugin override', (done) => {
+
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api'],
+                response: {
+                    schema: Joi.object().keys({ test: Joi.string() }).label('Result')
+                },
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                description: 'Success its a 200'
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
+                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
+                expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
+                    '$ref': '#/definitions/Result'
+                });
+                done();
+            });
+        });
+
+
+    });
+
+
+
+
+
+
+
+
     lab.test('using route base plugin override - array', (done) => {
 
         const routes = {
@@ -324,7 +375,6 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[200]).to.equal({
                     'description': 'Success',
                     'schema': {
-                        'type': 'array',
                         'items': {
                             '$ref': '#/definitions/Result'
                         }
@@ -396,7 +446,7 @@ lab.experiment('responses', () => {
 
         //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
 
-        expect(Responses.build({}, {}, {}, {})).to.equal({
+        expect(responses.build({}, {}, {}, {})).to.equal({
             'default': {
                 'schema': {
                     'type': 'string'
@@ -404,7 +454,7 @@ lab.experiment('responses', () => {
                 'description': 'Successful'
             }
         });
-        expect(Responses.build(objA, objB, objC, {})).to.equal({
+        expect(responses.build(objA, objB, objC, {})).to.equal({
             'default': {
                 'schema': {
                     'type': 'string'
@@ -415,7 +465,7 @@ lab.experiment('responses', () => {
 
         objA = { 200: { description: 'Successful' } };
         //console.log(JSON.stringify( Responses.build(objA, objB, objC, {}) ));
-        expect(Responses.build(objA, objB, objC, {})).to.equal({
+        expect(responses.build(objA, objB, objC, {})).to.equal({
             '200': {
                 'schema': {
                     'type': 'string'
@@ -568,8 +618,7 @@ lab.experiment('responses', () => {
                         'type': 'array',
                         'items': {
                             '$ref': '#/definitions/datapoint'
-                        },
-                        'required': true
+                        }
                     }
                 });
                 done();
@@ -577,6 +626,247 @@ lab.experiment('responses', () => {
         });
     });
 
+
+    lab.test('using hapi response.schema and plugin ', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                'description': 'Success with response.schema'
+                            }
+                        }
+                    }
+                },
+                response: { schema: joiListModel }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths));
+                expect(err).to.equal(null);
+                expect(response.result.paths).to.equal({
+                    '/store/': {
+                        'post': {
+                            'operationId': 'postStore',
+                            'tags': [
+                                'store'
+                            ],
+                            'responses': {
+                                '200': {
+                                    'schema': {
+                                        '$ref': '#/definitions/List'
+                                    },
+                                    'description': 'Success with response.schema'
+                                }
+                            }
+                        }
+                    }
+                });
+                done();
+            });
+        });
+    });
+
+
+    lab.test('using hapi response.schema and plugin mismatch', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '404': {
+                                'description': 'Could not find a schema'
+                            }
+                        }
+                    }
+                },
+                response: { schema: joiListModel }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths));
+                expect(err).to.equal(null);
+                expect(response.result.paths).to.equal({
+                    '/store/': {
+                        'post': {
+                            'operationId': 'postStore',
+                            'tags': [
+                                'store'
+                            ],
+                            'responses': {
+                                '200': {
+                                    'schema': {
+                                        '$ref': '#/definitions/List'
+                                    },
+                                    'description': 'Successful'
+                                },
+                                '404': {
+                                    'description': 'Could not find a schema'
+                                }
+                            }
+                        }
+                    }
+                });
+                done();
+            });
+        });
+    });
+
+
+    lab.test('using hapi response.schema and plugin mismatch', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                'description': 'Success with response.schema',
+                                'schema': joiSumModel
+                            }
+                        }
+                    }
+                },
+                response: { schema: joiListModel }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths));
+                expect(err).to.equal(null);
+                expect(response.result.paths).to.equal({
+                    '/store/': {
+                        'post': {
+                            'operationId': 'postStore',
+                            'tags': [
+                                'store'
+                            ],
+                            'responses': {
+                                '200': {
+                                    'schema': {
+                                        '$ref': '#/definitions/Sum',
+                                    },
+                                    'description': 'Success with response.schema'
+                                }
+                            }
+                        }
+                    }
+                });
+                done();
+            });
+        });
+    });
+
+
+    lab.test('using hapi response.schema and plugin mixed results', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '400': {
+                                'description': '400 - Added from plugin-options'
+                            },
+                            '404': {
+                                'schema': Joi.object({'err': Joi.string()})
+                            },
+                            '500': {
+                                'description': '500 - Added from plugin-options'
+                            }
+                        }
+                    }
+                },
+                response: {
+                    status: {
+                        200: joiSumModel,
+                        400: Joi.object({'err': Joi.string()}),
+                        404: Joi.object({'err': Joi.string()}).description('404 from response status object'),
+                        429: Joi.object({'err': Joi.string()}),
+                    }
+                }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths));
+                expect(err).to.equal(null);
+                expect(response.result.paths).to.equal({
+                    '/store/': {
+                        'post': {
+                            'operationId': 'postStore',
+                            'tags': [
+                                'store'
+                            ],
+                            'responses': {
+                                '200': {
+                                    'description': 'json body for sum',
+                                    'schema': {
+                                        '$ref': '#/definitions/Sum'
+                                    }
+                                },
+                                '400': {
+                                    'schema': {
+                                        '$ref': '#/definitions/Model 1'
+                                    },
+                                    'description': '400 - Added from plugin-options'
+                                },
+                                '404': {
+                                    'description': '404 from response status object',
+                                    'schema': {
+                                        '$ref': '#/definitions/response_postStore_404'
+                                    }
+                                },
+                                '429': {
+                                    'schema': {
+                                        '$ref': '#/definitions/Model 1'
+                                    },
+                                    'description': 'Too Many Requests'
+                                },
+                                '500': {
+                                    'description': '500 - Added from plugin-options'
+                                }
+                            }
+                        }
+                    }
+                });
+                done();
+            });
+        });
+    });
 
 
 
