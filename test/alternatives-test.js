@@ -254,11 +254,92 @@ lab.experiment('alternatives', () => {
                     }
                 ]);
 
+                done();
+            });
+
+        });
+    });
+
+    lab.test('no x-alternatives', (done) => {
+        Helper.createServer({ xProperties: false }, routes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/store/'].post.parameters).to.equal([
+                    {
+                        'name': 'body',
+                        'in': 'body',
+                        'schema': {
+                            '$ref': '#/definitions/Alt'
+                        }
+                    }
+                ]);
+
+                expect(response.result.paths['/store4/'].post.parameters).to.equal([
+                    {
+                        'in': 'body',
+                        'name': 'body',
+                        'schema': {
+                            '$ref': '#/definitions/Model 2'
+                        }
+                    }
+                ]);
+
+                expect(response.result.definitions).to.equal({
+                    'Alt': {
+                        'type': 'number'
+                    },
+                    'Model 1': {
+                        'properties': {
+                            'name': {
+                                'type': 'string'
+                            }
+                        },
+                        'required': [
+                            'name'
+                        ],
+                        'type': 'object'
+                    },
+                    'Dimensionsy': {
+                        'properties': {
+                            'width': {
+                                'type': 'number'
+                            },
+                            'height': {
+                                'type': 'number'
+                            }
+                        },
+                        'type': 'object'
+                    },
+                    'Model 2': {
+                        'properties': {
+                            'type': {
+                                'type': 'string',
+                                'enum': [
+                                    'string',
+                                    'number',
+                                    'image'
+                                ]
+                            },
+                            'data': {
+                                'type': 'string'
+                            },
+                            'extra': {
+                                'type': 'object',
+                                '$ref': '#/definitions/Dimensionsy'
+                            }
+                        },
+                        'type': 'object'
+                    }
+                });
+
 
                 done();
             });
         });
+
     });
-
-
 });
