@@ -62,8 +62,8 @@ lab.experiment('property - ', () => {
     lab.test('parse type string', (done) => {
 
         expect(propertiesNoAlt.parseProperty('x', Joi.string())).to.equal({ 'type': 'string' });
-        expect(propertiesNoAlt.parseProperty('x', Joi.string().min(5))).to.equal({ 'type': 'string', 'minimum': 5 });
-        expect(propertiesNoAlt.parseProperty('x', Joi.string().max(10))).to.equal({ 'type': 'string', 'maximum': 10 });
+        expect(propertiesNoAlt.parseProperty('x', Joi.string().min(5))).to.equal({ 'type': 'string', 'minLength': 5 });
+        expect(propertiesNoAlt.parseProperty('x', Joi.string().max(10))).to.equal({ 'type': 'string', 'maxLength': 10 });
 
         expect(propertiesAlt.parseProperty('x', Joi.string().length(20,'utf8'))).to.equal({ 'type': 'string', 'x-constraint': { 'length': 20 } });
         //expect(propertiesNoAlt.parseProperty('x', Joi.string().insensitive())).to.equal({ 'type': 'string', 'x-constraint': { 'insensitive': true } });
