@@ -770,7 +770,7 @@ lab.experiment('responses', () => {
                             'responses': {
                                 '200': {
                                     'schema': {
-                                        '$ref': '#/definitions/Sum',
+                                        '$ref': '#/definitions/Sum'
                                     },
                                     'description': 'Success with response.schema'
                                 }
@@ -799,7 +799,7 @@ lab.experiment('responses', () => {
                                 'description': '400 - Added from plugin-options'
                             },
                             '404': {
-                                'schema': Joi.object({'err': Joi.string()})
+                                'schema': Joi.object({ 'err': Joi.string() })
                             },
                             '500': {
                                 'description': '500 - Added from plugin-options'
@@ -810,9 +810,9 @@ lab.experiment('responses', () => {
                 response: {
                     status: {
                         200: joiSumModel,
-                        400: Joi.object({'err': Joi.string()}),
-                        404: Joi.object({'err': Joi.string()}).description('404 from response status object'),
-                        429: Joi.object({'err': Joi.string()}),
+                        400: Joi.object({ 'err': Joi.string() }),
+                        404: Joi.object({ 'err': Joi.string() }).description('404 from response status object'),
+                        429: Joi.object({ 'err': Joi.string() })
                     }
                 }
             }

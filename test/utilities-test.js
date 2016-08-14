@@ -41,6 +41,24 @@ lab.experiment('utilities', () => {
     });
 
 
+    lab.test('isRegex', (done) => {
+
+        expect(Utilities.isRegex(undefined)).to.equal(false);
+        expect(Utilities.isRegex(null)).to.equal(false);
+        expect(Utilities.isRegex(false)).to.equal(false);
+        expect(Utilities.isRegex(true)).to.equal(false);
+        expect(Utilities.isRegex(42)).to.equal(false);
+        expect(Utilities.isRegex('string')).to.equal(false);
+        expect(Utilities.isRegex(function () {})).to.equal(false);
+        expect(Utilities.isRegex([])).to.equal(false);
+        expect(Utilities.isRegex( {})).to.equal(false);
+
+        expect(Utilities.isRegex(/a/g)).to.equal(true);
+        expect(Utilities.isRegex(new RegExp('a', 'g'))).to.equal(true);
+        done();
+    });
+
+
     lab.test('hasProperties', (done) => {
 
         expect(Utilities.hasProperties({})).to.equal(false);

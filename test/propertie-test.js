@@ -64,6 +64,10 @@ lab.experiment('property - ', () => {
         expect(propertiesNoAlt.parseProperty('x', Joi.string())).to.equal({ 'type': 'string' });
         expect(propertiesNoAlt.parseProperty('x', Joi.string().min(5))).to.equal({ 'type': 'string', 'minLength': 5 });
         expect(propertiesNoAlt.parseProperty('x', Joi.string().max(10))).to.equal({ 'type': 'string', 'maxLength': 10 });
+        expect(propertiesNoAlt.parseProperty('x', Joi.string().regex(/^[a-zA-Z0-9]{3,30}/))).to.equal({
+            'type': 'string',
+            'pattern': '/^[a-zA-Z0-9]{3,30}/'
+        });
 
         expect(propertiesAlt.parseProperty('x', Joi.string().length(20,'utf8'))).to.equal({ 'type': 'string', 'x-constraint': { 'length': 20 } });
         //expect(propertiesNoAlt.parseProperty('x', Joi.string().insensitive())).to.equal({ 'type': 'string', 'x-constraint': { 'insensitive': true } });
@@ -119,7 +123,7 @@ lab.experiment('property - ', () => {
         */
 
         expect(propertiesAlt.parseProperty('x', Joi.string().guid())).to.equal({ 'type': 'string', 'x-format': { 'guid': true } });
-        expect(propertiesAlt.parseProperty('x', Joi.string().hex())).to.equal({ 'type': 'string', 'x-format': { 'hex': true } });
+        expect(propertiesAlt.parseProperty('x', Joi.string().hex())).to.equal({ 'type': 'string', 'pattern': '/^[a-f0-9]+$/i', 'x-format': { 'hex': true } });
         expect(propertiesAlt.parseProperty('x', Joi.string().guid())).to.equal({ 'type': 'string', 'x-format': { 'guid': true } });
         expect(propertiesAlt.parseProperty('x', Joi.string().hostname())).to.equal({ 'type': 'string', 'x-format': { 'hostname': true } });
         expect(propertiesAlt.parseProperty('x', Joi.string().isoDate())).to.equal({ 'type': 'string', 'x-format': { 'isoDate': true } });

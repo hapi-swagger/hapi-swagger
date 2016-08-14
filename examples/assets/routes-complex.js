@@ -196,7 +196,8 @@ module.exports = [{
                 n: Joi.string().isoDate().description('isoDate'),
                 o: Joi.string().insensitive().description('insensitive'),
                 p: Joi.string().lowercase().description('lowercase'),
-                q: Joi.string().uppercase().description('uppercase')
+                q: Joi.string().uppercase().description('uppercase'),
+                r: Joi.string().regex(/^[a-zA-Z0-9]{3,30}/).description('regex')
             }
         }
     }
