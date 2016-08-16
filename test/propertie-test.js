@@ -158,8 +158,8 @@ lab.experiment('property - ', () => {
 
         // mapped direct to openapi
         expect(propertiesNoAlt.parseProperty('x', Joi.number().integer())).to.equal({ 'type': 'integer' });
-        expect(propertiesNoAlt.parseProperty('x', Joi.number().min(5))).to.equal({ 'type': 'number', 'minimum': 5 });
-        expect(propertiesNoAlt.parseProperty('x', Joi.number().max(10))).to.equal({ 'type': 'number', 'maximum': 10 });
+        expect(propertiesNoAlt.parseProperty('x', Joi.number().min(5))).to.equal({ 'type': 'number', 'minLength': 5 });
+        expect(propertiesNoAlt.parseProperty('x', Joi.number().max(10))).to.equal({ 'type': 'number', 'maxLength': 10 });
 
         // x-* mappings
         expect(propertiesAlt.parseProperty('x', Joi.number().greater(10))).to.equal({ 'type': 'number', 'x-constraint': { 'greater': 10 } });
