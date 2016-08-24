@@ -172,7 +172,7 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 
 
 ## Grouping endpoints with tags
-Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs to match path of your endpoints, so in the example below all enpoints with the path `/store` and `/sum` will be group togther.
+Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs to match path of your endpoints, so in the example below all endpoints with the path `/store` and `/sum` will be group togther.
 ```Javascript
 let options = {
     info: {
