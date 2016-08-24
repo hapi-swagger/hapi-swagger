@@ -1,9 +1,10 @@
+
 'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
-const Helper = require('../test/helper.js');
-const Utilities = require('../lib/utilities.js');
+const Helper = require('../helper.js');
+const Utilities = require('../../lib/utilities.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -115,6 +116,14 @@ lab.experiment('utilities', () => {
     });
 
 
+    lab.test('toJoiObject', (done) => {
+
+        expect(Utilities.toJoiObject({}).isJoi).to.equal(true);
+        expect(Utilities.toJoiObject(Joi.object()).isJoi).to.equal(true);
+        done();
+    });
+
+
     lab.test('hasJoiMeta', (done) => {
 
         expect(Utilities.hasJoiMeta({})).to.equal(false);
@@ -173,3 +182,4 @@ lab.experiment('utilities', () => {
 
 
 });
+

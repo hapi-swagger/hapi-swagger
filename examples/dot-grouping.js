@@ -1,6 +1,6 @@
 'use strict';
 
-// `versions.js` - how to use plug-in with `hapi-api-version` for versioning of an API
+// `dot-grouping.js`
 
 // This file also shows the use of `pathReplacements` to group endpoints by replacing `.` with '/`
 // in the group naming

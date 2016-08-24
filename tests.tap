@@ -1,0 +1,560 @@
+TAP version 13
+1..134
+ok 1 (1) alternatives x-alternatives
+  ---
+  duration_ms: 84
+  ...
+ok 2 (2) alternatives no x-alternatives
+  ---
+  duration_ms: 28
+  ...
+ok 3 (3) authentication get plug-in interface with bearer token
+  ---
+  duration_ms: 18
+  ...
+ok 4 (4) authentication get plug-in interface without bearer token
+  ---
+  duration_ms: 17
+  ...
+ok 5 (5) authentication get API interface with bearer token
+  ---
+  duration_ms: 18
+  ...
+ok 6 (6) authentication get API interface with incorrect bearer token
+  ---
+  duration_ms: 18
+  ...
+ok 7 (7) info defaults for swagger root object properties
+  ---
+  duration_ms: 15
+  ...
+ok 8 (8) info set values for swagger root object properties
+  ---
+  duration_ms: 20
+  ...
+ok 9 (9) plugin basic cache
+  ---
+  duration_ms: 23
+  ...
+ok 10 (10) plugin cache with generateTimeout
+  ---
+  duration_ms: 21
+  ...
+ok 11 (11) plugin model cache using weakmap
+  ---
+  duration_ms: 14
+  ...
+ok 12 (12) child-models child
+  ---
+  duration_ms: 13
+  ...
+ok 13 (13) connections server connection a
+  ---
+  duration_ms: 5
+  ...
+ok 14 (14) connections server connection b
+  ---
+  duration_ms: 2
+  ...
+ok 15 (15) connections server connection c
+  ---
+  duration_ms: 1
+  ...
+ok 16 (16) definitions payload with inline definition
+  ---
+  duration_ms: 12
+  ...
+ok 17 (17) definitions override definition named Model
+  ---
+  duration_ms: 12
+  ...
+ok 18 (18) definitions reuseModels = false
+  ---
+  duration_ms: 13
+  ...
+ok 19 (19) dereference flatten with no references
+  ---
+  duration_ms: 18
+  ...
+ok 20 (20) dereference dereferences error
+  ---
+  duration_ms: 2
+  ...
+ok 21 (21) document another connection connectionLabel
+  ---
+  duration_ms: 6
+  ...
+ok 22 (22) document another connection error select first connection
+  ---
+  duration_ms: 4
+  ...
+ok 23 (23) file upload
+  ---
+  duration_ms: 10
+  ...
+ok 24 (24) file upload with binary file type
+  ---
+  duration_ms: 10
+  ...
+ok 25 (25) file file type not fired on other meta properties
+  ---
+  duration_ms: 14
+  ...
+ok 26 (26) filter filter by tags=a
+  ---
+  duration_ms: 18
+  ...
+ok 27 (27) filter filter by tags=a
+  ---
+  duration_ms: 15
+  ...
+ok 28 (28) filter filter by tags=a,c
+  ---
+  duration_ms: 17
+  ...
+ok 29 (29) filter filter by tags=a,-b
+  ---
+  duration_ms: 16
+  ...
+ok 30 (30) filter filter by tags=a,+c
+  ---
+  duration_ms: 12
+  ...
+ok 31 (31) filter filter by tags=x
+  ---
+  duration_ms: 14
+  ...
+ok 32 (32) group test groups tagging of paths
+  ---
+  duration_ms: 13
+  ...
+ok 33 (33) group getNameByPath 1
+  ---
+  duration_ms: 0
+  ...
+ok 34 (34) group getNameByPath 2
+  ---
+  duration_ms: 0
+  ...
+ok 35 (35) group getNameByPath 3
+  ---
+  duration_ms: 1
+  ...
+ok 36 (36) group getNameByPath 4
+  ---
+  duration_ms: 0
+  ...
+ok 37 (37) group getNameByPath 5
+  ---
+  duration_ms: 0
+  ...
+ok 38 (38) group getNameByPath with basePath = /v3/
+  ---
+  duration_ms: 0
+  ...
+ok 39 (39) group getNameByPath with basePath = /v3/
+  ---
+  duration_ms: 1
+  ...
+ok 40 (40) group getNameByPath with basePath = /v3
+  ---
+  duration_ms: 0
+  ...
+ok 41 (41) info no info object passed
+  ---
+  duration_ms: 10
+  ...
+ok 42 (42) info no info title property passed
+  ---
+  duration_ms: 9
+  ...
+ok 43 (43) info min valid info object
+  ---
+  duration_ms: 12
+  ...
+ok 44 (44) info full info object
+  ---
+  duration_ms: 10
+  ...
+ok 45 (45) validation function not joi
+  ---
+  duration_ms: 15
+  ...
+ok 46 (46) lout examples all routes parsed
+  ---
+  duration_ms: 54
+  ...
+ok 47 (47) path summary and description
+  ---
+  duration_ms: 11
+  ...
+ok 48 (48) path description as an array
+  ---
+  duration_ms: 11
+  ...
+ok 49 (49) path route settting of consumes produces
+  ---
+  duration_ms: 11
+  ...
+ok 50 (50) path override plug-in settting of consumes produces
+  ---
+  duration_ms: 16
+  ...
+ok 51 (51) path auto "x-www-form-urlencoded" consumes with payloadType
+  ---
+  duration_ms: 13
+  ...
+ok 52 (52) path auto "multipart/form-data" consumes with { swaggerType: "file" }
+  ---
+  duration_ms: 10
+  ...
+ok 53 (53) path auto "multipart/form-data" do not add two
+  ---
+  duration_ms: 9
+  ...
+ok 54 (54) path auto "application/x-www-form-urlencoded" do not add two
+  ---
+  duration_ms: 10
+  ...
+ok 55 (55) path a user set content-type header removes consumes
+  ---
+  duration_ms: 10
+  ...
+ok 56 (56) path payloadType form
+  ---
+  duration_ms: 10
+  ...
+ok 57 (57) path accept header
+  ---
+  duration_ms: 11
+  ...
+ok 58 (58) path accept header - no emum
+  ---
+  duration_ms: 10
+  ...
+ok 59 (59) path accept header - default first
+  ---
+  duration_ms: 15
+  ...
+ok 60 (60) path accept header acceptToProduce set to false
+  ---
+  duration_ms: 14
+  ...
+ok 61 (61) path path parameters {id}/{note?}
+  ---
+  duration_ms: 12
+  ...
+ok 62 (62) path path parameters {a}/{b?} required overriden by JOI
+  ---
+  duration_ms: 13
+  ...
+ok 63 (63) path path and basePath
+  ---
+  duration_ms: 12
+  ...
+ok 64 (64) path basePath trim tailing slash
+  ---
+  duration_ms: 12
+  ...
+ok 65 (65) path path, basePath suppressing version fragment
+  ---
+  duration_ms: 11
+  ...
+ok 66 (66) path route deprecated
+  ---
+  duration_ms: 10
+  ...
+ok 67 (67) path custom operationId for code-gen apps
+  ---
+  duration_ms: 16
+  ...
+ok 68 (undefined) repathed jsonPath url
+  ---
+  duration_ms: 3
+  ...
+ok 69 (undefined) repathed documentationPath url
+  ---
+  duration_ms: 41
+  ...
+ok 70 (undefined) repathed swaggerUIPath url
+  ---
+  duration_ms: 28
+  ...
+ok 71 (68) plugin plug-in register no vision dependency
+  ---
+  duration_ms: 7
+  ...
+ok 72 (69) plugin plug-in register no inert dependency
+  ---
+  duration_ms: 5
+  ...
+not ok 73 (70) plugin plug-in register more than once
+  ---
+  duration_ms: 3002
+  stack: |-
+    Error: Timed out (3000ms) - plugin plug-in register more than once
+        at Timeout.<anonymous> (/usr/local/lib/node_modules/lab/lib/runner.js:426:25)
+        at tryOnTimeout (timers.js:224:11)
+        at Timer.listOnTimeout (timers.js:198:5)
+  ...
+ok 74 (71) plugin plug-in register no options
+  ---
+  duration_ms: 10
+  ...
+ok 75 (72) plugin plug-in register test
+  ---
+  duration_ms: 10
+  ...
+ok 76 (73) plugin default jsonPath url
+  ---
+  duration_ms: 9
+  ...
+ok 77 (74) plugin default documentationPath url
+  ---
+  duration_ms: 27
+  ...
+ok 78 (75) plugin default swaggerUIPath url
+  ---
+  duration_ms: 27
+  ...
+ok 79 (76) plugin swaggerUIPath + extend.js remapping
+  ---
+  duration_ms: 13
+  ...
+ok 80 (77) plugin disable documentation path
+  ---
+  duration_ms: 13
+  ...
+ok 81 (78) plugin disable swagger UI
+  ---
+  duration_ms: 6
+  ...
+ok 82 (79) plugin disable swagger UI overriden by enableDocumentation
+  ---
+  duration_ms: 24
+  ...
+ok 83 (80) plugin should take the plugin route prefix into account when rendering the UI
+  ---
+  duration_ms: 24
+  ...
+ok 84 (81) plugin payloadType = form global
+  ---
+  duration_ms: 11
+  ...
+ok 85 (82) plugin payloadType = json global
+  ---
+  duration_ms: 12
+  ...
+ok 86 (83) plugin pathPrefixSize global
+  ---
+  duration_ms: 9
+  ...
+ok 87 (84) plugin expanded none
+  ---
+  duration_ms: 11
+  ...
+ok 88 (85) plugin expanded list
+  ---
+  duration_ms: 9
+  ...
+ok 89 (86) plugin expanded full
+  ---
+  duration_ms: 16
+  ...
+ok 90 (87) plugin pass through of tags querystring
+  ---
+  duration_ms: 26
+  ...
+ok 91 (88) parse type object
+  ---
+  duration_ms: 2
+  ...
+ok 92 (89) property -  parse types
+  ---
+  duration_ms: 1
+  ...
+ok 93 (90) property -  parse types with useDefinitions=true
+  ---
+  duration_ms: 1
+  ...
+ok 94 (91) property -  parse simple meta
+  ---
+  duration_ms: 1
+  ...
+ok 95 (92) property -  parse meta
+  ---
+  duration_ms: 1
+  ...
+ok 96 (93) property -  parse type string
+  ---
+  duration_ms: 5
+  ...
+ok 97 (94) property -  parse type date
+  ---
+  duration_ms: 0
+  ...
+ok 98 (95) property -  parse type number
+  ---
+  duration_ms: 2
+  ...
+ok 99 (96) property -  parse type array
+  ---
+  duration_ms: 4
+  ...
+ok 100 (97) property deep -  parse structure with child labels
+  ---
+  duration_ms: 1
+  ...
+ok 101 (98) property deep -  parse structure with child description, notes, name etc
+  ---
+  duration_ms: 12
+  ...
+ok 102 (99) proxies basePath option
+  ---
+  duration_ms: 10
+  ...
+ok 103 (100) proxies schemes and host options
+  ---
+  duration_ms: 10
+  ...
+ok 104 (101) proxies x-forwarded options
+  ---
+  duration_ms: 12
+  ...
+ok 105 (102) proxies Azure Web Sites options
+  ---
+  duration_ms: 9
+  ...
+ok 106 (103) proxies iisnode options
+  ---
+  duration_ms: 11
+  ...
+ok 107 (104) proxies adding facade for proxy using route options 1
+  ---
+  duration_ms: 16
+  ...
+ok 108 (105) proxies adding facade for proxy using route options 2 - naming
+  ---
+  duration_ms: 11
+  ...
+ok 109 (106) proxies adding facade for proxy using route options 3 - defination reuse
+  ---
+  duration_ms: 14
+  ...
+ok 110 (107) proxies adding facade for proxy using route options 4 - defination name clash
+  ---
+  duration_ms: 12
+  ...
+ok 111 (108) responses using hapi response.schema
+  ---
+  duration_ms: 12
+  ...
+ok 112 (109) responses using hapi response.schema with child objects
+  ---
+  duration_ms: 10
+  ...
+ok 113 (110) responses using hapi response.status
+  ---
+  duration_ms: 14
+  ...
+ok 114 (111) responses using hapi response.status without 200
+  ---
+  duration_ms: 12
+  ...
+ok 115 (112) responses using route base plugin override - object
+  ---
+  duration_ms: 12
+  ...
+ok 116 (113) responses using route merging response and plugin override
+  ---
+  duration_ms: 13
+  ...
+ok 117 (114) responses using route base plugin override - array
+  ---
+  duration_ms: 12
+  ...
+ok 118 (115) responses failback to 200
+  ---
+  duration_ms: 14
+  ...
+ok 119 (116) responses No ownProperty
+  ---
+  duration_ms: 1
+  ...
+ok 120 (117) responses with same path but different method
+  ---
+  duration_ms: 12
+  ...
+ok 121 (118) responses with deep labels
+  ---
+  duration_ms: 9
+  ...
+ok 122 (119) responses array with required 249
+  ---
+  duration_ms: 13
+  ...
+ok 123 (120) responses using hapi response.schema and plugin 
+  ---
+  duration_ms: 10
+  ...
+ok 124 (121) responses using hapi response.schema and plugin mismatch
+  ---
+  duration_ms: 13
+  ...
+ok 125 (122) responses using hapi response.schema and plugin mismatch
+  ---
+  duration_ms: 12
+  ...
+ok 126 (123) responses using hapi response.schema and plugin mixed results
+  ---
+  duration_ms: 15
+  ...
+ok 127 (124) security passes through securityDefinitions
+  ---
+  duration_ms: 11
+  ...
+ok 128 (125) security passes through security objects for whole api
+  ---
+  duration_ms: 10
+  ...
+ok 129 (126) security passes through security objects on routes
+  ---
+  duration_ms: 11
+  ...
+ok 130 (127) security passes through x-keyPrefix
+  ---
+  duration_ms: 12
+  ...
+ok 131 (128) security no keyPrefix
+  ---
+  duration_ms: 12
+  ...
+ok 132 (129) sort sort ordered path-method
+  ---
+  duration_ms: 17
+  ...
+ok 133 (130) tags no tag objects passed
+  ---
+  duration_ms: 14
+  ...
+ok 134 (131) tags name property passed
+  ---
+  duration_ms: 15
+  ...
+ok 135 (132) tags full tag object
+  ---
+  duration_ms: 12
+  ...
+ok 136 (133) wildcard routes method *
+  ---
+  duration_ms: 14
+  ...
+ok 137 (134) wildcard routes method array [GET, POST]
+  ---
+  duration_ms: 11
+  ...
+# tests 137
+# pass 136
+# fail 1
+# skipped 0
+# todo 0

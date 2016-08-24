@@ -1,8 +1,8 @@
 'use strict';
 const Code = require('code');
 const Lab = require('lab');
-const Group = require('../lib/group.js');
-const Helper = require('../test/helper.js');
+const Group = require('../../lib/group.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();

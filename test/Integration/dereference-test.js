@@ -2,8 +2,8 @@
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
-const Builder = require('../lib/builder.js');
-const Helper = require('../test/helper.js');
+const Builder = require('../../lib/builder.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();

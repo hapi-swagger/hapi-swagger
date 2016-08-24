@@ -2,7 +2,7 @@
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
-const Helper = require('../test/helper.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -31,7 +31,14 @@ lab.experiment('alternatives', () => {
                 payload: Joi.alternatives().try(Joi.object({
                     name: Joi.string().required()
                 }).label('alt1'), Joi.object({
+                    name: Joi.number().required()
+                }).label('alt2')).label('Alt')
+            },
+            response: {
+                schema: Joi.alternatives().try(Joi.object({
                     name: Joi.string().required()
+                }).label('alt1'), Joi.object({
+                    name: Joi.number().required()
                 }).label('alt2')).label('Alt')
             }
         }
@@ -44,9 +51,9 @@ lab.experiment('alternatives', () => {
             validate: {
                 payload: Joi.alternatives().try(Joi.object({
                     name: Joi.string().required()
-                }).label('Model'), Joi.object({
-                    name: Joi.string().required()
-                }).label('Model 1')).label('Alt')
+                }).label('Model A'), Joi.object({
+                    name: Joi.number().required()
+                }).label('Model B')).label('Alt')
             }
         }
     },{
@@ -106,16 +113,20 @@ lab.experiment('alternatives', () => {
 
     lab.test('x-alternatives', (done) => {
 
-        Helper.createServer({ derefJSONSchema: true }, routes, (err, server) => {
+        Helper.createServer({}, routes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(err).to.equal(null);
+
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/store/'].post.parameters).to.equal([
                     {
                         'in': 'body',
+                        'schema': {
+                            'type': 'number'
+                        },
                         'x-alternatives': [
                             {
                                 'type': 'number'
@@ -124,17 +135,6 @@ lab.experiment('alternatives', () => {
                                 'type': 'string'
                             }
                         ],
-                        'schema': {
-                            'x-alternatives': [
-                                {
-                                    'type': 'number'
-                                },
-                                {
-                                    'type': 'string'
-                                }
-                            ],
-                            'type': 'number'
-                        },
                         'name': 'body'
                     }
                 ]);
@@ -142,123 +142,100 @@ lab.experiment('alternatives', () => {
 
                 expect(response.result.paths['/store2/'].post.parameters).to.equal([
                     {
-                        'name': 'body',
-                        'schema': {
-                            'properties': {
-                                'name': {
-                                    'type': 'string'
-                                }
-                            },
-                            'required': [
-                                'name'
-                            ],
-                            'type': 'object'
-                        },
-                        'x-alternatives': [
-                            {
-                                'type': 'object',
-                                'name': 'alt1',
-                                'schema': {
-                                    'properties': {
-                                        'name': {
-                                            'type': 'string'
-                                        }
-                                    },
-                                    'required': [
-                                        'name'
-                                    ],
-                                    'type': 'object'
-                                }
-                            },
-                            {
-                                'type': 'object',
-                                'name': 'alt2',
-                                'schema': {
-                                    'properties': {
-                                        'name': {
-                                            'type': 'string'
-                                        }
-                                    },
-                                    'required': [
-                                        'name'
-                                    ],
-                                    'type': 'object'
-                                }
-                            }
-                        ],
-                        'in': 'body'
-                    }
-                ]);
-
-                expect(response.result.paths['/store4/'].post.parameters).to.equal([
-                    {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            'properties': {
-                                'type': {
-                                    'type': 'string',
-                                    'enum': [
-                                        'string',
-                                        'number',
-                                        'image'
-                                    ]
-                                },
-                                'data': {
-                                    'type': 'string',
-                                    'x-alternatives': [
-                                        {
-                                            'type': 'string'
-                                        },
-                                        {
-                                            'type': 'number'
-                                        },
-                                        {
-                                            'type': 'string',
-                                            'x-format': {
-                                                'uri': true
-                                            }
-                                        }
-                                    ]
-                                },
-                                'extra': {
-                                    'type': 'object',
-                                    'x-alternatives': [
-                                        {
-                                            'type': 'object',
-                                            'name': 'Dimensions',
-                                            'schema': {
-                                                'properties': {
-                                                    'width': {
-                                                        'type': 'number'
-                                                    },
-                                                    'height': {
-                                                        'type': 'number'
-                                                    }
-                                                },
-                                                'type': 'object'
-                                            }
-                                        }
-                                    ],
-                                    'properties': {
-                                        'width': {
-                                            'type': 'number'
-                                        },
-                                        'height': {
-                                            'type': 'number'
-                                        }
-                                    }
-                                }
-                            }, 'type': 'object'
-                        }
+                            '$ref': '#/definitions/Alt'
+                        },
+                        'x-alternatives': [
+                            {
+                                '$ref': '#/x-alt-definitions/alt1'
+                            },
+                            {
+                                '$ref': '#/x-alt-definitions/alt2'
+                            }
+                        ]
                     }
                 ]);
 
+
+                expect(response.result.paths['/store2/'].post.responses).to.equal({
+                    '200': {
+                        'schema': {
+                            '$ref': '#/definitions/Alt',
+                            'x-alternatives': [
+                                {
+                                    '$ref': '#/x-alt-definitions/alt1'
+                                },
+                                {
+                                    '$ref': '#/x-alt-definitions/alt2'
+                                }
+                            ]
+                        },
+                        'description': 'Successful'
+                    }
+                });
+
+
+                expect(response.result['x-alt-definitions'].alt1).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'name': {
+                            'type': 'string'
+                        }
+                    },
+                    'required': [
+                        'name'
+                    ]
+                });
+
+
+                expect(response.result.definitions['Model 1']).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'Type': {
+                            'type': 'string',
+                            'enum': [
+                                'string',
+                                'number',
+                                'image'
+                            ]
+                        },
+                        'Typed Data': {
+                            'type': 'string',
+                            'x-alternatives': [
+                                {
+                                    'type': 'string'
+                                },
+                                {
+                                    'type': 'number'
+                                },
+                                {
+                                    'type': 'string',
+                                    'x-format': {
+                                        'uri': true
+                                    }
+                                }
+                            ]
+                        },
+                        'Extra': {
+                            '$ref': '#/definitions/Dimensions',
+                            'x-alternatives': [
+                                {
+                                    '$ref': '#/x-alt-definitions/Dimensions'
+                                }
+                            ]
+                        }
+                    }
+                });
+
+
                 done();
             });
-
         });
     });
+
+
 
     lab.test('no x-alternatives', (done) => {
         Helper.createServer({ xProperties: false }, routes, (err, server) => {
@@ -268,7 +245,17 @@ lab.experiment('alternatives', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
+
                 expect(response.result.paths['/store/'].post.parameters).to.equal([
+                    {
+                        'name': 'body',
+                        'in': 'body',
+                        'schema': {
+                            'type': 'number'
+                        }
+                    }
+                ]);
+                expect(response.result.paths['/store2/'].post.parameters).to.equal([
                     {
                         'name': 'body',
                         'in': 'body',
@@ -283,16 +270,13 @@ lab.experiment('alternatives', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Model 2'
+                            '$ref': '#/definitions/Model 1'
                         }
                     }
                 ]);
 
                 expect(response.result.definitions).to.equal({
                     'Alt': {
-                        'type': 'number'
-                    },
-                    'Model 1': {
                         'properties': {
                             'name': {
                                 'type': 'string'
@@ -303,7 +287,7 @@ lab.experiment('alternatives', () => {
                         ],
                         'type': 'object'
                     },
-                    'Dimensionsy': {
+                    'Dimensions': {
                         'properties': {
                             'width': {
                                 'type': 'number'
@@ -314,9 +298,9 @@ lab.experiment('alternatives', () => {
                         },
                         'type': 'object'
                     },
-                    'Model 2': {
+                    'Model 1': {
                         'properties': {
-                            'type': {
+                            'Type': {
                                 'type': 'string',
                                 'enum': [
                                     'string',
@@ -324,12 +308,11 @@ lab.experiment('alternatives', () => {
                                     'image'
                                 ]
                             },
-                            'data': {
+                            'Typed Data': {
                                 'type': 'string'
                             },
-                            'extra': {
-                                'type': 'object',
-                                '$ref': '#/definitions/Dimensionsy'
+                            'Extra': {
+                                '$ref': '#/definitions/Dimensions'
                             }
                         },
                         'type': 'object'

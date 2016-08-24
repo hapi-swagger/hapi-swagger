@@ -2,9 +2,9 @@
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
-const Helper = require('../test/helper.js');
-const Defaults = require('../lib/defaults.js');
-const Responses = require('../lib/responses.js');
+const Helper = require('../helper.js');
+const Defaults = require('../../lib/defaults.js');
+const Responses = require('../../lib/responses.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -29,7 +29,7 @@ lab.experiment('responses', () => {
         }
     };
 
-    const example = {
+    const examples = {
         'application/json': {
             'a': 5,
             'b': 5,
@@ -38,10 +38,10 @@ lab.experiment('responses', () => {
         }
     };
 
-    const err400 = Joi.object().description('Bad Request').meta({ headers: headers, example: example });
-    const err404 = Joi.object().description('Unsupported Media Type').meta({ headers: headers, example: example });
-    const err429 = Joi.object().description('Too Many Requests').meta({ headers: headers, example: example });
-    const err500 = Joi.object().description('Internal Server Error').meta({ headers: headers, example: example });
+    const err400 = Joi.object().description('Bad Request').meta({ headers: headers, examples: examples });
+    const err404 = Joi.object().description('Unsupported Media Type').meta({ headers: headers, examples: examples });
+    const err429 = Joi.object().description('Too Many Requests').meta({ headers: headers, examples: examples });
+    const err500 = Joi.object().description('Internal Server Error').meta({ headers: headers, examples: examples });
 
     const joiSumModel = Joi.object({
         id: Joi.string().required().example('x78P9c'),
@@ -193,7 +193,7 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[200]).to.exist();
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
                 expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
-                expect(response.result.paths['/store/'].post.responses[400].example).to.equal(example);
+                expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
                 done();
             });
         });
@@ -236,7 +236,7 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[200]).to.equal(undefined);
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
                 expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
-                expect(response.result.paths['/store/'].post.responses[400].example).to.equal(example);
+                expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
                 done();
             });
         });
@@ -343,25 +343,27 @@ lab.experiment('responses', () => {
                         responses: {
                             '200': {
                                 'description': 'Success',
-                                'schema': Joi.array().items(Joi.object({
-                                    equals: Joi.number()
-                                })).label('Result')
+                                'schema': Joi.array().items(
+                                        Joi.object({
+                                            equals: Joi.number()
+                                        }).label('HTTP200Items')
+                                    ).label('HTTP200')
                             },
                             '400': {
                                 'description': 'Bad Request',
                                 'schema': Joi.array().items(Joi.object({
                                     equals: Joi.string()
-                                }))
+                                })).label('HTTP400')
                             }
                         }
                     }
                 },
                 validate: {
-                    payload: {
+                    payload: Joi.object({
                         a: Joi.number()
                             .required()
                             .description('the first number')
-                    }
+                    }).label('Payload')
                 }
             }
         };
@@ -375,21 +377,25 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[200]).to.equal({
                     'description': 'Success',
                     'schema': {
-                        'items': {
-                            '$ref': '#/definitions/Result'
-                        }
+                        '$ref': '#/definitions/HTTP200'
                     }
                 });
-                expect(response.result.definitions.Result).to.equal({
+                expect(response.result.definitions.HTTP200).to.equal({
+                    'type': 'array',
+                    'items': {
+                        '$ref': '#/definitions/HTTP200Items'
+                    }
+                });
+                expect(response.result.definitions.HTTP200Items).to.equal({
+                    'type': 'object',
                     'properties': {
                         'equals': {
                             'type': 'number'
                         }
-                    },
-                    'type': 'object'
+                    }
                 });
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
-                expect(response.result.definitions.response_postStore_400).exists();
+                expect(response.result.definitions.HTTP400).exists();
 
 
                 done();
@@ -847,7 +853,7 @@ lab.experiment('responses', () => {
                                 '404': {
                                     'description': '404 from response status object',
                                     'schema': {
-                                        '$ref': '#/definitions/response_postStore_404'
+                                        '$ref': '#/definitions/Model 1'
                                     }
                                 },
                                 '429': {

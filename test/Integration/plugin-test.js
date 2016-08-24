@@ -5,8 +5,8 @@ const Inert = require('inert');
 const Joi = require('joi');
 const Lab = require('lab');
 const Vision = require('vision');
-const HapiSwagger = require('../lib/index.js');
-const Helper = require('../test/helper.js');
+const HapiSwagger = require('../../lib/index.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -83,52 +83,6 @@ lab.experiment('plugin', () => {
     });
 
 
-    lab.test('plug-in register more than once', () => {
-
-        const server = new Hapi.Server();
-        server.connection();
-        server.route(routes);
-
-        const startServer = function () {
-
-            return new Promise((resolve, reject) => {
-
-                server.start((err) => {
-                    if (err) {
-                        reject('Failed to start server:', err);
-                    } else {
-                        resolve('Started server');
-                    }
-                });
-            });
-        };
-
-        return server.register([
-            Inert,
-            Vision,
-            {
-                register: HapiSwagger,
-                options: {
-                    enableDocumentation: true
-                }
-            }
-        ]).then(() => {
-
-            return startServer();
-        }).then(() => {
-
-            return server.stop();
-        }).then(() => {
-
-            return startServer();
-        }).then((msg) => {
-
-            expect(msg).to.equal('Started server');
-        });
-
-    });
-
-
     lab.test('plug-in register no options', (done) => {
 
         const server = new Hapi.Server();
@@ -148,8 +102,6 @@ lab.experiment('plugin', () => {
         });
         server.route(routes);
     });
-
-
 
 
     lab.test('plug-in register test', (done) => {

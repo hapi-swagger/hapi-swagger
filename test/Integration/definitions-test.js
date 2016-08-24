@@ -2,7 +2,7 @@
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
-const Helper = require('../test/helper.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();

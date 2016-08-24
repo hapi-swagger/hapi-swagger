@@ -1,7 +1,7 @@
 'use strict';
 const Code = require('code');
 const Lab = require('lab');
-const Helper = require('../test/helper.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -54,11 +54,21 @@ lab.experiment('validation', () => {
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.parameters).to.equal([
                     {
+                        'type': 'string',
+                        'name': 'Hidden Model',
+                        'in': 'header'
+                    },
+                    {
+                        'type': 'string',
+                        'name': 'Hidden Model',
+                        'in': 'query'
+                    },
+                    {
+                        'in': 'body',
+                        'name': 'body',
                         'schema': {
                             '$ref': '#/definitions/Hidden Model'
-                        },
-                        'name': 'body',
-                        'in': 'body'
+                        }
                     }
                 ]);
                 expect(response.result.definitions).to.equal({

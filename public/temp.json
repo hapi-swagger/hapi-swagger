@@ -1,0 +1,174 @@
+{
+    "swagger": "2.0",
+    "host": "localhost:3000",
+    "basePath": "/v1",
+    "schemes": [
+        "http"
+    ],
+    "info": {
+        "title": "Test API Documentation",
+        "version": "7.0.0",
+        "description": "This is a sample example of API documentation.",
+        "termsOfService": "https://github.com/glennjones/hapi-swagger/",
+        "contact": {
+            "email": "glennjonesnet@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt"
+        }
+    },
+    "tags": [
+        {
+            "name": "sum",
+            "description": "working with maths",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://example.org"
+            }
+        },
+        {
+            "name": "store",
+            "description": "storing data",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://example.org"
+            }
+        },
+        {
+            "name": "properties",
+            "description": "test the use of extended hapi/joi properties",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://example.org"
+            }
+        }
+    ],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "x-keyPrefix": "Bearer "
+        }
+    },
+    "security": [
+        {
+            "Bearer": []
+        }
+    ],
+    "paths": {
+        "/server/1/": {
+            "post": {
+                "operationId": "postServer1",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Model 1"
+                        }
+                    }
+                ],
+                "tags": [
+                    "server/1"
+                ],
+                "responses": {
+                    "default": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/server/2/": {
+            "post": {
+                "operationId": "postServer2",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Model 2"
+                        }
+                    }
+                ],
+                "tags": [
+                    "server/2"
+                ],
+                "responses": {
+                    "default": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/server/3/": {
+            "post": {
+                "operationId": "postServer3",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Model 2"
+                        }
+                    }
+                ],
+                "tags": [
+                    "server/3"
+                ],
+                "responses": {
+                    "default": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/server/4/": {
+            "post": {
+                "operationId": "postServer4",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Model 2"
+                        }
+                    }
+                ],
+                "tags": [
+                    "server/4"
+                ],
+                "responses": {
+                    "default": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Successful"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Model 1": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "Model 2": {
+            "type": "array",
+            "items": {}
+        }
+    }
+}

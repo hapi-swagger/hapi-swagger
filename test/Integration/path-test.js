@@ -3,7 +3,7 @@ const Code = require('code');
 const Joi = require('joi');
 const Hoek = require('hoek');
 const Lab = require('lab');
-const Helper = require('../test/helper.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -403,7 +403,7 @@ lab.experiment('path', () => {
 
 
 
-    lab.test('path parameters {note?}', (done) => {
+    lab.test('path parameters {id}/{note?}', (done) => {
 
         let testRoutes = Hoek.clone(routes);
         testRoutes.path = '/servers/{id}/{note?}';
@@ -428,73 +428,89 @@ lab.experiment('path', () => {
     });
 
 
-    lab.test('path parameters {id}/{note?} set required by path', (done) => {
 
-        let testRoutes = Hoek.clone(routes);
-        testRoutes.path = '/servers/{id}/{note?}';
-        testRoutes.config.validate = {
-            params: {
-                id: Joi.number().integer().description('ID of server to delete'),
-                note: Joi.string().description('Note..')
+    lab.test('path parameters {a}/{b?} required overriden by JOI', (done) => {
+
+        let testRoutes = [{
+            method: 'POST',
+            path: '/server/1/{a}/{b?}',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    params: {
+                        a: Joi.number().required(),
+                        b: Joi.string().required()
+                    }
+                }
             }
-        };
+        },{
+            method: 'POST',
+            path: '/server/2/{c}/{d?}',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    params: {
+                        c: Joi.number().optional(),
+                        d: Joi.string().optional()
+                    }
+                }
+            }
+        },{
+            method: 'POST',
+            path: '/server/3/{e}/{f?}',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    params: {
+                        e: Joi.number(),
+                        f: Joi.string()
+                    }
+                }
+            }
+        }];
 
         Helper.createServer({}, testRoutes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
+                //console.log(JSON.stringify(response.result.paths['/server/1/{a}/{b}'].post.parameters));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/servers/{id}/{note}'].post.parameters).to.equal([{
-                    'required': true,
-                    'type': 'integer',
-                    'description': 'ID of server to delete',
+                expect(response.result.paths['/server/1/{a}/{b}'].post.parameters).to.equal([
+                    {
+                        'type': 'number',
+                        'name': 'a',
+                        'in': 'path',
+                        'required': true
+                    },
+                    {
+                        'type': 'string',
+                        'name': 'b',
+                        'in': 'path',
+                        'required': true
+                    }
+                ]);
+                expect(response.result.paths['/server/2/{c}/{d}'].post.parameters).to.equal([{
+                    'type': 'number',
                     'in': 'path',
-                    'name': 'id'
+                    'name': 'c'
                 }, {
-                    'required': false,
                     'type': 'string',
                     'in': 'path',
-                    'name': 'note',
-                    'description': 'Note..'
+                    'name': 'd'
                 }]);
-                done();
-            });
-        });
-    });
-
-
-    lab.test('path parameters {id}/{note?} required overriden by JOI', (done) => {
-
-        let testRoutes = Hoek.clone(routes);
-        testRoutes.path = '/servers/{id}/{note?}';
-        testRoutes.config.validate = {
-            params: {
-                id: Joi.number().integer().description('ID of server to delete').optional(),
-                note: Joi.string().description('Note..').required()
-            }
-        };
-
-        Helper.createServer({}, testRoutes, (err, server) => {
-
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/servers/{id}/{note}'].post.parameters).to.equal([{
-                    'required': false,
-                    'type': 'integer',
-                    'description': 'ID of server to delete',
-                    'in': 'path',
-                    'name': 'id'
-                }, {
+                expect(response.result.paths['/server/3/{e}/{f}'].post.parameters).to.equal([{
                     'required': true,
+                    'type': 'number',
+                    'in': 'path',
+                    'name': 'e'
+                }, {
                     'type': 'string',
                     'in': 'path',
-                    'name': 'note',
-                    'description': 'Note..'
+                    'name': 'f'
                 }]);
                 done();
             });
