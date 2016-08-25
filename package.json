@@ -46,7 +46,8 @@
     "lab": "^10.9.0",
     "swagger-client": "^2.1.14",
     "vision": "^4.0.1",
-    "wreck": "^8.0.0"
+    "wreck": "^8.0.0",
+    "jsonwebtoken": "^7.1.9"
   },
   "scripts": {
     "start": "node ./bin/test-server.js",

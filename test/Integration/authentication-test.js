@@ -7,9 +7,6 @@ const Helper = require('../helper.js');
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
-console.log('authentication');
-
-
 
 lab.experiment('default `auth` settings', () => {
     const routes = [
