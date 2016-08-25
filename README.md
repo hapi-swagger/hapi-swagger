@@ -106,31 +106,14 @@ so the the full URL for the above options would be `http://localhost:3000/docume
 
 
 
+## Contributing
 
-
-# Lab test
-The project has integration and unit tests. To run the test within the project type one of the following commands.
-or
-```bash
-$ npm test
-```
-or
-```bash
-$ lab
-$ lab -r html -o coverage.html
-$ lab -r html -o coverage.html --lint
-$ lab -r console -o stdout -r html -o coverage.html --lint
-```
-
-If you are considering sending a pull request please add tests for the functionality you add or change.
-
+Read the [contributing guidelines](CONTRIBUTING.md) for details.
 
 
 # Thanks
 I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger
 is like putting a round plug in a square hole. Without the help of others it would not be possible.
-
-
 
 # Issues
 If you find any issue please file here on github and I will try and fix them.
