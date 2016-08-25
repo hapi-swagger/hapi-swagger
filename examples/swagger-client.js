@@ -17,8 +17,8 @@ server.connection({
 
 
 let swaggerOptions = {
-    enableDocumentation: false,
-    enableSwaggerUI: false,
+    documentationPage: false,
+    swaggerUI: false,
     tags: [{
         'name': 'sum'
     },{
@@ -26,7 +26,7 @@ let swaggerOptions = {
     },{
         'name': 'mathematics'
     }],
-    derefJSONSchema: true
+    deReference: true
 };
 
 

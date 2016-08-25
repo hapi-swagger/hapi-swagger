@@ -1,4 +1,4 @@
-# 7.0.0 Usage
+# 7.0.0 Usage Guide
 
 ### Content
 * [Naming](#naming)
@@ -11,7 +11,7 @@
 * [File upload](#file-upload)
 * [Headers and .unknown()](#headers-and-unknown)
 * [API on one connection and documentation on another](#api-on-one-connection-and-documentation-on-another)
-* [Additional HAPI data using x-*](additional-hapi-data-using-x)
+* [Additional HAPI data using x-*](#additional-hapi-data-using-x-)
 * [JSON without UI](#json-without-ui)
 * [Simplifying the JSON](#simplifying-the-json)
 * [Debugging](#debugging)
@@ -44,7 +44,7 @@ was added to reduce the size of the JSON. The reuse of models can cause names to
 
 # Grouping endpoints with tags
 Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs
-to match path of your endpoinds, so in the example below all enpoints with the path `/users`, `/store` and `/sum` will be
+to match path of your endpoints, so in the example below all enpoints with the path `/users`, `/store` and `/sum` will be
 group togther. Find out more about the [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) on the OpenAPI spec site.
 ```Javascript
 let options = {
@@ -104,8 +104,25 @@ you added route option `order` to each endpoint and switch the plugin options to
 
 
 # Rewriting paths and groupings
-There are time you may wish to modified now groups and endpoint paths are displayed within the output documentation.
-A good example of this when using the `hapi-api-version` plug-in.
+There are time you may wish to modified now groups and endpoint paths are displayed within the documentation.
+Ther are two ways to change to do this:
+
+### Option 1 `basePath` and `pathPrefixSize`
+Yu can use the plugin options `basePath` and `pathPrefixSize` to trim what path information is shown in the documentation.
+This will not change the API endpoint URL only the path information in the documentation.
+
+```
+options: {
+    basePath: '/v1',
+    pathPrefixSize: 2
+}
+```
+The `pathPrefixSize` determines how many path segments to remove. The number counts the `/` from the host part of the URL.
+
+
+### Option 2 `pathReplacements`
+The plugin option `pathReplacements` is more powerful, but still only changes the path information shown in the documentation.
+It allows you to use regex and can also change group titles.
 
 Example of removing version numbers from both paths and groups ie `v2` or `v3`
 ```
@@ -120,6 +137,7 @@ Example of removing version numbers from both paths and groups ie `v2` or `v3`
 * `pattern` (regex) patten for matching
 * `replacement` (string) replacement string
 
+There is a example of this feature  [`dot-grouping.js`](examples/ddot-grouping.js) in the examples directory.
 
 
 
@@ -397,6 +415,7 @@ There is a small example of the [`debug`](examples/debug.js) feature in the exam
 # Features from HAPI that cannot be ported to Swagger
 Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
+* __`Joi.extend()`__ Only works if you are extending a `base` type such as `number` or `string`
 * __`Joi.lazy()`__ This new `JOI` feature needs more research to see if its possible to visual describe recursive objects before its supported.
 * __`Joi.alternatives()`__  This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tools using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec. (Experimental support allow for the first of any options to be displayed)
 * __`Joi.forbidden()`__ There is only limited support `.forbidden()` with `.alternatives()`
@@ -581,7 +600,7 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
 
 
 
-# Examples
+# Example code in project
 There are a number of examples of different uses of `hapi-swagger` in the examples directory. These files contain a full HAPI node app:
 
 *  [`connections.js`](examples/connections.js) - how to uses the plug-in with muiltple server connections

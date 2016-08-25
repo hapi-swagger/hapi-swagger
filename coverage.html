@@ -4,12 +4,12 @@
     <title>Tests &amp; Coverage</title>
     <script>
       headings = [];
-    
+
       onload = function () {
           headings = document.querySelectorAll('h2');
           reset();
       };
-    
+
       onscroll = function (e) {
           var heading = find(window.scrollY);
           if (!heading) {
@@ -21,17 +21,17 @@
           }
           var links = document.querySelectorAll('#menu a')
                   , link;
-    
+
           for (var i = 0, len = links.length; i < len; ++i) {
               link = links[i];
               link.className = link.getAttribute('href') == '#' + heading.id ? 'active' : '';
           }
       };
-    
+
       function find (y) {
           var i = headings.length
                   , heading;
-    
+
           while (i--) {
               heading = headings[i];
               if (y >= heading.offsetTop) {
@@ -39,14 +39,14 @@
               }
           }
       }
-    
+
       function toggle (className) {
-    
+
           var elements = document.getElementsByClassName(className);
-    
+
           for (var i = 0, il = elements.length; i < il; ++i) {
               var element = elements[i];
-    
+
               if (element.classList.contains('hide')) {
                   element.classList.remove('hide');
                   element.classList.add('show');
@@ -57,16 +57,16 @@
               }
           };
       }
-    
+
       function reset () {
-    
+
           var shownElements = document.getElementsByClassName('show');
           var filterElements = document.querySelectorAll('input[type=checkbox]');
-    
+
           for (var i = 0, il = filterElements.length; i < il; ++i) {
               filterElements[i].checked = false;
           }
-    
+
           // Check any filters with visible elements
           for (i = 0, il = shownElements.length; i < il; ++i) {
               var shownElement = shownElements[i];
@@ -79,9 +79,9 @@
               }
           }
       };
-    
+
       function filter (element) {
-    
+
           toggle(element.value);
           reset();
       }
@@ -92,15 +92,15 @@
             margin: 0;
             color: #2c2c2c;
         }
-    
+
         #tests, #coverage, #linting {
             padding: 60px;
         }
-    
+
         h1 a:hover {
             text-decoration: none;
         }
-    
+
         h2 {
             width: 80%;
             margin-top: 80px;
@@ -108,13 +108,13 @@
             font-weight: 100;
             letter-spacing: 1px;
         }
-    
+
         ul {
             margin-top: 20px;
             padding: 0 15px;
             width: 100%;
         }
-    
+
         ul li {
             float: left;
             width: 40%;
@@ -124,7 +124,7 @@
             padding: 5px 0;
             font-size: 12px;
         }
-    
+
         #menu {
             position: fixed;
             font-size: 12px;
@@ -138,13 +138,13 @@
             background-color: #666;
             z-index: 1;
         }
-    
+
         #menu::after {
             display: block;
             content: '';
             padding-top: 80px;
         }
-    
+
         #menu li a {
             display: block;
             color: white;
@@ -152,31 +152,31 @@
             transition: background 300ms;
             text-decoration: none;
         }
-    
+
         #menu li {
             position: relative;
             list-style: none;
         }
-    
+
         #menu a:hover,
         #menu a.active {
             text-decoration: none;
             background: rgba(255, 255, 255, .4);
         }
-    
+
         #menu li:hover .cov {
             opacity: 1;
         }
-    
+
         #menu li .dirname {
             opacity: .60;
             padding-right: 2px;
         }
-    
+
         #menu li .basename {
             opacity: 1;
         }
-    
+
         #menu .cov, #menu .lint {
             background: rgba(0, 0, 0, .3);
             position: absolute;
@@ -188,7 +188,7 @@
             border-radius: 10px;
             padding: 2px 3px;
         }
-    
+
         #files .stats:nth-child(2n) {
             display: inline-block;
             margin-top: 15px;
@@ -196,85 +196,85 @@
             padding: 10px;
             border-radius: 5px;
         }
-    
+
         .stats div {
             float: left;
             padding: 0 5px;
         }
-    
+
         .stats::after {
             display: block;
             content: '';
             clear: both;
         }
-    
+
         .stats .sloc::after {
             content: ' SLOC';
             color: #b6b6b6;
         }
-    
+
         .stats .percentage::after {
             content: ' coverage';
             color: #b6b6b6;
         }
-    
+
         .stats .hits::before {
             content: '(';
             color: #b6b6b6;
         }
-    
+
         .stats .hits::after {
             content: ' Covered';
             color: #b6b6b6;
         }
-    
+
         .stats .misses::after {
             content: ' Not Covered)';
             color: #b6b6b6;
         }
-    
+
         .stats .failures::after {
             content: ' Failures';
             color: #b6b6b6;
         }
-    
+
         .stats .skipped::after {
             content: ' Skipped';
             color: #b6b6b6;
         }
-    
+
         .stats .test-count::after {
             content: ' Tests';
             color: #b6b6b6;
         }
-    
+
         .stats .duration::before {
             content: '(';
             color: #b6b6b6;
         }
-    
+
         .stats .duration::after {
             content: ' ms)';
             color: #b6b6b6;
         }
-    
+
         .high {
             color: #00d4b4;
         }
-    
+
         .medium {
             color: #e87d0d;
         }
-    
+
         .low {
             color: #d4081a;
         }
-    
+
         .terrible {
             color: #d4081a;
             font-weight: bold;
         }
-    
+
         #files table {
             width: 80%;
             margin-top: 10px;
@@ -283,11 +283,11 @@
             color: #363636;
             border-radius: 3px;
         }
-    
+
         #files thead {
             display: none;
         }
-    
+
         table td.line,
         table td.lint,
         table td.hits {
@@ -299,25 +299,25 @@
             color: #949494;
             white-space: nowrap;
         }
-    
+
         table td.hits {
             width: 10px;
             padding: 2px 5px;
             color: rgba(0, 0, 0, .2);
             background: #f0f0f0;
         }
-    
+
         table td.sourcemaps {
             width: 1%;
             border-left: 1px solid #cbcbcb;
             padding: 0 10px;
         }
-    
+
         table td.lint.empty {
             width: 0;
             padding: 0;
         }
-    
+
         table td.lint > span {
             border-radius: 50%;
             width: 8px;
@@ -325,51 +325,51 @@
             display: inline-block;
             vertical-align: baseline;
         }
-    
+
         table td.lint .errors {
             background-color: red;
         }
-    
+
         table td.lint .warnings {
             background-color: orange;
         }
-    
+
         td.sourcemaps.file {
             background: #f0f0f0;
         }
-    
+
         tr.miss td.line,
         tr.miss td.hits {
             background: #e6c3c7;
         }
-    
+
         tr.miss td {
             background: #f8d5d8;
         }
-    
+
         td.source {
             padding-left: 15px;
             line-height: 15px;
             white-space: pre;
             font: 12px monaco, monospace;
         }
-    
+
         td.source div {
             display: inline-block;
         }
-    
+
         td.source div.true {
             background: #bae8bf;
         }
-    
+
         td.source div.false {
             background: #e8e5ba;
         }
-    
+
         td.source div.never {
             background: #f8d5d8;
         }
-    
+
         #tests table {
             width: 80%;
             margin-top: 10px;
@@ -378,41 +378,41 @@
             color: #363636;
             border-radius: 3px;
         }
-    
+
         #tests thead {
             background: #F5F5F5;
         }
-    
+
         #tests tr {
             border: 1px solid #ccc;
         }
-    
+
         #tests td {
             padding-left: 8px;
             vertical-align: top;
         }
-    
+
         #tests .success:nth-child(2n) {
             background: #F5F5F5;
         }
-    
+
         #tests .failure {
             background: #FF9E9E;
         }
-    
+
         #tests table .skipped {
             background: #AA82FF;
         }
-    
+
         #tests .success {
             color: #949494;
         }
-    
+
         #tests .failure .test-title {
             font-weight: bold;
             margin-top: 5px;
         }
-    
+
         #tests .stack {
             margin-top: 4px;
             padding-left: 15px;
@@ -421,20 +421,20 @@
             white-space: pre;
             line-height: 15px;
         }
-    
+
         .hide {
             position: absolute;
             left: -9999em;
         }
-    
+
         .show {
             position: relative;
         }
-    
+
         [data-tooltip] {
             position: relative;
         }
-    
+
         [data-tooltip]:hover:before {
             border: solid;
             border-color: #333 transparent;
@@ -445,7 +445,7 @@
             position: absolute;
             z-index: 99;
         }
-    
+
         [data-tooltip]:hover:after {
             background: #333;
             background: rgba(0, 0, 0, .8);
@@ -460,76 +460,76 @@
             white-space: pre;
             text-align: left;
         }
-    
+
         .line[data-tooltip]:hover:after {
             content: "Line number";
         }
-    
+
         .hits[data-tooltip]:hover:after {
             content: "Number of hits";
         }
-    
+
         .miss .source[data-tooltip]:hover:after {
             content: "Missed line";
         }
-    
+
         .miss.true[data-tooltip]:hover:after {
             content: "Condition always true";
         }
-    
+
         .miss.false[data-tooltip]:hover:after {
             content: "Condition always false";
         }
-    
+
         .miss.never[data-tooltip]:hover:after {
             content: "Statement never reached";
         }
-    
+
         .sourcemaps.file[data-tooltip]:hover:after {
             content: "Original file";
         }
-    
+
         .sourcemaps.line[data-tooltip]:hover:after {
             content: "Original line";
         }
-    
+
         .lint .errors[data-tooltip]:hover:after {
             content: "Linting errors:\A" attr(data-tooltip);
         }
-    
+
         .lint .warnings[data-tooltip]:hover:after {
             content: "Linting warnings:\A" attr(data-tooltip);
         }
-    
+
         #filters {
             width: 75%;
             margin-top: 25px;
         }
-    
+
         #filters label {
             margin-right: 10px;
         }
-    
+
         .lint-stats .lint-errors::after {
             content: ' linting errors';
             color: #b6b6b6;
         }
-    
+
         .lint-stats .lint-warnings::after {
             content: ' linting warnings';
             color: #b6b6b6;
         }
-    
+
         .lint-entry {
             color: #b6b6b6;
             float: none;
             padding: 0;
         }
-    
+
         .lint-entry .level-ERROR {
             color: #d4081a;
         }
-    
+
         .lint-entry .level-WARNING {
             color: #e87d0d;
         }
@@ -665,1119 +665,1119 @@
           <tr class="show alternatives success">
               <td class="test-id">1</td>
               <td class="test-title">alternatives x-alternatives
-                  
+
               </td>
               <td class="test-duration">93</td>
           </tr>
           <tr class="show alternatives success">
               <td class="test-id">2</td>
               <td class="test-title">alternatives no x-alternatives
-                  
+
               </td>
               <td class="test-duration">38</td>
           </tr>
           <tr class="show authentication success">
               <td class="test-id">3</td>
               <td class="test-title">authentication get plug-in interface with bearer token
-                  
+
               </td>
               <td class="test-duration">21</td>
           </tr>
           <tr class="show authentication success">
               <td class="test-id">4</td>
               <td class="test-title">authentication get plug-in interface without bearer token
-                  
+
               </td>
               <td class="test-duration">17</td>
           </tr>
           <tr class="show authentication success">
               <td class="test-id">5</td>
               <td class="test-title">authentication get API interface with bearer token
-                  
+
               </td>
               <td class="test-duration">28</td>
           </tr>
           <tr class="show authentication success">
               <td class="test-id">6</td>
               <td class="test-title">authentication get API interface with incorrect bearer token
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show builder success">
               <td class="test-id">7</td>
               <td class="test-title">builder defaults for swagger root object properties
-                  
+
               </td>
               <td class="test-duration">15</td>
           </tr>
           <tr class="show builder success">
               <td class="test-id">8</td>
               <td class="test-title">builder set values for swagger root object properties
-                  
+
               </td>
               <td class="test-duration">17</td>
           </tr>
           <tr class="show builder success">
               <td class="test-id">9</td>
               <td class="test-title">builder xProperties : false
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show builder success">
               <td class="test-id">10</td>
               <td class="test-title">builder xProperties : false
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show builder success">
               <td class="test-id">11</td>
               <td class="test-title">builder reuseModels : true
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show builder success">
               <td class="test-id">12</td>
               <td class="test-title">builder reuseModels : false
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show builder success">
               <td class="test-id">13</td>
               <td class="test-title">builder debug : true
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">14</td>
               <td class="test-title">plugin basic cache
-                  
+
               </td>
               <td class="test-duration">20</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">15</td>
               <td class="test-title">plugin cache with generateTimeout
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">16</td>
               <td class="test-title">plugin model cache using weakmap
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show child-models success">
               <td class="test-id">17</td>
               <td class="test-title">child-models child definitions models
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show child-models success">
               <td class="test-id">18</td>
               <td class="test-title">child-models object within an object - array within an array
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show connections success">
               <td class="test-id">19</td>
               <td class="test-title">connections server connection a
-                  
+
               </td>
               <td class="test-duration">9</td>
           </tr>
           <tr class="show connections success">
               <td class="test-id">20</td>
               <td class="test-title">connections server connection b
-                  
+
               </td>
               <td class="test-duration">2</td>
           </tr>
           <tr class="show connections success">
               <td class="test-id">21</td>
               <td class="test-title">connections server connection c
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show definitions success">
               <td class="test-id">22</td>
               <td class="test-title">definitions payload with inline definition
-                  
+
               </td>
               <td class="test-duration">15</td>
           </tr>
           <tr class="show definitions success">
               <td class="test-id">23</td>
               <td class="test-title">definitions override definition named Model
-                  
+
               </td>
               <td class="test-duration">15</td>
           </tr>
           <tr class="show definitions success">
               <td class="test-id">24</td>
               <td class="test-title">definitions reuseModels &#x3D; false
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show dereference success">
               <td class="test-id">25</td>
               <td class="test-title">dereference flatten with no references
-                  
+
               </td>
               <td class="test-duration">17</td>
           </tr>
           <tr class="show dereference success">
               <td class="test-id">26</td>
               <td class="test-title">dereference dereferences error
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show document_another_connection success">
               <td class="test-id">27</td>
               <td class="test-title">document another connection connectionLabel
-                  
+
               </td>
               <td class="test-duration">3</td>
           </tr>
           <tr class="show document_another_connection_error success">
               <td class="test-id">28</td>
               <td class="test-title">document another connection error select first connection
-                  
+
               </td>
               <td class="test-duration">5</td>
           </tr>
           <tr class="show file success">
               <td class="test-id">29</td>
               <td class="test-title">file upload
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show file success">
               <td class="test-id">30</td>
               <td class="test-title">file upload with binary file type
-                  
+
               </td>
               <td class="test-duration">17</td>
           </tr>
           <tr class="show file success">
               <td class="test-id">31</td>
               <td class="test-title">file file type not fired on other meta properties
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show filter success">
               <td class="test-id">32</td>
               <td class="test-title">filter filter by tags&#x3D;a
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show filter success">
               <td class="test-id">33</td>
               <td class="test-title">filter filter by tags&#x3D;a
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show filter success">
               <td class="test-id">34</td>
               <td class="test-title">filter filter by tags&#x3D;a,c
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show filter success">
               <td class="test-id">35</td>
               <td class="test-title">filter filter by tags&#x3D;a,-b
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show filter success">
               <td class="test-id">36</td>
               <td class="test-title">filter filter by tags&#x3D;a,+c
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show filter success">
               <td class="test-id">37</td>
               <td class="test-title">filter filter by tags&#x3D;x
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show info success">
               <td class="test-id">38</td>
               <td class="test-title">info no info object passed
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show info success">
               <td class="test-id">39</td>
               <td class="test-title">info no info title property passed
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show info success">
               <td class="test-id">40</td>
               <td class="test-title">info min valid info object
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show info success">
               <td class="test-id">41</td>
               <td class="test-title">info full info object
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show validation success">
               <td class="test-id">42</td>
               <td class="test-title">validation function not joi
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show lout_examples success">
               <td class="test-id">43</td>
               <td class="test-title">lout examples all routes parsed
-                  
+
               </td>
               <td class="test-duration">69</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">44</td>
               <td class="test-title">path summary and description
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">45</td>
               <td class="test-title">path description as an array
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">46</td>
               <td class="test-title">path route settting of consumes produces
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">47</td>
               <td class="test-title">path override plug-in settting of consumes produces
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">48</td>
               <td class="test-title">path auto &quot;x-www-form-urlencoded&quot; consumes with payloadType
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">49</td>
               <td class="test-title">path auto &quot;multipart/form-data&quot; consumes with { swaggerType: &quot;file&quot; }
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">50</td>
               <td class="test-title">path auto &quot;multipart/form-data&quot; do not add two
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">51</td>
               <td class="test-title">path auto &quot;application/x-www-form-urlencoded&quot; do not add two
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">52</td>
               <td class="test-title">path a user set content-type header removes consumes
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">53</td>
               <td class="test-title">path payloadType form
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">54</td>
               <td class="test-title">path accept header
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">55</td>
               <td class="test-title">path accept header - no emum
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">56</td>
               <td class="test-title">path accept header - default first
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">57</td>
               <td class="test-title">path accept header acceptToProduce set to false
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">58</td>
               <td class="test-title">path path parameters {id}/{note?}
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">59</td>
               <td class="test-title">path path parameters {a}/{b?} required overriden by JOI
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">60</td>
               <td class="test-title">path path and basePath
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">61</td>
               <td class="test-title">path basePath trim tailing slash
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">62</td>
               <td class="test-title">path path, basePath suppressing version fragment
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">63</td>
               <td class="test-title">path route deprecated
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show path success">
               <td class="test-id">64</td>
               <td class="test-title">path custom operationId for code-gen apps
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show  success">
               <td class="test-id"></td>
               <td class="test-title">repathed jsonPath url
-                  
+
               </td>
               <td class="test-duration">3</td>
           </tr>
           <tr class="show  success">
               <td class="test-id"></td>
               <td class="test-title">repathed documentationPath url
-                  
+
               </td>
               <td class="test-duration">47</td>
           </tr>
           <tr class="show  success">
               <td class="test-id"></td>
               <td class="test-title">repathed swaggerUIPath url
-                  
+
               </td>
               <td class="test-duration">41</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">65</td>
               <td class="test-title">plugin plug-in register no vision dependency
-                  
+
               </td>
               <td class="test-duration">5</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">66</td>
               <td class="test-title">plugin plug-in register no inert dependency
-                  
+
               </td>
               <td class="test-duration">5</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">67</td>
               <td class="test-title">plugin plug-in register no options
-                  
+
               </td>
               <td class="test-duration">6</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">68</td>
               <td class="test-title">plugin plug-in register test
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">69</td>
               <td class="test-title">plugin default jsonPath url
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">70</td>
               <td class="test-title">plugin default documentationPath url
-                  
+
               </td>
               <td class="test-duration">32</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">71</td>
               <td class="test-title">plugin default swaggerUIPath url
-                  
+
               </td>
               <td class="test-duration">27</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">72</td>
               <td class="test-title">plugin swaggerUIPath + extend.js remapping
-                  
+
               </td>
               <td class="test-duration">22</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">73</td>
               <td class="test-title">plugin disable documentation path
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">74</td>
               <td class="test-title">plugin disable swagger UI
-                  
+
               </td>
               <td class="test-duration">6</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">75</td>
-              <td class="test-title">plugin disable swagger UI overriden by enableDocumentation
-                  
+              <td class="test-title">plugin disable swagger UI overriden by documentationPage
+
               </td>
               <td class="test-duration">24</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">76</td>
               <td class="test-title">plugin should take the plugin route prefix into account when rendering the UI
-                  
+
               </td>
               <td class="test-duration">25</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">77</td>
               <td class="test-title">plugin payloadType &#x3D; form global
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">78</td>
               <td class="test-title">plugin payloadType &#x3D; json global
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">79</td>
               <td class="test-title">plugin pathPrefixSize global
-                  
+
               </td>
               <td class="test-duration">15</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">80</td>
               <td class="test-title">plugin expanded none
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">81</td>
               <td class="test-title">plugin expanded list
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">82</td>
               <td class="test-title">plugin expanded full
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show plugin success">
               <td class="test-id">83</td>
               <td class="test-title">plugin pass through of tags querystring
-                  
+
               </td>
               <td class="test-duration">27</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">84</td>
               <td class="test-title">proxies basePath option
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">85</td>
               <td class="test-title">proxies schemes and host options
-                  
+
               </td>
               <td class="test-duration">9</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">86</td>
               <td class="test-title">proxies x-forwarded options
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">87</td>
               <td class="test-title">proxies Azure Web Sites options
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">88</td>
               <td class="test-title">proxies iisnode options
-                  
+
               </td>
               <td class="test-duration">17</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">89</td>
               <td class="test-title">proxies adding facade for proxy using route options 1
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">90</td>
               <td class="test-title">proxies adding facade for proxy using route options 2 - naming
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">91</td>
               <td class="test-title">proxies adding facade for proxy using route options 3 - defination reuse
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show proxies success">
               <td class="test-id">92</td>
               <td class="test-title">proxies adding facade for proxy using route options 4 - defination name clash
-                  
+
               </td>
               <td class="test-duration">15</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">93</td>
               <td class="test-title">responses using hapi response.schema
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">94</td>
               <td class="test-title">responses using hapi response.schema with child objects
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">95</td>
               <td class="test-title">responses using hapi response.status
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">96</td>
               <td class="test-title">responses using hapi response.status without 200
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">97</td>
               <td class="test-title">responses using route base plugin override - object
-                  
+
               </td>
               <td class="test-duration">18</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">98</td>
               <td class="test-title">responses using route merging response and plugin override
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">99</td>
               <td class="test-title">responses using route base plugin override - array
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">100</td>
               <td class="test-title">responses failback to 200
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">101</td>
               <td class="test-title">responses No ownProperty
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">102</td>
               <td class="test-title">responses with same path but different method
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">103</td>
               <td class="test-title">responses with deep labels
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">104</td>
               <td class="test-title">responses array with required #249
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">105</td>
-              <td class="test-title">responses using hapi response.schema and plugin 
-                  
+              <td class="test-title">responses using hapi response.schema and plugin
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">106</td>
               <td class="test-title">responses using hapi response.schema and plugin mismatch
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">107</td>
               <td class="test-title">responses using hapi response.schema and plugin mismatch
-                  
+
               </td>
               <td class="test-duration">16</td>
           </tr>
           <tr class="show responses success">
               <td class="test-id">108</td>
               <td class="test-title">responses using hapi response.schema and plugin mixed results
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show security success">
               <td class="test-id">109</td>
               <td class="test-title">security passes through securityDefinitions
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show security success">
               <td class="test-id">110</td>
               <td class="test-title">security passes through security objects for whole api
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show security success">
               <td class="test-id">111</td>
               <td class="test-title">security passes through security objects on routes
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show security success">
               <td class="test-id">112</td>
               <td class="test-title">security passes through x-keyPrefix
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show security success">
               <td class="test-id">113</td>
               <td class="test-title">security no keyPrefix
-                  
+
               </td>
               <td class="test-duration">12</td>
           </tr>
           <tr class="show sort success">
               <td class="test-id">114</td>
               <td class="test-title">sort sort ordered path-method
-                  
+
               </td>
               <td class="test-duration">15</td>
           </tr>
           <tr class="show tags success">
               <td class="test-id">115</td>
               <td class="test-title">tags no tag objects passed
-                  
+
               </td>
               <td class="test-duration">14</td>
           </tr>
           <tr class="show tags success">
               <td class="test-id">116</td>
               <td class="test-title">tags name property passed
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show tags success">
               <td class="test-id">117</td>
               <td class="test-title">tags full tag object
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show wildcard_routes success">
               <td class="test-id">118</td>
               <td class="test-title">wildcard routes method *
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show wildcard_routes success">
               <td class="test-id">119</td>
               <td class="test-title">wildcard routes method array [GET, POST]
-                  
+
               </td>
               <td class="test-duration">10</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">120</td>
               <td class="test-title">group test groups tagging of paths
-                  
+
               </td>
               <td class="test-duration">13</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">121</td>
               <td class="test-title">group getNameByPath 1
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">122</td>
               <td class="test-title">group getNameByPath 2
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">123</td>
               <td class="test-title">group getNameByPath 3
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">124</td>
               <td class="test-title">group getNameByPath 4
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">125</td>
               <td class="test-title">group getNameByPath 5
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">126</td>
               <td class="test-title">group getNameByPath with basePath &#x3D; /v3/
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">127</td>
               <td class="test-title">group getNameByPath with basePath &#x3D; /v3/
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show group success">
               <td class="test-id">128</td>
               <td class="test-title">group getNameByPath with basePath &#x3D; /v3
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show  success">
               <td class="test-id">129</td>
               <td class="test-title">parse type object
-                  
+
               </td>
               <td class="test-duration">2</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">130</td>
               <td class="test-title">property -  parse types
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">131</td>
               <td class="test-title">property -  parse types
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">132</td>
               <td class="test-title">property -  parse types with useDefinitions&#x3D;true
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">133</td>
               <td class="test-title">property -  parse simple meta
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">134</td>
               <td class="test-title">property -  parse meta
-                  
+
               </td>
               <td class="test-duration">2</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">135</td>
               <td class="test-title">property -  parse type string
-                  
+
               </td>
               <td class="test-duration">5</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">136</td>
               <td class="test-title">property -  parse type date
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">137</td>
               <td class="test-title">property -  parse type number
-                  
+
               </td>
               <td class="test-duration">3</td>
           </tr>
           <tr class="show property_-_ success">
               <td class="test-id">138</td>
               <td class="test-title">property -  parse type array
-                  
+
               </td>
               <td class="test-duration">5</td>
           </tr>
           <tr class="show property_deep_-_ success">
               <td class="test-id">139</td>
               <td class="test-title">property deep -  parse structure with child labels
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show property_deep_-_ success">
               <td class="test-id">140</td>
               <td class="test-title">property deep -  parse structure with child description, notes, name etc
-                  
+
               </td>
               <td class="test-duration">11</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">141</td>
               <td class="test-title">utilities isObject
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">142</td>
               <td class="test-title">utilities isFunction
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">143</td>
               <td class="test-title">utilities isRegex
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">144</td>
               <td class="test-title">utilities hasProperties
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">145</td>
               <td class="test-title">utilities deleteEmptyProperties
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">146</td>
               <td class="test-title">utilities first
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">147</td>
               <td class="test-title">utilities isJoi
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">148</td>
               <td class="test-title">utilities hasJoiChildren
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">149</td>
               <td class="test-title">utilities toJoiObject
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">150</td>
               <td class="test-title">utilities hasJoiMeta
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">151</td>
               <td class="test-title">utilities getJoiMetaProperty
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">152</td>
               <td class="test-title">utilities toTitleCase
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">153</td>
               <td class="test-title">utilities createId
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show utilities success">
               <td class="test-id">154</td>
               <td class="test-title">utilities replaceInPath
-                  
+
               </td>
               <td class="test-duration">0</td>
           </tr>
           <tr class="show validate_-_ success">
               <td class="test-id">155</td>
               <td class="test-title">validate -  bad schema
-                  
+
               </td>
               <td class="test-duration">1</td>
           </tr>
           <tr class="show validate_-_ success">
               <td class="test-id">156</td>
               <td class="test-title">validate -  good schema
-                  
+
               </td>
               <td class="test-duration">2</td>
           </tr>
           </tbody>
       </table>
-    
+
     </div>    <div id="coverage">
         <h1>Code Coverage Report</h1>
         <div class="stats high">
@@ -2541,7 +2541,7 @@
                             <td class="line" data-tooltip>123</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip>104</td>
-                            <td class="source">    if (settings.derefJSONSchema &#x3D;&#x3D;&#x3D; true) {</td>
+                            <td class="source">    if (settings.deReference &#x3D;&#x3D;&#x3D; true) {</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>124</td>
@@ -3087,7 +3087,7 @@
                             <td class="line" data-tooltip>214</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">        &#x27;enableDocumentation&#x27;,</td>
+                            <td class="source">        &#x27;documentationPage&#x27;,</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>215</td>
@@ -3105,7 +3105,7 @@
                             <td class="line" data-tooltip>217</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">        &#x27;enableSwaggerUI&#x27;,</td>
+                            <td class="source">        &#x27;swaggerUI&#x27;,</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>218</td>
@@ -3177,7 +3177,7 @@
                             <td class="line" data-tooltip>229</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">        &#x27;derefJSONSchema&#x27;,</td>
+                            <td class="source">        &#x27;deReference&#x27;,</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>230</td>
@@ -3342,13 +3342,13 @@
                             <td class="line" data-tooltip>10</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">    &#x27;enableDocumentation&#x27;: true,</td>
+                            <td class="source">    &#x27;documentationPage&#x27;: true,</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>11</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">    &#x27;enableSwaggerUI&#x27;: true,</td>
+                            <td class="source">    &#x27;swaggerUI&#x27;: true,</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>12</td>
@@ -3408,7 +3408,7 @@
                             <td class="line" data-tooltip>21</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">    &#x27;derefJSONSchema&#x27;: false,</td>
+                            <td class="source">    &#x27;deReference&#x27;: false,</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>22</td>
@@ -5715,13 +5715,13 @@
                             <td class="line" data-tooltip>24</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">    enableDocumentation: Joi.boolean(),</td>
+                            <td class="source">    documentationPage: Joi.boolean(),</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>25</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">    enableSwaggerUI: Joi.boolean(),</td>
+                            <td class="source">    swaggerUI: Joi.boolean(),</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>26</td>
@@ -5781,7 +5781,7 @@
                             <td class="line" data-tooltip>35</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip></td>
-                            <td class="source">    derefJSONSchema: Joi.boolean(),</td>
+                            <td class="source">    deReference: Joi.boolean(),</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>36</td>
@@ -6351,7 +6351,7 @@
                             <td class="line" data-tooltip>130</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip>119</td>
-                            <td class="source">    if (settings.enableDocumentation &#x3D;&#x3D;&#x3D; true || settings.enableSwaggerUI &#x3D;&#x3D;&#x3D; true) {</td>
+                            <td class="source">    if (settings.documentationPage &#x3D;&#x3D;&#x3D; true || settings.swaggerUI &#x3D;&#x3D;&#x3D; true) {</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>131</td>
@@ -6447,7 +6447,7 @@
                             <td class="line" data-tooltip>146</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip>116</td>
-                            <td class="source">            if (settings.enableDocumentation &#x3D;&#x3D;&#x3D; true) {</td>
+                            <td class="source">            if (settings.documentationPage &#x3D;&#x3D;&#x3D; true) {</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>147</td>
@@ -6537,7 +6537,7 @@
                             <td class="line" data-tooltip>161</td>
                             <td class="lint empty"></td>
                             <td class="hits" data-tooltip>116</td>
-                            <td class="source">            if (settings.enableDocumentation &#x3D;&#x3D;&#x3D; true || settings.enableSwaggerUI &#x3D;&#x3D;&#x3D; true) {</td>
+                            <td class="source">            if (settings.documentationPage &#x3D;&#x3D;&#x3D; true || settings.swaggerUI &#x3D;&#x3D;&#x3D; true) {</td>
                         </tr>
                         <tr class="hit">
                             <td class="line" data-tooltip>162</td>

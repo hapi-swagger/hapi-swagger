@@ -109,13 +109,13 @@ let swaggerOptions = {
         }
     },
     security: [{ 'Bearer': [] }],
-    derefJSONSchema: false,
+    deReference: false,
     cache: {
         expiresIn: 24 * 60 * 60 * 1000
     }
 };
 
-// swaggerOptions.derefJSONSchema = true;
+// swaggerOptions.deReference = true;
 // swaggerOptions.auth = 'bearer';
 
 // the auth.strategy needs to be registered before it can be used in options for swagger

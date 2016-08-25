@@ -36,6 +36,7 @@ JSON (JSON endpoint needed to create UI)
 
 UI
 * `swaggerUI`:  (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`
+* `swaggerUIPath`:  (string) The path of to all the SwaggerUI resources - default: `/swaggerui/`
 * `documentationPage`:  (boolean) Add documentation page - default: `true`
 * `documentationPath`:  (string) The path of the documentation page - default: `/documentation`
 * `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
@@ -43,7 +44,7 @@ UI
 * `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
 * `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
 * `lang`: (string) The language of the UI `en`, `es`, `fr`, `it`, `ja`, `pl`, `pt`, `ru`, `tr` or `zh-cn`  - default: `en`
-* `uiScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
+* `uiCompleteScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
 * `validatorUrl`: (string || null) sets the external validating URL Can swtich off by setting to `null`
 
 
@@ -64,7 +65,7 @@ UI
 
 
 
-# Plugin option example
+# Plugin options example
 The plugin level options are added as you register the `hapi-swagger` plugin.
 
 ```Javascript
@@ -106,7 +107,7 @@ server.register([
 ```
 
 
-# Route option example
+# Route options example
 The route level options are always placed within the `plugins.hapi-swagger` object under `config`. These options are
 only assigned to the route they are apply to.
 ```Javascript

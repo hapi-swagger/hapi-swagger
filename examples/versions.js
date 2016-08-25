@@ -64,7 +64,7 @@ const swaggerOptions = {
         pattern: /v([0-9]+)\//,
         replacement: ''
     }],
-    derefJSONSchema: false
+    deReference: false
 };
 
 

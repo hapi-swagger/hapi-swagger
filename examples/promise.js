@@ -95,7 +95,7 @@ const swaggerOptions = {
         }
     },
     security: [{ 'Bearer': [] }],
-    derefJSONSchema: false
+    deReference: false
 };
 
 

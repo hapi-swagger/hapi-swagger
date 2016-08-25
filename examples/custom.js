@@ -39,7 +39,7 @@ server.connection({
 
 
 let swaggerOptions = {
-    enableDocumentation: false,
+    documentationPage: false,
     swaggerUIPath: '/ui/',
     basePath: '/v1/',
     pathPrefixSize: 2,

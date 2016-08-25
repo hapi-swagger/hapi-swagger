@@ -218,7 +218,7 @@ lab.experiment('plugin', () => {
     lab.test('disable documentation path', (done) => {
 
         swaggerOptions = {
-            'enableDocumentation': false
+            'documentationPage': false
         };
 
         Helper.createServer(swaggerOptions, routes, (err, server) => {
@@ -236,8 +236,8 @@ lab.experiment('plugin', () => {
     lab.test('disable swagger UI', (done) => {
 
         swaggerOptions = {
-            'enableSwaggerUI': false,
-            'enableDocumentation': false
+            'swaggerUI': false,
+            'documentationPage': false
         };
 
         Helper.createServer(swaggerOptions, routes, (err, server) => {
@@ -252,11 +252,11 @@ lab.experiment('plugin', () => {
     });
 
 
-    lab.test('disable swagger UI overriden by enableDocumentation', (done) => {
+    lab.test('disable swagger UI overriden by documentationPage', (done) => {
 
         swaggerOptions = {
-            'enableSwaggerUI': false,
-            'enableDocumentation': true
+            'swaggerUI': false,
+            'documentationPage': true
         };
 
         Helper.createServer(swaggerOptions, routes, (err, server) => {

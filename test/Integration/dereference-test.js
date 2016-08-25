@@ -32,7 +32,7 @@ lab.experiment('dereference', () => {
 
     lab.test('flatten with no references', (done) => {
 
-        Helper.createServer({ derefJSONSchema: true }, routes, (err, server) => {
+        Helper.createServer({ deReference: true }, routes, (err, server) => {
 
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 

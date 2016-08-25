@@ -50,8 +50,7 @@ const swaggerOptions = {
         replaceIn: 'groups',
         pattern: /[.].*$/,
         replacement: '/'
-    }],
-    derefJSONSchema: false
+    }]
 };
 
 
