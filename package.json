@@ -37,7 +37,7 @@
     "good-console": "^6.1.2",
     "good-squeeze": "^4.0.0",
     "h2o2": "^5.1.0",
-    "hapi": "^14.0.0",
+    "hapi": "hapijs/hapi",
     "hapi-api-version": "^1.1.0",
     "hapi-auth-bearer-token": "^4.0.2",
     "hapi-auth-jwt2": "^7.0.1",
@@ -55,6 +55,6 @@
     "test-cov-coveralls": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls"
   },
   "peerDependencies": {
-    "hapi": "^9.0.1 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0"
+    "hapi": "^14.0.0 || ^15.0.0 "
   }
 }
