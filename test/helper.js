@@ -6,6 +6,7 @@ const Boom = require('boom');
 const Inert = require('inert');
 const Vision = require('vision');
 const Wreck = require('wreck');
+const JWT = require('jsonwebtoken');
 const HapiSwagger = require('../lib/index.js');
 
 const helper = module.exports = {};
@@ -112,6 +113,76 @@ helper.createAuthServer = function (swaggerOptions, routes, callback) {
 
 
 };
+
+
+/**
+* creates a Hapi server using JWT auth
+*
+* @param  {Object} swaggerOptions
+* @param  {Object} routes
+* @param  {Function} callback
+*/
+helper.createJWTAuthServer = function (swaggerOptions, routes, callback) {
+
+    let people = {
+        56732: {
+            id: 56732,
+            name: 'Jen Jones',
+            scope: ['a', 'b']
+        }
+    };
+    const privateKey = 'hapi hapi joi joi';
+    const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
+    const validate = function (decoded, request, callback) {
+
+        if (!people[decoded.id]) {
+            return callback(null, false);
+        }
+        return callback(null, true, people[decoded.id]);
+    };
+
+
+    const server = new Hapi.Server();
+
+    server.connection();
+
+    server.register([
+        Inert,
+        Vision,
+        require('hapi-auth-jwt2'),
+        {
+            register: HapiSwagger,
+            options: swaggerOptions
+        }
+    ], (err) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        server.auth.strategy('jwt', 'jwt', {
+            key: privateKey,
+            validateFunc: validate,
+            verifyOptions: { algorithms: ['HS256'] }
+        });
+
+        server.auth.default('jwt');
+
+        server.route(routes);
+        server.start(function (err) {
+
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, server);
+            }
+
+        });
+    });
+
+
+};
+
 
 
 /**

@@ -7,6 +7,85 @@ const Helper = require('../helper.js');
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
+console.log('authentication');
+
+
+
+lab.experiment('default `auth` settings', () => {
+    const routes = [
+        {
+            method: 'GET',
+            path: '/',
+            config: {
+                auth: false,
+                handler: function (request, reply) {
+
+                    reply({ text: 'Token not required' });
+                }
+            }
+        }, {
+            method: 'GET',
+            path: '/restricted',
+            config: {
+                auth: 'jwt',
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        security: [{ 'jwt': [] }]
+                    }
+                },
+                handler: function (request, reply) {
+
+                    reply({ text: 'You used a Token! ' + request.auth.credentials.name })
+                        .header('Authorization', request.headers.authorization);
+                }
+            }
+        }
+    ];
+
+
+    lab.test('get documentation page should not be restricted', (done) => {
+
+        const requestOptions = {
+            method: 'GET',
+            url: '/documentation'
+        };
+
+        Helper.createJWTAuthServer({}, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                done();
+            });
+        });
+    });
+
+
+    lab.test('get documentation page should be restricted 401', (done) => {
+
+        const requestOptions = {
+            method: 'GET',
+            url: '/documentation'
+        };
+
+        Helper.createJWTAuthServer({auth: undefined}, routes, (err, server) => {
+
+            server.inject(requestOptions, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(401);
+                done();
+            });
+        });
+    });
+
+
+});
+
 
 
 lab.experiment('authentication', () => {
