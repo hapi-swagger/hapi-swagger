@@ -108,7 +108,7 @@ so the the full URL for the above options would be `http://localhost:3000/docume
 
 # Contributing
 
-Read the [contributing guidelines](CONTRIBUTING.md) for details.
+Read the [contributing guidelines](https://github.com/glennjones/hapi-swagger/blob/master/.github/CONTRIBUTING.md) for details.
 
 
 
