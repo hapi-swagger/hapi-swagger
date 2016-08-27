@@ -106,14 +106,15 @@ so the the full URL for the above options would be `http://localhost:3000/docume
 
 
 
-## Contributing
+# Contributing
 
 Read the [contributing guidelines](CONTRIBUTING.md) for details.
+
+
 
 
 # Thanks
 I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger
 is like putting a round plug in a square hole. Without the help of others it would not be possible.
 
-# Issues
-If you find any issue please file here on github and I will try and fix them.
+
