@@ -56,7 +56,7 @@ lab.experiment('path', () => {
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.summary).to.equal('Add sum');
                 expect(response.result.paths['/test'].post.description).to.equal('Adds a sum to the data store');
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -74,7 +74,7 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.description).to.equal('note one<br/><br/>note two');
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -99,7 +99,7 @@ lab.experiment('path', () => {
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
                 expect(response.result.paths['/test'].post.produces).to.equal(['application/json', 'application/xml']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -129,7 +129,7 @@ lab.experiment('path', () => {
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
                 expect(response.result.paths['/test'].post.produces).to.equal(['application/json', 'application/xml']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -154,7 +154,7 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -185,7 +185,7 @@ lab.experiment('path', () => {
                         'in': 'formData'
                     }
                 ]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -297,7 +297,7 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.consumes).to.not.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -320,7 +320,7 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.consumes).to.equal(['application/x-www-form-urlencoded']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -342,7 +342,7 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.produces).to.equal(['application/json', 'application/vnd.api+json']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -371,7 +371,7 @@ lab.experiment('path', () => {
                     'type': 'string'
                 });
                 expect(response.result.paths['/test'].post.produces).to.not.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -394,7 +394,7 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.produces).to.equal(['application/vnd.api+json', 'application/json']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -427,7 +427,7 @@ lab.experiment('path', () => {
                     'type': 'string'
                 });
                 expect(response.result.paths['/test'].post.produces).to.not.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -652,7 +652,7 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.deprecated).to.equal(true);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -675,12 +675,52 @@ lab.experiment('path', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test'].post.operationId).to.equal('add');
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
 
 
+
+    lab.test('stop boolean creating parameter', (done) => {
+
+        let testRoutes = {
+            method: 'GET',
+            path: '/{name}',
+            config: {
+                handler: () => {},
+                tags: ['api'],
+                validate: {
+                    headers: true,
+                    params: {
+                        name: Joi.string().min(2)
+                    },
+                    query: false
+                }
+            }
+        };
+
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/{name}'].get.parameters).to.equal([
+                    {
+                        'type': 'string',
+                        'minLength': 2,
+                        'name': 'name',
+                        'in': 'path',
+                        'required': true
+                    }
+                ]);
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
 
 
 

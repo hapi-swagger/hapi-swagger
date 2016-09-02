@@ -29,7 +29,7 @@ lab.experiment('info', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -48,7 +48,7 @@ lab.experiment('info', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -71,7 +71,7 @@ lab.experiment('info', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.info).to.equal(swaggerOptions.info);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -102,7 +102,7 @@ lab.experiment('info', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.info).to.equal(swaggerOptions.info);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

@@ -44,7 +44,7 @@ lab.experiment('proxies', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.basePath).to.equal(options.basePath);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -65,7 +65,7 @@ lab.experiment('proxies', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.host).to.equal(options.host);
                 expect(response.result.schemes).to.equal(options.schemes);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -111,7 +111,7 @@ lab.experiment('proxies', () => {
                 expect(err).to.equal(null);
                 expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
                 expect(response.result.schemes).to.equal(['https']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -271,7 +271,7 @@ lab.experiment('proxies', () => {
                         }
                     }
                 ]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

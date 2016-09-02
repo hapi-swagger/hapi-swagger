@@ -63,7 +63,7 @@ lab.experiment('wildcard routes', () => {
                 expect(response.result.paths['/test']).to.have.length(2);
                 expect(response.result.paths['/test']).to.include('get');
                 expect(response.result.paths['/test']).to.include('post');
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

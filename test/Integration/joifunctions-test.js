@@ -77,7 +77,7 @@ lab.experiment('validation', () => {
                         'type': 'object'
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

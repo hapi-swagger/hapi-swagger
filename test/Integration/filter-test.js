@@ -58,7 +58,7 @@ lab.experiment('filter', () => {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths).to.have.length(2);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -75,7 +75,7 @@ lab.experiment('filter', () => {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths).to.have.length(4);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -92,7 +92,7 @@ lab.experiment('filter', () => {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths).to.have.length(3);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -109,7 +109,7 @@ lab.experiment('filter', () => {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths).to.have.length(1);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -127,7 +127,7 @@ lab.experiment('filter', () => {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths).to.have.length(0);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -145,7 +145,7 @@ lab.experiment('filter', () => {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths).to.have.length(0);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
