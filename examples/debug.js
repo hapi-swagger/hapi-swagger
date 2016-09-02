@@ -24,7 +24,7 @@ let swaggerOptions = {
     pathPrefixSize: 2,
     info: {
         'title': 'Test API Documentation',
-        'version': Pack.version,
+        'version': Pack.version
     },
     debug: true  // switch on debug
 };
@@ -32,6 +32,7 @@ let swaggerOptions = {
 
 // use chalk to log colour hapi-swagger messages to console.
 const formatLogEvent = function (event) {
+
     if (event.tags.error) {
         console.log(`[${event.tags}], ${Chalk.red(event.data)}`);
     } else {

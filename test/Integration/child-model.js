@@ -135,7 +135,7 @@ lab.experiment('child-models', () => {
                     },
                     'type': 'object'
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -211,7 +211,7 @@ lab.experiment('child-models', () => {
                     }
                 });
 
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

@@ -237,8 +237,8 @@ lab.experiment('alternatives', () => {
                     }
                 });
 
-
-                done();
+                // test full swagger document
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -331,7 +331,8 @@ lab.experiment('alternatives', () => {
                 });
 
 
-                done();
+                // test full swagger document
+                Helper.validate(response, done, expect);
             });
         });
 

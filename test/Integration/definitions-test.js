@@ -114,7 +114,7 @@ lab.experiment('definitions', () => {
                     'type': 'object'
                 });
                 expect(response.result.definitions['Model 1']).to.equal(defination);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -134,7 +134,7 @@ lab.experiment('definitions', () => {
                 expect(response.result.definitions.Model).to.exists();
                 expect(response.result.definitions['Model 1']).to.exists();
 
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -185,7 +185,7 @@ lab.experiment('definitions', () => {
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.definitions.A).to.exist();
                 expect(response.result.definitions.B).to.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

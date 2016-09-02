@@ -48,7 +48,7 @@ lab.experiment('plugin', () => {
                 server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
                     //console.log(JSON.stringify(response.result));
                     expect(response.statusCode).to.equal(200);
-                    done();
+                    Helper.validate(response, done, expect);
                 });
             });
         });
@@ -71,7 +71,7 @@ lab.experiment('plugin', () => {
 
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -118,7 +118,7 @@ lab.experiment('plugin', () => {
 
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

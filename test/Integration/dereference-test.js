@@ -62,7 +62,7 @@ lab.experiment('dereference', () => {
                         }
                     }
                 ]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

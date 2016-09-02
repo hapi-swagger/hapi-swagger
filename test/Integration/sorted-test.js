@@ -131,7 +131,7 @@ lab.experiment('sort', () => {
 
                 //console.log(JSON.stringify(Object.keys(response.result.paths['/a'])));
                 expect(Object.keys(response.result.paths['/a'])).to.equal(['delete', 'get', 'post']);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

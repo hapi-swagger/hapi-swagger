@@ -5,6 +5,7 @@ const Inert = require('inert');
 const Lab = require('lab');
 const Vision = require('vision');
 const HapiSwagger = require('../../lib/index.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -103,7 +104,7 @@ lab.experiment('document another connection', () => {
                     'summary': 'plugin1'
                 }
             });
-            done();
+            Helper.validate(response, done, expect);
         });
     });
 
@@ -168,7 +169,7 @@ lab.experiment('document another connection error', () => {
                     'summary': 'plugin1'
                 }
             });
-            done();
+            Helper.validate(response, done, expect);
         });
 
     });

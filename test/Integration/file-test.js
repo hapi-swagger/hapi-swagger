@@ -58,7 +58,7 @@ lab.experiment('file', () => {
                         'in': 'formData'
                     }
                 ]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -85,7 +85,7 @@ lab.experiment('file', () => {
                         'in': 'formData'
                     }
                 ]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -114,7 +114,7 @@ lab.experiment('file', () => {
                         'type': 'string'
                     }
                 ]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

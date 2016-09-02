@@ -29,7 +29,7 @@ lab.experiment('tags', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.tags).to.equal([]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -50,7 +50,7 @@ lab.experiment('tags', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.tags[0].name).to.equal('test');
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -76,7 +76,7 @@ lab.experiment('tags', () => {
 
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.tags).to.equal(swaggerOptions.tags);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

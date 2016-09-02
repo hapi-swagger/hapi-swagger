@@ -50,9 +50,9 @@ lab.experiment('utilities', () => {
         expect(Utilities.isRegex(true)).to.equal(false);
         expect(Utilities.isRegex(42)).to.equal(false);
         expect(Utilities.isRegex('string')).to.equal(false);
-        expect(Utilities.isRegex(function () {})).to.equal(false);
+        expect(Utilities.isRegex(function () { })).to.equal(false);
         expect(Utilities.isRegex([])).to.equal(false);
-        expect(Utilities.isRegex( {})).to.equal(false);
+        expect(Utilities.isRegex({})).to.equal(false);
 
         expect(Utilities.isRegex(/a/g)).to.equal(true);
         expect(Utilities.isRegex(new RegExp('a', 'g'))).to.equal(true);
@@ -64,7 +64,7 @@ lab.experiment('utilities', () => {
 
         expect(Utilities.hasProperties({})).to.equal(false);
         expect(Utilities.hasProperties({ 'name': 'test' })).to.equal(true);
-        expect(Utilities.hasProperties( Helper.objWithNoOwnProperty() )).to.equal(false);
+        expect(Utilities.hasProperties(Helper.objWithNoOwnProperty())).to.equal(false);
         done();
     });
 
@@ -78,7 +78,7 @@ lab.experiment('utilities', () => {
         expect(Utilities.deleteEmptyProperties({ 'name': undefined })).to.equal({});
         expect(Utilities.deleteEmptyProperties({ 'name': [] })).to.equal({});
         // this needs JSON.stringify to compare outputs
-        expect( JSON.stringify(Utilities.deleteEmptyProperties( Helper.objWithNoOwnProperty() ))).to.equal('{}');
+        expect(JSON.stringify(Utilities.deleteEmptyProperties(Helper.objWithNoOwnProperty()))).to.equal('{}');
         done();
     });
 
@@ -89,7 +89,7 @@ lab.experiment('utilities', () => {
         expect(Utilities.first('test')).to.equal(undefined);
         expect(Utilities.first([])).to.equal(undefined);
         expect(Utilities.first(['test'])).to.equal('test');
-        expect(Utilities.first(['one','two'])).to.equal('one');
+        expect(Utilities.first(['one', 'two'])).to.equal('one');
         done();
     });
 
@@ -111,7 +111,7 @@ lab.experiment('utilities', () => {
         expect(Utilities.hasKey({ a: [{ x: 1 }] }, 'x')).to.equal(true);
 
 
-        expect(Utilities.hasKey( Helper.objWithNoOwnProperty(), 'x' )).to.equal(false);
+        expect(Utilities.hasKey(Helper.objWithNoOwnProperty(), 'x')).to.equal(false);
         expect(Utilities.hasKey({ a: {} }, 'x')).to.equal(false);
 
         done();
@@ -139,7 +139,7 @@ lab.experiment('utilities', () => {
         expect(Utilities.findAndRenameKey({ x: 1, z: 2 }, 'x', null)).to.equal({ z: 2 });
 
 
-        expect(Utilities.findAndRenameKey( Helper.objWithNoOwnProperty(), 'x', 'y' )).to.equal({});
+        expect(Utilities.findAndRenameKey(Helper.objWithNoOwnProperty(), 'x', 'y')).to.equal({});
 
         done();
     });
@@ -148,10 +148,10 @@ lab.experiment('utilities', () => {
 
     lab.test('removeProps', (done) => {
 
-        expect(Utilities.removeProps({'a': 1, 'b': 2}, ['a'])).to.equal({'a': 1});
-        expect(Utilities.removeProps({'a': 1, 'b': 2}, ['a','b'])).to.equal({'a': 1, 'b': 2});
-        expect(Utilities.removeProps({'a': 1, 'b': 2}, ['c'])).to.equal({});
-        expect(Utilities.removeProps( Helper.objWithNoOwnProperty(), ['b'] )).to.equal({});
+        expect(Utilities.removeProps({ 'a': 1, 'b': 2 }, ['a'])).to.equal({ 'a': 1 });
+        expect(Utilities.removeProps({ 'a': 1, 'b': 2 }, ['a', 'b'])).to.equal({ 'a': 1, 'b': 2 });
+        expect(Utilities.removeProps({ 'a': 1, 'b': 2 }, ['c'])).to.equal({});
+        expect(Utilities.removeProps(Helper.objWithNoOwnProperty(), ['b'])).to.equal({});
 
         done();
     });
@@ -228,7 +228,7 @@ lab.experiment('utilities', () => {
             replaceIn: 'all',
             pattern: /v([0-9]+)\//,
             replacement: ''
-        },{
+        }, {
             replaceIn: 'groups',
             pattern: /[.].*$/,
             replacement: ''

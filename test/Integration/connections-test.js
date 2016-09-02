@@ -6,6 +6,7 @@ const Inert = require('inert');
 const Lab = require('lab');
 const Vision = require('vision');
 const HapiSwagger = require('../../lib/index.js');
+const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -129,7 +130,7 @@ lab.experiment('connections', () => {
         a.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
             expect(response.statusCode).to.equal(200);
-            done();
+            Helper.validate(response, done, expect);
         });
     });
 
@@ -140,7 +141,7 @@ lab.experiment('connections', () => {
         b.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
             expect(response.statusCode).to.equal(200);
-            done();
+            Helper.validate(response, done, expect);
         });
     });
 

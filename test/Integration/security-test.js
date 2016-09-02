@@ -104,7 +104,7 @@ lab.experiment('security', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.securityDefinitions).to.equal(swaggerOptions.securityDefinitions);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -125,7 +125,7 @@ lab.experiment('security', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.security).to.equal(swaggerOptions.security);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -158,7 +158,7 @@ lab.experiment('security', () => {
                         ]
                     }
                 ]);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

@@ -68,7 +68,7 @@ lab.experiment('builder', () => {
                 expect(response.result.basePath).to.equal('/');
                 expect(response.result.consumes).to.not.exist();
                 expect(response.result.produces).to.not.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -102,7 +102,7 @@ lab.experiment('builder', () => {
                 expect(response.result.consumes).to.equal(['application/x-www-form-urlencoded']);
                 expect(response.result.produces).to.equal(['application/json', 'application/xml']);
                 expect(response.result.externalDocs).to.equal(swaggerOptions.externalDocs);
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -143,7 +143,7 @@ lab.experiment('builder', () => {
                     }
                 });
 
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -191,7 +191,7 @@ lab.experiment('builder', () => {
                     }
                 });
 
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -230,7 +230,7 @@ lab.experiment('builder', () => {
                     }
                 });
 
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });
@@ -277,7 +277,7 @@ lab.experiment('builder', () => {
                     }
                 });
 
-                done();
+                Helper.validate(response, done, expect);
             });
 
         });

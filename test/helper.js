@@ -8,6 +8,7 @@ const Vision = require('vision');
 const Wreck = require('wreck');
 const JWT = require('jsonwebtoken');
 const HapiSwagger = require('../lib/index.js');
+const Validate = require('../lib/validate.js');
 
 const helper = module.exports = {};
 
@@ -133,12 +134,12 @@ helper.createJWTAuthServer = function (swaggerOptions, routes, callback) {
     };
     const privateKey = 'hapi hapi joi joi';
     const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
-    const validate = function (decoded, request, callback) {
+    const validateJWT = function (decoded, request, next) {
 
         if (!people[decoded.id]) {
-            return callback(null, false);
+            return next(null, false);
         }
-        return callback(null, true, people[decoded.id]);
+        return next(null, true, people[decoded.id]);
     };
 
 
@@ -162,7 +163,7 @@ helper.createJWTAuthServer = function (swaggerOptions, routes, callback) {
 
         server.auth.strategy('jwt', 'jwt', {
             key: privateKey,
-            validateFunc: validate,
+            validateFunc: validateJWT,
             verifyOptions: { algorithms: ['HS256'] }
         });
 
@@ -361,4 +362,21 @@ helper.objWithNoOwnProperty = function () {
     };
     Triangle.prototype = sides;
     return new Triangle();
+};
+
+
+/**
+* checks the JSON response is a valid swagger document, then fires done()
+*
+* @param  {Object} response
+* @param  {Function} done
+* @param  {Function} expect
+*/
+helper.validate = function (response, done, expect) {
+
+    Validate.test(response.result, (err, status) => {
+        //console.log(status, err);
+        expect(status).to.equal(true);
+        done();
+    });
 };

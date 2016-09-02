@@ -169,7 +169,7 @@ lab.experiment('path', () => {
                 payloadType: 'form'
             }
         };
-        testRoutes.config.validate.payload = Joi.object({a: Joi.string().label('foo')});
+        testRoutes.config.validate.payload = Joi.object({ a: Joi.string().label('foo') });
 
         Helper.createServer({}, testRoutes, (err, server) => {
 
@@ -203,17 +203,17 @@ lab.experiment('path', () => {
             }
         },
 
-        Helper.createServer({}, testRoutes, (err, server) => {
+            Helper.createServer({}, testRoutes, (err, server) => {
 
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+                server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.equal(['multipart/form-data']);
-                done();
+                    expect(err).to.equal(null);
+                    //console.log(JSON.stringify(response.result));
+                    expect(response.statusCode).to.equal(200);
+                    expect(response.result.paths['/test'].post.consumes).to.equal(['multipart/form-data']);
+                    done();
+                });
             });
-        });
     });
 
 
@@ -227,11 +227,11 @@ lab.experiment('path', () => {
                     .description('json file')
             }
         },
-        testRoutes.config.plugins = {
-            'hapi-swagger': {
-                consumes: ['multipart/form-data']
-            }
-        };
+            testRoutes.config.plugins = {
+                'hapi-swagger': {
+                    consumes: ['multipart/form-data']
+                }
+            };
 
         Helper.createServer({}, testRoutes, (err, server) => {
 
@@ -256,11 +256,11 @@ lab.experiment('path', () => {
                     .description('json file')
             }
         },
-        testRoutes.config.plugins = {
-            'hapi-swagger': {
-                consumes: ['application/x-www-form-urlencoded']
-            }
-        };
+            testRoutes.config.plugins = {
+                'hapi-swagger': {
+                    consumes: ['application/x-www-form-urlencoded']
+                }
+            };
 
         Helper.createServer({}, testRoutes, (err, server) => {
 
@@ -341,7 +341,7 @@ lab.experiment('path', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.produces).to.equal(['application/json','application/vnd.api+json']);
+                expect(response.result.paths['/test'].post.produces).to.equal(['application/json', 'application/vnd.api+json']);
                 done();
             });
         });
@@ -475,7 +475,7 @@ lab.experiment('path', () => {
                     }
                 }
             }
-        },{
+        }, {
             method: 'POST',
             path: '/server/2/{c}/{d?}',
             config: {
@@ -488,7 +488,7 @@ lab.experiment('path', () => {
                     }
                 }
             }
-        },{
+        }, {
             method: 'POST',
             path: '/server/3/{e}/{f?}',
             config: {

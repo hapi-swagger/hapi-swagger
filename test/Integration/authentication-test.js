@@ -68,7 +68,7 @@ lab.experiment('default `auth` settings', () => {
             url: '/documentation'
         };
 
-        Helper.createJWTAuthServer({auth: undefined}, routes, (err, server) => {
+        Helper.createJWTAuthServer({ auth: undefined }, routes, (err, server) => {
 
             server.inject(requestOptions, function (response) {
 
@@ -136,7 +136,7 @@ lab.experiment('authentication', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -157,7 +157,7 @@ lab.experiment('authentication', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });

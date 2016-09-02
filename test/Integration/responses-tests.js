@@ -112,7 +112,7 @@ lab.experiment('responses', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.paths['/store/'].post.responses).to.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -151,7 +151,7 @@ lab.experiment('responses', () => {
                 expect(err).to.equal(null);
                 expect(response.result.definitions.List).to.exist();
                 expect(response.result.definitions.Sum).to.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -194,7 +194,7 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
                 expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
                 expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -237,7 +237,7 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
                 expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
                 expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -275,7 +275,7 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
                 expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -317,7 +317,7 @@ lab.experiment('responses', () => {
                     '$ref': '#/definitions/Result',
                     'type': 'object'
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
 
@@ -399,9 +399,7 @@ lab.experiment('responses', () => {
                 });
                 expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
                 expect(response.result.definitions.HTTP400).exists();
-
-
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -441,7 +439,7 @@ lab.experiment('responses', () => {
                         'description': 'Successful'
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -542,7 +540,7 @@ lab.experiment('responses', () => {
                         }
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
 
@@ -573,7 +571,7 @@ lab.experiment('responses', () => {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(response.result.definitions.labelA).to.exist();
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -631,7 +629,7 @@ lab.experiment('responses', () => {
                         }
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -690,7 +688,7 @@ lab.experiment('responses', () => {
                         }
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -742,7 +740,7 @@ lab.experiment('responses', () => {
                         }
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -797,7 +795,7 @@ lab.experiment('responses', () => {
                         }
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -850,7 +848,7 @@ lab.experiment('responses', () => {
                         }
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
@@ -939,18 +937,9 @@ lab.experiment('responses', () => {
                         }
                     }
                 });
-                done();
+                Helper.validate(response, done, expect);
             });
         });
     });
-
-
-
-
-
-
-
-
-
 
 });
