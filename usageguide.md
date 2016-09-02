@@ -1,4 +1,4 @@
-# 7.0.0 Usage Guide
+# 7.1.0 Usage Guide
 
 ### Content
 * [Naming](#naming)
@@ -16,6 +16,7 @@
 * [Simplifying the JSON](#simplifying-the-json)
 * [Debugging](#debugging)
 * [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger])
+* [Known issues with `jsonEditor`](#known-issues-with-jsonEditor)
 * [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
 
 ### Links
@@ -425,7 +426,9 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 * __`payload: function (value, options, next) {next(null, value);}`__  The use of custom functions to validate pramaters is not support beyond replacing them with an emtpy model call "Hidden Model".
 
 
-
+# Known issues with `jsonEditor`
+The `jsonEditor` is a new option in the latest version of SwaggerUI. It can provide a much enchanced UI, but I have found a few issues where it does not render correctly and can stop the rest of the UI from displaying.
+* Starting a JOI schema as an `Joi.array()` for a `payload` or  `response` object can cause the UI to break with the browser JavaScript error message `Uncaught TypeError: Cannot read property 'required' of undefined`.
 
 
 

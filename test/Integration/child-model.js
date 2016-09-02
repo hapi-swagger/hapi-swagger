@@ -109,16 +109,19 @@ lab.experiment('child-models', () => {
                 expect(response.statusCode).to.equal(200);
 
                 expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/Model 1'
+                    '$ref': '#/definitions/Model 1',
+                    'type': 'object'
                 });
 
                 expect(response.result.definitions['Model 1']).to.equal({
                     'properties': {
                         'outer1': {
-                            '$ref': '#/definitions/outer1'
+                            '$ref': '#/definitions/outer1',
+                            'type': 'object'
                         },
                         'outer2': {
-                            '$ref': '#/definitions/outer2'
+                            '$ref': '#/definitions/outer2',
+                            'type': 'object'
                         }
                     },
                     'type': 'object'
@@ -146,27 +149,67 @@ lab.experiment('child-models', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
+                //console.log(JSON.stringify(response.result.definitions));
                 expect(response.statusCode).to.equal(200);
 
                 expect(response.result.paths['/bar/objects'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/FooObjParent'
+                    '$ref': '#/definitions/FooObjParent',
+                    'type': 'object'
                 });
                 expect(response.result.paths['/bar/objects'].post.responses[200].schema).to.equal({
-                    '$ref': '#/definitions/FooObjParent'
+                    '$ref': '#/definitions/FooObjParent',
+                    'type': 'object'
                 });
-                expect(response.result.definitions.FooObjParent).to.exist();
-                expect(response.result.definitions.FooObj).to.exist();
+                expect(response.result.definitions.FooObjParent).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'FooObj': {
+                            '$ref': '#/definitions/FooObj',
+                            'type': 'object'
+                        }
+                    }
+                });
+                expect(response.result.definitions.FooObj).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'foo': {
+                            'type': 'string',
+                            'description': 'some foo'
+                        }
+                    }
+                });
 
 
                 expect(response.result.paths['/bar/arrays'].post.parameters[0].schema).to.equal({
+                    'type': 'array',
                     '$ref': '#/definitions/FooArrParent'
                 });
                 expect(response.result.paths['/bar/arrays'].post.responses[200].schema).to.equal({
+                    'type': 'array',
                     '$ref': '#/definitions/FooArrParent'
                 });
-                expect(response.result.definitions.FooArrParent).to.exist();
-                expect(response.result.definitions.FooArr).to.exist();
-                expect(response.result.definitions.FooArrObj).to.exist();
+                expect(response.result.definitions.FooArrParent).to.equal({
+                    'type': 'array',
+                    'items': {
+                        '$ref': '#/definitions/FooArr',
+                        'type': 'array'
+                    }
+                });
+                expect(response.result.definitions.FooArr).to.equal({
+                    'type': 'array',
+                    'items': {
+                        '$ref': '#/definitions/FooArrObj',
+                        'type': 'object'
+                    }
+                });
+                expect(response.result.definitions.FooArrObj).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'bar': {
+                            'type': 'string'
+                        }
+                    }
+                });
 
                 done();
             });

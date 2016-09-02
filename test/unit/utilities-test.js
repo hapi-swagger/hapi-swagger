@@ -94,6 +94,69 @@ lab.experiment('utilities', () => {
     });
 
 
+    lab.test('hasKey', (done) => {
+
+        expect(Utilities.hasKey({}, 'x')).to.equal(false);
+        expect(Utilities.hasKey([], 'x')).to.equal(false);
+        expect(Utilities.hasKey(null, 'x')).to.equal(false);
+        expect(Utilities.hasKey(undefined, 'x')).to.equal(false);
+
+        expect(Utilities.hasKey({ x: 1 }, 'x')).to.equal(true);
+        expect(Utilities.hasKey({ a: { x: 1 } }, 'x')).to.equal(true);
+        expect(Utilities.hasKey({ a: { b: { x: 1 } } }, 'x')).to.equal(true);
+        expect(Utilities.hasKey({ x: 1, z: 2 }, 'x')).to.equal(true);
+        expect(Utilities.hasKey({ xx: 1 }, 'x')).to.equal(false);
+
+        expect(Utilities.hasKey([{ x: 1 }], 'x')).to.equal(true);
+        expect(Utilities.hasKey({ a: [{ x: 1 }] }, 'x')).to.equal(true);
+
+
+        expect(Utilities.hasKey( Helper.objWithNoOwnProperty(), 'x' )).to.equal(false);
+        expect(Utilities.hasKey({ a: {} }, 'x')).to.equal(false);
+
+        done();
+    });
+
+
+    lab.test('findAndRenameKey', (done) => {
+
+        expect(Utilities.findAndRenameKey({}, 'x', 'y')).to.equal({});
+        expect(Utilities.findAndRenameKey([], 'x', 'y')).to.equal([]);
+        expect(Utilities.findAndRenameKey(null, 'x', 'y')).to.equal(null);
+        expect(Utilities.findAndRenameKey(undefined, 'x', 'y')).to.equal(undefined);
+
+        expect(Utilities.findAndRenameKey({ x: 1 }, 'x', 'y')).to.equal({ y: 1 });
+        expect(Utilities.findAndRenameKey({ a: { x: 1 } }, 'x', 'y')).to.equal({ a: { y: 1 } });
+        expect(Utilities.findAndRenameKey({ a: { b: { x: 1 } } }, 'x', 'y')).to.equal({ a: { b: { y: 1 } } });
+        expect(Utilities.findAndRenameKey({ x: 1, z: 2 }, 'x', 'y')).to.equal({ y: 1, z: 2 });
+        expect(Utilities.findAndRenameKey({ xx: 1 }, 'x', 'y')).to.equal({ xx: 1 });
+
+        expect(Utilities.findAndRenameKey([{ x: 1 }], 'x', 'y')).to.equal([{ y: 1 }]);
+        expect(Utilities.findAndRenameKey({ a: [{ x: 1 }] }, 'x', 'y')).to.equal({ a: [{ y: 1 }] });
+
+
+        expect(Utilities.findAndRenameKey({ x: 1 }, 'x', null)).to.equal({});
+        expect(Utilities.findAndRenameKey({ x: 1, z: 2 }, 'x', null)).to.equal({ z: 2 });
+
+
+        expect(Utilities.findAndRenameKey( Helper.objWithNoOwnProperty(), 'x', 'y' )).to.equal({});
+
+        done();
+    });
+
+
+
+    lab.test('removeProps', (done) => {
+
+        expect(Utilities.removeProps({'a': 1, 'b': 2}, ['a'])).to.equal({'a': 1});
+        expect(Utilities.removeProps({'a': 1, 'b': 2}, ['a','b'])).to.equal({'a': 1, 'b': 2});
+        expect(Utilities.removeProps({'a': 1, 'b': 2}, ['c'])).to.equal({});
+        expect(Utilities.removeProps( Helper.objWithNoOwnProperty(), ['b'] )).to.equal({});
+
+        done();
+    });
+
+
     lab.test('isJoi', (done) => {
 
         expect(Utilities.isJoi({})).to.equal(false);

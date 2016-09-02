@@ -145,14 +145,17 @@ lab.experiment('alternatives', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Alt'
+                            '$ref': '#/definitions/Alt',
+                            'type': 'object'
                         },
                         'x-alternatives': [
                             {
-                                '$ref': '#/x-alt-definitions/alt1'
+                                '$ref': '#/x-alt-definitions/alt1',
+                                'type': 'object'
                             },
                             {
-                                '$ref': '#/x-alt-definitions/alt2'
+                                '$ref': '#/x-alt-definitions/alt2',
+                                'type': 'object'
                             }
                         ]
                     }
@@ -163,12 +166,15 @@ lab.experiment('alternatives', () => {
                     '200': {
                         'schema': {
                             '$ref': '#/definitions/Alt',
+                            'type': 'object',
                             'x-alternatives': [
                                 {
-                                    '$ref': '#/x-alt-definitions/alt1'
+                                    '$ref': '#/x-alt-definitions/alt1',
+                                    'type': 'object'
                                 },
                                 {
-                                    '$ref': '#/x-alt-definitions/alt2'
+                                    '$ref': '#/x-alt-definitions/alt2',
+                                    'type': 'object'
                                 }
                             ]
                         },
@@ -220,9 +226,11 @@ lab.experiment('alternatives', () => {
                         },
                         'Extra': {
                             '$ref': '#/definitions/Dimensions',
+                            'type': 'object',
                             'x-alternatives': [
                                 {
-                                    '$ref': '#/x-alt-definitions/Dimensions'
+                                    '$ref': '#/x-alt-definitions/Dimensions',
+                                    'type': 'object'
                                 }
                             ]
                         }
@@ -260,7 +268,8 @@ lab.experiment('alternatives', () => {
                         'name': 'body',
                         'in': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Alt'
+                            '$ref': '#/definitions/Alt',
+                            'type': 'object'
                         }
                     }
                 ]);
@@ -270,7 +279,8 @@ lab.experiment('alternatives', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Model 1'
+                            '$ref': '#/definitions/Model 1',
+                            'type': 'object'
                         }
                     }
                 ]);
@@ -312,7 +322,8 @@ lab.experiment('alternatives', () => {
                                 'type': 'string'
                             },
                             'Extra': {
-                                '$ref': '#/definitions/Dimensions'
+                                '$ref': '#/definitions/Dimensions',
+                                'type': 'object'
                             }
                         },
                         'type': 'object'

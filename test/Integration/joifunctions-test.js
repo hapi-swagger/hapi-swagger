@@ -67,7 +67,8 @@ lab.experiment('validation', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Hidden Model'
+                            '$ref': '#/definitions/Hidden Model',
+                            'type': 'object'
                         }
                     }
                 ]);

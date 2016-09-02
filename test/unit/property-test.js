@@ -45,24 +45,27 @@ lab.experiment('property - ', () => {
         done();
     });
 
+    // parseProperty(name, joiObj, parameterType, useDefinitions, isAlt)
 
     lab.test('parse types', (done) => {
 
         clearDown();
-        expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, true, false)).to.equal({ '$ref': '#/definitions/x' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, true, false)).to.equal({ '$ref': '#/definitions/x', 'type': 'object' });
         expect(propertiesNoAlt.parseProperty('x', Joi.string(), null, true, false)).to.equal({ 'type': 'string' });
         expect(propertiesNoAlt.parseProperty('x', Joi.number(), null, true, false)).to.equal({ 'type': 'number' });
         expect(propertiesNoAlt.parseProperty('x', Joi.boolean(), null, true, false)).to.equal({ 'type': 'boolean' });
         expect(propertiesNoAlt.parseProperty('x', Joi.date(), null, true, false)).to.equal({ 'type': 'string', 'format': 'date' });
         expect(propertiesNoAlt.parseProperty('x', Joi.binary(), null, true, false)).to.equal({ 'type': 'string', 'format': 'binary' });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, true, false)).to.equal({ '$ref': '#/definitions/Model 1' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, true, false)).to.equal({ '$ref': '#/definitions/Model 1', 'type': 'array' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.any(), null, true, false)).to.equal({ 'type': 'string' });
+        //expect(propertiesNoAlt.parseProperty('x', Joi.func(), null, true, false)).to.equal({ 'type': 'string' });
 
         done();
     });
 
 
 
-    lab.test('parse types with useDefinitions=true', (done) => {
+    lab.test('parse types with useDefinitions=false', (done) => {
 
         clearDown();
         expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, false, false)).to.equal({ 'type': 'object' });
@@ -71,12 +74,7 @@ lab.experiment('property - ', () => {
         expect(propertiesNoAlt.parseProperty('x', Joi.boolean(), null, false, false)).to.equal({ 'type': 'boolean' });
         expect(propertiesNoAlt.parseProperty('x', Joi.date(), null, false, false)).to.equal({ 'type':'string','format':'date' });
         expect(propertiesNoAlt.parseProperty('x', Joi.binary(), null, false, false)).to.equal({ 'type':'string','format':'binary' });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, false, false)).to.equal({
-            'type': 'array',
-            'items': {
-                'type': 'string'
-            }
-        });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': {'type': 'string'}});
 
         done();
     });
@@ -86,7 +84,7 @@ lab.experiment('property - ', () => {
 
         clearDown();
         expect(propertiesNoAlt.parseProperty('x', Joi.string().description('this is bob'), null, true, false )).to.equal({ 'type': 'string', 'description': 'this is bob' });
-        expect(propertiesAlt.parseProperty('x', Joi.string().example('bob'), null, true, true )).to.equal({ 'type': 'string', 'x-example': 'bob' });
+        expect(propertiesAlt.parseProperty('x', Joi.string().example('bob'), null, true, true )).to.equal({ 'type': 'string', 'example': 'bob' });
 
         done();
     });
@@ -98,6 +96,9 @@ lab.experiment('property - ', () => {
         // TODO add all meta data properties
         expect(propertiesAlt.parseProperty('x', Joi.string().meta({ 'x': 'y' }), null, true, true )).to.equal({ 'type': 'string', 'x-meta': { 'x': 'y' } });
         expect(propertiesNoAlt.parseProperty('x', Joi.string().forbidden(), null, true, false )).to.equal(undefined);
+        expect(propertiesNoAlt.parseProperty('x', Joi.string().required(), null, true, false)).to.equal({ 'type': 'string', 'required': true });
+        expect(propertiesNoAlt.parseProperty('x', Joi.any().required(), null, true, false)).to.equal({ 'type': 'string', 'required': true });
+        expect(propertiesNoAlt.parseProperty('x', Joi.any().forbidden(), null, true, false )).to.equal(undefined);
         expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b']), null, true, false )).to.equal({ type: 'string', enum: ['a', 'b'] });
         expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b', '']), null, true, false )).to.equal({ type: 'string', enum: ['a', 'b'] });
         expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b', null]), null, true, false )).to.equal({ type: 'string', enum: ['a', 'b'] });
@@ -237,43 +238,33 @@ lab.experiment('property - ', () => {
         //console.log(JSON.stringify(propertiesNoAlt.parseProperty('x', Joi.array(), null, false, false)));
 
         // basic child types
-        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.object()), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'object' } });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.string()), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.number()), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'number' } });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.boolean()), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'boolean' } });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.date()), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string', 'format': 'date' } });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.binary()), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string', 'format': 'binary' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.object()), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'object' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.string()), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.number()), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'number' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.boolean()), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'boolean' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.date()), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string', 'format': 'date' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.binary()), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string', 'format': 'binary' } });
 
         // complex child types - arrays and objects
 
+
         clearDown();
-        //console.log(JSON.stringify(propertiesNoAlt.parseProperty('x', Joi.array().items({ 'text': Joi.string() }), 'formData', true, false)));
+       // console.log(JSON.stringify(propertiesNoAlt.parseProperty('x', Joi.array().items({ 'text': Joi.string() }), 'formData', true, false)));
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.string()), 'formData', true, false)).to.equal({
+            '$ref': '#/definitions/x',
+            'type': 'array'
+        });
         //console.log(JSON.stringify(definitionCollection));
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items({ 'text': Joi.string() }), 'formData', true, false)).to.equal({
-            '$ref': '#/definitions/x'
-        });
-        expect(definitionCollection.x).to.equal({
-            'type': 'array',
-            'items': {
-                '$ref': '#/definitions/Model 1'
-            },
-            'collectionFormat': 'multi'
-        });
-
-
-
-        clearDown();
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.object({ 'text': Joi.string() })), 'query', true, false)).to.equal({
-            '$ref': '#/definitions/x'
-        });
-        expect(definitionCollection.x).to.equal({
-            'type': 'array',
-            'items': {
-                '$ref': '#/definitions/Model 1'
-            },
-            'collectionFormat': 'multi'
+        expect(definitionCollection).to.equal({
+            'x': {
+                'type': 'array',
+                'items': {
+                    'type': 'string'
+                },
+                'collectionFormat': 'multi'
+            }
         });
 
 
@@ -286,17 +277,17 @@ lab.experiment('property - ', () => {
 
 
         // mapped direct to openapi
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().min(5), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'minItems': 5 });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().max(10), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'maxItems': 10 });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().min(5), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'minItems': 5 });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().max(10), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'maxItems': 10 });
 
         // x-* mappings
-        expect(propertiesAlt.parseProperty('x', Joi.array().sparse(), null, false, true)).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'sparse': true } });
-        expect(propertiesAlt.parseProperty('x', Joi.array().single(), null, false, true)).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'single': true } });
-        expect(propertiesAlt.parseProperty('x', Joi.array().length(2), null, false, true)).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'length': 2 } });
-        expect(propertiesAlt.parseProperty('x', Joi.array().unique(), null, false, true)).to.equal({ 'type': 'array', 'items': { 'type': 'string' }, 'x-constraint': { 'unique': true } });
+        expect(propertiesAlt.parseProperty('x', Joi.array().sparse(), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'sparse': true } });
+        expect(propertiesAlt.parseProperty('x', Joi.array().single(), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'single': true } });
+        expect(propertiesAlt.parseProperty('x', Joi.array().length(2), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'length': 2 } });
+        expect(propertiesAlt.parseProperty('x', Joi.array().unique(), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'unique': true } });
 
         // test options.xProperties = false
-        expect(propertiesNoAlt.parseProperty('x', Joi.array().sparse(), null, false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string' } });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().sparse(), null, false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' } });
 
         done();
 
@@ -311,6 +302,7 @@ lab.test('parse type object', (done) => {
     expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, false, false)).to.equal({ 'type': 'object' });
     expect(propertiesNoAlt.parseProperty('x', Joi.object().keys(), null, false, false)).to.equal({ 'type': 'object' });
     expect(propertiesNoAlt.parseProperty('x', Joi.object().keys({ a: Joi.string() }), null, false, false)).to.equal({
+        'name': 'x',
         'type': 'object',
         'properties': {
             'a': {
@@ -319,6 +311,7 @@ lab.test('parse type object', (done) => {
         }
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, false, false)).to.equal({
+        'name': 'x',
         'type': 'object',
         'properties': {
             'a': {
@@ -366,6 +359,7 @@ lab.experiment('property deep - ', () => {
             'type': 'object',
             'properties': {
                 'outer1': {
+                    'name': 'outer1',
                     'type': 'object',
                     'properties': {
                         'inner1': {
@@ -383,6 +377,7 @@ lab.experiment('property deep - ', () => {
                     }
                 },
                 'outer2': {
+                    'name': 'outer2',
                     'type': 'object',
                     'properties': {
                         'inner2': {

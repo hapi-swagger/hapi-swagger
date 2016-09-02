@@ -214,7 +214,8 @@ lab.experiment('proxies', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Model 1'
+                            '$ref': '#/definitions/Model 1',
+                            'type': 'object'
                         }
                     }
                 ]);
@@ -265,7 +266,8 @@ lab.experiment('proxies', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/testname'
+                            '$ref': '#/definitions/testname',
+                            'type': 'object'
                         }
                     }
                 ]);

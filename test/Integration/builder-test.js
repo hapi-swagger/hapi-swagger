@@ -136,7 +136,8 @@ lab.experiment('builder', () => {
                                 'type': 'string'
                             },
                             'array': {
-                                '$ref': '#/definitions/array'
+                                '$ref': '#/definitions/array',
+                                'type': 'array'
                             }
                         }
                     }
@@ -183,7 +184,8 @@ lab.experiment('builder', () => {
                                 }
                             },
                             'array': {
-                                '$ref': '#/definitions/array'
+                                '$ref': '#/definitions/array',
+                                'type': 'array'
                             }
                         }
                     }
@@ -217,10 +219,12 @@ lab.experiment('builder', () => {
                         'type': 'object',
                         'properties': {
                             'a': {
-                                '$ref': '#/definitions/a'
+                                '$ref': '#/definitions/a',
+                                'type': 'object'
                             },
                             'b': {
-                                '$ref': '#/definitions/a'
+                                '$ref': '#/definitions/a',
+                                'type': 'object'
                             }
                         }
                     }
@@ -262,10 +266,12 @@ lab.experiment('builder', () => {
                         'type': 'object',
                         'properties': {
                             'a': {
-                                '$ref': '#/definitions/a'
+                                '$ref': '#/definitions/a',
+                                'type': 'object'
                             },
                             'b': {
-                                '$ref': '#/definitions/b'
+                                '$ref': '#/definitions/b',
+                                'type': 'object'
                             }
                         }
                     }

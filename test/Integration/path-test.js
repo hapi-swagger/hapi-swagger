@@ -161,6 +161,37 @@ lab.experiment('path', () => {
 
 
 
+    lab.test('rename a parameter', (done) => {
+
+        let testRoutes = Hoek.clone(routes);
+        testRoutes.config.plugins = {
+            'hapi-swagger': {
+                payloadType: 'form'
+            }
+        };
+        testRoutes.config.validate.payload = Joi.object({a: Joi.string().label('foo')});
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/test'].post.parameters).to.equal([
+                    {
+                        'type': 'string',
+                        'name': 'foo',
+                        'in': 'formData'
+                    }
+                ]);
+                done();
+            });
+        });
+    });
+
+
+
     lab.test('auto "multipart/form-data" consumes with { swaggerType: "file" }', (done) => {
 
         let testRoutes = Hoek.clone(routes);

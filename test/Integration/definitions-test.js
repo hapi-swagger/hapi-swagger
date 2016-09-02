@@ -110,7 +110,8 @@ lab.experiment('definitions', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/Model 1'
+                    '$ref': '#/definitions/Model 1',
+                    'type': 'object'
                 });
                 expect(response.result.definitions['Model 1']).to.equal(defination);
                 done();
