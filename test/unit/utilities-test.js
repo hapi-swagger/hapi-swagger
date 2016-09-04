@@ -77,6 +77,10 @@ lab.experiment('utilities', () => {
         expect(Utilities.deleteEmptyProperties({ 'name': null })).to.equal({});
         expect(Utilities.deleteEmptyProperties({ 'name': undefined })).to.equal({});
         expect(Utilities.deleteEmptyProperties({ 'name': [] })).to.equal({});
+        expect(Utilities.deleteEmptyProperties({ 'name': {} })).to.equal({});
+
+        expect(Utilities.deleteEmptyProperties({ 'example': [], default: [] })).to.equal({ 'example': [], default: [] });
+        expect(Utilities.deleteEmptyProperties({ 'example': {}, default: {} })).to.equal({ 'example': {}, default: {} });
         // this needs JSON.stringify to compare outputs
         expect(JSON.stringify(Utilities.deleteEmptyProperties(Helper.objWithNoOwnProperty()))).to.equal('{}');
         done();

@@ -121,6 +121,7 @@ lab.experiment('property - ', () => {
             'pattern': '/^[a-zA-Z0-9]{3,30}/'
         });
 
+        expect(propertiesAlt.parseProperty('x', Joi.string().length(0, 'utf8'), null, true, true)).to.equal({ 'type': 'string', 'x-constraint': { 'length': 0 } });
         expect(propertiesAlt.parseProperty('x', Joi.string().length(20, 'utf8'), null, true, true)).to.equal({ 'type': 'string', 'x-constraint': { 'length': 20 } });
         //expect(propertiesNoAlt.parseProperty('x', Joi.string().insensitive())).to.equal({ 'type': 'string', 'x-constraint': { 'insensitive': true } });
 
@@ -287,6 +288,7 @@ lab.experiment('property - ', () => {
         // x-* mappings
         expect(propertiesAlt.parseProperty('x', Joi.array().sparse(), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'sparse': true } });
         expect(propertiesAlt.parseProperty('x', Joi.array().single(), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'single': true } });
+        expect(propertiesAlt.parseProperty('x', Joi.array().length(0), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'length': 0 } });
         expect(propertiesAlt.parseProperty('x', Joi.array().length(2), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'length': 2 } });
         expect(propertiesAlt.parseProperty('x', Joi.array().unique(), null, false, true)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'x-constraint': { 'unique': true } });
 
