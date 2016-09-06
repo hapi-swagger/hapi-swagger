@@ -163,7 +163,7 @@ lab.experiment('child-models', () => {
                 expect(response.result.definitions.FooObjParent).to.equal({
                     'type': 'object',
                     'properties': {
-                        'FooObj': {
+                        'foos': {
                             '$ref': '#/definitions/FooObj',
                             'type': 'object'
                         }

@@ -195,11 +195,11 @@ lab.experiment('alternatives', () => {
                     ]
                 });
 
-
+                //console.log(JSON.stringify(response.result.definitions['Model 1']));
                 expect(response.result.definitions['Model 1']).to.equal({
                     'type': 'object',
                     'properties': {
-                        'Type': {
+                        'type': {
                             'type': 'string',
                             'enum': [
                                 'string',
@@ -207,7 +207,7 @@ lab.experiment('alternatives', () => {
                                 'image'
                             ]
                         },
-                        'Typed Data': {
+                        'data': {
                             'type': 'string',
                             'x-alternatives': [
                                 {
@@ -224,7 +224,7 @@ lab.experiment('alternatives', () => {
                                 }
                             ]
                         },
-                        'Extra': {
+                        'extra': {
                             '$ref': '#/definitions/Dimensions',
                             'type': 'object',
                             'x-alternatives': [
@@ -310,7 +310,7 @@ lab.experiment('alternatives', () => {
                     },
                     'Model 1': {
                         'properties': {
-                            'Type': {
+                            'type': {
                                 'type': 'string',
                                 'enum': [
                                     'string',
@@ -318,10 +318,10 @@ lab.experiment('alternatives', () => {
                                     'image'
                                 ]
                             },
-                            'Typed Data': {
+                            'data': {
                                 'type': 'string'
                             },
-                            'Extra': {
+                            'extra': {
                                 '$ref': '#/definitions/Dimensions',
                                 'type': 'object'
                             }

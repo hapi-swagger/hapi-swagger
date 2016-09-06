@@ -48,7 +48,8 @@ method: 'POST',
 # Form body
 If you wish to have hapi-swagger display a interface to POST data in `form-urlencoded` format add the route option `payloadType: 'form'`.
 ```Javascript
-method: 'POST',
+{
+    method: 'POST',
     path: '/items',
     config: {
         handler: (request, reply) => { reply('OK'); },
@@ -72,7 +73,8 @@ method: 'POST',
 The plugin will take either a JavaScript or JOI object for `params` `query` and `headers` and build the correct interface.
 
 ```Javascript
-method: 'GET',
+{
+    method: 'GET',
     path: '/items/{pageNo}',
     config: {
         handler: (request, reply) => { reply('OK'); },

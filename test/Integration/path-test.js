@@ -182,7 +182,7 @@ lab.experiment('path', () => {
                 expect(response.result.paths['/test'].post.parameters).to.equal([
                     {
                         'type': 'string',
-                        'name': 'foo',
+                        'name': 'a',
                         'in': 'formData'
                     }
                 ]);

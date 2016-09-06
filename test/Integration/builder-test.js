@@ -295,7 +295,7 @@ lab.experiment('builder', () => {
 
                 logs = event.tags;
                 //console.log(event);
-                if(event.data === 'PASSED - The swagger.json validation passed.'){
+                if (event.data === 'PASSED - The swagger.json validation passed.') {
                     logs = event.tags;
                     done();
                 }
