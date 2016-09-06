@@ -375,8 +375,8 @@ helper.objWithNoOwnProperty = function () {
 helper.validate = function (response, done, expect) {
 
     Validate.test(response.result, (err, status) => {
-        expect(err).to.equal(null);
-        expect(status).to.equal(true);
+        //console.log(err,status);
+        expect(err).to.be.null();
         done();
     });
 };

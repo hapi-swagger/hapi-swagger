@@ -626,7 +626,8 @@ lab.experiment('responses', () => {
                         'items': {
                             '$ref': '#/definitions/datapoint',
                             'type': 'object'
-                        }
+                        },
+                        'required': ['datapoint']
                     }
                 });
                 Helper.validate(response, done, expect);
@@ -685,7 +686,8 @@ lab.experiment('responses', () => {
                         'items': {
                             '$ref': '#/definitions/datapoint',
                             'type': 'object'
-                        }
+                        },
+                        'required': ['datapoint']
                     }
                 });
                 Helper.validate(response, done, expect);

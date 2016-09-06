@@ -1,6 +1,9 @@
 # 7.1.0 Usage Guide
 
 ### Content
+* [JSON body](#json-body)
+* [Form body](#form-body)
+* [Params query and headers](#params-query-and-headers)
 * [Naming](#naming)
 * [Grouping endpoints with tags](#grouping-endpoints-with-tags)
 * [Ordering the endpoints within groups](#ordering-the-endpoints-within-groups)
@@ -24,10 +27,83 @@
 * [External example projects](#external-example-projects)
 
 
+# JSON body
+The most common API endpoint with HAPI.js is one that POST's a JSON body.
+```Javascript
+method: 'POST',
+    path: '/items',
+    config: {
+        handler: (request, reply) => { reply('OK'); },
+        tags: ['api'],
+        validate: {
+            payload: Joi.object({
+                a: Joi.number(),
+                b: Joi.nunber()
+            })
+        }
+    }
+}
+```
+
+# Form body
+If you wish to have hapi-swagger display a interface to POST data in `form-urlencoded` format add the route option `payloadType: 'form'`.
+```Javascript
+method: 'POST',
+    path: '/items',
+    config: {
+        handler: (request, reply) => { reply('OK'); },
+        tags: ['api'],
+        plugins: {
+            'hapi-swagger': {
+                payloadType: 'form'
+            }
+        },
+        validate: {
+            payload: Joi.object({
+                a: Joi.number(),
+                b: Joi.nunber()
+            })
+        }
+    }
+}
+```
+
+# Params query and headers
+The plugin will take either a JavaScript or JOI object for `params` `query` and `headers` and build the correct interface.
+
+```Javascript
+method: 'GET',
+    path: '/items/{pageNo}',
+    config: {
+        handler: (request, reply) => { reply('OK'); },
+        tags: ['api'],
+        validate: {
+            params: {
+                pageNo: Joi.number()
+            },
+            query: {
+                search: Joi.string()
+            }
+            headers: Joi.object({
+                'authorization': Joi.string().required()
+            }).unknown()
+        }
+
+    }
+}
+```
+There are a number of restriction for what types can be used for `params`, `query` and `headers`. The standard is a
+object with properties which are JOI objects. In example above you can see examples of native JavaScript objects for
+`params` and `query`. The `headers` uses a `Joi.object()` which is useful if you want to chain other JOI functions
+such as `unknown()`.
+
+Trying to use more complex types in `params`, `query` and `headers` such as `Joi.array()` or complex parent child
+`Joi.object()` structures may not work, in these cases pass the data in a JSON body object.
+
 
 # Naming
 There are times when you may wish to name a object so that its label in the Swagger UI make more sense to humans.
-This is most common when you have endpoints which process JSON objects. To label a object simply wrap it as a JOI object
+This is most common when you have endpoints which process JSON objects. To label a object wrap it as a JOI object
 and chain the `label` function as below. __You need to give different structures their own unique name.__
 ```Javascript
 validate: {

@@ -288,14 +288,17 @@ lab.experiment('builder', () => {
 
 lab.experiment('builder', () => {
 
-    // Need a better way to test this
     let logs = [];
     lab.before((done) => {
         Helper.createServer({ 'debug': true }, reuseModelsRoutes, (err, server) => {
             server.on('log', (event) => {
 
                 logs = event.tags;
-                done();
+                //console.log(event);
+                if(event.data === 'PASSED - The swagger.json validation passed.'){
+                    logs = event.tags;
+                    done();
+                }
             });
             server.inject({ method: 'GET', url: '/swagger.json' }, function () {
 
@@ -310,6 +313,7 @@ lab.experiment('builder', () => {
         expect(logs).to.equal(['hapi-swagger', 'validation', 'info']);
         done();
     });
+
 });
 
 

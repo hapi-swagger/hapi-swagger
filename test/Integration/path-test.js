@@ -4,6 +4,7 @@ const Joi = require('joi');
 const Hoek = require('hoek');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -524,25 +525,27 @@ lab.experiment('path', () => {
                         'required': true
                     }
                 ]);
-                expect(response.result.paths['/server/2/{c}/{d}'].post.parameters).to.equal([{
-                    'type': 'number',
-                    'in': 'path',
-                    'name': 'c'
-                }, {
-                    'type': 'string',
-                    'in': 'path',
-                    'name': 'd'
-                }]);
-                expect(response.result.paths['/server/3/{e}/{f}'].post.parameters).to.equal([{
-                    'required': true,
-                    'type': 'number',
-                    'in': 'path',
-                    'name': 'e'
-                }, {
-                    'type': 'string',
-                    'in': 'path',
-                    'name': 'f'
-                }]);
+                expect(response.result.paths['/server/2/{c}/{d}'].post.parameters).to.equal([
+                    {
+                        'type': 'number',
+                        'in': 'path',
+                        'name': 'c'
+                    }, {
+                        'type': 'string',
+                        'in': 'path',
+                        'name': 'd'
+                    }]);
+                expect(response.result.paths['/server/3/{e}/{f}'].post.parameters).to.equal([
+                    {
+                        'required': true,
+                        'type': 'number',
+                        'in': 'path',
+                        'name': 'e'
+                    }, {
+                        'type': 'string',
+                        'in': 'path',
+                        'name': 'f'
+                    }]);
                 done();
             });
         });
@@ -723,7 +726,81 @@ lab.experiment('path', () => {
     });
 
 
+    lab.test('stop emtpy objects creating parameter', (done) => {
+
+        let testRoutes = {
+            method: 'POST',
+            path: '/{name}',
+            config: {
+                handler: () => { },
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object()
+                }
+            }
+        };
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result.paths['/{name}'].post.parameters));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/{name}'].post.parameters).to.equal([
+                    {
+                        'in': 'body',
+                        'name': 'body',
+                        'schema': {
+                            'type': 'object',
+                            '$ref': '#/definitions/Model 1'
+                        }
+                    }
+                ]);
 
 
+                Validate.test(response.result, (err) => {
+                    expect(err).to.equal('Validation failed. /paths/{name}/post is missing path parameter(s) for {name}');
+                    done();
+                });
+            });
+        });
+    });
+
+
+
+    lab.test('stop emtpy formData object creating parameter', (done) => {
+
+        let testRoutes = {
+            method: 'POST',
+            path: '/',
+            config: {
+                handler: () => { },
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object()
+                },
+                plugins: {
+                    'hapi-swagger': {
+                        payloadType: 'form'
+                    }
+                }
+            }
+        };
+
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/'].post.parameters).to.not.exists();
+
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
 
 });
