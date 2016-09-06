@@ -1,4 +1,4 @@
-# 7.1.0 Options Reference
+# 7.2.0 Options Reference
 
 ## Plugin Options
 
