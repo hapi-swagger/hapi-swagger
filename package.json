@@ -41,6 +41,7 @@
     "hapi-api-version": "^1.1.0",
     "hapi-auth-bearer-token": "^4.0.2",
     "hapi-auth-jwt2": "^7.0.1",
+    "hapi-auth-basic": "^4.2.0",
     "inert": "^4.0.1",
     "js2xmlparser": "^1.0.0",
     "lab": "^10.9.0",

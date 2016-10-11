@@ -17,7 +17,3 @@ npm-debug.log
 .DS_Store
 .vscode
 .coveralls.yml
-
-bin/bearer.js
-bin/upload-file.js
-bin/upload-file-large.js

@@ -98,7 +98,7 @@
                 {{/if}}
             },
             onFailure: function (data) {
-                log("Unable to Load SwaggerUI");
+                log("Unable to Load SwaggerUI", data);
             },
             docExpansion: "{{hapiSwagger.expanded}}",
             apisSorter: apisSorter.{{hapiSwagger.sortTags}},
