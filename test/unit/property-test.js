@@ -457,3 +457,17 @@ lab.experiment('property deep - ', () => {
 
     });
 });
+
+lab.experiment('joi extension - ', () => {
+    lab.test('custom joi extension', (done) => {
+
+        clearDown();
+        const extension = Joi.extend({
+            base: Joi.string(),
+            name: 'custom'
+        });
+        expect(propertiesNoAlt.parseProperty('x', extension.custom(), null, 'body', true, false)).to.equal({ 'type': 'string' });
+        done();
+    });
+});
+
