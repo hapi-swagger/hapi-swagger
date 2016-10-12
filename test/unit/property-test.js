@@ -213,6 +213,14 @@ lab.experiment('property - ', () => {
     });
 
 
+    lab.test('parse type date timestamp', (done) => {
+
+        clearDown();
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().timestamp(), null, 'body', true, false)).to.equal({ 'type': 'number' });
+        done();
+    });
+
+
     lab.test('parse type number', (done) => {
 
         clearDown();
