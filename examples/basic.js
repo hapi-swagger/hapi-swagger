@@ -33,6 +33,7 @@ const users = {
 
 // bring your own validation function
 var validate = function (request, username, password, callback) {
+
     const user = users[username];
     if (!user) {
         return callback(null, false);
@@ -46,13 +47,14 @@ var validate = function (request, username, password, callback) {
 var server = new Hapi.Server();
 server.connection({
     host: 'localhost',
-    port: 8000
+    port: 3000
 });
 
 
 server.register([
-    Basic,
+    Basic
 ], function (err) {
+
     if (err) {
         console.log(err);
     }

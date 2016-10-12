@@ -50,7 +50,7 @@ var validate = function (decoded, request, callback) {
 var server = new Hapi.Server();
 server.connection({
     host: 'localhost',
-    port: 8000
+    port: 3000
 });
 
 
