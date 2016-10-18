@@ -190,4 +190,48 @@ lab.experiment('definitions', () => {
         });
     });
 
+
+    lab.test('test that optional array is not in swagger output', (done) => {
+
+        let testRoutes = [{
+            method: 'POST',
+            path: '/server/1/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object({
+                        a: Joi.number().required(),
+                        b: Joi.string().optional()
+                    }).label('test')
+                }
+            }
+        }];
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.definitions.test).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'a': {
+                            'type': 'number'
+                        },
+                        'b': {
+                            'type': 'string'
+                        }
+                    },
+                    'required': [
+                        'a'
+                    ]
+                });
+                done();
+            });
+        });
+    });
+
+
 });
