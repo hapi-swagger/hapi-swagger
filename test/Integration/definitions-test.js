@@ -140,7 +140,7 @@ lab.experiment('definitions', () => {
         });
     });
 
-    lab.test('reuseModels = false', (done) => {
+    lab.test('reuseDefinitions = false', (done) => {
 
         // forces two models even though the model hash is the same
 
@@ -176,7 +176,7 @@ lab.experiment('definitions', () => {
             }
         }];
 
-        Helper.createServer({ reuseModels: false }, tempRoutes, (err, server) => {
+        Helper.createServer({ reuseDefinitions: false }, tempRoutes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {

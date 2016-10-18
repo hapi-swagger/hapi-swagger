@@ -198,9 +198,9 @@ lab.experiment('builder', () => {
     });
 
 
-    lab.test('reuseModels : true', (done) => {
+    lab.test('reuseDefinitions : true', (done) => {
 
-        Helper.createServer({ 'reuseModels': true }, reuseModelsRoutes, (err, server) => {
+        Helper.createServer({ 'reuseDefinitions': true }, reuseModelsRoutes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -237,9 +237,9 @@ lab.experiment('builder', () => {
     });
 
 
-    lab.test('reuseModels : false', (done) => {
+    lab.test('reuseDefinitions : false', (done) => {
 
-        Helper.createServer({ 'reuseModels': false }, reuseModelsRoutes, (err, server) => {
+        Helper.createServer({ 'reuseDefinitions': false }, reuseModelsRoutes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
