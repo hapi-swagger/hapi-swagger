@@ -285,10 +285,8 @@ lab.experiment('property - ', () => {
         // TODO
         // Joi.array().items(Joi.array().items(Joi.string())
 
-
-
-
-
+        // make sure type features such as string().min(1)in array items are past into JSON
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.string().min(1)), null, 'body', false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string', 'minLength': 1 }, 'name': 'x' });
 
         // mapped direct to openapi
         expect(propertiesNoAlt.parseProperty('x', Joi.array().min(5), null, 'body', false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'minItems': 5 });
