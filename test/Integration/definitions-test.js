@@ -234,4 +234,58 @@ lab.experiment('definitions', () => {
     });
 
 
+    lab.test('test that name changing for required', (done) => {
+
+
+        const FormDependencyDefinition = Joi.object({
+            id: Joi.number().required()
+        }).label('FormDependencyDefinition');
+
+        const ActionDefinition = Joi.object({
+            id: Joi.number().required().allow(null),
+            reminder: FormDependencyDefinition.required()
+        }).label('ActionDefinition');
+
+
+        let testRoutes = [{
+            method: 'POST',
+            path: '/server/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: ActionDefinition
+                }
+            }
+        }];
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.definitions.ActionDefinition).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'id': {
+                            'type': 'number'
+                        },
+                        'reminder': {
+                            '$ref': '#/definitions/FormDependencyDefinition',
+                            'type': 'object'
+                        }
+                    },
+                    'required': [
+                        'id',
+                        'reminder'
+                    ]
+                });
+                done();
+            });
+        });
+    });
+
+
+
 });
