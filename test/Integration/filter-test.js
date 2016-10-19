@@ -33,6 +33,13 @@ lab.experiment('filter', () => {
         }
     }, {
         method: 'GET',
+        path: '/movies/movie/director',
+        handler: Helper.defaultHandler,
+        config: {
+            tags: ['api', 'a']
+        }
+    },{
+        method: 'GET',
         path: '/movies/movie/actor',
         handler: Helper.defaultHandler,
         config: {
@@ -57,7 +64,7 @@ lab.experiment('filter', () => {
 
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(2);
+                expect(response.result.paths).to.have.length(3);
                 Helper.validate(response, done, expect);
             });
 
@@ -65,7 +72,7 @@ lab.experiment('filter', () => {
     });
 
 
-    lab.test('filter by tags=a', (done) => {
+    lab.test('filter by tags=a,b,c,d', (done) => {
 
         Helper.createServer({}, routes, (err, server) => {
 
@@ -74,7 +81,7 @@ lab.experiment('filter', () => {
 
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(4);
+                expect(response.result.paths).to.have.length(5);
                 Helper.validate(response, done, expect);
             });
 
@@ -91,7 +98,7 @@ lab.experiment('filter', () => {
 
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(3);
+                expect(response.result.paths).to.have.length(4);
                 Helper.validate(response, done, expect);
             });
 
@@ -105,6 +112,24 @@ lab.experiment('filter', () => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json?tags=a,-b' }, function (response) {
+
+                //console.log(JSON.stringify(response.result.paths));
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths).to.have.length(2);
+                Helper.validate(response, done, expect);
+            });
+
+        });
+    });
+
+
+    lab.test('filter by tags=a,+b', (done) => {
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            // note %2B is a '+' plus char url encoded
+            server.inject({ method: 'GET', url: '/swagger.json?tags=a,%2Bb' }, function (response) {
 
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
@@ -122,7 +147,7 @@ lab.experiment('filter', () => {
 
             expect(err).to.equal(null);
             // note %2B is a '+' plus char url encoded
-            server.inject({ method: 'GET', url: '/swagger.json?tags=a,%2Bb' }, function (response) {
+            server.inject({ method: 'GET', url: '/swagger.json?tags=a,%2Bc' }, function (response) {
 
                 //console.log(JSON.stringify(response.result.paths));
                 expect(response.statusCode).to.equal(200);
@@ -139,7 +164,6 @@ lab.experiment('filter', () => {
         Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
-            // note %2B is a '+' plus char url encoded
             server.inject({ method: 'GET', url: '/swagger.json?tags=x' }, function (response) {
 
                 //console.log(JSON.stringify(response.result.paths));
