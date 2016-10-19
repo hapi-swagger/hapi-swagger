@@ -1,4 +1,4 @@
-# 7.2.0 Usage Guide
+# 7.4.0 Usage Guide
 
 ### Content
 * [JSON body](#json-body)
@@ -187,7 +187,7 @@ There are time you may wish to modified now groups and endpoint paths are displa
 Ther are two ways to change to do this:
 
 ### Option 1 `basePath` and `pathPrefixSize`
-Yu can use the plugin options `basePath` and `pathPrefixSize` to trim what path information is shown in the documentation.
+You can use the plugin options `basePath` and `pathPrefixSize` to trim what path information is shown in the documentation.
 This will not change the API endpoint URL only the path information in the documentation.
 
 ```
@@ -216,7 +216,7 @@ Example of removing version numbers from both paths and groups ie `v2` or `v3`
 * `pattern` (regex) patten for matching
 * `replacement` (string) replacement string
 
-There is a example of this feature  [`dot-grouping.js`](examples/ddot-grouping.js) in the examples directory.
+There is a example of this feature  [`dot-grouping.js`](examples/dot-grouping.js) in the examples directory.
 
 
 
