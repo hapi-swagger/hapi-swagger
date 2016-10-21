@@ -8,6 +8,24 @@ var clientSecret;
 var scopeSeparator;
 var additionalQueryStringParams;
 
+function groupScopeByOAuthScheme(scopes) {
+  var scopeByOAuthScheme = [];
+  scopes.forEach(function(scope) {
+    var OAuthScheme = scopeByOAuthScheme.find(function(OAuthScheme) {
+      return OAuthScheme.name === scope.OAuthSchemeKey
+    });
+    if(!OAuthScheme) {
+      OAuthScheme = {
+        name: scope.OAuthSchemeKey,
+        scopes: []
+      }
+      scopeByOAuthScheme.push(OAuthScheme)
+    }
+    OAuthScheme.scopes.push(scope);
+  });
+  return scopeByOAuthScheme;
+}
+
 function handleLogin() {
   var scopes = [];
 
@@ -51,28 +69,36 @@ function handleLogin() {
           '<a href="#">Learn how to use</a>',
         '</p>',
         '<p><strong>' + appName + '</strong> API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>',
+        '<form id="form_authorization"><span>OpenId client_id to use in authentication, given by the ClubMed API team):</span>',
+        '<input required class="input_client_id" type="text" id="input_client_id" />',
         '<ul class="api-popup-scopes">',
-        '</ul>',
+        '</ul></form>',
         '<p class="error-msg"></p>',
-        '<div class="api-popup-actions"><button class="api-popup-authbtn api-button green" type="button">Authorize</button><button class="api-popup-cancel api-button gray" type="button">Cancel</button></div>',
+        '<div class="api-popup-actions"><button class="api-popup-authbtn api-button green" type="submit">Authorize</button><button class="api-popup-cancel api-button gray" type="button">Cancel</button></div>',
       '</div>',
       '</div>'].join(''));
   $(document.body).append(popupDialog);
 
   //TODO: only display applicable scopes (will need to pass them into handleLogin)
   popup = popupDialog.find('ul.api-popup-scopes').empty();
-  for (i = 0; i < scopes.length; i ++) {
-    scope = scopes[i];
-    str = '<li><input type="checkbox" id="scope_' + i + '" scope="' + scope.scope + '"' +'" oauthtype="' + scope.OAuthSchemeKey +'"/>' + '<label for="scope_' + i + '">' + scope.scope ;
-    if (scope.description) {
-      if ($.map(auths, function(n, i) { return i; }).length > 1) //if we have more than one scheme, display schemes
-	    str += '<br/><span class="api-scope-desc">' + scope.description + ' ('+ scope.OAuthSchemeKey+')' +'</span>';
-	  else
-	    str += '<br/><span class="api-scope-desc">' + scope.description + '</span>';
-    }
-    str += '</label></li>';
+
+  var scopeByOAuthScheme = groupScopeByOAuthScheme(scopes)
+  scopeByOAuthScheme.forEach(function(OAuthScheme) {
+    var str = '<li><input type="radio" required name="OAuthScheme" class="schemeSelector" value="' + OAuthScheme.name + '" id="OAuthScheme_' + OAuthScheme.name + '"/>'
+    str += '<label for="OAuthScheme_' + OAuthScheme.name + '">' + OAuthScheme.name + '</label><ul class="scope_list">';
+    OAuthScheme.scopes.forEach(function(scope, index) {
+      str += '<li><input type="checkbox" disabled="disabled" id="scope_' + index + '" scope="' + scope.scope + '" oauthtype="' + scope.OAuthSchemeKey + '"/><label for="scope_' + index + '">'+ scope.scope;
+      str += '<br/><span class="api-scope-desc">' + scope.description + '</span>';
+      str += '</label></li>';
+    })
+    str += '</ul></li>';
     popup.append(str);
-  }
+  })
+
+  $('.schemeSelector').on('click', function(){
+    $('.api-popup-scopes :checkbox').prop('checked', false)
+    $(this).parent().find(':checkbox').prop('checked', 'checked')
+  })
 
   var $win = $(window),
     dw = $win.width(),
@@ -95,15 +121,25 @@ function handleLogin() {
     popupDialog = [];
   });
 
+  $('#form_authorization input').on('change', function() {
+    $('#form_authorization input').each(function() {
+      if(this.checkValidity()) $(this).removeClass('invalid');
+    });
+  });
+
   $('button.api-popup-authbtn').unbind();
   popupDialog.find('button.api-popup-authbtn').click(function() {
+    if(!$('#form_authorization')[0].checkValidity()) {
+      $('#form_authorization input:invalid').addClass('invalid');
+      return;
+    }
+
     popupMask.hide();
     popupDialog.hide();
 
     var authSchemes = window.swaggerUi.api.authSchemes;
     var host = window.location;
-    var pathname = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
-    var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/o2c.html';
+    var defaultRedirectUrl = host.protocol + '//' + host.host + location.pathname + '/o2c.html';
     var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
     var url = null;
     var scopes = []
@@ -129,7 +165,7 @@ function handleLogin() {
 
         if(authSchemes[key].type === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
           var dets = authSchemes[key];
-          url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
+          url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? encodeURIComponent('id_token token') : 'code');
           window.swaggerUi.tokenName = dets.tokenName || 'access_token';
           window.swaggerUi.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
           state = key;
@@ -165,7 +201,7 @@ function handleLogin() {
 
     url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
     url += '&realm=' + encodeURIComponent(realm);
-    url += '&client_id=' + encodeURIComponent(clientId);
+    url += '&client_id=' + encodeURIComponent($('#input_client_id').val());
     url += '&scope=' + encodeURIComponent(scopes.join(scopeSeparator));
     url += '&state=' + encodeURIComponent(state);
     for (var key in additionalQueryStringParams) {
@@ -201,7 +237,7 @@ function initOAuth(opts) {
   appName = (o.appName||errors.push('missing appName'));
   popupMask = (o.popupMask||$('#api-common-mask'));
   popupDialog = (o.popupDialog||$('.api-popup-dialog'));
-  clientId = (o.clientId||errors.push('missing client id'));
+//  clientId = (o.clientId||errors.push('missing client id'));
   clientSecret = (o.clientSecret||null);
   realm = (o.realm||errors.push('missing realm'));
   scopeSeparator = (o.scopeSeparator||' ');
@@ -332,6 +368,9 @@ window.onOAuthComplete = function onOAuthComplete(token,OAuthSchemeKey) {
           }
         });
         window.swaggerUi.api.clientAuthorizations.add(OAuthSchemeKey, new SwaggerClient.ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
+
+        // add the token in the form
+        $('input[name="authorization"]').val('Bearer ' + b)
       }
     }
   }
