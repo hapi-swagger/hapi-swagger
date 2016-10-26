@@ -367,7 +367,8 @@ window.onOAuthComplete = function onOAuthComplete(token,OAuthSchemeKey) {
             }
           }
         });
-        window.swaggerUi.api.clientAuthorizations.add(OAuthSchemeKey, new SwaggerClient.ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
+
+        //window.swaggerUi.api.clientAuthorizations.add(OAuthSchemeKey, new SwaggerClient.ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
 
         // add the token in the form
         $('input[name="authorization"]').val('Bearer ' + b)
