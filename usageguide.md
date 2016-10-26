@@ -18,7 +18,7 @@
 * [JSON without UI](#json-without-ui)
 * [Simplifying the JSON](#simplifying-the-json)
 * [Debugging](#debugging)
-* [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger])
+* [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
 * [Known issues with `jsonEditor`](#known-issues-with-jsonEditor)
 * [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
 
@@ -499,7 +499,7 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 * __`Joi.alternatives()`__  This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tools using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec. (Experimental support allow for the first of any options to be displayed)
 * __`Joi.forbidden()`__ There is only limited support `.forbidden()` with `.alternatives()`
 * __`array.ordered(type)`__ This allows for different typed items within an array. i.e. string or int.
-* __`{/filePath*}`__ The path parameters with the `*` char are not supported, either is the `{/filePath*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
+* __`{name*}`__ The path parameters with the `*` char are not supported, either is the `{name*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
 * __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.
 * __`payload: function (value, options, next) {next(null, value);}`__  The use of custom functions to validate pramaters is not support beyond replacing them with an emtpy model call "Hidden Model".
 * __`Joi.date().format('yy-mm-dd')` __ The use of a `moment` pattern to format a date cannot be reproduced in Swagger
