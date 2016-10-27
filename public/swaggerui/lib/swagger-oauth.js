@@ -139,7 +139,7 @@ function handleLogin() {
 
     var authSchemes = window.swaggerUi.api.authSchemes;
     var host = window.location;
-    var defaultRedirectUrl = host.protocol + '//' + host.host + location.pathname + '/o2c.html';
+    var defaultRedirectUrl = host.protocol + '//' + host.host + location.pathname + (location.pathname.endsWith('/') ? '' : '/') + 'o2c.html';
     var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
     var url = null;
     var scopes = []
