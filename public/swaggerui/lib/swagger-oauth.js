@@ -218,16 +218,14 @@ function handleLogin() {
 
 
 function handleLogout() {
-  for(key in window.swaggerUi.api.clientAuthorizations.authz){
-    window.swaggerUi.api.clientAuthorizations.remove(key)
-  }
-  window.enabledScopes = null;
-  $('.api-ic.ic-on').addClass('ic-off');
-  $('.api-ic.ic-on').removeClass('ic-on');
+  var host = window.location;
+  var defaultRedirectUrl = host.protocol + '//' + host.host + location.pathname;
 
-  // set the info box
-  $('.api-ic.ic-warning').addClass('ic-error');
-  $('.api-ic.ic-warning').removeClass('ic-warning');
+  var logoutUrl = window.swaggerUi.api.authSchemes[window.swaggerUi.api.currentAccessToken.OAuthScheme].logoutUrl;
+  logoutUrl += '?post_logout_redirect_uri=' + encodeURIComponent(defaultRedirectUrl);
+  logoutUrl += '&id_token_hint=' + window.swaggerUi.api.currentAccessToken.token;
+
+  window.location = logoutUrl
 }
 
 function initOAuth(opts) {
@@ -281,7 +279,7 @@ function clientCredentialsFlow(scopes, tokenUrl, OAuthSchemeKey) {
         onOAuthComplete("");
       }
     });
-    
+
   }
 
 window.processOAuthCode = function processOAuthCode(data) {
@@ -323,14 +321,14 @@ window.onOAuthComplete = function onOAuthComplete(token,OAuthSchemeKey) {
       alert(token.error);
     }
     else {
-      var b = token[window.swaggerUi.tokenName];      
+      var b = token[window.swaggerUi.tokenName];
       if (!OAuthSchemeKey){
           OAuthSchemeKey = token.state;
       }
       if(b){
         // if all roles are satisfied
         var o = null;
-        $.each($('.auth .api-ic .api_information_panel'), function(k, v) { 
+        $.each($('.auth .api-ic .api_information_panel'), function(k, v) {
           var children = v;
           if(children && children.childNodes) {
             var requiredScopes = [];
@@ -369,9 +367,13 @@ window.onOAuthComplete = function onOAuthComplete(token,OAuthSchemeKey) {
         });
 
         //window.swaggerUi.api.clientAuthorizations.add(OAuthSchemeKey, new SwaggerClient.ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
+        window.swaggerUi.api.currentAccessToken = {
+          OAuthScheme: OAuthSchemeKey,
+          token: b
+        };
 
         // add the token in the form
-        $('input[name="authorization"]').val('Bearer ' + b)
+        $('input[name="authorization"]').val('Bearer ' + b);
       }
     }
   }
