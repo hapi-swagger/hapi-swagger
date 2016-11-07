@@ -225,7 +225,11 @@ function handleLogout() {
   logoutUrl += '?post_logout_redirect_uri=' + encodeURIComponent(defaultRedirectUrl);
   logoutUrl += '&id_token_hint=' + window.swaggerUi.api.currentAccessToken.token;
 
+  // TODO dirty trick: the oidc logout url returns a 204 so nothing happens
+  // We can't do it in ajax because the required coockie would not be send
   window.location = logoutUrl
+
+  $('.api-ic.ic-on').addClass('ic-off').removeClass('ic-on')
 }
 
 function initOAuth(opts) {
