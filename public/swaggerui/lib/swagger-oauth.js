@@ -219,7 +219,6 @@ function handleLogin () {
 
 function handleLogout () {
   var host = window.location;
-  var defaultRedirectUrl = host.protocol + '//' + host.host + location.pathname;
 
   var logoutUrl = window.swaggerUi.api.authSchemes[ window.swaggerUi.api.currentAccessToken.OAuthScheme ].logoutUrl;
   logoutUrl += '?id_token_hint=' + window.swaggerUi.api.currentAccessToken.token;
@@ -229,6 +228,9 @@ function handleLogout () {
   window.location = logoutUrl
 
   $('.api-ic.ic-on').addClass('ic-off').removeClass('ic-on')
+
+  // remove the token in the form
+  $('input[name="authorization"]').val('');
 }
 
 function initOAuth (opts) {
