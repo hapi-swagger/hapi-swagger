@@ -213,6 +213,14 @@ lab.experiment('property - ', () => {
     });
 
 
+    lab.test('parse type date timestamp', (done) => {
+
+        clearDown();
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().timestamp(), null, 'body', true, false)).to.equal({ 'type': 'number' });
+        done();
+    });
+
+
     lab.test('parse type number', (done) => {
 
         clearDown();
@@ -277,10 +285,8 @@ lab.experiment('property - ', () => {
         // TODO
         // Joi.array().items(Joi.array().items(Joi.string())
 
-
-
-
-
+        // make sure type features such as string().min(1)in array items are past into JSON
+        expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.string().min(1)), null, 'body', false, false)).to.equal({ 'type': 'array', 'items': { 'type': 'string', 'minLength': 1 }, 'name': 'x' });
 
         // mapped direct to openapi
         expect(propertiesNoAlt.parseProperty('x', Joi.array().min(5), null, 'body', false, false)).to.equal({ 'type': 'array', 'name': 'x', 'items': { 'type': 'string' }, 'minItems': 5 });
@@ -457,3 +463,17 @@ lab.experiment('property deep - ', () => {
 
     });
 });
+
+lab.experiment('joi extension - ', () => {
+    lab.test('custom joi extension', (done) => {
+
+        clearDown();
+        const extension = Joi.extend({
+            base: Joi.string(),
+            name: 'custom'
+        });
+        expect(propertiesNoAlt.parseProperty('x', extension.custom(), null, 'body', true, false)).to.equal({ 'type': 'string' });
+        done();
+    });
+});
+

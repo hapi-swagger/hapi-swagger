@@ -18,6 +18,4 @@ npm-debug.log
 .vscode
 .coveralls.yml
 
-bin/bearer.js
-bin/upload-file.js
-bin/upload-file-large.js
+test/certs/server.csr

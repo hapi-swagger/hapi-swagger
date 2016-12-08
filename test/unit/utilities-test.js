@@ -149,6 +149,17 @@ lab.experiment('utilities', () => {
     });
 
 
+    lab.test('replaceValue', (done) => {
+
+        expect(Utilities.replaceValue(['a','b'], 'a', 'c')).to.equal(['b','c']);
+        expect(Utilities.replaceValue(['a','b'], null, null)).to.equal(['a','b']);
+        expect(Utilities.replaceValue(['a','b'], 'a', null)).to.equal(['a','b']);
+        expect(Utilities.replaceValue(null, null, null)).to.equal(null);
+        expect(Utilities.replaceValue()).to.equal(undefined);
+
+        done();
+    });
+
 
     lab.test('removeProps', (done) => {
 
