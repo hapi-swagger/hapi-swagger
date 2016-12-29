@@ -690,7 +690,7 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 *  [`debug.js`](examples/debug.js) - how console.log debug information from `hapi-swagger`
 *  [`jwt.js`](examples/jwt.js) - how to used the plug-in in combination with JSON Web Tokens (JWT) `securityDefinition`
 *  [`options.js`](examples/options.js) - how to use many of the plug-ins options
-*  [`promises.js`](examples/promises.js) - how to setup the plug-in using promises
+*  [`promise.js`](examples/promise.js) - how to setup the plug-in using promises
 *  [`swagger-client.js`](examples/swagger-client.js) - how use the plug-in to build an lib interface with `swagger-client`
 *  [`upload-file.js`](examples/upload-file.js) - how create documenation for a file upload
 *  [`versions.js`](examples/versions.js) - how to use the plug-in with `hapi-api-version` for versioning of an API
