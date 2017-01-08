@@ -123,9 +123,9 @@ was added to reduce the size of the JSON. The reuse of models can cause names to
 
 # Grouping endpoints with tags
 Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs
-to match path of your endpoints, so in the example below all enpoints with the path `/users`, `/store` and `/sum` will be
 group togther. Find out more about the [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) on the OpenAPI spec site.
 ```Javascript
+to match the path of your endpoints, so in the example below all endpoints with the path `/users`, `/store` and `/sum` will be
 let options = {
     info: {
         'title': 'Test API Documentation',
@@ -160,7 +160,7 @@ the order by name A-Z by switching the plugin `options.sortTags = 'name'`.
 
 # Ordering the endpoints within groups
 The endpoints within the UI groups can be order with the property `options.sortEndpoints`, by default the are ordered
-A-Z using the `path` information. Can also order them by `method`. Finnally if you wish to enforce you own order then
+A-Z using the `path` information. Can also order them by `method`. Finally if you wish to enforce you own order then
 you added route option `order` to each endpoint and switch the plugin options to `options.sortEndpoints = 'ordered'`.
 ```Javascript
 {
@@ -183,8 +183,8 @@ you added route option `order` to each endpoint and switch the plugin options to
 
 
 # Rewriting paths and groupings
-There are time you may wish to modified now groups and endpoint paths are displayed within the documentation.
 Ther are two ways to change to do this:
+There are time you may wish to modify how groups and endpoint paths are displayed within the documentation.
 
 ### Option 1 `basePath` and `pathPrefixSize`
 You can use the plugin options `basePath` and `pathPrefixSize` to trim what path information is shown in the documentation.
@@ -260,8 +260,7 @@ A working demo of more complex uses of response object can be found in the [be-m
 # Status Codes
 You can add HTTP status codes to each of the endpoints. As HAPI routes does not have a property for response status codes
 it is added as a plugin configuration. The status codes need to be added as an array of objects with an error
-code and description. The `description` is required, the schema is optional and unlike added response object the
-example above this method does not validate the API response.
+code and description. The `description` is required.  The schema is optional, and unlike the example above, the schema object does not validate the API response.
 
 ```Javascript
 config: {
@@ -480,7 +479,7 @@ With the both `documentationPage` and `swaggerUI` set to false you do not need t
 
 # Simplifying the JSON
 The JSON output for OpenAPI(Swagger) is based on the JSONSchema standard which allows for the internal referencing of object
-structures using `$ref`. If you wish to simplifying the JSON you can use plugin option `options.deReference = true`. This can
+structures using `$ref`. If you wish to simplify the JSON you can use plugin option `options.deReference = true`. This can
 be useful if your are using codegen tools against the JSON
 
 
@@ -691,7 +690,7 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 *  [`debug.js`](examples/debug.js) - how console.log debug information from `hapi-swagger`
 *  [`jwt.js`](examples/jwt.js) - how to used the plug-in in combination with JSON Web Tokens (JWT) `securityDefinition`
 *  [`options.js`](examples/options.js) - how to use many of the plug-ins options
-*  [`promises.js`](examples/promises.js) - how to setup the plug-in using promises
+*  [`promise.js`](examples/promise.js) - how to setup the plug-in using promises
 *  [`swagger-client.js`](examples/swagger-client.js) - how use the plug-in to build an lib interface with `swagger-client`
 *  [`upload-file.js`](examples/upload-file.js) - how create documenation for a file upload
 *  [`versions.js`](examples/versions.js) - how to use the plug-in with `hapi-api-version` for versioning of an API
@@ -703,6 +702,6 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 
 # External example projects
 Both these example use a custom HTML page
-*  [`be-more-hapi`](https://github.com/glennjones/be-more-hapi) - talk from Asyncjs on the October 2013 - old `hapi-swagger` example project, but keep update
+*  [`be-more-hapi`](https://github.com/glennjones/be-more-hapi) - talk from Async.js on the October 2013 - old `hapi-swagger` example project, but keep update
 *  [`hapi-token-docs`](https://github.com/glennjones/hapi-token-docs) - A example site using HAPI, JWT tokens and swagger documentation
 *  [`time-to-be-hapi`](https://github.com/glennjones/time-to-be-hapi) - Londonjs talk March 2016 has many example uses of HAPI and one using `hapi-swagger`
