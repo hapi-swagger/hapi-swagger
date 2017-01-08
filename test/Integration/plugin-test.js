@@ -307,6 +307,66 @@ lab.experiment('plugin', () => {
         });
     });
 
+    lab.test('enable cors settings, should return headers with origin settings', (done) => {
+
+        swaggerOptions = {
+            'cors':true
+        };
+
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+                
+                expect(response.statusCode).to.equal(200);
+                expect(response.headers.vary).to.equal('origin,accept-encoding');
+                expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
+                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
+                done();
+            });
+
+        });
+    });
+
+    lab.test('disable cors settings, should return headers without origin settings', (done) => {
+
+        swaggerOptions = {
+            'cors':false
+        };
+
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+                expect(response.statusCode).to.equal(200);
+                expect(response.headers.vary).to.not.equal('origin,accept-encoding');
+                expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
+                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
+                done();
+            });
+
+        });
+    });
+
+    lab.test('default cors settings as false, should return headers without origin settings', (done) => {
+
+        swaggerOptions = {
+        };
+
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+                expect(response.statusCode).to.equal(200);
+                expect(response.headers.vary).to.not.equal('origin,accept-encoding');
+                expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
+                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
+                done();
+            });
+
+        });
+    });
+
     lab.test('payloadType = form global', (done) => {
 
         swaggerOptions = {
