@@ -6,6 +6,7 @@ URLs and plugin
 * `schemes`: (array) The transfer protocol of the API ie `['http']`
 * `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
 * `auth`: (boolean, string or object) defines security strategy to use for plugin resources - default: `false`,
+* `cors`: (boolean) weather the swagger.json routes is servered with cors support - default: `false`,
 * `connectionLabel`: (string) A label used to document an API on a different HAPI server connection
 
 
