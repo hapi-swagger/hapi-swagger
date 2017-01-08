@@ -58,7 +58,7 @@ UI
 *  `validate`
    *  `params` : (JOI object) allows you to `param` route documentation outside of HAPI validation
    *  `query` : (JOI object) allows you to `query` route documentation outside of HAPI validation
-   *  `haeders` : (JOI object) allows you to `haeders` route documentation outside of HAPI validation
+   *  `headers` : (JOI object) allows you to `headers` route documentation outside of HAPI validation
    *  `payload` : (JOI object) allows you to `payload` route documentation outside of HAPI validation
 *  `security` :  Hoek.reach(routeOptions, 'security') || null,
 *  `order`: (int) The order in which endpoints are displayed, works with options.sortEndpoints = 'ordered'
