@@ -310,14 +310,14 @@ lab.experiment('plugin', () => {
     lab.test('enable cors settings, should return headers with origin settings', (done) => {
 
         swaggerOptions = {
-            'cors':true
+            'cors': true
         };
 
         Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-                
+
                 expect(response.statusCode).to.equal(200);
                 expect(response.headers.vary).to.equal('origin,accept-encoding');
                 expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
@@ -331,13 +331,14 @@ lab.experiment('plugin', () => {
     lab.test('disable cors settings, should return headers without origin settings', (done) => {
 
         swaggerOptions = {
-            'cors':false
+            'cors': false
         };
 
         Helper.createServer(swaggerOptions, routes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
                 expect(response.statusCode).to.equal(200);
                 expect(response.headers.vary).to.not.equal('origin,accept-encoding');
                 expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
@@ -357,6 +358,7 @@ lab.experiment('plugin', () => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
                 expect(response.statusCode).to.equal(200);
                 expect(response.headers.vary).to.not.equal('origin,accept-encoding');
                 expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
