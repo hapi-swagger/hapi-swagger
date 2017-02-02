@@ -140,7 +140,7 @@ lab.experiment('definitions', () => {
         });
     });
 
-    lab.test('reuseModels = false', (done) => {
+    lab.test('reuseDefinitions = false', (done) => {
 
         // forces two models even though the model hash is the same
 
@@ -176,7 +176,7 @@ lab.experiment('definitions', () => {
             }
         }];
 
-        Helper.createServer({ reuseModels: false }, tempRoutes, (err, server) => {
+        Helper.createServer({ reuseDefinitions: false }, tempRoutes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
@@ -189,5 +189,103 @@ lab.experiment('definitions', () => {
             });
         });
     });
+
+
+    lab.test('test that optional array is not in swagger output', (done) => {
+
+        let testRoutes = [{
+            method: 'POST',
+            path: '/server/1/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object({
+                        a: Joi.number().required(),
+                        b: Joi.string().optional()
+                    }).label('test')
+                }
+            }
+        }];
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.definitions.test).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'a': {
+                            'type': 'number'
+                        },
+                        'b': {
+                            'type': 'string'
+                        }
+                    },
+                    'required': [
+                        'a'
+                    ]
+                });
+                done();
+            });
+        });
+    });
+
+
+    lab.test('test that name changing for required', (done) => {
+
+
+        const FormDependencyDefinition = Joi.object({
+            id: Joi.number().required()
+        }).label('FormDependencyDefinition');
+
+        const ActionDefinition = Joi.object({
+            id: Joi.number().required().allow(null),
+            reminder: FormDependencyDefinition.required()
+        }).label('ActionDefinition');
+
+
+        let testRoutes = [{
+            method: 'POST',
+            path: '/server/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: ActionDefinition
+                }
+            }
+        }];
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.definitions.ActionDefinition).to.equal({
+                    'type': 'object',
+                    'properties': {
+                        'id': {
+                            'type': 'number'
+                        },
+                        'reminder': {
+                            '$ref': '#/definitions/FormDependencyDefinition',
+                            'type': 'object'
+                        }
+                    },
+                    'required': [
+                        'id',
+                        'reminder'
+                    ]
+                });
+                done();
+            });
+        });
+    });
+
+
 
 });

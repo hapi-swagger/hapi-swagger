@@ -1,4 +1,4 @@
-# 7.2.0 Usage Guide
+# 7.6.0 Usage Guide
 
 ### Content
 * [JSON body](#json-body)
@@ -18,7 +18,7 @@
 * [JSON without UI](#json-without-ui)
 * [Simplifying the JSON](#simplifying-the-json)
 * [Debugging](#debugging)
-* [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger])
+* [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
 * [Known issues with `jsonEditor`](#known-issues-with-jsonEditor)
 * [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
 
@@ -117,15 +117,15 @@ validate: {
 ```
 __NOTE: the plugin reuses "definition models" these describe each JSON object use by an API i.e. a "user". This feature
 was added to reduce the size of the JSON. The reuse of models can cause names to be reused as well. Please switch
-`options.reuseModels` to `false` if you are nameing your JOI objects.__
+`options.reuseDefinitions` to `false` if you are nameing your JOI objects.__
 
 
 
 # Grouping endpoints with tags
 Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs
-to match path of your endpoints, so in the example below all enpoints with the path `/users`, `/store` and `/sum` will be
 group togther. Find out more about the [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) on the OpenAPI spec site.
 ```Javascript
+to match the path of your endpoints, so in the example below all endpoints with the path `/users`, `/store` and `/sum` will be
 let options = {
     info: {
         'title': 'Test API Documentation',
@@ -160,7 +160,7 @@ the order by name A-Z by switching the plugin `options.sortTags = 'name'`.
 
 # Ordering the endpoints within groups
 The endpoints within the UI groups can be order with the property `options.sortEndpoints`, by default the are ordered
-A-Z using the `path` information. Can also order them by `method`. Finnally if you wish to enforce you own order then
+A-Z using the `path` information. Can also order them by `method`. Finally if you wish to enforce you own order then
 you added route option `order` to each endpoint and switch the plugin options to `options.sortEndpoints = 'ordered'`.
 ```Javascript
 {
@@ -183,11 +183,11 @@ you added route option `order` to each endpoint and switch the plugin options to
 
 
 # Rewriting paths and groupings
-There are time you may wish to modified now groups and endpoint paths are displayed within the documentation.
 Ther are two ways to change to do this:
+There are time you may wish to modify how groups and endpoint paths are displayed within the documentation.
 
 ### Option 1 `basePath` and `pathPrefixSize`
-Yu can use the plugin options `basePath` and `pathPrefixSize` to trim what path information is shown in the documentation.
+You can use the plugin options `basePath` and `pathPrefixSize` to trim what path information is shown in the documentation.
 This will not change the API endpoint URL only the path information in the documentation.
 
 ```
@@ -216,7 +216,7 @@ Example of removing version numbers from both paths and groups ie `v2` or `v3`
 * `pattern` (regex) patten for matching
 * `replacement` (string) replacement string
 
-There is a example of this feature  [`dot-grouping.js`](examples/ddot-grouping.js) in the examples directory.
+There is a example of this feature  [`dot-grouping.js`](examples/dot-grouping.js) in the examples directory.
 
 
 
@@ -260,8 +260,7 @@ A working demo of more complex uses of response object can be found in the [be-m
 # Status Codes
 You can add HTTP status codes to each of the endpoints. As HAPI routes does not have a property for response status codes
 it is added as a plugin configuration. The status codes need to be added as an array of objects with an error
-code and description. The `description` is required, the schema is optional and unlike added response object the
-example above this method does not validate the API response.
+code and description. The `description` is required.  The schema is optional, and unlike the example above, the schema object does not validate the API response.
 
 ```Javascript
 config: {
@@ -480,7 +479,7 @@ With the both `documentationPage` and `swaggerUI` set to false you do not need t
 
 # Simplifying the JSON
 The JSON output for OpenAPI(Swagger) is based on the JSONSchema standard which allows for the internal referencing of object
-structures using `$ref`. If you wish to simplifying the JSON you can use plugin option `options.deReference = true`. This can
+structures using `$ref`. If you wish to simplify the JSON you can use plugin option `options.deReference = true`. This can
 be useful if your are using codegen tools against the JSON
 
 
@@ -499,9 +498,10 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 * __`Joi.alternatives()`__  This allows parameters to be more than one type. i.e. string or int. Swagger does not yet support this because of a number codegen tools using swagger build to typesafe languages. This __maybe__ added to the next version of OpenAPI spec. (Experimental support allow for the first of any options to be displayed)
 * __`Joi.forbidden()`__ There is only limited support `.forbidden()` with `.alternatives()`
 * __`array.ordered(type)`__ This allows for different typed items within an array. i.e. string or int.
-* __`{/filePath*}`__ The path parameters with the `*` char are not supported, either is the `{/filePath*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
+* __`{name*}`__ The path parameters with the `*` char are not supported, either is the `{name*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
 * __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.
 * __`payload: function (value, options, next) {next(null, value);}`__  The use of custom functions to validate pramaters is not support beyond replacing them with an emtpy model call "Hidden Model".
+* __`Joi.date().format('yy-mm-dd')` __ The use of a `moment` pattern to format a date cannot be reproduced in Swagger
 
 
 # Known issues with `jsonEditor`
@@ -690,7 +690,7 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 *  [`debug.js`](examples/debug.js) - how console.log debug information from `hapi-swagger`
 *  [`jwt.js`](examples/jwt.js) - how to used the plug-in in combination with JSON Web Tokens (JWT) `securityDefinition`
 *  [`options.js`](examples/options.js) - how to use many of the plug-ins options
-*  [`promises.js`](examples/promises.js) - how to setup the plug-in using promises
+*  [`promise.js`](examples/promise.js) - how to setup the plug-in using promises
 *  [`swagger-client.js`](examples/swagger-client.js) - how use the plug-in to build an lib interface with `swagger-client`
 *  [`upload-file.js`](examples/upload-file.js) - how create documenation for a file upload
 *  [`versions.js`](examples/versions.js) - how to use the plug-in with `hapi-api-version` for versioning of an API
@@ -702,6 +702,6 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 
 # External example projects
 Both these example use a custom HTML page
-*  [`be-more-hapi`](https://github.com/glennjones/be-more-hapi) - talk from Asyncjs on the October 2013 - old `hapi-swagger` example project, but keep update
+*  [`be-more-hapi`](https://github.com/glennjones/be-more-hapi) - talk from Async.js on the October 2013 - old `hapi-swagger` example project, but keep update
 *  [`hapi-token-docs`](https://github.com/glennjones/hapi-token-docs) - A example site using HAPI, JWT tokens and swagger documentation
 *  [`time-to-be-hapi`](https://github.com/glennjones/time-to-be-hapi) - Londonjs talk March 2016 has many example uses of HAPI and one using `hapi-swagger`

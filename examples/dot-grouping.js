@@ -93,7 +93,7 @@ server.register([
 
 
         // Add a versioned route - which is actually two routes with prefix '/v1' and '/v2'. Not only the
-        // handlers are different, but also the route defintion itself (like here with response validation).
+        // handlers are different, but also the route definition itself (like here with response validation).
         server.route({
             method: 'GET',
             path: '/api/user.get',

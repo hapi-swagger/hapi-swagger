@@ -1,18 +1,20 @@
-# 7.2.0 Options Reference
+# 7.6.0 Options Reference
 
 ## Plugin Options
 
 URLs and plugin
 * `schemes`: (array) The transfer protocol of the API ie `['http']`
 * `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
-* `auth`: (boolean, string or object) defines security strategy to use for plugin resouces - default: `false`,
+* `auth`: (boolean, string or object) defines security strategy to use for plugin resources - default: `false`,
+* `cors`: (boolean) weather the swagger.json routes is servered with cors support - default: `false`,
+* `connectionLabel`: (string) A label used to document an API on a different HAPI server connection
 
 
 JSON (JSON endpoint needed to create UI)
 * `jsonPath`: (string) The path of JSON endpoint that describes the API - default: `/swagger.json`
 * `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
 * `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints - default: `1`
-* `pathReplacements` : (array) methods for modifing path and group names in documenetation - default: `[]`
+* `pathReplacements` : (array) methods for modifying path and group names in documentation - default: `[]`
 * `info`
   * `title` (string) The title of the application -  default: `API documentation`
   * `version` (string) The version number of the API -  default: `0.0.1`
@@ -57,11 +59,11 @@ UI
 *  `validate`
    *  `params` : (JOI object) allows you to `param` route documentation outside of HAPI validation
    *  `query` : (JOI object) allows you to `query` route documentation outside of HAPI validation
-   *  `haeders` : (JOI object) allows you to `haeders` route documentation outside of HAPI validation
+   *  `headers` : (JOI object) allows you to `headers` route documentation outside of HAPI validation
    *  `payload` : (JOI object) allows you to `payload` route documentation outside of HAPI validation
 *  `security` :  Hoek.reach(routeOptions, 'security') || null,
 *  `order`: (int) The order in which endpoints are displayed, works with options.sortEndpoints = 'ordered'
-*  `deprecated`: (boolean) Weather a endpoint has been deprecated - default: false
+*  `deprecated`: (boolean) Whether a endpoint has been deprecated - default: false
 
 
 
@@ -130,7 +132,7 @@ only assigned to the route they are apply to.
         tags: ['api'],
         validate: {
             payload: {
-                a: Joi.number().required().description('thefirstnumber')
+                a: Joi.number().required().description('the first number')
             }
         }
     }
