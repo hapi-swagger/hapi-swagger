@@ -24,6 +24,9 @@ JSON (JSON endpoint needed to create UI)
     * `name` (string) A contact name for the API
     * `url` (string) A URL pointing to the contact information. MUST be formatted as a URL
     * `email` (string) A email address of the contact person/organization. MUST be formatted as an email address.
+  * `x-*` (any): any property or object with a key starting with *x-* is included as such in the *info* section
+    of the object return by the JSON endpoint. This allows custom properties to be defined as options and
+    copied as such.
   * `license`
     * `name` (string) The name of the license used for the API
     * `url` (string) The URL to the license used by the API. MUST be formatted as a URL
