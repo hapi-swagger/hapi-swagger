@@ -17,7 +17,7 @@ server.connection({
 const options = {
     info: {
         'title': 'Test API Documentation',
-        'version': '0.0.1',
+        'version': '0.0.1'
     },
     sortEndpoints: 'ordered',
     pathReplacements: [{
@@ -34,10 +34,10 @@ server.register([
         'options': options
     }], (err) => {
         if (err) {
-            server.log(['error'], 'hapi-swagger load error: ' + err)
+            server.log(['error'], 'hapi-swagger load error: ' + err);
         }
         else {
-            server.log(['start'], 'hapi-swagger interface loaded')
+            server.log(['start'], 'hapi-swagger interface loaded');
         }
     }
 );
@@ -47,7 +47,7 @@ server.route([{
     method: 'POST',
     path: '/petstore',
     config: {
-        tags: ['api'],
+        tags: ['api']
     },
     handler: function (request, reply) {
         // reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
@@ -60,7 +60,7 @@ server.route([{
     method: 'GET',
     path: '/petstore',
     config: {
-        tags: ['api'],
+        tags: ['api']
     },
     handler: function (request, reply) {
         // reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
@@ -73,7 +73,7 @@ server.route([{
     method: 'GET',
     path: '/petstore/{id}',
     config: {
-        tags: ['api'],
+        tags: ['api']
     },
     handler: function (request, reply) {
         // reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
@@ -86,7 +86,7 @@ server.route([{
     method: 'POST',
     path: '/petstore/{id}/pet',
     config: {
-        tags: ['api'],
+        tags: ['api']
     },
     handler: function (request, reply) {
         // reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
@@ -99,7 +99,7 @@ server.route([{
     method: 'GET',
     path: '/pet/{id}',
     config: {
-        tags: ['api'],
+        tags: ['api']
     },
     handler: function (request, reply) {
         // reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
@@ -112,7 +112,7 @@ server.route([{
     method: 'GET',
     path: '/petstore/{id}/pet',
     config: {
-        tags: ['api'],
+        tags: ['api']
     },
     handler: function (request, reply) {
         // reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
@@ -121,9 +121,6 @@ server.route([{
         });
     }
 }]);
-
-
-
 
 
 // Start the server
