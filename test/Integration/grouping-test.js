@@ -18,6 +18,7 @@ let testPlugin = function (plugin, options, next) {
         path: '/grouping1',
         config: {
             handler: function (request, reply) {
+
                 reply('Hi from grouping 1');
             },
             description: 'plugin1',
@@ -76,6 +77,7 @@ lab.experiment('default grouping', () => {
 
         const connection = server.select('docs');
         connection.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
             expect(response.statusCode).to.equal(200);
             expect(response.result.host).to.equal('localhost:3000');
             expect(response.result.paths['/grouping1']).to.equal({
@@ -131,6 +133,7 @@ lab.experiment('tag grouping', () => {
 
         const connection = server.select('docs');
         connection.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
             expect(response.statusCode).to.equal(200);
             expect(response.result.host).to.equal('localhost:3000');
             expect(response.result.paths['/grouping1']).to.equal({

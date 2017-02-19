@@ -1,11 +1,12 @@
-# 7.6.0 Usage Guide
+# 7.7.0 Usage Guide
 
 ### Content
 * [JSON body](#json-body)
 * [Form body](#form-body)
 * [Params query and headers](#params-query-and-headers)
 * [Naming](#naming)
-* [Grouping endpoints with tags](#grouping-endpoints-with-tags)
+* [Grouping endpoints by path or tags](#Grouping-endpoints-by-path-or-tags)
+* [Extending group information with tag objects](#extending-group-information-with-tag-objects)
 * [Ordering the endpoints within groups](#ordering-the-endpoints-within-groups)
 * [Rewriting paths and groupings](#rewriting-paths-and-groupings)
 * [Response Object](#response-object)
@@ -121,11 +122,52 @@ was added to reduce the size of the JSON. The reuse of models can cause names to
 
 
 
-# Grouping endpoints with tags
-Swagger provides a tag object which allows you to group your endpoints in the swagger-ui interface. The name of the tag needs
-group togther. Find out more about the [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) on the OpenAPI spec site.
+# Grouping endpoints by path or tags
+The plugin will by default group your endpoints using information in the path. So `\users\{id}` and `\users\{id}\history` would be
+group together under the title `users`. How the path based grouping works is controlled by using the `options.basePath`
+and `options.pathPrefixSize` properties.
+
+If you wish to create groups of your own making you can use the `options.grouping: tags` property. You need also need to define
+custom tags for each route as below.
+
+
 ```Javascript
-to match the path of your endpoints, so in the example below all endpoints with the path `/users`, `/store` and `/sum` will be
+let options = {
+    info: {
+        'title': 'Test API Documentation',
+        'version': Pack.version,
+    },
+    options.grouping: 'tags'
+};
+
+let routes = [{
+    method: 'GET',
+    path: '/petstore/{id}',
+    config: {
+        handler: (request, reply) => { reply({ ok: true }); },
+        description: 'Array properties',
+        tags: ['api', 'petstore']
+    }
+}, {
+    method: 'GET',
+    path: '/store/{id}/address',
+    config: {
+        handler: (request, reply) => { reply({ ok: true }); },
+        description: 'Array properties',
+        tags: ['api', 'petstore']
+    }
+}]
+```
+Both the routes above would be grouped in `petstore`. This is because the second tag in each route is set to `petstore` and
+the `options.grouping` is set to `tags`
+
+
+
+# Extending group information with tag objects
+Swagger provides a tag object which allows you extend the information provide for a group of endpoints in the UI.
+You must match the `name` in the `options.tags` array items with the `path` fragmenets or `tags` used to create groups.
+
+```Javascript
 let options = {
     info: {
         'title': 'Test API Documentation',
@@ -153,9 +195,6 @@ let options = {
 ```
 The groups are order in the same sequence you add them to the `tags` array in the plug-in options. You can enforce
 the order by name A-Z by switching the plugin `options.sortTags = 'name'`.
-
-
-
 
 
 # Ordering the endpoints within groups
@@ -688,6 +727,7 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 *  [`connections-sep-docs.js`](examples/connections-sep-docs.js) - how to have API on one connection and documentation on another
 *  [`custom.js`](examples/custom.js) - how build a custom documentation page with its own CSS and JS
 *  [`debug.js`](examples/debug.js) - how console.log debug information from `hapi-swagger`
+*  [`group-ordered.js`](examples/group-ordered.js) - how group and ordered endpoints in the UI
 *  [`jwt.js`](examples/jwt.js) - how to used the plug-in in combination with JSON Web Tokens (JWT) `securityDefinition`
 *  [`options.js`](examples/options.js) - how to use many of the plug-ins options
 *  [`promise.js`](examples/promise.js) - how to setup the plug-in using promises

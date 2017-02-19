@@ -1,4 +1,4 @@
-# 7.6.0 Options Reference
+# 7.7.0 Options Reference
 
 ## Plugin Options
 
@@ -28,6 +28,7 @@ JSON (JSON endpoint needed to create UI)
     * `name` (string) The name of the license used for the API
     * `url` (string) The URL to the license used by the API. MUST be formatted as a URL
 *  `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI. No defaults are provided.
+*  `grouping` (string) how to create grouping of endpoints value either `path` or `tags` - default: `path`
 *  `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 *  `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 *  `consumes`: (array) The mimetypes consumed - default: `['application/json']`

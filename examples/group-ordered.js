@@ -70,7 +70,7 @@ const Routes = [{
     config: {
         handler: (request, reply) => { reply({ ok: true }); },
         description: 'Array properties',
-        tags: ['api', 'pet'],
+        tags: ['api', 'pet', 'extra'],
         plugins: {
             'hapi-swagger': {
                 order: 5
@@ -92,15 +92,6 @@ const Routes = [{
     }
 }
 ];
-
-
-
-
-
-
-
-
-
 
 
 
