@@ -190,6 +190,70 @@ lab.experiment('definitions', () => {
         });
     });
 
+    lab.test('dynamicDefinitionPrefix = useLabel', (done) => {
+
+        // use the label as a prefix for dynamic model names
+
+        const tempRoutes = [{
+            method: 'POST',
+            path: '/store1/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object({
+                        a: Joi.number(),
+                        b: Joi.number(),
+                        operator: Joi.string(),
+                        equals: Joi.number()
+                    }).label('A')
+                }
+            }
+        }, {
+            method: 'POST',
+            path: '/store2/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object({
+                        c: Joi.number(),
+                        v: Joi.number(),
+                        operator: Joi.string(),
+                        equals: Joi.number()
+                    }).label('A A')
+                }
+            }
+        }, {
+            method: 'POST',
+            path: '/store3/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: Joi.object({
+                        c: Joi.number(),
+                        f: Joi.number(),
+                        operator: Joi.string(),
+                        equals: Joi.number()
+                    }).label('A')
+                }
+            }
+        }];
+
+        Helper.createServer({ dynamicDefinitionPrefix: 'useLabel' }, tempRoutes, (err, server) => {
+
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.definitions.A).to.exist();
+                expect(response.result.definitions['A A']).to.exist();
+                expect(response.result.definitions['A 1']).to.exist();
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
 
     lab.test('test that optional array is not in swagger output', (done) => {
 
