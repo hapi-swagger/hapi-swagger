@@ -190,7 +190,7 @@ lab.experiment('definitions', () => {
         });
     });
 
-    lab.test('dynamicDefinitionPrefix = useLabel', (done) => {
+    lab.test('definitionPrefix = useLabel', (done) => {
 
         // use the label as a prefix for dynamic model names
 
@@ -241,7 +241,7 @@ lab.experiment('definitions', () => {
             }
         }];
 
-        Helper.createServer({ dynamicDefinitionPrefix: 'useLabel' }, tempRoutes, (err, server) => {
+        Helper.createServer({ definitionPrefix: 'useLabel' }, tempRoutes, (err, server) => {
 
             expect(err).to.equal(null);
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
