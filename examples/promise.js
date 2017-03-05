@@ -10,7 +10,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./assets/routes-complex.js');
+const Routes = require('./assets/routes-complex.js');
 
 
 /**
@@ -100,7 +100,7 @@ const swaggerOptions = {
 
 
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000

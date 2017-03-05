@@ -17,6 +17,15 @@
         "semi": [
             2,
             "always"
+        ],
+        "prefer-const": [
+            2,
+            { "destructuring" : "all" }
+        ],
+        "no-tabs": 2,
+        "quotes": [
+            2,
+            "single"
         ]
     },
     "env": {

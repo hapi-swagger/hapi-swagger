@@ -9,14 +9,14 @@ const Swagger = require('swagger-client');
 const HapiSwagger = require('../');
 
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000
 });
 
 
-let swaggerOptions = {
+const swaggerOptions = {
     documentationPage: false,
     swaggerUI: false,
     tags: [{
@@ -32,8 +32,8 @@ let swaggerOptions = {
 
 const defaultHandler = function (request, reply) {
 
-    let a = parseFloat(request.params.a);
-    let b = parseFloat(request.params.b);
+    const a = parseFloat(request.params.a);
+    const b = parseFloat(request.params.b);
 
     reply({
         'a': a,

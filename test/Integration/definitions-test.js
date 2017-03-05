@@ -115,7 +115,6 @@ lab.experiment('definitions', () => {
                 expect(response.result.definitions['Model 1']).to.equal(defination);
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -135,7 +134,6 @@ lab.experiment('definitions', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -192,7 +190,7 @@ lab.experiment('definitions', () => {
 
     lab.test('test that optional array is not in swagger output', (done) => {
 
-        let testRoutes = [{
+        const testRoutes = [{
             method: 'POST',
             path: '/server/1/',
             config: {
@@ -235,7 +233,6 @@ lab.experiment('definitions', () => {
 
     lab.test('test that name changing for required', (done) => {
 
-
         const FormDependencyDefinition = Joi.object({
             id: Joi.number().required()
         }).label('FormDependencyDefinition');
@@ -245,8 +242,7 @@ lab.experiment('definitions', () => {
             reminder: FormDependencyDefinition.required()
         }).label('ActionDefinition');
 
-
-        let testRoutes = [{
+        const testRoutes = [{
             method: 'POST',
             path: '/server/',
             config: {
@@ -283,7 +279,4 @@ lab.experiment('definitions', () => {
             });
         });
     });
-
-
-
 });

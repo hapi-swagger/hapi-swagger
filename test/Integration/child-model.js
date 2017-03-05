@@ -8,7 +8,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 lab.experiment('child-models', () => {
 
     const requestOptions = {
@@ -91,11 +90,9 @@ lab.experiment('child-models', () => {
                         .label('FooArr')
                     )
                     .label('FooArrParent')
-
             }
         }
     }];
-
 
 
     lab.test('child definitions models', (done) => {
@@ -208,5 +205,4 @@ lab.experiment('child-models', () => {
             });
         });
     });
-
 });

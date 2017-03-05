@@ -8,7 +8,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 const routes = [{
     method: 'GET',
     path: '/test',
@@ -34,7 +33,6 @@ const xPropertiesRoutes = [{
     }
 }];
 
-
 const reuseModelsRoutes = [{
     method: 'POST',
     path: '/test',
@@ -49,7 +47,6 @@ const reuseModelsRoutes = [{
         }
     }
 }];
-
 
 
 lab.experiment('builder', () => {
@@ -109,8 +106,6 @@ lab.experiment('builder', () => {
     });
 
 
-
-
     lab.test('xProperties : false', (done) => {
 
         Helper.createServer({ 'xProperties': false }, xPropertiesRoutes, (err, server) => {
@@ -145,7 +140,6 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -193,7 +187,6 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -230,7 +223,6 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -275,10 +267,8 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
-
 });
 
 
@@ -286,7 +276,9 @@ lab.experiment('builder', () => {
 
     let logs = [];
     lab.before((done) => {
+
         Helper.createServer({ 'debug': true }, reuseModelsRoutes, (err, server) => {
+
             server.on('log', (event) => {
 
                 logs = event.tags;
@@ -303,13 +295,9 @@ lab.experiment('builder', () => {
     });
 
 
-
     lab.test('debug : true', (done) => {
         //console.log(logs);
         expect(logs).to.equal(['hapi-swagger', 'validation', 'info']);
         done();
     });
-
 });
-
-

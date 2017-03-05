@@ -11,7 +11,7 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-let testPlugin = function (plugin, options, next) {
+const testPlugin = function (plugin, options, next) {
 
     plugin.route({
         method: 'GET',
@@ -30,7 +30,7 @@ let testPlugin = function (plugin, options, next) {
 };
 testPlugin.attributes = { name: 'grouping1' };
 
-let swaggerOptions = {
+const swaggerOptions = {
     schemes: ['http'],
     info: {
         'title': 'Test API Documentation',

@@ -9,7 +9,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 lab.experiment('plugin', () => {
 
     const routes = [{
@@ -30,10 +29,9 @@ lab.experiment('plugin', () => {
     }];
 
 
-
     lab.test('basic cache', (done) => {
 
-        let swaggerOptions = {
+        const swaggerOptions = {
             'cache': {
                 'expiresIn': 24 * 60 * 60 * 1000
             }
@@ -57,7 +55,7 @@ lab.experiment('plugin', () => {
 
     lab.test('cache with generateTimeout', (done) => {
 
-        let swaggerOptions = {
+        const swaggerOptions = {
             'cache': {
                 'expiresIn': 24 * 60 * 60 * 1000,
                 'generateTimeout': 30 * 1000
@@ -82,7 +80,7 @@ lab.experiment('plugin', () => {
         // test if a joi object weakmap cache
         // the Joi object should only be parsed once
 
-        let joiObj = Joi.object({
+        const joiObj = Joi.object({
             a: Joi.number(),
             b: Joi.number(),
             operator: Joi.string(),
@@ -122,6 +120,4 @@ lab.experiment('plugin', () => {
             });
         });
     });
-
-
 });

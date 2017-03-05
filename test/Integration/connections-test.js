@@ -22,7 +22,7 @@ lab.experiment('connections', () => {
         server.connection({ host: 'localhost', port: 3001, labels: 'b' });
         server.connection({ host: 'localhost', port: 3002, labels: 'c' });
 
-        let plugin1 = function (plugin, options, next) {
+        const plugin1 = function (plugin, options, next) {
 
             plugin.route({
                 method: 'GET',
@@ -41,7 +41,7 @@ lab.experiment('connections', () => {
         plugin1.attributes = { name: 'plugin1' };
 
 
-        let plugin2 = function (plugin, options, next) {
+        const plugin2 = function (plugin, options, next) {
 
             plugin.route({
                 method: 'GET',
@@ -60,7 +60,7 @@ lab.experiment('connections', () => {
         plugin2.attributes = { name: 'plugin2' };
 
 
-        let swaggerOptions = {
+        const swaggerOptions = {
             schemes: ['http'],
             info: {
                 'title': 'Test API Documentation',
@@ -77,8 +77,8 @@ lab.experiment('connections', () => {
             }
         };
 
-        let swaggerOptionsA = Hoek.clone(swaggerOptions);
-        let swaggerOptionsB = Hoek.clone(swaggerOptions);
+        const swaggerOptionsA = Hoek.clone(swaggerOptions);
+        const swaggerOptionsB = Hoek.clone(swaggerOptions);
 
         swaggerOptionsA.host = 'localhost:3000';
         swaggerOptionsB.host = 'localhost:3001';
@@ -117,10 +117,7 @@ lab.experiment('connections', () => {
                         });
                 });
         });
-
     });
-
-
 
 
     lab.test('server connection a', (done) => {
@@ -154,6 +151,4 @@ lab.experiment('connections', () => {
             done();
         });
     });
-
-
 });

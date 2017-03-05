@@ -13,7 +13,7 @@ const Joi = require('joi');
 const HapiSwagger = require('../');
 
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000

@@ -8,7 +8,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 lab.experiment('alternatives', () => {
 
     const routes = [{
@@ -234,7 +233,6 @@ lab.experiment('alternatives', () => {
             });
         });
     });
-
 
 
     lab.test('no x-alternatives', (done) => {

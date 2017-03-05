@@ -78,8 +78,5 @@ lab.experiment('dereference', () => {
             expect(json).to.not.exists();
             done();
         });
-
     });
-
-
 });

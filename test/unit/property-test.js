@@ -16,12 +16,12 @@ let propertiesAlt;
 let propertiesNoAlt;
 
 
-let clearDown = function () {
+const clearDown = function () {
 
     definitionCollection = {};
     altDefinitionCollection = {};
 
-    let definitionCache = [
+    const definitionCache = [
         new WeakMap(),
         new WeakMap()
     ];
