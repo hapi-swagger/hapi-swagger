@@ -103,7 +103,6 @@ lab.experiment('property - ', () => {
         expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b']), null, 'body', true, false)).to.equal({ type: 'string', enum: ['a', 'b'] });
         expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b', '']), null, 'body', true, false)).to.equal({ type: 'string', enum: ['a', 'b'] });
         expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b', null]), null, 'body', true, false)).to.equal({ type: 'string', enum: ['a', 'b'] });
-        expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b', null]), null, 'body', true, false)).to.equal({ type: 'string', enum: ['a', 'b'] });
         expect(propertiesNoAlt.parseProperty('x', Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp')).default).to.exist();
         //console.log(JSON.stringify(propertiesAlt.parseProperty('x',Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp'))));
 
