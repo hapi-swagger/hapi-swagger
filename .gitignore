@@ -17,5 +17,6 @@ npm-debug.log
 .DS_Store
 .vscode
 .coveralls.yml
+.idea
 
 test/certs/server.csr
