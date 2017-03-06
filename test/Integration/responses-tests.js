@@ -297,7 +297,8 @@ lab.experiment('responses', () => {
                     'hapi-swagger': {
                         responses: {
                             '200': {
-                                description: 'Success its a 200'
+                                description: 'Success its a 200',
+                                'x-meta': 'x-meta test data'
                             }
                         }
                     }
@@ -313,6 +314,7 @@ lab.experiment('responses', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
                 expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
+                expect(response.result.paths['/store/'].post.responses[200]['x-meta']).to.equal('x-meta test data');
                 expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
                     '$ref': '#/definitions/Result',
                     'type': 'object'
