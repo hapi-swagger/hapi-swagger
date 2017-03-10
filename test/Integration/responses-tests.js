@@ -328,7 +328,40 @@ lab.experiment('responses', () => {
 
 
 
+    lab.test('test a default response description is provided when no description is given', (done) => {
 
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                'x-meta': 'x-meta test data'
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Successful');
+                Helper.validate(response, done, expect);
+            });
+        });
+
+
+    });
 
 
 
