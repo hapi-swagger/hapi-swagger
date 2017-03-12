@@ -275,7 +275,7 @@ lab.experiment('proxies', () => {
     });
 
 
-    lab.test('adding facade for proxy using route options 3 - defination reuse', (done) => {
+    lab.test('adding facade for proxy using route options 3 - definition reuse', (done) => {
 
         routes = [{
             method: 'POST',
@@ -358,7 +358,7 @@ lab.experiment('proxies', () => {
 
 
 
-    lab.test('adding facade for proxy using route options 4 - defination name clash', (done) => {
+    lab.test('adding facade for proxy using route options 4 - definition name clash', (done) => {
 
         routes = [{
             method: 'POST',

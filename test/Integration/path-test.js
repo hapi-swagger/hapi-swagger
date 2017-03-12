@@ -461,7 +461,7 @@ lab.experiment('path', () => {
 
 
 
-    lab.test('path parameters {a}/{b?} required overriden by JOI', (done) => {
+    lab.test('path parameters {a}/{b?} required overridden by JOI', (done) => {
 
         const testRoutes = [{
             method: 'POST',
@@ -726,7 +726,7 @@ lab.experiment('path', () => {
     });
 
 
-    lab.test('stop emtpy objects creating parameter', (done) => {
+    lab.test('stop empty objects creating parameter', (done) => {
 
         const testRoutes = {
             method: 'POST',
@@ -768,7 +768,7 @@ lab.experiment('path', () => {
 
 
 
-    lab.test('stop emtpy formData object creating parameter', (done) => {
+    lab.test('stop empty formData object creating parameter', (done) => {
 
         const testRoutes = {
             method: 'POST',

@@ -1,6 +1,6 @@
 'use strict';
 
-// `upload-file.js` - how create documenation for a file upload
+// `upload-file.js` - how create documentation for a file upload
 // the file `example/assets/test-upload.json` has data in the correct format for this example
 
 const Hapi = require('hapi');

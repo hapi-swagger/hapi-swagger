@@ -222,7 +222,7 @@ you added route option `order` to each endpoint and switch the plugin options to
 
 
 # Rewriting paths and groupings
-Ther are two ways to change to do this:
+There are two ways to change to do this:
 There are time you may wish to modify how groups and endpoint paths are displayed within the documentation.
 
 ### Option 1 `basePath` and `pathPrefixSize`
@@ -539,7 +539,7 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 * __`array.ordered(type)`__ This allows for different typed items within an array. i.e. string or int.
 * __`{name*}`__ The path parameters with the `*` char are not supported, either is the `{name*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
 * __`.allow( null )`__  The current Swagger spec does not support `null`. This __maybe__ added to the next version of OpenAPI spec.
-* __`payload: function (value, options, next) {next(null, value);}`__  The use of custom functions to validate pramaters is not support beyond replacing them with an emtpy model call "Hidden Model".
+* __`payload: function (value, options, next) {next(null, value);}`__  The use of custom functions to validate pramaters is not support beyond replacing them with an empty model call "Hidden Model".
 * __`Joi.date().format('yy-mm-dd')` __ The use of a `moment` pattern to format a date cannot be reproduced in Swagger
 
 
@@ -732,7 +732,7 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 *  [`options.js`](examples/options.js) - how to use many of the plug-ins options
 *  [`promise.js`](examples/promise.js) - how to setup the plug-in using promises
 *  [`swagger-client.js`](examples/swagger-client.js) - how use the plug-in to build an lib interface with `swagger-client`
-*  [`upload-file.js`](examples/upload-file.js) - how create documenation for a file upload
+*  [`upload-file.js`](examples/upload-file.js) - how create documentation for a file upload
 *  [`versions.js`](examples/versions.js) - how to use the plug-in with `hapi-api-version` for versioning of an API
 
 

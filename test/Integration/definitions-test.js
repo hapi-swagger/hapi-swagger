@@ -76,7 +76,7 @@ lab.experiment('definitions', () => {
         Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
-            const defination = {
+            const definition = {
                 'properties': {
                     'a': {
                         'description': 'the first number',
@@ -112,7 +112,7 @@ lab.experiment('definitions', () => {
                 expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
                     '$ref': '#/definitions/Model 1'
                 });
-                expect(response.result.definitions['Model 1']).to.equal(defination);
+                expect(response.result.definitions['Model 1']).to.equal(definition);
                 Helper.validate(response, done, expect);
             });
         });
