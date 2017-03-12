@@ -377,8 +377,7 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[200]).to.equal({
                     'description': 'Success',
                     'schema': {
-                        '$ref': '#/definitions/HTTP200',
-                        'type': 'array'
+                        '$ref': '#/definitions/HTTP200'
                     }
                 });
                 expect(response.result.definitions.HTTP200).to.equal({
