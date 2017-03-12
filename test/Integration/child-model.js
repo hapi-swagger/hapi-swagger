@@ -8,7 +8,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 lab.experiment('child-models', () => {
 
     const requestOptions = {
@@ -91,11 +90,9 @@ lab.experiment('child-models', () => {
                         .label('FooArr')
                     )
                     .label('FooArrParent')
-
             }
         }
     }];
-
 
 
     lab.test('child definitions models', (done) => {
@@ -109,19 +106,16 @@ lab.experiment('child-models', () => {
                 expect(response.statusCode).to.equal(200);
 
                 expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/Model 1',
-                    'type': 'object'
+                    '$ref': '#/definitions/Model 1'
                 });
 
                 expect(response.result.definitions['Model 1']).to.equal({
                     'properties': {
                         'outer1': {
-                            '$ref': '#/definitions/outer1',
-                            'type': 'object'
+                            '$ref': '#/definitions/outer1'
                         },
                         'outer2': {
-                            '$ref': '#/definitions/outer2',
-                            'type': 'object'
+                            '$ref': '#/definitions/outer2'
                         }
                     },
                     'type': 'object'
@@ -153,19 +147,16 @@ lab.experiment('child-models', () => {
                 expect(response.statusCode).to.equal(200);
 
                 expect(response.result.paths['/bar/objects'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/FooObjParent',
-                    'type': 'object'
+                    '$ref': '#/definitions/FooObjParent'
                 });
                 expect(response.result.paths['/bar/objects'].post.responses[200].schema).to.equal({
-                    '$ref': '#/definitions/FooObjParent',
-                    'type': 'object'
+                    '$ref': '#/definitions/FooObjParent'
                 });
                 expect(response.result.definitions.FooObjParent).to.equal({
                     'type': 'object',
                     'properties': {
                         'foos': {
-                            '$ref': '#/definitions/FooObj',
-                            'type': 'object'
+                            '$ref': '#/definitions/FooObj'
                         }
                     }
                 });
@@ -181,25 +172,21 @@ lab.experiment('child-models', () => {
 
 
                 expect(response.result.paths['/bar/arrays'].post.parameters[0].schema).to.equal({
-                    'type': 'array',
                     '$ref': '#/definitions/FooArrParent'
                 });
                 expect(response.result.paths['/bar/arrays'].post.responses[200].schema).to.equal({
-                    'type': 'array',
                     '$ref': '#/definitions/FooArrParent'
                 });
                 expect(response.result.definitions.FooArrParent).to.equal({
                     'type': 'array',
                     'items': {
-                        '$ref': '#/definitions/FooArr',
-                        'type': 'array'
+                        '$ref': '#/definitions/FooArr'
                     }
                 });
                 expect(response.result.definitions.FooArr).to.equal({
                     'type': 'array',
                     'items': {
-                        '$ref': '#/definitions/FooArrObj',
-                        'type': 'object'
+                        '$ref': '#/definitions/FooArrObj'
                     }
                 });
                 expect(response.result.definitions.FooArrObj).to.equal({
@@ -215,5 +202,4 @@ lab.experiment('child-models', () => {
             });
         });
     });
-
 });

@@ -36,7 +36,7 @@ JSON (JSON endpoint needed to create UI)
 *  `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`,
 *  `reuseDefinitions`: Reuse of definition models to save space - default: `true`,
 *  `deReference`: Dereferences JSON output - default: `false`,
-*  `debug`: Validates the JSON ouput against swagger specification - default: `false`,
+*  `debug`: Validates the JSON output against swagger specification - default: `false`,
 
 UI
 * `swaggerUI`:  (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`

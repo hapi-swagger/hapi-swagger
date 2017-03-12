@@ -125,7 +125,7 @@ helper.createAuthServer = function (swaggerOptions, routes, callback) {
 */
 helper.createJWTAuthServer = function (swaggerOptions, routes, callback) {
 
-    let people = {
+    const people = {
         56732: {
             id: 56732,
             name: 'Jen Jones',
@@ -357,7 +357,7 @@ helper.replyWithJSON  = function (err, res, request, reply, settings, ttl) {
 helper.objWithNoOwnProperty = function () {
 
     const  sides = { a: 1, b: 2, c: 3 };
-    let Triangle = function () {
+    const Triangle = function () {
 
     };
     Triangle.prototype = sides;

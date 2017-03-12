@@ -113,13 +113,13 @@ const goodOptions = {
     }
 };
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000
 });
 
-let swaggerOptions = {
+const swaggerOptions = {
     basePath: '/v1',
     pathPrefixSize: 2,
     info: {

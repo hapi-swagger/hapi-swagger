@@ -9,7 +9,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./assets/routes-simple');
+const Routes = require('./assets/routes-simple');
 
 
 const goodOptions = {
@@ -31,14 +31,14 @@ const goodOptions = {
 };
 
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000
 });
 
 
-let swaggerOptions = {
+const swaggerOptions = {
     documentationPage: false,
     swaggerUIPath: '/ui/',
     basePath: '/v1/',

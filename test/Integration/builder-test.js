@@ -8,7 +8,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 const routes = [{
     method: 'GET',
     path: '/test',
@@ -34,7 +33,6 @@ const xPropertiesRoutes = [{
     }
 }];
 
-
 const reuseModelsRoutes = [{
     method: 'POST',
     path: '/test',
@@ -49,7 +47,6 @@ const reuseModelsRoutes = [{
         }
     }
 }];
-
 
 
 lab.experiment('builder', () => {
@@ -109,8 +106,6 @@ lab.experiment('builder', () => {
     });
 
 
-
-
     lab.test('xProperties : false', (done) => {
 
         Helper.createServer({ 'xProperties': false }, xPropertiesRoutes, (err, server) => {
@@ -136,8 +131,7 @@ lab.experiment('builder', () => {
                                 'type': 'string'
                             },
                             'array': {
-                                '$ref': '#/definitions/array',
-                                'type': 'array'
+                                '$ref': '#/definitions/array'
                             }
                         }
                     }
@@ -145,7 +139,6 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -184,8 +177,7 @@ lab.experiment('builder', () => {
                                 }
                             },
                             'array': {
-                                '$ref': '#/definitions/array',
-                                'type': 'array'
+                                '$ref': '#/definitions/array'
                             }
                         }
                     }
@@ -193,7 +185,6 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -219,12 +210,10 @@ lab.experiment('builder', () => {
                         'type': 'object',
                         'properties': {
                             'a': {
-                                '$ref': '#/definitions/a',
-                                'type': 'object'
+                                '$ref': '#/definitions/a'
                             },
                             'b': {
-                                '$ref': '#/definitions/a',
-                                'type': 'object'
+                                '$ref': '#/definitions/a'
                             }
                         }
                     }
@@ -232,7 +221,6 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -266,12 +254,10 @@ lab.experiment('builder', () => {
                         'type': 'object',
                         'properties': {
                             'a': {
-                                '$ref': '#/definitions/a',
-                                'type': 'object'
+                                '$ref': '#/definitions/a'
                             },
                             'b': {
-                                '$ref': '#/definitions/b',
-                                'type': 'object'
+                                '$ref': '#/definitions/b'
                             }
                         }
                     }
@@ -279,10 +265,8 @@ lab.experiment('builder', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
-
 });
 
 
@@ -290,7 +274,9 @@ lab.experiment('builder', () => {
 
     let logs = [];
     lab.before((done) => {
+
         Helper.createServer({ 'debug': true }, reuseModelsRoutes, (err, server) => {
+
             server.on('log', (event) => {
 
                 logs = event.tags;
@@ -307,13 +293,9 @@ lab.experiment('builder', () => {
     });
 
 
-
     lab.test('debug : true', (done) => {
         //console.log(logs);
         expect(logs).to.equal(['hapi-swagger', 'validation', 'info']);
         done();
     });
-
 });
-
-

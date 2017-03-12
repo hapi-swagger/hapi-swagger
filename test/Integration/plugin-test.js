@@ -252,7 +252,7 @@ lab.experiment('plugin', () => {
     });
 
 
-    lab.test('disable swagger UI overriden by documentationPage', (done) => {
+    lab.test('disable swagger UI overridden by documentationPage', (done) => {
 
         swaggerOptions = {
             'swaggerUI': false,

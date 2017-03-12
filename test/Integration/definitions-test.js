@@ -76,7 +76,7 @@ lab.experiment('definitions', () => {
         Helper.createServer({}, routes, (err, server) => {
 
             expect(err).to.equal(null);
-            const defination = {
+            const definition = {
                 'properties': {
                     'a': {
                         'description': 'the first number',
@@ -110,13 +110,11 @@ lab.experiment('definitions', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/Model 1',
-                    'type': 'object'
+                    '$ref': '#/definitions/Model 1'
                 });
-                expect(response.result.definitions['Model 1']).to.equal(defination);
+                expect(response.result.definitions['Model 1']).to.equal(definition);
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -136,7 +134,6 @@ lab.experiment('definitions', () => {
 
                 Helper.validate(response, done, expect);
             });
-
         });
     });
 
@@ -193,7 +190,7 @@ lab.experiment('definitions', () => {
 
     lab.test('test that optional array is not in swagger output', (done) => {
 
-        let testRoutes = [{
+        const testRoutes = [{
             method: 'POST',
             path: '/server/1/',
             config: {
@@ -236,7 +233,6 @@ lab.experiment('definitions', () => {
 
     lab.test('test that name changing for required', (done) => {
 
-
         const FormDependencyDefinition = Joi.object({
             id: Joi.number().required()
         }).label('FormDependencyDefinition');
@@ -246,8 +242,7 @@ lab.experiment('definitions', () => {
             reminder: FormDependencyDefinition.required()
         }).label('ActionDefinition');
 
-
-        let testRoutes = [{
+        const testRoutes = [{
             method: 'POST',
             path: '/server/',
             config: {
@@ -272,8 +267,7 @@ lab.experiment('definitions', () => {
                             'type': 'number'
                         },
                         'reminder': {
-                            '$ref': '#/definitions/FormDependencyDefinition',
-                            'type': 'object'
+                            '$ref': '#/definitions/FormDependencyDefinition'
                         }
                     },
                     'required': [
@@ -285,7 +279,4 @@ lab.experiment('definitions', () => {
             });
         });
     });
-
-
-
 });

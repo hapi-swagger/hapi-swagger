@@ -11,10 +11,10 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./assets/routes-simple');
+const Routes = require('./assets/routes-simple');
 
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 
 // only the connections a and b on ports 3000 and 3001 will have documentation
 server.connection({ host: 'localhost', port: 3000, labels: 'a' });
@@ -22,7 +22,7 @@ server.connection({ host: 'localhost', port: 3001, labels: 'b' });
 server.connection({ host: 'localhost', port: 3002, labels: 'c' });
 
 
-let plugin1 = function (plugin, options, next) {
+const plugin1 = function (plugin, options, next) {
 
     plugin.route({
         method: 'GET',
@@ -41,7 +41,7 @@ let plugin1 = function (plugin, options, next) {
 plugin1.attributes = { name: 'plugin1' };
 
 
-let plugin2 = function (plugin, options, next) {
+const plugin2 = function (plugin, options, next) {
 
     plugin.route({
         method: 'GET',
@@ -60,7 +60,7 @@ let plugin2 = function (plugin, options, next) {
 plugin2.attributes = { name: 'plugin2' };
 
 
-let swaggerOptions = {
+const swaggerOptions = {
     schemes: ['http'],
     info: {
         'title': 'Test API Documentation',
@@ -77,8 +77,8 @@ let swaggerOptions = {
     }
 };
 
-let swaggerOptionsA = Hoek.clone(swaggerOptions);
-let swaggerOptionsB = Hoek.clone(swaggerOptions);
+const swaggerOptionsA = Hoek.clone(swaggerOptions);
+const swaggerOptionsB = Hoek.clone(swaggerOptions);
 
 swaggerOptionsA.host = 'localhost:3000';
 swaggerOptionsB.host = 'localhost:3001';

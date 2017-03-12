@@ -11,7 +11,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./assets/routes-complex.js');
+const Routes = require('./assets/routes-complex.js');
 
 
 /**
@@ -55,13 +55,13 @@ const goodOptions = {
     }
 };
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000
 });
 
-let swaggerOptions = {
+const swaggerOptions = {
     basePath: '/v1',
     pathPrefixSize: 2,
     info: {

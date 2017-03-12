@@ -11,7 +11,7 @@ const lab = exports.lab = Lab.script();
 
 lab.experiment('file', () => {
 
-    let routes = {
+    const routes = {
         method: 'POST',
         path: '/test/',
         config: {

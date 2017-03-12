@@ -214,8 +214,7 @@ lab.experiment('proxies', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Model 1',
-                            'type': 'object'
+                            '$ref': '#/definitions/Model 1'
                         }
                     }
                 ]);
@@ -266,8 +265,7 @@ lab.experiment('proxies', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/testname',
-                            'type': 'object'
+                            '$ref': '#/definitions/testname'
                         }
                     }
                 ]);
@@ -277,7 +275,7 @@ lab.experiment('proxies', () => {
     });
 
 
-    lab.test('adding facade for proxy using route options 3 - defination reuse', (done) => {
+    lab.test('adding facade for proxy using route options 3 - definition reuse', (done) => {
 
         routes = [{
             method: 'POST',
@@ -360,7 +358,7 @@ lab.experiment('proxies', () => {
 
 
 
-    lab.test('adding facade for proxy using route options 4 - defination name clash', (done) => {
+    lab.test('adding facade for proxy using route options 4 - definition name clash', (done) => {
 
         routes = [{
             method: 'POST',

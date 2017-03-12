@@ -9,7 +9,7 @@ const lab = exports.lab = Lab.script();
 
 lab.experiment('validation', () => {
 
-    let routes = {
+    const routes = {
         method: 'POST',
         path: '/test',
         handler: Helper.defaultHandler,
@@ -67,8 +67,7 @@ lab.experiment('validation', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Hidden Model',
-                            'type': 'object'
+                            '$ref': '#/definitions/Hidden Model'
                         }
                     }
                 ]);

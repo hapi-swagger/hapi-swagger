@@ -127,7 +127,7 @@ const replyByType = function (name, json, request, reply) {
  */
 const defaultHandler = function (request, reply) {
 
-    let sum = {
+    const sum = {
         'id': 'x78P9c',
         'a': 5,
         'b': 5,
@@ -136,7 +136,7 @@ const defaultHandler = function (request, reply) {
         'created': '2015-12-01',
         'modified': '2015-12-01'
     };
-    let list = {
+    const list = {
         'items': [sum],
         'count': 1,
         'pageSize': 10,

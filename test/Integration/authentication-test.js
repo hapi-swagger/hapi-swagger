@@ -79,10 +79,7 @@ lab.experiment('default `auth` settings', () => {
             });
         });
     });
-
-
 });
-
 
 
 lab.experiment('authentication', () => {
@@ -213,10 +210,4 @@ lab.experiment('authentication', () => {
             });
         });
     });
-
-
 });
-
-
-
-

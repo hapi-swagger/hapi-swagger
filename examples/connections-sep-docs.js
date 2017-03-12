@@ -8,14 +8,14 @@ const Inert = require('inert');
 const Vision = require('vision');
 
 const HapiSwagger = require('../');
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 
 
 // the API is on 3000 and the documentation is on 3001
 server.connection({ host: 'localhost', port: 3000, labels: 'api', routes: { cors: true } });
 server.connection({ host: 'localhost', port: 3001, labels: 'docs' });
 
-let testPlugin = function (plugin, options, next) {
+const testPlugin = function (plugin, options, next) {
 
 
     plugin.route({
@@ -36,7 +36,7 @@ let testPlugin = function (plugin, options, next) {
 testPlugin.attributes = { name: 'plugin1' };
 
 
-let swaggerOptions = {
+const swaggerOptions = {
     schemes: ['http'],
     info: {
         'title': 'Test API Documentation',

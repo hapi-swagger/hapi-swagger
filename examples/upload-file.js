@@ -1,6 +1,6 @@
 'use strict';
 
-// `upload-file.js` - how create documenation for a file upload
+// `upload-file.js` - how create documentation for a file upload
 // the file `example/assets/test-upload.json` has data in the correct format for this example
 
 const Hapi = require('hapi');
@@ -13,7 +13,7 @@ const Joi = require('joi');
 const HapiSwagger = require('../');
 
 
-let server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000

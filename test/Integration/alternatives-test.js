@@ -8,7 +8,6 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-
 lab.experiment('alternatives', () => {
 
     const routes = [{
@@ -145,17 +144,14 @@ lab.experiment('alternatives', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Alt',
-                            'type': 'object'
+                            '$ref': '#/definitions/Alt'
                         },
                         'x-alternatives': [
                             {
-                                '$ref': '#/x-alt-definitions/alt1',
-                                'type': 'object'
+                                '$ref': '#/x-alt-definitions/alt1'
                             },
                             {
-                                '$ref': '#/x-alt-definitions/alt2',
-                                'type': 'object'
+                                '$ref': '#/x-alt-definitions/alt2'
                             }
                         ]
                     }
@@ -166,15 +162,12 @@ lab.experiment('alternatives', () => {
                     '200': {
                         'schema': {
                             '$ref': '#/definitions/Alt',
-                            'type': 'object',
                             'x-alternatives': [
                                 {
-                                    '$ref': '#/x-alt-definitions/alt1',
-                                    'type': 'object'
+                                    '$ref': '#/x-alt-definitions/alt1'
                                 },
                                 {
-                                    '$ref': '#/x-alt-definitions/alt2',
-                                    'type': 'object'
+                                    '$ref': '#/x-alt-definitions/alt2'
                                 }
                             ]
                         },
@@ -226,11 +219,9 @@ lab.experiment('alternatives', () => {
                         },
                         'extra': {
                             '$ref': '#/definitions/Dimensions',
-                            'type': 'object',
                             'x-alternatives': [
                                 {
-                                    '$ref': '#/x-alt-definitions/Dimensions',
-                                    'type': 'object'
+                                    '$ref': '#/x-alt-definitions/Dimensions'
                                 }
                             ]
                         }
@@ -242,7 +233,6 @@ lab.experiment('alternatives', () => {
             });
         });
     });
-
 
 
     lab.test('no x-alternatives', (done) => {
@@ -268,8 +258,7 @@ lab.experiment('alternatives', () => {
                         'name': 'body',
                         'in': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Alt',
-                            'type': 'object'
+                            '$ref': '#/definitions/Alt'
                         }
                     }
                 ]);
@@ -279,8 +268,7 @@ lab.experiment('alternatives', () => {
                         'in': 'body',
                         'name': 'body',
                         'schema': {
-                            '$ref': '#/definitions/Model 1',
-                            'type': 'object'
+                            '$ref': '#/definitions/Model 1'
                         }
                     }
                 ]);
@@ -322,8 +310,7 @@ lab.experiment('alternatives', () => {
                                 'type': 'string'
                             },
                             'extra': {
-                                '$ref': '#/definitions/Dimensions',
-                                'type': 'object'
+                                '$ref': '#/definitions/Dimensions'
                             }
                         },
                         'type': 'object'

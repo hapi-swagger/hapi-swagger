@@ -13,7 +13,7 @@ const Vision = require('vision');
 const HapiSwagger = require('../');
 
 
-let swaggerOptions = {
+const swaggerOptions = {
     info: {
         'title': 'Test API Documentation',
         'description': 'This is a sample example of API documentation.'

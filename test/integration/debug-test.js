@@ -26,7 +26,7 @@ lab.experiment('debug', () => {
     };
 
 
-    let logs = [];
+    const logs = [];
     lab.before((done) => {
         Helper.createServer({ 'debug': true }, routesEmptyObjects, (err, server) => {
             server.on('log', (event) => {
@@ -52,9 +52,7 @@ lab.experiment('debug', () => {
         expect(logs[2].data).to.equal('The /test route query parameter was set, but not as a Joi.object() with child properties');
         done();
     });
-
 });
-
 
 
 lab.experiment('debug', () => {
@@ -87,7 +85,7 @@ lab.experiment('debug', () => {
     };
 
 
-    let logs = [];
+    const logs = [];
     lab.before((done) => {
         Helper.createServer({ 'debug': true }, routesFuncObjects, (err, server) => {
             server.on('log', (event) => {
@@ -118,7 +116,6 @@ lab.experiment('debug', () => {
 });
 
 
-
 lab.experiment('debug', () => {
 
     const routesFuncObjects = {
@@ -132,13 +129,12 @@ lab.experiment('debug', () => {
                     a: Joi.string(),
                     b: Joi.string()
                 })
-
             }
         }
     };
 
 
-    let logs = [];
+    const logs = [];
     lab.before((done) => {
         Helper.createServer({ 'debug': true }, routesFuncObjects, (err, server) => {
             server.on('log', (event) => {
@@ -162,5 +158,4 @@ lab.experiment('debug', () => {
         expect(logs[0].data).to.equal('The /test/{a}/{b?} params parameter {b} is set as optional. This will work in the UI, but is invalid in the swagger spec');
         done();
     });
-
 });

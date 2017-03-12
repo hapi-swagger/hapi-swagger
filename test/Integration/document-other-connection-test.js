@@ -11,7 +11,7 @@ const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
 
-let testPlugin = function (plugin, options, next) {
+const testPlugin = function (plugin, options, next) {
 
     plugin.route({
         method: 'GET',
@@ -30,7 +30,7 @@ let testPlugin = function (plugin, options, next) {
 testPlugin.attributes = { name: 'plugin1' };
 
 
-let swaggerOptions = {
+const swaggerOptions = {
     schemes: ['http'],
     info: {
         'title': 'Test API Documentation',
@@ -76,8 +76,6 @@ lab.experiment('document another connection', () => {
     });
 
 
-
-
     lab.test('connectionLabel', (done) => {
 
         const connection = server.select('docs');
@@ -107,12 +105,7 @@ lab.experiment('document another connection', () => {
             Helper.validate(response, done, expect);
         });
     });
-
-
 });
-
-
-
 
 
 lab.experiment('document another connection error', () => {
@@ -140,7 +133,6 @@ lab.experiment('document another connection error', () => {
 
         server.start(() => { done(); });
     });
-
 
 
     lab.test('select first connection', (done) => {
@@ -171,7 +163,5 @@ lab.experiment('document another connection error', () => {
             });
             Helper.validate(response, done, expect);
         });
-
     });
-
 });

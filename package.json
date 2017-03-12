@@ -39,16 +39,16 @@
     "h2o2": "^5.1.0",
     "hapi": "^16.1.0",
     "hapi-api-version": "^1.1.0",
+    "hapi-auth-basic": "^4.2.0",
     "hapi-auth-bearer-token": "^4.0.2",
     "hapi-auth-jwt2": "^7.0.1",
-    "hapi-auth-basic": "^4.2.0",
     "inert": "^4.0.1",
     "js2xmlparser": "^2.0.2",
+    "jsonwebtoken": "^7.1.9",
     "lab": "^12.1.0",
     "swagger-client": "^2.1.14",
     "vision": "^4.0.1",
-    "wreck": "^10.0.0",
-    "jsonwebtoken": "^7.1.9"
+    "wreck": "^10.0.0"
   },
   "scripts": {
     "start": "node ./bin/test-server.js",

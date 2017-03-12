@@ -16,12 +16,12 @@ let propertiesAlt;
 let propertiesNoAlt;
 
 
-let clearDown = function () {
+const clearDown = function () {
 
     definitionCollection = {};
     altDefinitionCollection = {};
 
-    let definitionCache = [
+    const definitionCache = [
         new WeakMap(),
         new WeakMap()
     ];
@@ -51,13 +51,13 @@ lab.experiment('property - ', () => {
 
         clearDown();
         //console.log(JSON.stringify(propertiesNoAlt.parseProperty('x', Joi.any(), null, null, true, false)));
-        expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, 'body', true, false)).to.equal({ '$ref': '#/definitions/x', 'type': 'object' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, 'body', true, false)).to.equal({ '$ref': '#/definitions/x' });
         expect(propertiesNoAlt.parseProperty('x', Joi.string(), null, 'body', true, false)).to.equal({ 'type': 'string' });
         expect(propertiesNoAlt.parseProperty('x', Joi.number(), null, 'body', true, false)).to.equal({ 'type': 'number' });
         expect(propertiesNoAlt.parseProperty('x', Joi.boolean(), null, 'body', true, false)).to.equal({ 'type': 'boolean' });
         expect(propertiesNoAlt.parseProperty('x', Joi.date(), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
         expect(propertiesNoAlt.parseProperty('x', Joi.binary(), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'binary' });
-        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, 'body', true, false)).to.equal({ '$ref': '#/definitions/Model 1', 'type': 'array' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, 'body', true, false)).to.equal({ '$ref': '#/definitions/Model 1' });
         expect(propertiesNoAlt.parseProperty('x', Joi.any(), null, 'body', true, false)).to.equal({ 'type': 'string' });
         //expect(propertiesNoAlt.parseProperty('x', Joi.func(), null, 'body', true, false)).to.equal({ 'type': 'string' });
 
@@ -267,8 +267,7 @@ lab.experiment('property - ', () => {
         clearDown();
         //console.log(JSON.stringify(propertiesNoAlt.parseProperty('x', Joi.array().items({ 'text': Joi.string() }), null, 'formData', true, false)));
         expect(propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.string()), null, 'formData', true, false)).to.equal({
-            '$ref': '#/definitions/x',
-            'type': 'array'
+            '$ref': '#/definitions/x'
         });
         //console.log(JSON.stringify(definitionCollection));
         expect(definitionCollection).to.equal({
