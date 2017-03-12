@@ -314,8 +314,7 @@ lab.experiment('responses', () => {
                 expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
                 expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
                 expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
-                    '$ref': '#/definitions/Result',
-                    'type': 'object'
+                    '$ref': '#/definitions/Result'
                 });
                 Helper.validate(response, done, expect);
             });
@@ -385,8 +384,7 @@ lab.experiment('responses', () => {
                 expect(response.result.definitions.HTTP200).to.equal({
                     'type': 'array',
                     'items': {
-                        '$ref': '#/definitions/HTTP200Items',
-                        'type': 'object'
+                        '$ref': '#/definitions/HTTP200Items'
                     }
                 });
                 expect(response.result.definitions.HTTP200Items).to.equal({
@@ -624,8 +622,7 @@ lab.experiment('responses', () => {
                     'datapointlist': {
                         'type': 'array',
                         'items': {
-                            '$ref': '#/definitions/datapoint',
-                            'type': 'object'
+                            '$ref': '#/definitions/datapoint'
                         },
                         'required': ['datapoint']
                     }
@@ -684,8 +681,7 @@ lab.experiment('responses', () => {
                     'datapointlist': {
                         'type': 'array',
                         'items': {
-                            '$ref': '#/definitions/datapoint',
-                            'type': 'object'
+                            '$ref': '#/definitions/datapoint'
                         },
                         'required': ['datapoint']
                     }
@@ -733,8 +729,7 @@ lab.experiment('responses', () => {
                             'responses': {
                                 '200': {
                                     'schema': {
-                                        '$ref': '#/definitions/List',
-                                        'type': 'object'
+                                        '$ref': '#/definitions/List'
                                     },
                                     'description': 'Success with response.schema'
                                 }
@@ -785,8 +780,7 @@ lab.experiment('responses', () => {
                             'responses': {
                                 '200': {
                                     'schema': {
-                                        '$ref': '#/definitions/List',
-                                        'type': 'object'
+                                        '$ref': '#/definitions/List'
                                     },
                                     'description': 'Successful'
                                 },
@@ -841,8 +835,7 @@ lab.experiment('responses', () => {
                             'responses': {
                                 '200': {
                                     'schema': {
-                                        '$ref': '#/definitions/Sum',
-                                        'type': 'object'
+                                        '$ref': '#/definitions/Sum'
                                     },
                                     'description': 'Success with response.schema'
                                 }
@@ -907,28 +900,24 @@ lab.experiment('responses', () => {
                                 '200': {
                                     'description': 'json body for sum',
                                     'schema': {
-                                        '$ref': '#/definitions/Sum',
-                                        'type': 'object'
+                                        '$ref': '#/definitions/Sum'
                                     }
                                 },
                                 '400': {
                                     'schema': {
-                                        '$ref': '#/definitions/Model 1',
-                                        'type': 'object'
+                                        '$ref': '#/definitions/Model 1'
                                     },
                                     'description': '400 - Added from plugin-options'
                                 },
                                 '404': {
                                     'description': '404 from response status object',
                                     'schema': {
-                                        '$ref': '#/definitions/Model 1',
-                                        'type': 'object'
+                                        '$ref': '#/definitions/Model 1'
                                     }
                                 },
                                 '429': {
                                     'schema': {
-                                        '$ref': '#/definitions/Model 1',
-                                        'type': 'object'
+                                        '$ref': '#/definitions/Model 1'
                                     },
                                     'description': 'Too Many Requests'
                                 },
