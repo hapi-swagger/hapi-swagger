@@ -803,4 +803,38 @@ lab.experiment('path', () => {
         });
     });
 
+    lab.test('if there is custom-values field, it has to be displayed', (done) => {
+
+        let testRoutes = {
+            method: 'POST',
+            path: '/customvalues',
+            config: {
+                handler: () => { },
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        'custom-values': {
+                            'scope': 'rights.create'
+                        },
+                    },
+                },
+                validate: {
+                    payload: Joi.object()
+                }
+            }
+        };
+
+        Helper.createServer({}, testRoutes, (err, server) => {
+
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.paths['/customvalues'].post['x-custom-values'].scope).to.equal('rights.create');
+
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
+
 });
