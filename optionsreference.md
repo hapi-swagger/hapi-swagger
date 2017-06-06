@@ -140,6 +140,43 @@ only assigned to the route they are apply to.
 }
 ```
 
+## Custom values
+If you need to use some extra properties, you can use the field `custom-values` inside the route options object. Once you ask the json file, your custom fields will be available inside the `x-custom-values` field.
 
 
+```Javascript
+{
+    method: 'PUT',
+    path: '/store/{id}',
+    config: {
+        handler: handlers.storeUpdate,
+        plugins: {
+            'hapi-swagger': {
+                'custom-values': {
+                    scope: 'route.scope'
+                    // Add everything you want there
+                }
+            }
+        }
+    }
+}
 
+```
+
+And this will produce
+
+```Javascript
+{
+    'paths': {
+        '/store/{id}': {
+            'get': {
+               // ...
+               'x-custom-values': {
+                    'scope': 'route.scope'
+                },
+            }
+        }
+    }
+}
+
+```
