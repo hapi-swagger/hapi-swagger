@@ -27,6 +27,7 @@ JSON (JSON endpoint needed to create UI)
   * `license`
     * `name` (string) The name of the license used for the API
     * `url` (string) The URL to the license used by the API. MUST be formatted as a URL
+  * `x-*` (any): any property or object with a key starting with *x-* is included as such in the *info* section of the object returned by the JSON endpoint. This allows custom properties to be defined as options and copied as such.
 *  `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI. No defaults are provided.
 *  `grouping` (string) how to create grouping of endpoints value either `path` or `tags` - default: `path`
 *  `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
@@ -140,6 +141,43 @@ only assigned to the route they are apply to.
 }
 ```
 
+## Custom values
+If you need to use some extra properties, you can use the field `custom-values` inside the route options object. Once you ask the json file, your custom fields will be available inside the `x-custom-values` field.
 
 
+```Javascript
+{
+    method: 'PUT',
+    path: '/store/{id}',
+    config: {
+        handler: handlers.storeUpdate,
+        plugins: {
+            'hapi-swagger': {
+                'custom-values': {
+                    scope: 'route.scope'
+                    // Add everything you want there
+                }
+            }
+        }
+    }
+}
 
+```
+
+And this will produce
+
+```Javascript
+{
+    'paths': {
+        '/store/{id}': {
+            'get': {
+               // ...
+               'x-custom-values': {
+                    'scope': 'route.scope'
+                },
+            }
+        }
+    }
+}
+
+```

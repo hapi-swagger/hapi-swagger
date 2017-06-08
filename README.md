@@ -15,7 +15,7 @@ __Review [release notes for v7.0.0](https://github.com/glennjones/hapi-swagger/i
 
 You can add the module to your HAPI using npm:
 
-    $ npm install hapi-swagger --save
+    $ npm install @reptilbud/hapi-swagger --save
 
 If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static
 content serving.

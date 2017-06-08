@@ -107,4 +107,26 @@ lab.experiment('info', () => {
         });
     });
 
+    lab.test('info object with custom properties', (done) => {
+ 
+        const swaggerOptions = {
+            info: {
+                'title': 'test title for lab',
+                'version': '0.0.1',
+                'x-custom': 'custom'
+            }
+        };
+ 
+        Helper.createServer(swaggerOptions, routes, (err, server) => {
+ 
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+ 
+                expect(response.statusCode).to.equal(200);
+                expect(response.result.info).to.equal(swaggerOptions.info);
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
+
 });
