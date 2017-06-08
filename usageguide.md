@@ -39,7 +39,7 @@ method: 'POST',
         validate: {
             payload: Joi.object({
                 a: Joi.number(),
-                b: Joi.nunber()
+                b: Joi.number()
             })
         }
     }
@@ -63,7 +63,7 @@ If you wish to have hapi-swagger display a interface to POST data in `form-urlen
         validate: {
             payload: Joi.object({
                 a: Joi.number(),
-                b: Joi.nunber()
+                b: Joi.number()
             })
         }
     }
@@ -112,7 +112,7 @@ and chain the `label` function as below. __You need to give different structures
 validate: {
     payload: Joi.object({
         a: Joi.number(),
-        b: Joi.nunber()
+        b: Joi.number()
     }).label('Sum')
 }
 ```
@@ -405,7 +405,7 @@ Defaults are turned into pre-fill values, either in the JSON of a payload or in 
 validate: {
     payload: Joi.object({
         a: Joi.number().default('10'),
-        b: Joi.nunber().default('15')
+        b: Joi.number().default('15')
     }).label('Sum')
 }
 ```
@@ -415,7 +415,7 @@ Examples are only shown in the JSON objects and are not used in the text inputs 
 validate: {
     payload: Joi.object({
         a: Joi.number().example('10'),
-        b: Joi.nunber().example('15')
+        b: Joi.number().example('15')
     }).label('Sum')
 }
 ```
