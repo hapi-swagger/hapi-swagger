@@ -22,7 +22,7 @@ let testPlugin = function (plugin, options, next) {
                 reply('Hi from grouping 1');
             },
             description: 'plugin1',
-            tags: ['api', 'hello group']
+            tags: ['api', 'hello group', 'another group']
         }
     });
 
@@ -130,6 +130,65 @@ lab.experiment('tag grouping', () => {
     });
 
     lab.test('group by tags', (done) => {
+
+        const connection = server.select('docs');
+        connection.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+            expect(response.statusCode).to.equal(200);
+            expect(response.result.host).to.equal('localhost:3000');
+            expect(response.result.paths['/grouping1']).to.equal({
+
+                'get': {
+                    'tags': [
+                        'hello group',
+                        'another group'
+                    ],
+                    'responses': {
+                        'default': {
+                            'schema': {
+                                'type': 'string'
+                            },
+                            'description': 'Successful'
+                        }
+                    },
+                    'operationId': 'getGrouping1',
+                    'summary': 'plugin1'
+                }
+            });
+            Helper.validate(response, done, expect);
+        });
+    });
+});
+
+
+lab.experiment('tag grouping with tasGroupingFilter', () => {
+
+    const server = new Hapi.Server();
+
+    lab.before(function (done) {
+
+        swaggerOptions.grouping = 'tags';
+        swaggerOptions.tagsGroupingFilter = (tag) => tag === 'hello group';
+        server.connection({ host: 'localhost', port: 3000, labels: 'api' });
+        server.connection({ host: 'localhost', port: 3001, labels: 'docs' });
+        server.register([
+            Inert,
+            Vision,
+            {
+                register: testPlugin,
+                select: ['api']
+            },
+            {
+                register: HapiSwagger,
+                options: swaggerOptions,
+                select: ['docs']
+            }
+        ]);
+
+        server.start(() => { done(); });
+    });
+
+    lab.test('group by filtered tags', (done) => {
 
         const connection = server.select('docs');
         connection.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
