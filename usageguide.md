@@ -40,7 +40,7 @@ The most common API endpoint with HAPI.js is one that POST's a JSON body.
         validate: {
             payload: Joi.object({
                 a: Joi.number(),
-                b: Joi.nunber()
+                b: Joi.number()
             })
         }
     }
@@ -64,7 +64,7 @@ If you wish to have hapi-swagger display a interface to POST data in `form-urlen
         validate: {
             payload: Joi.object({
                 a: Joi.number(),
-                b: Joi.nunber()
+                b: Joi.number()
             })
         }
     }
@@ -87,7 +87,7 @@ The plugin will take either a JavaScript or JOI object for `params` `query` and 
             },
             query: {
                 search: Joi.string()
-            }
+            },
             headers: Joi.object({
                 'authorization': Joi.string().required()
             }).unknown()
@@ -113,7 +113,7 @@ and chain the `label` function as below. __You need to give different structures
 validate: {
     payload: Joi.object({
         a: Joi.number(),
-        b: Joi.nunber()
+        b: Joi.number()
     }).label('Sum')
 }
 ```
