@@ -13,15 +13,13 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-complex.js');
 
-
 /**
  * validation function for bearer strategy
  *
  * @param  {Object} token
  * @param  {Function} callback
  */
-const validateBearer = function (token, callback) {
-
+const validateBearer = function(token, callback) {
     if (token === '12345') {
         callback(null, true, {
             token: token,
@@ -42,16 +40,22 @@ const goodOptions = {
         interval: 1000
     },
     reporters: {
-        console: [{
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [{
-                log: '*',
-                response: '*'
-            }]
-        }, {
-            module: 'good-console'
-        }, 'stdout']
+        console: [
+            {
+                module: 'good-squeeze',
+                name: 'Squeeze',
+                args: [
+                    {
+                        log: '*',
+                        response: '*'
+                    }
+                ]
+            },
+            {
+                module: 'good-console'
+            },
+            'stdout'
+        ]
     }
 };
 
@@ -65,50 +69,55 @@ let swaggerOptions = {
     basePath: '/v1',
     pathPrefixSize: 2,
     info: {
-        'title': 'Test API Documentation',
-        'description': 'This is a sample example of API documentation.',
-        'version': Pack.version,
-        'termsOfService': 'https://github.com/glennjones/hapi-swagger/',
-        'contact': {
-            'email': 'glennjonesnet@gmail.com'
+        title: 'Test API Documentation',
+        description: 'This is a sample example of API documentation.',
+        version: Pack.version,
+        termsOfService: 'https://github.com/glennjones/hapi-swagger/',
+        contact: {
+            email: 'glennjonesnet@gmail.com'
         },
-        'license': {
-            'name': 'MIT',
-            'url': 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
+        license: {
+            name: 'MIT',
+            url:
+                'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
         }
     },
-    tags: [{
-        'name': 'sum',
-        'description': 'working with maths',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
+    tags: [
+        {
+            name: 'sum',
+            description: 'working with maths',
+            externalDocs: {
+                description: 'Find out more',
+                url: 'http://example.org'
+            }
+        },
+        {
+            name: 'store',
+            description: 'storing data',
+            externalDocs: {
+                description: 'Find out more',
+                url: 'http://example.org'
+            }
+        },
+        {
+            name: 'properties',
+            description: 'test the use of extended hapi/joi properties',
+            externalDocs: {
+                description: 'Find out more',
+                url: 'http://example.org'
+            }
         }
-    }, {
-        'name': 'store',
-        'description': 'storing data',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
-        }
-    }, {
-        'name': 'properties',
-        'description': 'test the use of extended hapi/joi properties',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
-        }
-    }],
+    ],
     jsonEditor: true,
     securityDefinitions: {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header',
+        Bearer: {
+            type: 'apiKey',
+            name: 'Authorization',
+            in: 'header',
             'x-keyPrefix': 'Bearer '
         }
     },
-    security: [{ 'Bearer': [] }],
+    security: [{ Bearer: [] }],
     deReference: false,
     cache: {
         expiresIn: 24 * 60 * 60 * 1000
@@ -119,59 +128,55 @@ let swaggerOptions = {
 // swaggerOptions.auth = 'bearer';
 
 // the auth.strategy needs to be registered before it can be used in options for swagger
-server.register([BearerToken], (err) => {
-
+server.register([BearerToken], err => {
     if (err) {
         console.log(err);
     }
 
     server.auth.strategy('bearer', 'bearer-access-token', {
-        'accessTokenName': 'access_token',
-        'validateFunc': validateBearer
+        accessTokenName: 'access_token',
+        validateFunc: validateBearer
     });
 });
 
-server.ext('onRequest', function (request, reply) {
-
+server.ext('onRequest', function(request, reply) {
     //console.log(request.headers.accept);                     // accessing request header
     //reply('My response').header('x-some-header', 'hello');   // setting a response with custom header
     //request.headers.accept = request.headers.Accept;
     return reply.continue();
 });
 
-
-server.register([
-    Inert,
-    Vision,
-    Blipp,
-    H2o2,
-    {
-        register: require('good'),
-        options: goodOptions
-    },
-    {
-        register: HapiSwagger,
-        options: swaggerOptions
-    }],
-    (err) => {
-
+server.register(
+    [
+        Inert,
+        Vision,
+        Blipp,
+        H2o2,
+        {
+            register: require('good'),
+            options: goodOptions
+        },
+        {
+            register: HapiSwagger,
+            options: swaggerOptions
+        }
+    ],
+    err => {
         if (err) {
             console.log(err);
         }
 
         server.route(Routes);
 
-        server.start((err) => {
+        server.start(err => {
             if (err) {
                 console.log(err);
             } else {
                 console.log('Server running at:', server.info.uri);
             }
         });
-    });
-
-
-
+    }
+);
 
 // add templates only for testing custom.html
 server.views({

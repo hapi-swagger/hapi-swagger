@@ -11,8 +11,6 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple.js');
 
-
-
 let server = new Hapi.Server();
 server.connection({
     host: 'localhost',
@@ -23,16 +21,14 @@ let swaggerOptions = {
     basePath: '/v1',
     pathPrefixSize: 2,
     info: {
-        'title': 'Test API Documentation',
-        'version': Pack.version
+        title: 'Test API Documentation',
+        version: Pack.version
     },
-    debug: true  // switch on debug
+    debug: true // switch on debug
 };
 
-
 // use chalk to log colour hapi-swagger messages to console.
-const formatLogEvent = function (event) {
-
+const formatLogEvent = function(event) {
     if (event.tags.error) {
         console.log(`[${event.tags}], ${Chalk.red(event.data)}`);
     } else {
@@ -41,33 +37,31 @@ const formatLogEvent = function (event) {
 };
 server.on('log', formatLogEvent);
 
-
-
-server.register([
-    Inert,
-    Vision,
-    {
-        register: HapiSwagger,
-        options: swaggerOptions
-    }],
-    (err) => {
-
+server.register(
+    [
+        Inert,
+        Vision,
+        {
+            register: HapiSwagger,
+            options: swaggerOptions
+        }
+    ],
+    err => {
         if (err) {
             console.log(err);
         }
 
         server.route(Routes);
 
-        server.start((err) => {
+        server.start(err => {
             if (err) {
                 console.log(err);
             } else {
                 console.log('Server running at:', server.info.uri);
             }
         });
-    });
-
-
+    }
+);
 
 // add templates only for testing custom.html
 server.views({
