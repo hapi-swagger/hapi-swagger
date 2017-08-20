@@ -8,8 +8,6 @@ in a project.
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
 
-__Review [release notes for v7.0.0](https://github.com/glennjones/hapi-swagger/issues/325)__
-
 
 # Install
 
