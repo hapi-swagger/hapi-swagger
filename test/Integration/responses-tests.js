@@ -134,45 +134,44 @@ lab.experiment('responses', () => {
         });
     });
 
+    lab.test(
+        'conditional variables produce `required = true`, not `required = [...]`',
+        done => {
+            const routes = {
+                method: 'POST',
+                path: '/store/',
+                config: {
+                    handler: Helper.defaultHandler,
+                    tags: ['api'],
+                    validate: {
+                        query: {
+                            nonce: Joi.string().when('response_type', {
+                                is: /^id_token( token)?$/,
+                                then: Joi.required()
+                            }),
+                            response_type: Joi.string()
+                                .allow('code', 'id_token token', 'id_token')
+                                .required()
+                        }
+                    }
+                }
+            };
 
-    lab.test('conditional variables produce `required = true`, not `required = [...]`', (done) => {
-
-        const routes = {
-            method: 'POST',
-            path: '/store/',
-            config: {
-                handler: Helper.defaultHandler,
-                tags: ['api'],
-                validate: {
-                    query: {
-                        nonce: Joi.string()
-                        .when('response_type', {
-                            is: /^id_token( token)?$/,
-                            then: Joi.required(),
-                        }),
-                        response_type: Joi.string()
-                        .allow('code', 'id_token token', 'id_token')
-                        .required()
-                    },
-                },
-            }
-        };
-
-        Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.parameters[0].required).to.equal(true);
-                Helper.validate(response, done, expect);
+            Helper.createServer({}, routes, (err, server) => {
+                server.inject({ url: '/swagger.json' }, function(response) {
+                    expect(err).to.equal(null);
+                    //console.log(JSON.stringify(response.result));
+                    expect(
+                        response.result.paths['/store/'].post.parameters[0]
+                            .required
+                    ).to.equal(true);
+                    Helper.validate(response, done, expect);
+                });
             });
-        });
-    });
+        }
+    );
 
-
-    lab.test('using hapi response.schema with child objects', (done) => {
-
+    lab.test('using hapi response.schema with child objects', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -373,53 +372,64 @@ lab.experiment('responses', () => {
             server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
-                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
-                expect(response.result.paths['/store/'].post.responses[200]['x-meta']).to.equal('x-meta test data');
-                expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
-                    '$ref': '#/definitions/Result'
+                expect(
+                    response.result.paths['/store/'].post.responses[200].schema
+                ).to.exist();
+                expect(
+                    response.result.paths['/store/'].post.responses[200]
+                        .description
+                ).to.equal('Success its a 200');
+                expect(
+                    response.result.paths['/store/'].post.responses[200][
+                        'x-meta'
+                    ]
+                ).to.equal('x-meta test data');
+                expect(
+                    response.result.paths['/store/'].post.responses[200].schema
+                ).to.equal({
+                    $ref: '#/definitions/Result'
                 });
                 Helper.validate(response, done, expect);
             });
         });
     });
 
-
-    lab.test('test a default response description is provided when no description is given', (done) => {
-
-        const routes = {
-            method: 'POST',
-            path: '/store/',
-            handler: Helper.defaultHandler,
-            config: {
-                tags: ['api'],
-                plugins: {
-                    'hapi-swagger': {
-                        responses: {
-                            '200': {
-                                'x-meta': 'x-meta test data'
+    lab.test(
+        'test a default response description is provided when no description is given',
+        done => {
+            const routes = {
+                method: 'POST',
+                path: '/store/',
+                handler: Helper.defaultHandler,
+                config: {
+                    tags: ['api'],
+                    plugins: {
+                        'hapi-swagger': {
+                            responses: {
+                                '200': {
+                                    'x-meta': 'x-meta test data'
+                                }
                             }
                         }
                     }
                 }
-            }
-        };
+            };
 
-        Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Successful');
-                Helper.validate(response, done, expect);
+            Helper.createServer({}, routes, (err, server) => {
+                server.inject({ url: '/swagger.json' }, function(response) {
+                    expect(err).to.equal(null);
+                    //console.log(JSON.stringify(response.result));
+                    expect(
+                        response.result.paths['/store/'].post.responses[200]
+                            .description
+                    ).to.equal('Successful');
+                    Helper.validate(response, done, expect);
+                });
             });
-        });
+        }
+    );
 
-    });
-
-
-    lab.test('using route base plugin override - array', (done) => {
+    lab.test('using route base plugin override - array', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
