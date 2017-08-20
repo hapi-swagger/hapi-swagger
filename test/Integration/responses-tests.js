@@ -322,7 +322,8 @@ lab.experiment('responses', () => {
                     'hapi-swagger': {
                         responses: {
                             '200': {
-                                description: 'Success its a 200'
+                                description: 'Success its a 200',
+                                'x-meta': 'x-meta test data'
                             }
                         }
                     }
@@ -334,25 +335,54 @@ lab.experiment('responses', () => {
             server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(
-                    response.result.paths['/store/'].post.responses[200].schema
-                ).to.exist();
-                expect(
-                    response.result.paths['/store/'].post.responses[200]
-                        .description
-                ).to.equal('Success its a 200');
-                expect(
-                    response.result.paths['/store/'].post.responses[200].schema
-                ).to.equal({
-                    $ref: '#/definitions/Result',
-                    type: 'object'
+                expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
+                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
+                expect(response.result.paths['/store/'].post.responses[200]['x-meta']).to.equal('x-meta test data');
+                expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
+                    '$ref': '#/definitions/Result',
+                    'type': 'object'
                 });
                 Helper.validate(response, done, expect);
             });
         });
     });
 
-    lab.test('using route base plugin override - array', done => {
+  
+    lab.test('test a default response description is provided when no description is given', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                'x-meta': 'x-meta test data'
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Successful');
+                Helper.validate(response, done, expect);
+            });
+        });
+
+    });
+
+
+    lab.test('using route base plugin override - array', (done) => {
         const routes = {
             method: 'POST',
             path: '/store/',
