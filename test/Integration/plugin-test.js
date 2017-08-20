@@ -501,7 +501,44 @@ lab.experiment('plugin', () => {
     });
 
 
+    lab.test('test route x-meta appears in swagger', (done) => {
+        let testRoutes = [{
+            method: 'POST',
+            path: '/test/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        'x-meta': {
+                            test1: true,
+                            test2: 'test',
+                            test3: {
+                                test: true,
+                            }
+                        },
+                    },
+                },
+            }
+        }];
+        Helper.createServer({}, testRoutes, (err, server) => {
 
+            expect(err).to.equal(null);
+            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/test/'].post['x-meta']).to.equal({
+                    test1: true,
+                    test2: 'test',
+                    test3: {
+                        test: true,
+                    }
+                });
+                done();
+            });
+
+        });
+    });
 
 
 });

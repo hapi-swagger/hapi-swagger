@@ -8,54 +8,52 @@ const Joi = require('joi');
 const Swagger = require('swagger-client');
 const HapiSwagger = require('../');
 
-
 let server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 3000
 });
 
-
 let swaggerOptions = {
     documentationPage: false,
     swaggerUI: false,
-    tags: [{
-        'name': 'sum'
-    },{
-        'name': 'math'
-    },{
-        'name': 'mathematics'
-    }],
+    tags: [
+        {
+            name: 'sum'
+        },
+        {
+            name: 'math'
+        },
+        {
+            name: 'mathematics'
+        }
+    ],
     deReference: true
 };
 
-
-const defaultHandler = function (request, reply) {
-
+const defaultHandler = function(request, reply) {
     let a = parseFloat(request.params.a);
     let b = parseFloat(request.params.b);
 
     reply({
-        'a': a,
-        'b': b,
-        'operator': '+',
-        'equals': a + b,
-        'created': new Date().toISOString(),
-        'modified': new Date().toISOString()
+        a: a,
+        b: b,
+        operator: '+',
+        equals: a + b,
+        created: new Date().toISOString(),
+        modified: new Date().toISOString()
     });
-
 };
 
-
-
-server.register([
-    Blipp,
-    {
-        register: HapiSwagger,
-        options: swaggerOptions
-    }],
-    (err) => {
-
+server.register(
+    [
+        Blipp,
+        {
+            register: HapiSwagger,
+            options: swaggerOptions
+        }
+    ],
+    err => {
         if (err) {
             console.log(err);
         }
@@ -68,79 +66,80 @@ server.register([
         Please `id` with care and remove it if not needed. The mathematics example is created using auto naming without the use of `id`.
         */
 
-        server.route([{
-            method: 'PUT',
-            path: '/sum/add/{a}/{b}',
-            config: {
-                handler: defaultHandler,
-                description: 'Add',
-                tags: ['api'],
-                plugins: {
-                    'hapi-swagger': {
-                        'id': 'add'  // refer to notes above
-                    }
-                },
-                validate: {
-                    params: {
-                        a: Joi.number()
-                            .required()
-                            .description('the first number'),
+        server.route([
+            {
+                method: 'PUT',
+                path: '/sum/add/{a}/{b}',
+                config: {
+                    handler: defaultHandler,
+                    description: 'Add',
+                    tags: ['api'],
+                    plugins: {
+                        'hapi-swagger': {
+                            id: 'add' // refer to notes above
+                        }
+                    },
+                    validate: {
+                        params: {
+                            a: Joi.number()
+                                .required()
+                                .description('the first number'),
 
-                        b: Joi.number()
-                            .required()
-                            .description('the second number')
-                    }
-                }
-
-            }
-        },{
-            method: 'PUT',
-            path: '/math/add/{a}/{b}',
-            config: {
-                handler: defaultHandler,
-                description: 'Add',
-                tags: ['api'],
-                plugins: {
-                    'hapi-swagger': {
-                        'id': 'add' // refer to notes above
-                    }
-                },
-                validate: {
-                    params: {
-                        a: Joi.number()
-                            .required()
-                            .description('the first number'),
-
-                        b: Joi.number()
-                            .required()
-                            .description('the second number')
+                            b: Joi.number()
+                                .required()
+                                .description('the second number')
+                        }
                     }
                 }
+            },
+            {
+                method: 'PUT',
+                path: '/math/add/{a}/{b}',
+                config: {
+                    handler: defaultHandler,
+                    description: 'Add',
+                    tags: ['api'],
+                    plugins: {
+                        'hapi-swagger': {
+                            id: 'add' // refer to notes above
+                        }
+                    },
+                    validate: {
+                        params: {
+                            a: Joi.number()
+                                .required()
+                                .description('the first number'),
 
-            }
-        },{
-            method: 'PUT',
-            path: '/mathematics/add/{a}/{b}',
-            config: {
-                handler: defaultHandler,
-                description: 'Add',
-                tags: ['api'],
-                validate: {
-                    params: {
-                        a: Joi.number()
-                            .required()
-                            .description('the first number'),
-
-                        b: Joi.number()
-                            .required()
-                            .description('the second number')
+                            b: Joi.number()
+                                .required()
+                                .description('the second number')
+                        }
                     }
                 }
+            },
+            {
+                method: 'PUT',
+                path: '/mathematics/add/{a}/{b}',
+                config: {
+                    handler: defaultHandler,
+                    description: 'Add',
+                    tags: ['api'],
+                    validate: {
+                        params: {
+                            a: Joi.number()
+                                .required()
+                                .description('the first number'),
 
+                            b: Joi.number()
+                                .required()
+                                .description('the second number')
+                        }
+                    }
+                }
             }
-        }]);
+        ]);
 
-        server.start((err) => {
+        server.start(err => {
             if (err) {
                 console.log(err);
             } else {
@@ -150,28 +149,35 @@ server.register([
                 var client = new Swagger({
                     url: server.info.uri + '/swagger.json',
                     success: () => {
+                        // call the endpoint
+                        client.sum.add(
+                            { a: 7, b: 7 },
+                            { responseContentType: 'application/json' },
+                            result => {
+                                console.log('result', result);
+                            }
+                        );
 
                         // call the endpoint
-                        client.sum.add({ a: 7, b: 7 }, { responseContentType: 'application/json' }, (result) => {
-
-                            console.log('result', result);
-                        });
-
-
-                        // call the endpoint
-                        client.math.add({ a: 8, b: 8 }, { responseContentType: 'application/json' }, (result) => {
-
-                            console.log('result', result);
-                        });
-
+                        client.math.add(
+                            { a: 8, b: 8 },
+                            { responseContentType: 'application/json' },
+                            result => {
+                                console.log('result', result);
+                            }
+                        );
 
                         // call the endpoint
-                        client.mathematics.putMathematicsAddAB({ a: 9, b: 9 }, { responseContentType: 'application/json' }, (result) => {
-
-                            console.log('result', result);
-                        });
+                        client.mathematics.putMathematicsAddAB(
+                            { a: 9, b: 9 },
+                            { responseContentType: 'application/json' },
+                            result => {
+                                console.log('result', result);
+                            }
+                        );
                     }
                 });
             }
         });
-    });
+    }
+);
