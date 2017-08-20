@@ -134,7 +134,45 @@ lab.experiment('responses', () => {
         });
     });
 
-    lab.test('using hapi response.schema with child objects', done => {
+
+    lab.test('conditional variables produce `required = true`, not `required = [...]`', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    query: {
+                        nonce: Joi.string()
+                        .when('response_type', {
+                            is: /^id_token( token)?$/,
+                            then: Joi.required(),
+                        }),
+                        response_type: Joi.string()
+                        .allow('code', 'id_token token', 'id_token')
+                        .required()
+                    },
+                },
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/store/'].post.parameters[0].required).to.equal(true);
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
+
+
+    lab.test('using hapi response.schema with child objects', (done) => {
+
         const routes = {
             method: 'POST',
             path: '/store/',
