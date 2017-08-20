@@ -11,25 +11,29 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple');
 
-
 const goodOptions = {
     ops: {
         interval: 1000
     },
     reporters: {
-        console: [{
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [{
-                log: '*',
-                response: '*'
-            }]
-        }, {
-            module: 'good-console'
-        }, 'stdout']
+        console: [
+            {
+                module: 'good-squeeze',
+                name: 'Squeeze',
+                args: [
+                    {
+                        log: '*',
+                        response: '*'
+                    }
+                ]
+            },
+            {
+                module: 'good-console'
+            },
+            'stdout'
+        ]
     }
 };
-
 
 let server = new Hapi.Server();
 server.connection({
@@ -37,78 +41,77 @@ server.connection({
     port: 3000
 });
 
-
 let swaggerOptions = {
     documentationPage: false,
     swaggerUIPath: '/ui/',
     basePath: '/v1/',
     pathPrefixSize: 2,
     info: {
-        'title': 'Test API Documentation',
-        'description': 'This is a sample example of API documentation.',
-        'version': Pack.version,
-        'termsOfService': 'https://github.com/glennjones/hapi-swagger/',
-        'contact': {
-            'email': 'glennjonesnet@gmail.com'
+        title: 'Test API Documentation',
+        description: 'This is a sample example of API documentation.',
+        version: Pack.version,
+        termsOfService: 'https://github.com/glennjones/hapi-swagger/',
+        contact: {
+            email: 'glennjonesnet@gmail.com'
         },
-        'license': {
-            'name': 'MIT',
-            'url': 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
+        license: {
+            name: 'MIT',
+            url:
+                'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
         }
     },
-    tags: [{
-        'name': 'sum',
-        'description': 'working with maths',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
+    tags: [
+        {
+            name: 'sum',
+            description: 'working with maths',
+            externalDocs: {
+                description: 'Find out more',
+                url: 'http://example.org'
+            }
+        },
+        {
+            name: 'store',
+            description: 'storing data',
+            externalDocs: {
+                description: 'Find out more',
+                url: 'http://example.org'
+            }
         }
-    }, {
-        'name': 'store',
-        'description': 'storing data',
-        'externalDocs': {
-            'description': 'Find out more',
-            'url': 'http://example.org'
-        }
-    }],
+    ],
     jsonEditor: true,
     validatorUrl: null
 };
 
-
-
-
-server.register([
-    Inert,
-    Vision,
-    Blipp,
-    {
-        register: require('good'),
-        options: goodOptions
-    },
-    {
-        register: HapiSwagger,
-        options: swaggerOptions
-    }],
-    (err) => {
-
+server.register(
+    [
+        Inert,
+        Vision,
+        Blipp,
+        {
+            register: require('good'),
+            options: goodOptions
+        },
+        {
+            register: HapiSwagger,
+            options: swaggerOptions
+        }
+    ],
+    err => {
         if (err) {
             console.log(err);
         }
 
         server.route(Routes);
 
-        server.start((err) => {
+        server.start(err => {
             if (err) {
                 console.log(err);
             } else {
                 console.log('Server running at:', server.info.uri);
             }
         });
-    });
-
-
-
+    }
+);
 
 // add templates only for testing custom.html
 server.views({
