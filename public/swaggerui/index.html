@@ -63,8 +63,11 @@
         validatorUrl: '{{hapiSwagger.validatorUrl}}';
         {{/if}}
 
+		var ACCESS_TOKEN_QUERY_PARAM_NAME = 'access_token';
+		var accessToken = getUrlVars()[ACCESS_TOKEN_QUERY_PARAM_NAME];
+
         window.swaggerUi = new SwaggerUi({
-            url: url,
+			url: url + (accessToken? (url.indexOf('?') < 0? '?' : '&') + ACCESS_TOKEN_QUERY_PARAM_NAME + '=' + accessToken : ''),
             dom_id: "swagger-ui-container",
             supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
             onComplete: function (swaggerApi, swaggerUi) {
@@ -123,6 +126,17 @@
             }
         }
 
+		function getUrlVars() {
+			var vars = [], hash;
+			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			for(var i = 0; i < hashes.length; i++)
+			{
+				hash = hashes[i].split('=');
+				vars.push(hash[0]);
+				vars[hash[0]] = hash[1];
+			}
+			return vars;
+		}
 
         $('#input_apiKey').change(addApiKeyAuthorization);
 
