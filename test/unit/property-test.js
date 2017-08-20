@@ -51,7 +51,7 @@ lab.experiment('property - ', () => {
 
         clearDown();
         //console.log(JSON.stringify(propertiesNoAlt.parseProperty('x', Joi.any(), null, null, true, false)));
-        expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, 'body', true, false)).to.equal({ '$ref': '#/definitions/x', 'type': 'object' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, 'body', true, false)).to.equal({ '$ref': '#/definitions/x' });
         expect(propertiesNoAlt.parseProperty('x', Joi.string(), null, 'body', true, false)).to.equal({ 'type': 'string' });
         expect(propertiesNoAlt.parseProperty('x', Joi.number(), null, 'body', true, false)).to.equal({ 'type': 'number' });
         expect(propertiesNoAlt.parseProperty('x', Joi.boolean(), null, 'body', true, false)).to.equal({ 'type': 'boolean' });

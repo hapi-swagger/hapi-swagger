@@ -110,8 +110,7 @@ lab.experiment('definitions', () => {
                 //console.log(JSON.stringify(response.result));
                 expect(response.statusCode).to.equal(200);
                 expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/Model 1',
-                    'type': 'object'
+                    '$ref': '#/definitions/Model 1'
                 });
                 expect(response.result.definitions['Model 1']).to.equal(defination);
                 Helper.validate(response, done, expect);
@@ -272,8 +271,7 @@ lab.experiment('definitions', () => {
                             'type': 'number'
                         },
                         'reminder': {
-                            '$ref': '#/definitions/FormDependencyDefinition',
-                            'type': 'object'
+                            '$ref': '#/definitions/FormDependencyDefinition'
                         }
                     },
                     'required': [

@@ -7,51 +7,69 @@ const Defaults = require('../../lib/defaults.js');
 const Responses = require('../../lib/responses.js');
 
 const expect = Code.expect;
-const lab = exports.lab = Lab.script();
-const responses = new Responses( Defaults );
-
-
+const lab = (exports.lab = Lab.script());
+const responses = new Responses(Defaults);
 
 lab.experiment('responses', () => {
-
     const headers = {
         'X-Rate-Limit-Limit': {
-            'description': 'The number of allowed requests in the current period',
-            'type': 'integer'
+            description: 'The number of allowed requests in the current period',
+            type: 'integer'
         },
         'X-Rate-Limit-Remaining': {
-            'description': 'The number of remaining requests in the current period',
-            'type': 'integer'
+            description:
+                'The number of remaining requests in the current period',
+            type: 'integer'
         },
         'X-Rate-Limit-Reset': {
-            'description': 'The number of seconds left in the current period',
-            'type': 'integer'
+            description: 'The number of seconds left in the current period',
+            type: 'integer'
         }
     };
 
     const examples = {
         'application/json': {
-            'a': 5,
-            'b': 5,
-            'operator': '+',
-            'equals': 10
+            a: 5,
+            b: 5,
+            operator: '+',
+            equals: 10
         }
     };
 
-    const err400 = Joi.object().description('Bad Request').meta({ headers: headers, examples: examples });
-    const err404 = Joi.object().description('Unsupported Media Type').meta({ headers: headers, examples: examples });
-    const err429 = Joi.object().description('Too Many Requests').meta({ headers: headers, examples: examples });
-    const err500 = Joi.object().description('Internal Server Error').meta({ headers: headers, examples: examples });
+    const err400 = Joi.object()
+        .description('Bad Request')
+        .meta({ headers: headers, examples: examples });
+    const err404 = Joi.object()
+        .description('Unsupported Media Type')
+        .meta({ headers: headers, examples: examples });
+    const err429 = Joi.object()
+        .description('Too Many Requests')
+        .meta({ headers: headers, examples: examples });
+    const err500 = Joi.object()
+        .description('Internal Server Error')
+        .meta({ headers: headers, examples: examples });
 
     const joiSumModel = Joi.object({
         id: Joi.string().required().example('x78P9c'),
         a: Joi.number().required().example(5),
         b: Joi.number().required().example(5),
-        operator: Joi.string().required().description('either +, -, /, or *').example('+'),
+        operator: Joi.string()
+            .required()
+            .description('either +, -, /, or *')
+            .example('+'),
         equals: Joi.number().required().example(10),
-        created: Joi.string().required().isoDate().description('ISO date string').example('2015-12-01'),
-        modified: Joi.string().isoDate().description('ISO date string').example('2015-12-01')
-    }).description('json body for sum').label('Sum');
+        created: Joi.string()
+            .required()
+            .isoDate()
+            .description('ISO date string')
+            .example('2015-12-01'),
+        modified: Joi.string()
+            .isoDate()
+            .description('ISO date string')
+            .example('2015-12-01')
+    })
+        .description('json body for sum')
+        .label('Sum');
 
     const joiListModel = Joi.object({
         items: Joi.array().items(joiSumModel),
@@ -63,26 +81,25 @@ lab.experiment('responses', () => {
 
     const standardHTTP = {
         '200': {
-            'description': 'Success',
-            'schema': joiSumModel,
-            'headers': headers
+            description: 'Success',
+            schema: joiSumModel,
+            headers: headers
         },
         '400': {
-            'description': 'Bad Request',
-            'headers': headers
+            description: 'Bad Request',
+            headers: headers
         },
         '429': {
-            'description': 'Too Many Requests',
-            'headers': headers
+            description: 'Too Many Requests',
+            headers: headers
         },
         '500': {
-            'description': 'Internal Server Error',
-            'headers': headers
+            description: 'Internal Server Error',
+            headers: headers
         }
     };
 
-    lab.test('using hapi response.schema', (done) => {
-
+    lab.test('using hapi response.schema', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -106,17 +123,52 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses).to.exist();
+                expect(
+                    response.result.paths['/store/'].post.responses
+                ).to.exist();
                 Helper.validate(response, done, expect);
             });
         });
     });
 
+
+    lab.test('conditional variables produce `required = true`, not `required = [...]`', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    query: {
+                        nonce: Joi.string()
+                        .when('response_type', {
+                            is: /^id_token( token)?$/,
+                            then: Joi.required(),
+                        }),
+                        response_type: Joi.string()
+                        .allow('code', 'id_token token', 'id_token')
+                        .required()
+                    },
+                },
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+
+            server.inject({ url: '/swagger.json' }, function (response) {
+
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/store/'].post.parameters[0].required).to.equal(true);
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
 
 
     lab.test('using hapi response.schema with child objects', (done) => {
@@ -144,9 +196,7 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 //console.log(JSON.stringify(response.result.definitions.List.properties.items));
                 expect(err).to.equal(null);
                 expect(response.result.definitions.List).to.exist();
@@ -156,9 +206,7 @@ lab.experiment('responses', () => {
         });
     });
 
-
-    lab.test('using hapi response.status', (done) => {
-
+    lab.test('using hapi response.status', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -185,24 +233,29 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses[200]).to.exist();
-                expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
-                expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
-                expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
+                expect(
+                    response.result.paths['/store/'].post.responses[200]
+                ).to.exist();
+                expect(
+                    response.result.paths['/store/'].post.responses[400]
+                        .description
+                ).to.equal('Bad Request');
+                expect(
+                    response.result.paths['/store/'].post.responses[400].headers
+                ).to.equal(headers);
+                expect(
+                    response.result.paths['/store/'].post.responses[400]
+                        .examples
+                ).to.equal(examples);
                 Helper.validate(response, done, expect);
             });
         });
     });
 
-
-
-    lab.test('using hapi response.status without 200', (done) => {
-
+    lab.test('using hapi response.status without 200', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -228,23 +281,29 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.paths['/store/'].post.responses));
-                expect(response.result.paths['/store/'].post.responses[200]).to.equal(undefined);
-                expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
-                expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
-                expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
+                expect(
+                    response.result.paths['/store/'].post.responses[200]
+                ).to.equal(undefined);
+                expect(
+                    response.result.paths['/store/'].post.responses[400]
+                        .description
+                ).to.equal('Bad Request');
+                expect(
+                    response.result.paths['/store/'].post.responses[400].headers
+                ).to.equal(headers);
+                expect(
+                    response.result.paths['/store/'].post.responses[400]
+                        .examples
+                ).to.equal(examples);
                 Helper.validate(response, done, expect);
             });
         });
     });
 
-
-    lab.test('using route base plugin override - object', (done) => {
-
+    lab.test('using route base plugin override - object', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -267,23 +326,25 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
-                expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
-                expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
+                expect(
+                    response.result.paths['/store/'].post.responses[200].schema
+                ).to.exist();
+                expect(
+                    response.result.paths['/store/'].post.responses[400]
+                        .description
+                ).to.equal('Bad Request');
+                expect(
+                    response.result.paths['/store/'].post.responses[400].headers
+                ).to.equal(headers);
                 Helper.validate(response, done, expect);
             });
         });
     });
 
-
-    lab.test('using route merging response and plugin override', (done) => {
-
-
+    lab.test('using route merging response and plugin override', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -291,13 +352,52 @@ lab.experiment('responses', () => {
             config: {
                 tags: ['api'],
                 response: {
-                    schema: Joi.object().keys({ test: Joi.string() }).label('Result')
+                    schema: Joi.object()
+                        .keys({ test: Joi.string() })
+                        .label('Result')
                 },
                 plugins: {
                     'hapi-swagger': {
                         responses: {
                             '200': {
-                                description: 'Success its a 200'
+                                description: 'Success its a 200',
+                                'x-meta': 'x-meta test data'
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        Helper.createServer({}, routes, (err, server) => {
+            server.inject({ url: '/swagger.json' }, function(response) {
+                expect(err).to.equal(null);
+                //console.log(JSON.stringify(response.result));
+                expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
+                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
+                expect(response.result.paths['/store/'].post.responses[200]['x-meta']).to.equal('x-meta test data');
+                expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
+                    '$ref': '#/definitions/Result'
+                });
+                Helper.validate(response, done, expect);
+            });
+        });
+    });
+
+
+    lab.test('test a default response description is provided when no description is given', (done) => {
+
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                'x-meta': 'x-meta test data'
                             }
                         }
                     }
@@ -311,28 +411,15 @@ lab.experiment('responses', () => {
 
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
-                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
-                expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
-                    '$ref': '#/definitions/Result',
-                    'type': 'object'
-                });
+                expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Successful');
                 Helper.validate(response, done, expect);
             });
         });
 
-
     });
 
 
-
-
-
-
-
-
     lab.test('using route base plugin override - array', (done) => {
-
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -343,18 +430,24 @@ lab.experiment('responses', () => {
                     'hapi-swagger': {
                         responses: {
                             '200': {
-                                'description': 'Success',
-                                'schema': Joi.array().items(
+                                description: 'Success',
+                                schema: Joi.array()
+                                    .items(
                                         Joi.object({
                                             equals: Joi.number()
                                         }).label('HTTP200Items')
-                                    ).label('HTTP200')
+                                    )
+                                    .label('HTTP200')
                             },
                             '400': {
-                                'description': 'Bad Request',
-                                'schema': Joi.array().items(Joi.object({
-                                    equals: Joi.string()
-                                })).label('HTTP400')
+                                description: 'Bad Request',
+                                schema: Joi.array()
+                                    .items(
+                                        Joi.object({
+                                            equals: Joi.string()
+                                        })
+                                    )
+                                    .label('HTTP400')
                             }
                         }
                     }
@@ -370,45 +463,43 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses[200]).to.equal({
-                    'description': 'Success',
-                    'schema': {
-                        '$ref': '#/definitions/HTTP200',
-                        'type': 'array'
+                expect(
+                    response.result.paths['/store/'].post.responses[200]
+                ).to.equal({
+                    description: 'Success',
+                    schema: {
+                        $ref: '#/definitions/HTTP200',
+                        type: 'array'
                     }
                 });
                 expect(response.result.definitions.HTTP200).to.equal({
-                    'type': 'array',
-                    'items': {
-                        '$ref': '#/definitions/HTTP200Items',
-                        'type': 'object'
+                    type: 'array',
+                    items: {
+                        $ref: '#/definitions/HTTP200Items'
                     }
                 });
                 expect(response.result.definitions.HTTP200Items).to.equal({
-                    'type': 'object',
-                    'properties': {
-                        'equals': {
-                            'type': 'number'
+                    type: 'object',
+                    properties: {
+                        equals: {
+                            type: 'number'
                         }
                     }
                 });
-                expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
+                expect(
+                    response.result.paths['/store/'].post.responses[400]
+                        .description
+                ).to.equal('Bad Request');
                 expect(response.result.definitions.HTTP400).exists();
                 Helper.validate(response, done, expect);
             });
         });
     });
 
-
-
-
-    lab.test('failback to 200', (done) => {
-
+    lab.test('failback to 200', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -426,17 +517,17 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.responses).to.equal({
-                    'default': {
-                        'schema': {
-                            'type': 'string'
+                expect(
+                    response.result.paths['/store/'].post.responses
+                ).to.equal({
+                    default: {
+                        schema: {
+                            type: 'string'
                         },
-                        'description': 'Successful'
+                        description: 'Successful'
                     }
                 });
                 Helper.validate(response, done, expect);
@@ -444,9 +535,7 @@ lab.experiment('responses', () => {
         });
     });
 
-
-    lab.test('No ownProperty', (done) => {
-
+    lab.test('No ownProperty', done => {
         let objA = Helper.objWithNoOwnProperty();
         const objB = Helper.objWithNoOwnProperty();
         const objC = Helper.objWithNoOwnProperty();
@@ -454,19 +543,19 @@ lab.experiment('responses', () => {
         //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
 
         expect(responses.build({}, {}, {}, {})).to.equal({
-            'default': {
-                'schema': {
-                    'type': 'string'
+            default: {
+                schema: {
+                    type: 'string'
                 },
-                'description': 'Successful'
+                description: 'Successful'
             }
         });
         expect(responses.build(objA, objB, objC, {})).to.equal({
-            'default': {
-                'schema': {
-                    'type': 'string'
+            default: {
+                schema: {
+                    type: 'string'
                 },
-                'description': 'Successful'
+                description: 'Successful'
             }
         });
 
@@ -474,68 +563,66 @@ lab.experiment('responses', () => {
         //console.log(JSON.stringify( Responses.build(objA, objB, objC, {}) ));
         expect(responses.build(objA, objB, objC, {})).to.equal({
             '200': {
-                'schema': {
-                    'type': 'string'
+                schema: {
+                    type: 'string'
                 },
-                'description': 'Successful'
+                description: 'Successful'
             }
         });
 
         done();
     });
 
-
-    lab.test('with same path but different method', (done) => {
-
-
-        const routes = [{
-            method: 'POST',
-            path: '/path/two',
-            config: {
-                tags: ['api'],
-                handler: Helper.defaultHandler,
-                response: {
-                    schema: {
-                        value1111: Joi.boolean()
+    lab.test('with same path but different method', done => {
+        const routes = [
+            {
+                method: 'POST',
+                path: '/path/two',
+                config: {
+                    tags: ['api'],
+                    handler: Helper.defaultHandler,
+                    response: {
+                        schema: {
+                            value1111: Joi.boolean()
+                        }
+                    }
+                }
+            },
+            {
+                method: 'GET',
+                path: '/path/two',
+                config: {
+                    tags: ['api'],
+                    handler: Helper.defaultHandler,
+                    response: {
+                        schema: Joi.object({
+                            value2222: Joi.boolean()
+                        })
                     }
                 }
             }
-        },{
-            method: 'GET',
-            path: '/path/two',
-            config: {
-                tags: ['api'],
-                handler: Helper.defaultHandler,
-                response: {
-                    schema: Joi.object({
-                        value2222: Joi.boolean()
-                    })
-                }
-            }
-        }];
+        ];
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(response.result.definitions['Model 1']).to.exist();
                 expect(response.result.definitions['Model 2']).to.exist();
                 expect(response.result.definitions).to.equal({
                     'Model 1': {
-                        'type': 'object',
-                        'properties': {
-                            'value2222': {
-                                'type': 'boolean'
+                        type: 'object',
+                        properties: {
+                            value2222: {
+                                type: 'boolean'
                             }
                         }
                     },
                     'Model 2': {
-                        'type': 'object',
-                        'properties': {
-                            'value1111': {
-                                'type': 'boolean'
+                        type: 'object',
+                        properties: {
+                            value1111: {
+                                type: 'boolean'
                             }
                         }
                     }
@@ -543,31 +630,27 @@ lab.experiment('responses', () => {
                 Helper.validate(response, done, expect);
             });
         });
-
     });
 
-
-
-    lab.test('with deep labels', (done) => {
-
-        const routes = [{
-            method: 'POST',
-            path: '/path/two',
-            config: {
-                tags: ['api'],
-                handler: Helper.defaultHandler,
-                response: {
-                    schema: Joi.object({
-                        value1111: Joi.boolean()
-                    }).label('labelA')
+    lab.test('with deep labels', done => {
+        const routes = [
+            {
+                method: 'POST',
+                path: '/path/two',
+                config: {
+                    tags: ['api'],
+                    handler: Helper.defaultHandler,
+                    response: {
+                        schema: Joi.object({
+                            value1111: Joi.boolean()
+                        }).label('labelA')
+                    }
                 }
             }
-        }];
+        ];
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 expect(err).to.equal(null);
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(response.result.definitions.labelA).to.exist();
@@ -576,58 +659,57 @@ lab.experiment('responses', () => {
         });
     });
 
+    lab.test('array with required #249', done => {
+        const dataPointSchema = Joi.object()
+            .keys({
+                date: Joi.date().required(),
+                value: Joi.number().required()
+            })
+            .label('datapoint')
+            .required();
 
+        const exampleSchema = Joi.array()
+            .items(dataPointSchema)
+            .label('datapointlist')
+            .required();
 
-    lab.test('array with required #249', (done) => {
-
-        const dataPointSchema = Joi.object().keys({
-            date: Joi.date().required(),
-            value: Joi.number().required()
-        }).label('datapoint').required();
-
-        const exampleSchema = Joi.array().items(dataPointSchema).label('datapointlist').required();
-
-        const routes = [{
-            method: 'POST',
-            path: '/path/two',
-            config: {
-                tags: ['api'],
-                handler: Helper.defaultHandler,
-                response: { schema: exampleSchema }
+        const routes = [
+            {
+                method: 'POST',
+                path: '/path/two',
+                config: {
+                    tags: ['api'],
+                    handler: Helper.defaultHandler,
+                    response: { schema: exampleSchema }
+                }
             }
-        }];
+        ];
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(err).to.equal(null);
                 expect(response.result.definitions.datapoint).to.exist();
                 expect(response.result.definitions).to.equal({
-                    'datapoint': {
-                        'properties': {
-                            'date': {
-                                'type': 'string',
-                                'format': 'date'
+                    datapoint: {
+                        properties: {
+                            date: {
+                                type: 'string',
+                                format: 'date'
                             },
-                            'value': {
-                                'type': 'number'
+                            value: {
+                                type: 'number'
                             }
                         },
-                        'required': [
-                            'date',
-                            'value'
-                        ],
-                        'type': 'object'
+                        required: ['date', 'value'],
+                        type: 'object'
                     },
-                    'datapointlist': {
-                        'type': 'array',
-                        'items': {
-                            '$ref': '#/definitions/datapoint',
-                            'type': 'object'
+                    datapointlist: {
+                        type: 'array',
+                        items: {
+                            $ref: '#/definitions/datapoint'
                         },
-                        'required': ['datapoint']
+                        required: ['datapoint']
                     }
                 });
                 Helper.validate(response, done, expect);
@@ -635,59 +717,59 @@ lab.experiment('responses', () => {
         });
     });
 
+    lab.test('replace example with x-example for response', done => {
+        const dataPointSchema = Joi.object()
+            .keys({
+                date: Joi.date().required().example('2016-08-26'),
+                value: Joi.number().required().example('1024')
+            })
+            .label('datapoint')
+            .required();
 
-    lab.test('replace example with x-example for response', (done) => {
+        const exampleSchema = Joi.array()
+            .items(dataPointSchema)
+            .label('datapointlist')
+            .required();
 
-        const dataPointSchema = Joi.object().keys({
-            date: Joi.date().required().example('2016-08-26'),
-            value: Joi.number().required().example('1024')
-        }).label('datapoint').required();
-
-        const exampleSchema = Joi.array().items(dataPointSchema).label('datapointlist').required();
-
-        const routes = [{
-            method: 'POST',
-            path: '/path/two',
-            config: {
-                tags: ['api'],
-                handler: Helper.defaultHandler,
-                response: { schema: exampleSchema }
+        const routes = [
+            {
+                method: 'POST',
+                path: '/path/two',
+                config: {
+                    tags: ['api'],
+                    handler: Helper.defaultHandler,
+                    response: { schema: exampleSchema }
+                }
             }
-        }];
+        ];
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 //console.log(JSON.stringify(response.result.definitions));
                 expect(err).to.equal(null);
                 expect(response.result.definitions.datapoint).to.exist();
                 expect(response.result.definitions).to.equal({
-                    'datapoint': {
-                        'properties': {
-                            'date': {
-                                'type': 'string',
-                                'format': 'date',
-                                'example': '2016-08-26'
+                    datapoint: {
+                        properties: {
+                            date: {
+                                type: 'string',
+                                format: 'date',
+                                example: '2016-08-26'
                             },
-                            'value': {
-                                'type': 'number',
-                                'example': '1024'
+                            value: {
+                                type: 'number',
+                                example: '1024'
                             }
                         },
-                        'required': [
-                            'date',
-                            'value'
-                        ],
-                        'type': 'object'
+                        required: ['date', 'value'],
+                        type: 'object'
                     },
-                    'datapointlist': {
-                        'type': 'array',
-                        'items': {
-                            '$ref': '#/definitions/datapoint',
-                            'type': 'object'
+                    datapointlist: {
+                        type: 'array',
+                        items: {
+                            $ref: '#/definitions/datapoint'
                         },
-                        'required': ['datapoint']
+                        required: ['datapoint']
                     }
                 });
                 Helper.validate(response, done, expect);
@@ -695,9 +777,7 @@ lab.experiment('responses', () => {
         });
     });
 
-
-    lab.test('using hapi response.schema and plugin ', (done) => {
-
+    lab.test('using hapi response.schema and plugin ', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -708,7 +788,7 @@ lab.experiment('responses', () => {
                     'hapi-swagger': {
                         responses: {
                             '200': {
-                                'description': 'Success with response.schema'
+                                description: 'Success with response.schema'
                             }
                         }
                     }
@@ -718,25 +798,20 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(err).to.equal(null);
                 expect(response.result.paths).to.equal({
                     '/store/': {
-                        'post': {
-                            'operationId': 'postStore',
-                            'tags': [
-                                'store'
-                            ],
-                            'responses': {
+                        post: {
+                            operationId: 'postStore',
+                            tags: ['store'],
+                            responses: {
                                 '200': {
-                                    'schema': {
-                                        '$ref': '#/definitions/List',
-                                        'type': 'object'
+                                    schema: {
+                                        $ref: '#/definitions/List'
                                     },
-                                    'description': 'Success with response.schema'
+                                    description: 'Success with response.schema'
                                 }
                             }
                         }
@@ -747,9 +822,7 @@ lab.experiment('responses', () => {
         });
     });
 
-
-    lab.test('using hapi response.schema and plugin mismatch', (done) => {
-
+    lab.test('using hapi response.schema and plugin mismatch', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -760,7 +833,7 @@ lab.experiment('responses', () => {
                     'hapi-swagger': {
                         responses: {
                             '404': {
-                                'description': 'Could not find a schema'
+                                description: 'Could not find a schema'
                             }
                         }
                     }
@@ -770,28 +843,23 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(err).to.equal(null);
                 expect(response.result.paths).to.equal({
                     '/store/': {
-                        'post': {
-                            'operationId': 'postStore',
-                            'tags': [
-                                'store'
-                            ],
-                            'responses': {
+                        post: {
+                            operationId: 'postStore',
+                            tags: ['store'],
+                            responses: {
                                 '200': {
-                                    'schema': {
-                                        '$ref': '#/definitions/List',
-                                        'type': 'object'
+                                    schema: {
+                                        $ref: '#/definitions/List'
                                     },
-                                    'description': 'Successful'
+                                    description: 'Successful'
                                 },
                                 '404': {
-                                    'description': 'Could not find a schema'
+                                    description: 'Could not find a schema'
                                 }
                             }
                         }
@@ -802,9 +870,7 @@ lab.experiment('responses', () => {
         });
     });
 
-
-    lab.test('using hapi response.schema and plugin mismatch', (done) => {
-
+    lab.test('using hapi response.schema and plugin mismatch', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -815,8 +881,8 @@ lab.experiment('responses', () => {
                     'hapi-swagger': {
                         responses: {
                             '200': {
-                                'description': 'Success with response.schema',
-                                'schema': joiSumModel
+                                description: 'Success with response.schema',
+                                schema: joiSumModel
                             }
                         }
                     }
@@ -826,25 +892,20 @@ lab.experiment('responses', () => {
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(err).to.equal(null);
                 expect(response.result.paths).to.equal({
                     '/store/': {
-                        'post': {
-                            'operationId': 'postStore',
-                            'tags': [
-                                'store'
-                            ],
-                            'responses': {
+                        post: {
+                            operationId: 'postStore',
+                            tags: ['store'],
+                            responses: {
                                 '200': {
-                                    'schema': {
-                                        '$ref': '#/definitions/Sum',
-                                        'type': 'object'
+                                    schema: {
+                                        $ref: '#/definitions/Sum'
                                     },
-                                    'description': 'Success with response.schema'
+                                    description: 'Success with response.schema'
                                 }
                             }
                         }
@@ -855,9 +916,7 @@ lab.experiment('responses', () => {
         });
     });
 
-
-    lab.test('using hapi response.schema and plugin mixed results', (done) => {
-
+    lab.test('using hapi response.schema and plugin mixed results', done => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -868,13 +927,13 @@ lab.experiment('responses', () => {
                     'hapi-swagger': {
                         responses: {
                             '400': {
-                                'description': '400 - Added from plugin-options'
+                                description: '400 - Added from plugin-options'
                             },
                             '404': {
-                                'schema': Joi.object({ 'err': Joi.string() })
+                                schema: Joi.object({ err: Joi.string() })
                             },
                             '500': {
-                                'description': '500 - Added from plugin-options'
+                                description: '500 - Added from plugin-options'
                             }
                         }
                     }
@@ -882,58 +941,55 @@ lab.experiment('responses', () => {
                 response: {
                     status: {
                         200: joiSumModel,
-                        400: Joi.object({ 'err': Joi.string() }),
-                        404: Joi.object({ 'err': Joi.string() }).description('404 from response status object'),
-                        429: Joi.object({ 'err': Joi.string() })
+                        400: Joi.object({ err: Joi.string() }),
+                        404: Joi.object({ err: Joi.string() }).description(
+                            '404 from response status object'
+                        ),
+                        429: Joi.object({ err: Joi.string() })
                     }
                 }
             }
         };
 
         Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ url: '/swagger.json' }, function (response) {
-
+            server.inject({ url: '/swagger.json' }, function(response) {
                 //console.log(JSON.stringify(response.result.paths));
                 expect(err).to.equal(null);
                 expect(response.result.paths).to.equal({
                     '/store/': {
-                        'post': {
-                            'operationId': 'postStore',
-                            'tags': [
-                                'store'
-                            ],
-                            'responses': {
+                        post: {
+                            operationId: 'postStore',
+                            tags: ['store'],
+                            responses: {
                                 '200': {
-                                    'description': 'json body for sum',
-                                    'schema': {
-                                        '$ref': '#/definitions/Sum',
-                                        'type': 'object'
+                                    description: 'json body for sum',
+                                    schema: {
+                                        $ref: '#/definitions/Sum'
                                     }
                                 },
                                 '400': {
-                                    'schema': {
-                                        '$ref': '#/definitions/Model 1',
-                                        'type': 'object'
+                                    schema: {
+                                        $ref: '#/definitions/Model 1'
                                     },
-                                    'description': '400 - Added from plugin-options'
+                                    description:
+                                        '400 - Added from plugin-options'
                                 },
                                 '404': {
-                                    'description': '404 from response status object',
-                                    'schema': {
-                                        '$ref': '#/definitions/Model 1',
-                                        'type': 'object'
+                                    description:
+                                        '404 from response status object',
+                                    schema: {
+                                        $ref: '#/definitions/Model 1'
                                     }
                                 },
                                 '429': {
-                                    'schema': {
-                                        '$ref': '#/definitions/Model 1',
-                                        'type': 'object'
+                                    schema: {
+                                        $ref: '#/definitions/Model 1'
                                     },
-                                    'description': 'Too Many Requests'
+                                    description: 'Too Many Requests'
                                 },
                                 '500': {
-                                    'description': '500 - Added from plugin-options'
+                                    description:
+                                        '500 - Added from plugin-options'
                                 }
                             }
                         }
@@ -943,5 +999,4 @@ lab.experiment('responses', () => {
             });
         });
     });
-
 });

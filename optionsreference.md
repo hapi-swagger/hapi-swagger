@@ -25,8 +25,11 @@ JSON (JSON endpoint needed to create UI)
     * `url`: (string) A URL pointing to the contact information. MUST be formatted as a URL
     * `email`: (string) A email address of the contact person/organization. MUST be formatted as an email address.
   * `license`
-    * `name`: (string) The name of the license used for the API
-    * `url`: (string) The URL to the license used by the API. MUST be formatted as a URL
+    * `name` (string) The name of the license used for the API
+    * `url` (string) The URL to the license used by the API. MUST be formatted as a URL
+  * `x-*` (any): any property or object with a key starting with *x-* is included as such in the *info* section
+    of the object returned by the JSON endpoint. This allows custom properties to be defined as options and
+    copied as such.
 *  `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI. No defaults are provided.
 *  `grouping`: (string) how to create grouping of endpoints value either `path` or `tags` - default: `path`
 *  `tagsGroupingFilter`: (function) A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`) - default: `(tag) => tag !== 'api'`
