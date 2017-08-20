@@ -243,7 +243,7 @@ lab.experiment('alternatives', () => {
             server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
                 expect(err).to.equal(null);
-                console.log(response.result.paths['/store/'].post.parameters);
+                //console.log(response.result.paths['/store/'].post.parameters);
                 expect(response.statusCode).to.equal(200);
 
                 expect(response.result.paths['/store/'].post.parameters).to.equal([
