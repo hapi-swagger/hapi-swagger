@@ -778,7 +778,6 @@ lab.experiment('path', () => {
                         in: 'body',
                         name: 'body',
                         schema: {
-                            type: 'object',
                             $ref: '#/definitions/Model 1'
                         }
                     }

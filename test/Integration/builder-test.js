@@ -219,12 +219,10 @@ lab.experiment('builder', () => {
                         'type': 'object',
                         'properties': {
                             'a': {
-                                '$ref': '#/definitions/a',
-                                'type': 'object'
+                                '$ref': '#/definitions/a'
                             },
                             'b': {
-                                '$ref': '#/definitions/a',
-                                'type': 'object'
+                                '$ref': '#/definitions/a'
                             }
                         }
                     }
@@ -266,12 +264,10 @@ lab.experiment('builder', () => {
                         'type': 'object',
                         'properties': {
                             'a': {
-                                '$ref': '#/definitions/a',
-                                'type': 'object'
+                                '$ref': '#/definitions/a'
                             },
                             'b': {
-                                '$ref': '#/definitions/b',
-                                'type': 'object'
+                                '$ref': '#/definitions/b'
                             }
                         }
                     }
