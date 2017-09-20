@@ -27,7 +27,6 @@
     "http-status": "^1.0.1",
     "joi": "10.6.0",
     "json-schema-ref-parser": "^3.3.1",
-    "lab": "^14.2.0",
     "swagger-parser": "^3.4.2"
   },
   "devDependencies": {
@@ -47,6 +46,7 @@
     "inert": "^4.2.1",
     "js2xmlparser": "^3.0.0",
     "jsonwebtoken": "^7.4.3",
+    "lab": "^14.2.0",
     "swagger-client": "^2.1.14",
     "vision": "^4.0.1",
     "wreck": "^12.2.3"
