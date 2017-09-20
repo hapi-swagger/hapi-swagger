@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "boom": "^5.2.0",
+    "fast-safe-stringify": "^1.2.0",
     "g": "^2.0.1",
     "handlebars": "^4.0.10",
     "hoek": "^4.2.0",
