@@ -5,7 +5,7 @@
 * [Form body](#form-body)
 * [Params query and headers](#params-query-and-headers)
 * [Naming](#naming)
-* [Grouping endpoints by path or tags](#Grouping-endpoints-by-path-or-tags)
+* [Grouping endpoints by path or tags](#grouping-endpoints-by-path-or-tags)
 * [Extending group information with tag objects](#extending-group-information-with-tag-objects)
 * [Ordering the endpoints within groups](#ordering-the-endpoints-within-groups)
 * [Rewriting paths and groupings](#rewriting-paths-and-groupings)
