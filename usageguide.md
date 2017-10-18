@@ -546,8 +546,9 @@ Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema
 
 
 # Known issues with `jsonEditor`
-The `jsonEditor` is a new option in the latest version of SwaggerUI. It can provide a much enchanced UI, but I have found a few issues where it does not render correctly and can stop the rest of the UI from displaying.
+The `jsonEditor` is a new option in the SwaggerUI. It can provide a much enchanced UI, but I have found a few issues where it does not render correctly and can stop the rest of the UI from displaying.
 * Starting a JOI schema as an `Joi.array()` for a `payload` or  `response` object can cause the UI to break with the browser JavaScript error message `Uncaught TypeError: Cannot read property 'required' of undefined`.
+* If you wish to switch off dropdown menus for a given propty this can be achieved by adding chaining `.meta()` option to a JOI property i.e. `Joi.number().integer().positive().allow(0).meta({disableDropdown: true})`
 
 
 
