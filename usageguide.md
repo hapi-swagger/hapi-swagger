@@ -1,4 +1,4 @@
-# 7.8.0 Usage Guide
+# 7.9.0 Usage Guide
 
 ### Content
 * [JSON body](#json-body)
