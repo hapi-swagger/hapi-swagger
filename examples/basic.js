@@ -62,9 +62,11 @@ server.register([Basic], function(err) {
             }
         ],
         function(err) {
+
             if (err) {
                 console.log(err);
             }
+
             server.route({
                 method: 'PUT',
                 path: '/v1/store/{id?}',
@@ -106,10 +108,12 @@ server.register([Basic], function(err) {
                     }
                 }
             });
+
+            server.start(function() {
+                console.log('Server running at:', server.info.uri);
+            });
+
         }
     );
 });
 
-server.start(function() {
-    console.log('Server running at:', server.info.uri);
-});
