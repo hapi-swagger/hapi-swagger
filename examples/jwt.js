@@ -38,6 +38,7 @@ var token = jwt.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
 
 // bring your own validation function
 var validate = function(decoded, request, callback) {
+
     // do your checks to see if the person is valid
     if (!people[decoded.id]) {
         return callback(null, false);
@@ -92,20 +93,10 @@ server.register(
                 config: {
                     auth: 'jwt',
                     tags: ['api'],
-                    plugins: {
-                        'hapi-swagger': {
-                            security: [{ jwt: [] }]
-                        }
-                    },
                     handler: function(request, reply) {
                         reply({
-                            text:
-                                'You used a Token! ' +
-                                request.auth.credentials.name
-                        }).header(
-                            'Authorization',
-                            request.headers.authorization
-                        );
+                            text: 'You used a Token! ' + request.auth.credentials.name
+                        }).header('Authorization',request.headers.authorization);
                     }
                 }
             },
