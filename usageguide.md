@@ -119,7 +119,8 @@ validate: {
 ```
 __NOTE: the plugin reuses "definition models" these describe each JSON object use by an API i.e. a "user". This feature
 was added to reduce the size of the JSON. The reuse of models can cause names to be reused as well. Please switch
-`options.reuseDefinitions` to `false` if you are nameing your JOI objects.__
+`options.reuseDefinitions` to `false` if you are naming your JOI objects. By default objects are named in a "Model #"
+ format. To use the `label`, specify `options.definitionPrefix` as `useLabel`.__
 
 
 

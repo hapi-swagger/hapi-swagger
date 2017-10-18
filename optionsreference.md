@@ -39,6 +39,7 @@ JSON (JSON endpoint needed to create UI)
 *  `produces`: (array) The mimetypes produced - default: `['application/json']`
 *  `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`,
 *  `reuseDefinitions`: Reuse of definition models to save space - default: `true`,
+*  `definitionPrefix`: Dynamic naming convention. `default` or `useLabel` - default: `default`,
 *  `deReference`: Dereferences JSON output - default: `false`,
 *  `debug`: Validates the JSON ouput against swagger specification - default: `false`,
 
