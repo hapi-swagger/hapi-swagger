@@ -19,7 +19,7 @@ const customJoi = Joi.extend((joi) => ({
     rules: [
         {
             name: 'round',
-            setup(params) {
+            setup() {
 
                 this._flags.round = true; // Set a flag for later use
             },
