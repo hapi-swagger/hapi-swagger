@@ -106,6 +106,12 @@ lab.experiment('property - ', () => {
         expect(propertiesNoAlt.parseProperty('x', Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp')).default).to.exist();
         //console.log(JSON.stringify(propertiesAlt.parseProperty('x',Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp'))));
 
+        const nonNegativeWithDropdown = propertiesAlt.parseProperty('x', Joi.number().integer().positive().allow(0), null, 'body', true, false);
+        const nonNegativeWithoutDropdown = propertiesAlt.parseProperty('x', Joi.number().integer().positive().allow(0).meta({disableDropdown: true}), null, 'body', true, false);
+
+        expect(nonNegativeWithDropdown).to.include({ enum: [0] });
+        expect(nonNegativeWithoutDropdown).to.not.include({ enum: [0] });
+
         done();
     });
 
