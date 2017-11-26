@@ -13,7 +13,7 @@ lab.experiment('default `auth` settings', () => {
         {
             method: 'GET',
             path: '/',
-            config: {
+            options: {
                 auth: false,
                 handler: function (request, reply) {
 
@@ -23,7 +23,7 @@ lab.experiment('default `auth` settings', () => {
         }, {
             method: 'GET',
             path: '/restricted',
-            config: {
+            options: {
                 auth: 'jwt',
                 tags: ['api'],
                 plugins: {
@@ -91,7 +91,7 @@ lab.experiment('authentication', () => {
     const routes = {
         method: 'POST',
         path: '/bookmarks/',
-        config: {
+        options: {
             handler: Helper.defaultAuthHandler,
             plugins: {
                 'hapi-swagger': {

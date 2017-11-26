@@ -1,8 +1,8 @@
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -39,7 +39,7 @@ lab.experiment('security', () => {
     const routes = [{
         method: 'POST',
         path: '/bookmarks/1/',
-        config: {
+        options: {
             handler: Helper.defaultHandler,
             plugins: {
                 'hapi-swagger': {
@@ -59,7 +59,7 @@ lab.experiment('security', () => {
     }, {
         method: 'POST',
         path: '/bookmarks/2/',
-        config: {
+        options: {
             handler: Helper.defaultHandler,
             plugins: {
                 'hapi-swagger': {
@@ -87,7 +87,7 @@ lab.experiment('security', () => {
 
 
 
-    lab.test('passes through securityDefinitions', (done) => {
+    lab.test('passes through securityDefinitions', async() => {
 
         const requestOptions = {
             method: 'GET',
@@ -97,20 +97,16 @@ lab.experiment('security', () => {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response  = await server.inject(requestOptions);
+        expect(response.result.securityDefinitions).to.equal(swaggerOptions.securityDefinitions);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.securityDefinitions).to.equal(swaggerOptions.securityDefinitions);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('passes through security objects for whole api', (done) => {
+    lab.test('passes through security objects for whole api', async() => {
 
         const requestOptions = {
             method: 'GET',
@@ -118,20 +114,16 @@ lab.experiment('security', () => {
         };
 
         // plugin routes should be not be affected by auth on API
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.security).to.equal(swaggerOptions.security);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.security).to.equal(swaggerOptions.security);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('passes through security objects on routes', (done) => {
+    lab.test('passes through security objects on routes', async() => {
 
         const requestOptions = {
             method: 'GET',
@@ -139,100 +131,83 @@ lab.experiment('security', () => {
         };
 
         // plugin routes should be not be affected by auth on API
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.paths['/bookmarks/1/'].post.security).to.equal([
+            {
+                'api_key': []
+            }
+        ]);
+        expect(response.result.paths['/bookmarks/2/'].post.security).to.equal([
+            {
+                'petstore_auth': [
+                    'write:pets',
+                    'read:pets'
+                ]
+            }
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/bookmarks/1/'].post.security).to.equal([
-                    {
-                        'api_key': []
-                    }
-                ]);
-                expect(response.result.paths['/bookmarks/2/'].post.security).to.equal([
-                    {
-                        'petstore_auth': [
-                            'write:pets',
-                            'read:pets'
-                        ]
-                    }
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('passes through x-keyPrefix', (done) => {
+    // lab.test('passes through x-keyPrefix', async() => {
 
-        const prefixBearerOptions = {
-            debug: true,
-            securityDefinitions: {
-                'Bearer': {
-                    'type': 'apiKey',
-                    'name': 'Authorization',
-                    'in': 'header',
-                    'x-keyPrefix': 'Bearer '
-                }
-            },
-            security: [{ 'Bearer': [] }]
-        };
+    //     const prefixBearerOptions = {
+    //         debug: true,
+    //         securityDefinitions: {
+    //             'Bearer': {
+    //                 'type': 'apiKey',
+    //                 'name': 'Authorization',
+    //                 'in': 'header',
+    //                 'x-keyPrefix': 'Bearer '
+    //             }
+    //         },
+    //         security: [{ 'Bearer': [] }]
+    //     };
 
-        const requestOptions = {
-            method: 'GET',
-            url: '/documentation/debug'
-        };
+    //     const requestOptions = {
+    //         method: 'GET',
+    //         url: '/documentation/debug'
+    //     };
 
-        // plugin routes should be not be affected by auth on API
-        Helper.createServer(prefixBearerOptions, routes, (err, server) => {
-
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.parse(response.result).keyPrefix);
-                expect(JSON.parse(response.result).keyPrefix).to.equal('Bearer ');
-                done();
-            });
-        });
-    });
+    //     // plugin routes should be not be affected by auth on API
+    //     const server = await Helper.createServer(prefixBearerOptions, routes);
+    //     const response = await server.inject(requestOptions);
+    //     expect(JSON.parse(response.result).keyPrefix).to.equal('Bearer ');
+    // });
 
 
-    lab.test('no keyPrefix', (done) => {
+    // lab.test('no keyPrefix', async() => {
 
-        const prefixOauth2Options = {
-            debug: true,
-            securityDefinitions: {
-                'Oauth2': {
-                    'type': 'oauth2',
-                    'authorizationUrl': 'http://petstore.swagger.io/api/oauth/dialog',
-                    'flow': 'implicit',
-                    'scopes': {
-                        'write:pets': 'modify pets in your account',
-                        'read:pets': 'read your pets'
-                    }
-                }
-            },
-            security: [{ 'Oauth2': [] }]
-        };
+    //     const prefixOauth2Options = {
+    //         debug: true,
+    //         securityDefinitions: {
+    //             'Oauth2': {
+    //                 'type': 'oauth2',
+    //                 'authorizationUrl': 'http://petstore.swagger.io/api/oauth/dialog',
+    //                 'flow': 'implicit',
+    //                 'scopes': {
+    //                     'write:pets': 'modify pets in your account',
+    //                     'read:pets': 'read your pets'
+    //                 }
+    //             }
+    //         },
+    //         security: [{ 'Oauth2': [] }]
+    //     };
 
-        const requestOptions = {
-            method: 'GET',
-            url: '/documentation/debug'
-        };
+    //     const requestOptions = {
+    //         method: 'GET',
+    //         url: '/documentation/debug'
+    //     };
 
-        // plugin routes should be not be affected by auth on API
-        Helper.createServer(prefixOauth2Options, routes, (err, server) => {
+    //     // plugin routes should be not be affected by auth on API
+    //     const server = await Helper.createServer(prefixOauth2Options, routes);
+    //     const response = await server.inject(requestOptions);
+    //     expect(JSON.parse(response.result).keyPrefix).to.equal(undefined);
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.parse(response.result).keyPrefix);
-                expect(JSON.parse(response.result).keyPrefix).to.equal(undefined);
-                done();
-            });
-        });
-    });
+    // });
 
 });
 

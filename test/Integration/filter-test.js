@@ -1,7 +1,7 @@
-'use strict';
 const Code = require('code');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -55,124 +55,99 @@ lab.experiment('filter', () => {
     }];
 
 
-    lab.test('filter by tags=a', (done) => {
+    lab.test('filter by tags=a', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=a' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json?tags=a' }, function (response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(3);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(3);
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
 
-    lab.test('filter by tags=a,b,c,d', (done) => {
+    lab.test('filter by tags=a,b,c,d', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=a,b,c,d' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json?tags=a,b,c,d' }, function (response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(5);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(5);
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
 
-    lab.test('filter by tags=a,c', (done) => {
+    lab.test('filter by tags=a,c', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=a,c' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json?tags=a,c' }, function (response) {
+        //console.log(JSON.stringify(response.result.paths));
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(4);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(4);
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
 
-    lab.test('filter by tags=a,-b', (done) => {
+    lab.test('filter by tags=a,-b', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=a,-b' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json?tags=a,-b' }, function (response) {
+        //console.log(JSON.stringify(response.result.paths));
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(2);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(2);
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
 
-    lab.test('filter by tags=a,+b', (done) => {
+    lab.test('filter by tags=a,+b', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=a,%2Bb' });
+        // note %2B is a '+' plus char url encoded
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(1);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            expect(err).to.equal(null);
-            // note %2B is a '+' plus char url encoded
-            server.inject({ method: 'GET', url: '/swagger.json?tags=a,%2Bb' }, function (response) {
-
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(1);
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
 
-    lab.test('filter by tags=a,+c', (done) => {
+    lab.test('filter by tags=a,+c', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=a,%2Bc' });
 
-            expect(err).to.equal(null);
-            // note %2B is a '+' plus char url encoded
-            server.inject({ method: 'GET', url: '/swagger.json?tags=a,%2Bc' }, function (response) {
+        // note %2B is a '+' plus char url encoded
 
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(0);
-                Helper.validate(response, done, expect);
-            });
+        //console.log(JSON.stringify(response.result.paths));
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(0);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-        });
     });
 
 
-    lab.test('filter by tags=x', (done) => {
+    lab.test('filter by tags=x', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=x' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json?tags=x' }, function (response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(0);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(0);
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
 

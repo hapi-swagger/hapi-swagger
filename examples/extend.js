@@ -1,5 +1,3 @@
-'use strict';
-
 // `extend-joi.js`
 
 // This only works at moment if you have a base JOI type like number.

@@ -1,5 +1,3 @@
-'use strict';
-
 // `dot-grouping.js`
 
 // This file also shows the use of `pathReplacements` to group endpoints by replacing `.` with '/`

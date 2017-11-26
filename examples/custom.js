@@ -1,5 +1,3 @@
-'use strict';
-
 // `custom.js` - how build a custom documentation page with its own CSS and JS
 
 const Blipp = require('blipp');

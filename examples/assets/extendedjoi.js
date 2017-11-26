@@ -1,4 +1,3 @@
-'use strict';
 const Joi = require('joi');
 
 const customJoi = Joi.extend((joi) => ({

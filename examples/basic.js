@@ -1,5 +1,3 @@
-'use strict';
-
 // `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
 
 var Hapi = require('hapi');
