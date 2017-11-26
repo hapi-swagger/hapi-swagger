@@ -161,8 +161,8 @@ lab.experiment('responses', () => {
                 response.result.paths['/store/'].post.parameters[0]
                     .required
             ).to.equal(true);
-             const isValid = await Validate.test(response.result);
-        expect(isValid).to.be.true();
+            const isValid = await Validate.test(response.result);
+            expect(isValid).to.be.true();
         }
     );
 

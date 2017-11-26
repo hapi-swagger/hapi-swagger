@@ -5,9 +5,8 @@ const Boom = require('boom');
 const Inert = require('inert');
 const Vision = require('vision');
 const Wreck = require('wreck');
-const JWT = require('jsonwebtoken');
+// const JWT = require('jsonwebtoken');
 const HapiSwagger = require('../lib/index.js');
-const Validate = require('../lib/validate.js');
 
 const helper = module.exports = {};
 
@@ -51,7 +50,7 @@ helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
 * @param  {Object} routes
 * @param  {Function} callback
 */
-helper.createAuthServer = async (serverOptions = {}, swaggerOptions, routes, callback) => {
+helper.createAuthServer = async (serverOptions = {}, swaggerOptions, routes) => {
 
     const server = new Hapi.Server(serverOptions);
 
@@ -97,7 +96,7 @@ helper.createJWTAuthServer = (swaggerOptions, routes, callback) => {
         }
     };
     const privateKey = 'hapi hapi joi joi';
-    const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
+    // const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
     const validateJWT = (decoded, request, next) => {
 
         if (!people[decoded.id]) {
@@ -236,7 +235,7 @@ const startServer = (server, routes) => new Promise((resolve, reject) => {
 * @param  {Object} request
 * @param  {Object} reply
 */
-helper.defaultHandler = (request, h) => {
+helper.defaultHandler = () => {
     return 'ok';
 };
 
@@ -247,12 +246,12 @@ helper.defaultHandler = (request, h) => {
 * @param  {Object} request
 * @param  {Object} reply
 */
-helper.defaultAuthHandler = (request, h) => {
+helper.defaultAuthHandler = (request) => {
 
     if (request.auth && request.auth.credentials && request.auth.credentials.user) {
         return request.auth.credentials.user;
     } else {
-        return Boom.unauthorized(['unauthorized access'], [request.auth.strategy])
+        return Boom.unauthorized(['unauthorized access'], [request.auth.strategy]);
     }
 };
 
@@ -291,7 +290,7 @@ helper.validateBearer = (token, callback) => {
 * @param  {Object} settings
 * @param  {Int} ttl
 **/
-helper.replyWithJSON  = (err, res, request, reply, settings, ttl) => {
+helper.replyWithJSON  = (err, res) => {
 
     const { payload } = Wreck.read(res, { json: true });
     return payload;
