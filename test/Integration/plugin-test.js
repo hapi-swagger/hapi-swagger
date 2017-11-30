@@ -214,7 +214,7 @@ lab.experiment('plugin', () => {
         expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
     });
 
-    lab.test('disable cors settings, should return headers without origin settings', async(done) => {
+    lab.test('disable cors settings, should return headers without origin settings', async() => {
 
         const swaggerOptions = {
             'cors': false

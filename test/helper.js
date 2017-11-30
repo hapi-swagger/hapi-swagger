@@ -24,7 +24,7 @@ helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
         await server.register([
             Inert,
             Vision,
-            // H2o2,
+            H2o2,
             {
                 plugin: HapiSwagger,
                 options: swaggerOptions
@@ -50,32 +50,31 @@ helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
 * @param  {Object} routes
 * @param  {Function} callback
 */
-helper.createAuthServer = async (serverOptions = {}, swaggerOptions, routes) => {
+helper.createAuthServer = async (swaggerOptions, routes, serverOptions = {}) => {
 
     const server = new Hapi.Server(serverOptions);
 
-    try {
-        await server.register([
-            Inert,
-            Vision,
-            H2o2,
-            BearerToken,
-            {
-                plugin: HapiSwagger,
-                options: swaggerOptions
-            }
-        ]);
+    await server.register([
+        Inert,
+        Vision,
+        H2o2,
+        BearerToken,
+        {
+            plugin: HapiSwagger,
+            options: swaggerOptions
+        }
+    ]);
 
-        server.auth.strategy('bearer', 'bearer-access-token', {
-            'accessTokenName': 'access_token',
-            'validateFunc': helper.validateBearer
-        });
-        server.route(routes);
+    server.auth.strategy('bearer', 'bearer-access-token', {
+        accessTokenName: 'access_token',
+        validate: helper.validateBearer
+    });
+    server.route(routes);
 
-        await server.start();
-    } catch (e) {
-        console.error(e);
-    }
+    await server.start();
+
+    return server;
+
 };
 
 
@@ -86,7 +85,7 @@ helper.createAuthServer = async (serverOptions = {}, swaggerOptions, routes) => 
 * @param  {Object} routes
 * @param  {Function} callback
 */
-helper.createJWTAuthServer = (swaggerOptions, routes, callback) => {
+helper.createJWTAuthServer = async(swaggerOptions, routes) => {
 
     let people = {
         56732: {
@@ -97,20 +96,19 @@ helper.createJWTAuthServer = (swaggerOptions, routes, callback) => {
     };
     const privateKey = 'hapi hapi joi joi';
     // const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
-    const validateJWT = (decoded, request, next) => {
+    const validateJWT = (decoded) => {
 
         if (!people[decoded.id]) {
-            return next(null, false);
+            return {valid: false};
         }
-        return next(null, true, people[decoded.id]);
+
+        return  {valid: true};
     };
 
 
     const server = new Hapi.Server();
 
-    server.connection();
-
-    server.register([
+    await server.register([
         Inert,
         Vision,
         require('hapi-auth-jwt2'),
@@ -118,116 +116,21 @@ helper.createJWTAuthServer = (swaggerOptions, routes, callback) => {
             register: HapiSwagger,
             options: swaggerOptions
         }
-    ], (err) => {
+    ]);
 
-        if (err) {
-            return callback(err, null);
-        }
 
-        server.auth.strategy('jwt', 'jwt', {
-            key: privateKey,
-            validateFunc: validateJWT,
-            verifyOptions: { algorithms: ['HS256'] }
-        });
-
-        server.auth.default('jwt');
-
-        server.route(routes);
-        server.start(err => {
-
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, server);
-            }
-
-        });
+    server.auth.strategy('jwt', 'jwt', {
+        key: privateKey,
+        validate: validateJWT,
+        verifyOptions: { algorithms: ['HS256'] }
     });
 
-
-};
-
-
-
-/**
-* creates a Hapi server using promises
-*
-* @param  {Object} swaggerOptions
-* @param  {Object} routes
-* @param  {Function} callback
-*/
-helper.createServerWithPromises = (swaggerOptions, routes, callback) => {
-
-    const server = new Hapi.Server();
-
-    // start server using promises
-    registerPlugins(server, swaggerOptions)
-        .then( (msg) => {
-            console.log(msg);
-            return startServer(server, routes);
-        })
-        .then( (msg) => {
-            console.log(msg);
-            console.log('Server running at:', server.info.uri);
-            return registerViews(server);
-        })
-        .then( (msg) => {
-            console.log(msg);
-            callback(null, server);
-        })
-        .catch( (err) => {
-            console.log(err);
-            callback(err, null);
-        });
-};
-
-
-/**
-* a registers plugins using a promise
-*
-* @return {Object}
-*/
-const registerPlugins = (server, swaggerOptions) => new Promise((resolve, reject) =>
-    server.register([
-        Inert,
-        Vision,
-        H2o2,
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ], (err) => {
-        (err)
-            ? reject('Failed to configure main plugin group: ${err}')
-            : resolve('Main plugin group setup');
-    }
-    ));
-
-const registerViews = server => new Promise((resolve) => {
-
-    server.views({
-        path: 'bin',
-        engines: { html: require('handlebars') },
-        isCached: false
-    });
-    resolve('Templates views setup');
-});
-
-/**
-* starts server using a promise
-*
-* @return {Object}
-*/
-const startServer = (server, routes) => new Promise((resolve, reject) => {
+    server.auth.default('jwt');
 
     server.route(routes);
-    server.start((err) => {
-        (err)
-            ? reject('Failed to start server: ${err}')
-            : resolve('Started server');
-    });
-});
+    await server.start();
 
+};
 
 /**
 * a handler function used to mock a response
@@ -262,21 +165,19 @@ helper.defaultAuthHandler = (request) => {
 * @param  {String} token
 * @param  {Function} callback
 */
-helper.validateBearer = (token, callback) => {
+helper.validateBearer = async (request, token) => {
 
-    if (token === '12345') {
-        callback(null, true, {
-            'token': token,
-            'user': {
-                'username': 'glennjones',
-                'name': 'Glenn Jones',
-                'groups': ['admin', 'user']
+    return {
+        isValid: token === '12345',
+        credentials: {
+            token,
+            user: {
+                username: 'glennjones',
+                name: 'Glenn Jones',
+                groups: ['admin', 'user']
             }
-        });
-    } else {
-        // for bad token keep err as null just return false
-        callback(null, false, {});
-    }
+        }
+    };
 };
 
 
@@ -290,9 +191,9 @@ helper.validateBearer = (token, callback) => {
 * @param  {Object} settings
 * @param  {Int} ttl
 **/
-helper.replyWithJSON  = (err, res) => {
+helper.replyWithJSON  = async (err, res) => {
 
-    const { payload } = Wreck.read(res, { json: true });
+    const { payload } = await Wreck.read(res, { json: true });
     return payload;
 };
 

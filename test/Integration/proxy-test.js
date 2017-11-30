@@ -1,8 +1,8 @@
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -30,48 +30,40 @@ lab.experiment('proxies', () => {
 
 
 
-    lab.test('basePath option', (done) => {
+    lab.test('basePath option', async() => {
 
         const options = {
             basePath: '/v2'
         };
 
-        Helper.createServer(options, routes, (err, server) => {
+        const server = await Helper.createServer(options, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.basePath).to.equal(options.basePath);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.basePath).to.equal(options.basePath);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('schemes and host options', (done) => {
+    lab.test('schemes and host options', async() => {
 
         const options = {
             schemes: ['https'],
             host: 'testhost'
         };
 
-        Helper.createServer(options, routes, (err, server) => {
+        const server = await Helper.createServer(options, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.host).to.equal(options.host);
+        expect(response.result.schemes).to.equal(options.schemes);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.host).to.equal(options.host);
-                expect(response.result.schemes).to.equal(options.schemes);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('x-forwarded options', (done) => {
+    lab.test('x-forwarded options', async() => {
 
         const options = {};
 
@@ -80,21 +72,15 @@ lab.experiment('proxies', () => {
             'x-forwarded-proto': 'https'
         };
 
-        Helper.createServer(options, routes, (err, server) => {
+        const server = await Helper.createServer(options, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.host).to.equal(requestOptions.headers['x-forwarded-host']);
+        expect(response.result.schemes).to.equal(['https']);
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.host).to.equal(requestOptions.headers['x-forwarded-host']);
-                expect(response.result.schemes).to.equal(['https']);
-                done();
-            });
-        });
     });
 
 
-    lab.test('Azure Web Sites options', (done) => {
+    lab.test('Azure Web Sites options', async() => {
 
         const options = {};
 
@@ -104,22 +90,19 @@ lab.experiment('proxies', () => {
             'host': 'internal-host'
         };
 
-        Helper.createServer(options, routes, (err, server) => {
+        const server = await Helper.createServer(options, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
+        expect(response.result.schemes).to.equal(['https']);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            server.inject(requestOptions, (response) => {
-
-                expect(err).to.equal(null);
-                expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
-                expect(response.result.schemes).to.equal(['https']);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('iisnode options', (done) => {
+    lab.test('iisnode options', async() => {
 
-        const connectionOptions = {
+        const serverOptions = {
             port: '\\\\.\\pipe\\GUID-expected-here'
         };
 
@@ -130,23 +113,20 @@ lab.experiment('proxies', () => {
             'host': 'internal-host'
         };
 
-        Helper.createServerWithConnection(connectionOptions, options, routes, (err, server) => {
+        const server = await Helper.createServer(options, routes, serverOptions);
+        const response = await server.inject(requestOptions);
 
-            server.inject(requestOptions, (response) => {
+        // Stop because otherwise consecutive test runs would error
+        // with EADDRINUSE.
+        await server.stop();
 
-                // Stop because otherwise consecutive test runs would error
-                // with EADDRINUSE.
-                server.stop(done);
+        expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
+        expect(response.result.schemes).to.equal(['http']);
 
-                expect(err).to.equal(null);
-                expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
-                expect(response.result.schemes).to.equal(['http']);
-            });
-        });
     });
 
 
-    lab.test('adding facade for proxy using route options 1', (done) => {
+    lab.test('adding facade for proxy using route options 1', async() => {
 
         routes = {
             method: 'POST',
@@ -187,44 +167,37 @@ lab.experiment('proxies', () => {
             }
         };
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject(requestOptions);
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/tools/microformats/'].post.parameters).to.equal([
-                    {
-                        'type': 'string',
-                        'in': 'header',
-                        'name': 'testheaders'
-                    },
-                    {
-                        'type': 'string',
-                        'in': 'path',
-                        'name': 'testparam'
-                    },
-                    {
-                        'type': 'string',
-                        'in': 'query',
-                        'name': 'testquery'
-                    },
-                    {
-                        'in': 'body',
-                        'name': 'body',
-                        'schema': {
-                            '$ref': '#/definitions/Model 1'
-                        }
-                    }
-                ]);
-                done();
-            });
-        });
+        expect(response.result.paths['/tools/microformats/'].post.parameters).to.equal([
+            {
+                'type': 'string',
+                'in': 'header',
+                'name': 'testheaders'
+            },
+            {
+                'type': 'string',
+                'in': 'path',
+                'name': 'testparam'
+            },
+            {
+                'type': 'string',
+                'in': 'query',
+                'name': 'testquery'
+            },
+            {
+                'in': 'body',
+                'name': 'body',
+                'schema': {
+                    '$ref': '#/definitions/Model 1'
+                }
+            }
+        ]);
     });
 
 
-    lab.test('adding facade for proxy using route options 2 - naming', (done) => {
+    lab.test('adding facade for proxy using route options 2 - naming', async() => {
 
         routes = {
             method: 'POST',
@@ -253,29 +226,25 @@ lab.experiment('proxies', () => {
             }
         };
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject(requestOptions);
 
-            server.inject(requestOptions, function (response) {
+        expect(response.result.paths['/tools/microformats/'].post.parameters).to.equal([
+            {
+                'in': 'body',
+                'name': 'body',
+                'schema': {
+                    '$ref': '#/definitions/testname'
+                }
+            }
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/tools/microformats/'].post.parameters).to.equal([
-                    {
-                        'in': 'body',
-                        'name': 'body',
-                        'schema': {
-                            '$ref': '#/definitions/testname'
-                        }
-                    }
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('adding facade for proxy using route options 3 - defination reuse', (done) => {
+    lab.test('adding facade for proxy using route options 3 - defination reuse', async() => {
 
         routes = [{
             method: 'POST',
@@ -329,36 +298,29 @@ lab.experiment('proxies', () => {
             }
         }];
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject(requestOptions);
 
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.equal({
-                    'testname': {
-                        'properties': {
-                            'a': {
-                                'type': 'number',
-                                'description': 'the first number'
-                            }
-                        },
-                        'required': [
-                            'a'
-                        ],
-                        'type': 'object'
+        expect(response.result.definitions).to.equal({
+            'testname': {
+                'properties': {
+                    'a': {
+                        'type': 'number',
+                        'description': 'the first number'
                     }
-                });
-
-                done();
-            });
+                },
+                'required': [
+                    'a'
+                ],
+                'type': 'object'
+            }
         });
+
     });
 
 
 
-    lab.test('adding facade for proxy using route options 4 - defination name clash', (done) => {
+    lab.test('adding facade for proxy using route options 4 - defination name clash', async() => {
 
         routes = [{
             method: 'POST',
@@ -411,39 +373,32 @@ lab.experiment('proxies', () => {
             }
         }];
 
-        Helper.createServer({}, routes, (err, server) => {
-
-            server.inject(requestOptions, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result.paths['/tools/microformats/'].post.parameters));
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.equal({
-                    'testname': {
-                        'properties': {
-                            'a': {
-                                'type': 'number',
-                                'description': 'the first number'
-                            }
-                        },
-                        'required': [
-                            'a'
-                        ],
-                        'type': 'object'
-                    },
-                    'Model 1': {
-                        'properties': {
-                            'b': {
-                                'type': 'string',
-                                'description': 'the string'
-                            }
-                        },
-                        'type': 'object'
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.definitions).to.equal({
+            'testname': {
+                'properties': {
+                    'a': {
+                        'type': 'number',
+                        'description': 'the first number'
                     }
-                });
-                done();
-            });
+                },
+                'required': [
+                    'a'
+                ],
+                'type': 'object'
+            },
+            'Model 1': {
+                'properties': {
+                    'b': {
+                        'type': 'string',
+                        'description': 'the string'
+                    }
+                },
+                'type': 'object'
+            }
         });
+
     });
 
 });
