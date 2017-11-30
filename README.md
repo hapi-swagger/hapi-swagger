@@ -39,11 +39,10 @@ const Vision = require('vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
-const server = new Hapi.Server();
-server.connection({
-        host: 'localhost',
-        port: 3000
-    });
+const server = await new Hapi.Server({
+    host: 'localhost',
+    port: 3000
+});
 
 const options = {
     info: {
@@ -52,21 +51,21 @@ const options = {
         }
     };
 
-server.register([
+await server.register([
     Inert,
     Vision,
     {
         'register': HapiSwagger,
         'options': options
-    }], (err) => {
-        server.start( (err) => {
-           if (err) {
-                console.log(err);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
-        });
-    });
+    }
+]);
+
+try {
+    await server.start( (err) => {
+    console.log('Server running at:', server.info.uri);
+} catch(err) {
+    console.log(err);
+}
 
 server.route(Routes);
 ```
