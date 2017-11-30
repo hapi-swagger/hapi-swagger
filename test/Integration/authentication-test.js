@@ -9,62 +9,60 @@ const lab = exports.lab = Lab.script();
 
 
 lab.experiment('default `auth` settings', () => {
-    // const routes = [
-    //     {
-    //         method: 'GET',
-    //         path: '/',
-    //         options: {
-    //             auth: false,
-    //             handler: function (request, reply) {
-
-    //                 reply({ text: 'Token not required' });
-    //             }
-    //         }
-    //     }, {
-    //         method: 'GET',
-    //         path: '/restricted',
-    //         options: {
-    //             auth: 'jwt',
-    //             tags: ['api'],
-    //             plugins: {
-    //                 'hapi-swagger': {
-    //                     security: [{ 'jwt': [] }]
-    //                 }
-    //             },
-    //             handler: function (request, reply) {
-
-    //                 reply({ text: 'You used a Token! ' + request.auth.credentials.name })
-    //                     .header('Authorization', request.headers.authorization);
-    //             }
-    //         }
-    //     }
-    // ];
+    const routes = [
+        {
+            method: 'GET',
+            path: '/',
+            options: {
+                auth: false,
+                handler: () => {
+                    return { text: 'Token not required' };
+                }
+            }
+        }, {
+            method: 'GET',
+            path: '/restricted',
+            options: {
+                auth: 'jwt',
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        security: [{ 'jwt': [] }]
+                    }
+                },
+                handler: function (request, h) {
+                    h.response({ text: `You used a Token! ${request.auth.credentials.name}`})
+                        .header('Authorization', request.headers.authorization);
+                }
+            }
+        }
+    ];
 
 
-    // lab.test('get documentation page should not be restricted', async() => {
+    lab.test('get documentation page should not be restricted', async() => {
 
-    //     const requestOptions = {
-    //         method: 'GET',
-    //         url: '/documentation'
-    //     };
+        const requestOptions = {
+            method: 'GET',
+            url: '/documentation'
+        };
 
-    //     const server = await Helper.createJWTAuthServer({}, routes);
-    //     const response = await server.inject(requestOptions);
-    //     expect(response.statusCode).to.equal(200);
-    // });
+        const server = await Helper.createJWTAuthServer({}, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.statusCode).to.equal(200);
+    });
 
 
-    // lab.test('get documentation page should be restricted 401', async() => {
+    lab.test('get documentation page should be restricted 401', async() => {
 
-    //     const requestOptions = {
-    //         method: 'GET',
-    //         url: '/documentation'
-    //     };
+        const requestOptions = {
+            method: 'GET',
+            url: '/documentation'
+        };
 
-    //     const server = await Helper.createJWTAuthServer({ auth: undefined });
-    //     const response = await server.inject(requestOptions);
-    //     expect(response.statusCode).to.equal(401);
-    // });
+        const server = await Helper.createJWTAuthServer({ auth: undefined });
+        const response = await server.inject(requestOptions);
+        expect(response.statusCode).to.equal(401);
+    });
 
 
 });
