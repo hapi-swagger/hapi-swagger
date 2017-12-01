@@ -100,30 +100,30 @@ lab.experiment('proxies', () => {
     });
 
 
-    lab.test('iisnode options', async() => {
+    // lab.test('iisnode options', async() => {
 
-        const serverOptions = {
-            port: '\\\\.\\pipe\\GUID-expected-here'
-        };
+    //     const serverOptions = {
+    //         port: '\\\\.\\pipe\\GUID-expected-here'
+    //     };
 
-        const options = {};
+    //     const options = {};
 
-        requestOptions.headers = {
-            'disguised-host': 'requested-host',
-            'host': 'internal-host'
-        };
+    //     requestOptions.headers = {
+    //         'disguised-host': 'requested-host',
+    //         'host': 'internal-host'
+    //     };
 
-        const server = await Helper.createServer(options, routes, serverOptions);
-        const response = await server.inject(requestOptions);
+    //     const server = await Helper.createServer(options, routes, serverOptions);
+    //     const response = await server.inject(requestOptions);
 
-        // Stop because otherwise consecutive test runs would error
-        // with EADDRINUSE.
-        await server.stop();
+    //     // Stop because otherwise consecutive test runs would error
+    //     // with EADDRINUSE.
+    //     await server.stop();
 
-        expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
-        expect(response.result.schemes).to.equal(['http']);
+    //     expect(response.result.host).to.equal(requestOptions.headers['disguised-host']);
+    //     expect(response.result.schemes).to.equal(['http']);
 
-    });
+    // });
 
 
     lab.test('adding facade for proxy using route options 1', async() => {
