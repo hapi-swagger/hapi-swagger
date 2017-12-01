@@ -55,7 +55,7 @@ lab.experiment('wildcard routes', () => {
         expect(response.result.paths['/test']).to.have.length(2);
         expect(response.result.paths['/test']).to.include('get');
         expect(response.result.paths['/test']).to.include('post');
-        const isValid = await Validate.test(response);
+        const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
 
     });
