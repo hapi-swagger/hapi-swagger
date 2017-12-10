@@ -1,5 +1,3 @@
-'use strict';
-
 // `options.js` - how to use many of the plug-in options
 
 const BearerToken = require('hapi-auth-bearer-token');

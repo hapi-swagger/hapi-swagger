@@ -1,5 +1,3 @@
-'use strict';
-
 // `group.js` - how to use tag based grouping
 const Blipp = require('blipp');
 const Hapi = require('hapi');

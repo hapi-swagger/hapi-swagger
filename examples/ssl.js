@@ -1,5 +1,3 @@
-'use strict';
-
 // `ssl.js` - how to use many of the plug-in options
 const Fs = require('fs');
 const Path = require('path');

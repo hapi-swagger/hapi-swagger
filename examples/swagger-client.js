@@ -1,5 +1,3 @@
-'use strict';
-
 // `swagger-client.js` - how to plug-in to build an interface with `swagger-client`
 
 const Blipp = require('blipp');

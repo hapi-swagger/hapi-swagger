@@ -1,5 +1,3 @@
-'use strict';
-
 // `promises.js` - how to setup plug-in using promises
 
 const BearerToken = require('hapi-auth-bearer-token');

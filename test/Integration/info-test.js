@@ -1,7 +1,7 @@
-'use strict';
 const Code = require('code');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -20,42 +20,36 @@ lab.experiment('info', () => {
     }];
 
 
-    lab.test('no info object passed', (done) => {
+    lab.test('no info object passed', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('no info title property passed', (done) => {
+    lab.test('no info title property passed', async() => {
 
         const swaggerOptions = {
             info: {}
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.equal({ 'title': 'API documentation', 'version': '0.0.1' });
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
 
-    lab.test('min valid info object', (done) => {
+    lab.test('min valid info object', async() => {
 
         const swaggerOptions = {
             info: {
@@ -64,20 +58,17 @@ lab.experiment('info', () => {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.info).to.equal(swaggerOptions.info);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.equal(swaggerOptions.info);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 
-    lab.test('full info object', (done) => {
+    lab.test('full info object', async() => {
 
         const swaggerOptions = {
             info: {
@@ -95,19 +86,16 @@ lab.experiment('info', () => {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.info).to.equal(swaggerOptions.info);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.equal(swaggerOptions.info);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
-    lab.test('info object with custom properties', (done) => {
+    lab.test('info object with custom properties', async() => {
 
         const swaggerOptions = {
             info: {
@@ -117,16 +105,11 @@ lab.experiment('info', () => {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.info).to.equal(swaggerOptions.info);
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.info).to.equal(swaggerOptions.info);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 

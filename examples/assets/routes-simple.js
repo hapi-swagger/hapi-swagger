@@ -1,4 +1,3 @@
-'use strict';
 const Joi = require('joi');
 const js2xmlparser = require('js2xmlparser');
 

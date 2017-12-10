@@ -1,4 +1,3 @@
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Hoek = require('hoek');
@@ -14,7 +13,7 @@ lab.experiment('path', () => {
         method: 'POST',
         path: '/test',
         handler: Helper.defaultHandler,
-        config: {
+        options: {
             description: 'Add sum',
             notes: ['Adds a sum to the data store'],
             tags: ['api'],
@@ -41,414 +40,336 @@ lab.experiment('path', () => {
         }
     };
 
-    lab.test('summary and description', done => {
-        Helper.createServer({}, routes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.summary).to.equal(
-                    'Add sum'
-                );
-                expect(
-                    response.result.paths['/test'].post.description
-                ).to.equal('Adds a sum to the data store');
-                Helper.validate(response, done, expect);
-            });
-        });
+    lab.test('summary and description', async() => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.summary).to.equal(
+            'Add sum'
+        );
+        expect(
+            response.result.paths['/test'].post.description
+        ).to.equal('Adds a sum to the data store');
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('description as an array', done => {
+    lab.test('description as an array', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.notes = ['note one', 'note two'];
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/test'].post.description
-                ).to.equal('note one<br/><br/>note two');
-                Helper.validate(response, done, expect);
-            });
-        });
+        testRoutes.options.notes = ['note one', 'note two'];
+        const server = await Helper.createServer({}, testRoutes);
+        const response =  await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/test'].post.description
+        ).to.equal('note one<br/><br/>note two');
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('route settting of consumes produces', done => {
+    lab.test('route settting of consumes produces', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.plugins = {
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 consumes: ['application/x-www-form-urlencoded'],
                 produces: ['application/json', 'application/xml']
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result.paths['/test'].post.consumes));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.equal([
-                    'application/x-www-form-urlencoded'
-                ]);
-                expect(response.result.paths['/test'].post.produces).to.equal([
-                    'application/json',
-                    'application/xml'
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.consumes).to.equal([
+            'application/x-www-form-urlencoded'
+        ]);
+        expect(response.result.paths['/test'].post.produces).to.equal([
+            'application/json',
+            'application/xml'
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('override plug-in settting of consumes produces', done => {
+    lab.test('override plug-in settting of consumes produces', async() => {
         let swaggerOptions = {
             consumes: ['application/json'],
             produces: ['application/json']
         };
 
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.plugins = {
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 consumes: ['application/x-www-form-urlencoded'],
                 produces: ['application/json', 'application/xml']
             }
         };
 
-        Helper.createServer(swaggerOptions, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.equal([
-                    'application/x-www-form-urlencoded'
-                ]);
-                expect(response.result.paths['/test'].post.produces).to.equal([
-                    'application/json',
-                    'application/xml'
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer(swaggerOptions, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.consumes).to.equal([
+            'application/x-www-form-urlencoded'
+        ]);
+        expect(response.result.paths['/test'].post.produces).to.equal([
+            'application/json',
+            'application/xml'
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('auto "x-www-form-urlencoded" consumes with payloadType', done => {
+    lab.test('auto "x-www-form-urlencoded" consumes with payloadType', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.plugins = {
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 payloadType: 'form'
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.equal([
-                    'application/x-www-form-urlencoded'
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.consumes).to.equal([
+            'application/x-www-form-urlencoded'
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('rename a parameter', done => {
+    lab.test('rename a parameter', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.plugins = {
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 payloadType: 'form'
             }
         };
-        testRoutes.config.validate.payload = Joi.object({
+        testRoutes.options.validate.payload = Joi.object({
             a: Joi.string().label('foo')
         });
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/test'].post.parameters
-                ).to.equal([
-                    {
-                        type: 'string',
-                        name: 'a',
-                        in: 'formData'
-                    }
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/test'].post.parameters
+        ).to.equal([
+            {
+                type: 'string',
+                name: 'a',
+                in: 'formData'
+            }
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
     lab.test(
         'auto "multipart/form-data" consumes with { swaggerType: "file" }',
-        done => {
+        async() => {
             let testRoutes = Hoek.clone(routes);
-            (testRoutes.config.validate = {
+            testRoutes.options.validate = {
                 payload: {
                     file: Joi.any()
                         .meta({ swaggerType: 'file' })
                         .description('json file')
                 }
-            }), Helper.createServer({}, testRoutes, (err, server) => {
-                server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                    response
-                ) {
-                    expect(err).to.equal(null);
-                    //console.log(JSON.stringify(response.result));
-                    expect(response.statusCode).to.equal(200);
-                    expect(
-                        response.result.paths['/test'].post.consumes
-                    ).to.equal(['multipart/form-data']);
-                    done();
-                });
-            });
+            };
+            const server = await Helper.createServer({}, testRoutes);
+            const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+            expect(response.statusCode).to.equal(200);
+            expect(
+                response.result.paths['/test'].post.consumes
+            ).to.equal(['multipart/form-data']);
         }
     );
 
-    lab.test('auto "multipart/form-data" do not add two', done => {
+    lab.test('auto "multipart/form-data" do not add two', async() => {
         let testRoutes = Hoek.clone(routes);
-        (testRoutes.config.validate = {
+        testRoutes.options.validate = {
             payload: {
                 file: Joi.any()
                     .meta({ swaggerType: 'file' })
                     .description('json file')
             }
-        }), (testRoutes.config.plugins = {
+        };
+
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 consumes: ['multipart/form-data']
             }
-        });
+        };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.equal([
-                    'multipart/form-data'
-                ]);
-                done();
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.consumes).to.equal([
+            'multipart/form-data'
+        ]);
     });
 
-    lab.test(
-        'auto "application/x-www-form-urlencoded" do not add two',
-        done => {
-            let testRoutes = Hoek.clone(routes);
-            (testRoutes.config.validate = {
-                payload: {
-                    file: Joi.string().description('json file')
-                }
-            }), (testRoutes.config.plugins = {
-                'hapi-swagger': {
-                    consumes: ['application/x-www-form-urlencoded']
-                }
-            });
+    lab.test('auto "application/x-www-form-urlencoded" do not add two', async() => {
+        let testRoutes = Hoek.clone(routes);
 
-            Helper.createServer({}, testRoutes, (err, server) => {
-                server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                    response
-                ) {
-                    expect(err).to.equal(null);
-                    //console.log(JSON.stringify(response.result));
-                    expect(response.statusCode).to.equal(200);
-                    expect(
-                        response.result.paths['/test'].post.consumes
-                    ).to.equal(['application/x-www-form-urlencoded']);
-                    done();
-                });
-            });
-        }
-    );
+        testRoutes.options.validate = {
+            payload: {
+                file: Joi.string().description('json file')
+            }
+        },
 
-    lab.test('a user set content-type header removes consumes', done => {
+        testRoutes.options.plugins = {
+            'hapi-swagger': {
+                consumes: ['application/x-www-form-urlencoded']
+            }
+        };
+
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/test'].post.consumes
+        ).to.equal(['application/x-www-form-urlencoded']);
+    });
+
+    lab.test('a user set content-type header removes consumes', async() => {
         let consumes = [
             'application/json',
             'application/json;charset=UTF-8',
             'application/json; charset=UTF-8'
         ];
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.validate.headers = Joi.object({
+        testRoutes.options.validate.headers = Joi.object({
             'content-type': Joi.string().valid(consumes)
         }).unknown();
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/test'].post.consumes
-                ).to.not.exist();
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/test'].post.consumes
+        ).to.not.exist();
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('payloadType form', done => {
+    lab.test('payloadType form', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.plugins = {
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 payloadType: 'form'
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.consumes).to.equal([
-                    'application/x-www-form-urlencoded'
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.consumes).to.equal([
+            'application/x-www-form-urlencoded'
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('accept header', done => {
+    lab.test('accept header', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.validate.headers = Joi.object({
+        testRoutes.options.validate.headers = Joi.object({
             accept: Joi.string()
                 .required()
                 .valid(['application/json', 'application/vnd.api+json'])
         }).unknown();
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.produces).to.equal([
-                    'application/json',
-                    'application/vnd.api+json'
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.produces).to.equal([
+            'application/json',
+            'application/vnd.api+json'
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('accept header - no emum', done => {
+    lab.test('accept header - no emum', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.validate.headers = Joi.object({
+        testRoutes.options.validate.headers = Joi.object({
             accept: Joi.string().required().default('application/vnd.api+json')
         }).unknown();
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/test'].post.parameters[0]
-                ).to.equal({
-                    required: true,
-                    default: 'application/vnd.api+json',
-                    in: 'header',
-                    name: 'accept',
-                    type: 'string'
-                });
-                expect(
-                    response.result.paths['/test'].post.produces
-                ).to.not.exist();
-                Helper.validate(response, done, expect);
-            });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/test'].post.parameters[0]
+        ).to.equal({
+            required: true,
+            default: 'application/vnd.api+json',
+            in: 'header',
+            name: 'accept',
+            type: 'string'
         });
+        expect(
+            response.result.paths['/test'].post.produces
+        ).to.not.exist();
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('accept header - default first', done => {
+    lab.test('accept header - default first', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.validate.headers = Joi.object({
+        testRoutes.options.validate.headers = Joi.object({
             accept: Joi.string()
                 .required()
                 .valid(['application/json', 'application/vnd.api+json'])
                 .default('application/vnd.api+json')
         }).unknown();
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.produces).to.equal([
-                    'application/vnd.api+json',
-                    'application/json'
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.produces).to.equal([
+            'application/vnd.api+json',
+            'application/json'
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('accept header acceptToProduce set to false', done => {
+    lab.test('accept header acceptToProduce set to false', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.validate.headers = Joi.object({
+        testRoutes.options.validate.headers = Joi.object({
             accept: Joi.string()
                 .required()
                 .valid(['application/json', 'application/vnd.api+json'])
                 .default('application/vnd.api+json')
         }).unknown();
 
-        Helper.createServer(
-            { acceptToProduce: false },
-            testRoutes,
-            (err, server) => {
-                server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                    response
-                ) {
-                    expect(err).to.equal(null);
-                    //console.log(JSON.stringify(response.result));
-                    expect(response.statusCode).to.equal(200);
-                    expect(
-                        response.result.paths['/test'].post.parameters[0]
-                    ).to.equal({
-                        enum: ['application/json', 'application/vnd.api+json'],
-                        required: true,
-                        default: 'application/vnd.api+json',
-                        in: 'header',
-                        name: 'accept',
-                        type: 'string'
-                    });
-                    expect(
-                        response.result.paths['/test'].post.produces
-                    ).to.not.exist();
-                    Helper.validate(response, done, expect);
-                });
-            }
-        );
+        const server = await Helper.createServer({ acceptToProduce: false },testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.parameters[0]).to.equal({
+            enum: ['application/json', 'application/vnd.api+json'],
+            required: true,
+            default: 'application/vnd.api+json',
+            in: 'header',
+            name: 'accept',
+            type: 'string'
+        });
+        expect(response.result.paths['/test'].post.produces).to.not.exist();
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('path parameters {id}/{note?}', done => {
+    lab.test('path parameters {id}/{note?}', async() => {
         let testRoutes = Hoek.clone(routes);
         testRoutes.path = '/servers/{id}/{note?}';
-        testRoutes.config.validate = {
+        testRoutes.options.validate = {
             params: {
                 id: Joi.number()
                     .integer()
@@ -458,22 +379,16 @@ lab.experiment('path', () => {
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/servers/{id}/{note}']
-                ).to.exist();
-                done();
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/servers/{id}/{note}']
+        ).to.exist();
+
     });
 
-    lab.test('path parameters {a}/{b?} required overriden by JOI', done => {
+    lab.test('path parameters {a}/{b?} required overriden by JOI', async() => {
         let testRoutes = [
             {
                 method: 'POST',
@@ -519,125 +434,103 @@ lab.experiment('path', () => {
             }
         ];
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result.paths['/server/1/{a}/{b}'].post.parameters));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/server/1/{a}/{b}'].post.parameters
-                ).to.equal([
-                    {
-                        type: 'number',
-                        name: 'a',
-                        in: 'path',
-                        required: true
-                    },
-                    {
-                        type: 'string',
-                        name: 'b',
-                        in: 'path',
-                        required: true
-                    }
-                ]);
-                expect(
-                    response.result.paths['/server/2/{c}/{d}'].post.parameters
-                ).to.equal([
-                    {
-                        type: 'number',
-                        in: 'path',
-                        name: 'c'
-                    },
-                    {
-                        type: 'string',
-                        in: 'path',
-                        name: 'd'
-                    }
-                ]);
-                expect(
-                    response.result.paths['/server/3/{e}/{f}'].post.parameters
-                ).to.equal([
-                    {
-                        required: true,
-                        type: 'number',
-                        in: 'path',
-                        name: 'e'
-                    },
-                    {
-                        type: 'string',
-                        in: 'path',
-                        name: 'f'
-                    }
-                ]);
-                done();
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/server/1/{a}/{b}'].post.parameters
+        ).to.equal([
+            {
+                type: 'number',
+                name: 'a',
+                in: 'path',
+                required: true
+            },
+            {
+                type: 'string',
+                name: 'b',
+                in: 'path',
+                required: true
+            }
+        ]);
+        expect(
+            response.result.paths['/server/2/{c}/{d}'].post.parameters
+        ).to.equal([
+            {
+                type: 'number',
+                in: 'path',
+                name: 'c'
+            },
+            {
+                type: 'string',
+                in: 'path',
+                name: 'd'
+            }
+        ]);
+        expect(
+            response.result.paths['/server/3/{e}/{f}'].post.parameters
+        ).to.equal([
+            {
+                required: true,
+                type: 'number',
+                in: 'path',
+                name: 'e'
+            },
+            {
+                type: 'string',
+                in: 'path',
+                name: 'f'
+            }
+        ]);
     });
 
-    lab.test('path and basePath', done => {
-        let testRoutes = Hoek.clone(routes);
-        testRoutes.path = '/v3/servers';
-        testRoutes.config.validate = {
+    lab.test('path and basePath', async() => {
+        const testRoutes = Hoek.clone(routes);
+        testRoutes.path = '/v3/servers/{id}';
+        testRoutes.options.validate = {
             params: {
                 id: Joi.number()
                     .integer()
                     .required()
-                    .description('ID of server to delete'),
-                note: Joi.string().description('Note..')
+                    .description('ID of server to delete')
             }
         };
 
-        Helper.createServer({ basePath: '/v3' }, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/servers']).to.exist();
-                done();
-            });
-        });
+        const server = await Helper.createServer({ basePath: '/v3' }, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/servers/{id}']).to.exist();
     });
 
-    lab.test('basePath trim tailing slash', done => {
+    lab.test('basePath trim tailing slash', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.path = '/v3/servers';
-        testRoutes.config.validate = {
+        testRoutes.path = '/v3/servers/{id}';
+        testRoutes.options.validate = {
             params: {
                 id: Joi.number()
                     .integer()
                     .required()
-                    .description('ID of server to delete'),
-                note: Joi.string().description('Note..')
+                    .description('ID of server to delete')
             }
         };
 
-        Helper.createServer({ basePath: '/v3/' }, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/servers']).to.exist();
-                done();
-            });
-        });
+        const server = await Helper.createServer({ basePath: '/v3/' }, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/servers/{id}']).to.exist();
+
     });
 
-    lab.test('path, basePath suppressing version fragment', done => {
+    lab.test('path, basePath suppressing version fragment', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.path = '/api/v3/servers';
-        testRoutes.config.validate = {
+        testRoutes.path = '/api/v3/servers/{id}';
+        testRoutes.options.validate = {
             params: {
                 id: Joi.number()
                     .integer()
                     .required()
-                    .description('ID of server to delete'),
-                note: Joi.string().description('Note..')
+                    .description('ID of server to delete')
             }
         };
 
@@ -652,66 +545,48 @@ lab.experiment('path', () => {
             ]
         };
 
-        Helper.createServer(options, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/servers']).to.exist();
-                done();
-            });
-        });
+        const server = await Helper.createServer(options, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/servers/{id}']).to.exist();
+
     });
 
-    lab.test('route deprecated', done => {
+    lab.test('route deprecated', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.plugins = {
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 deprecated: true
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.deprecated).to.equal(
-                    true
-                );
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.deprecated).to.equal(true);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('custom operationId for code-gen apps', done => {
+    lab.test('custom operationId for code-gen apps', async() => {
         let testRoutes = Hoek.clone(routes);
-        testRoutes.config.plugins = {
+        testRoutes.options.plugins = {
             'hapi-swagger': {
                 id: 'add'
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/test'].post.operationId
-                ).to.equal('add');
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/test'].post.operationId
+        ).to.equal('add');
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('stop boolean creating parameter', done => {
+    lab.test('stop boolean creating parameter', async() => {
         let testRoutes = {
             method: 'GET',
             path: '/{name}',
@@ -728,30 +603,26 @@ lab.experiment('path', () => {
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/{name}'].get.parameters
-                ).to.equal([
-                    {
-                        type: 'string',
-                        minLength: 2,
-                        name: 'name',
-                        in: 'path',
-                        required: true
-                    }
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/{name}'].get.parameters
+        ).to.equal([
+            {
+                type: 'string',
+                minLength: 2,
+                name: 'name',
+                in: 'path',
+                required: true
+            }
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('stop emtpy objects creating parameter', done => {
+    lab.test('stop emtpy objects creating parameter', async() => {
         let testRoutes = {
             method: 'POST',
             path: '/{name}',
@@ -764,36 +635,28 @@ lab.experiment('path', () => {
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result.paths['/{name}'].post.parameters));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/{name}'].post.parameters
-                ).to.equal([
-                    {
-                        in: 'body',
-                        name: 'body',
-                        schema: {
-                            $ref: '#/definitions/Model 1'
-                        }
-                    }
-                ]);
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/{name}'].post.parameters
+        ).to.equal([
+            {
+                in: 'body',
+                name: 'body',
+                schema: {
+                    $ref: '#/definitions/Model 1'
+                }
+            }
+        ]);
 
-                Validate.test(response.result, err => {
-                    expect(err).to.equal(
-                        'Validation failed. /paths/{name}/post is missing path parameter(s) for {name}'
-                    );
-                    done();
-                });
-            });
-        });
+        // Before this test returned string: "'Validation failed. /paths/{name}/post is missing path parameter(s) for {name}"
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.false();
+
     });
 
-    lab.test('stop emtpy formData object creating parameter', done => {
+    lab.test('stop emtpy formData object creating parameter', async() => {
         let testRoutes = {
             method: 'POST',
             path: '/',
@@ -811,19 +674,15 @@ lab.experiment('path', () => {
             }
         };
 
-        Helper.createServer({}, testRoutes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(
-                    response.result.paths['/'].post.parameters
-                ).to.not.exists();
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(
+            response.result.paths['/'].post.parameters
+        ).to.not.exists();
 
-                Helper.validate(response, done, expect);
-            });
-        });
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
+
 });

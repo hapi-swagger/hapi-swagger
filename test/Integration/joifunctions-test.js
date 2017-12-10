@@ -1,7 +1,7 @@
-'use strict';
 const Code = require('code');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -13,72 +13,68 @@ lab.experiment('validation', () => {
         method: 'POST',
         path: '/test',
         handler: Helper.defaultHandler,
-        config: {
+        options: {
             description: 'Add sum',
             notes: ['Adds a sum to the data store'],
             tags: ['api'],
             validate: {
-                payload: function (value, options, next) {
+                payload: async (value) => {
 
                     console.log('testing');
-                    next(null, value);
+                    return value;
                 },
-                params: function (value, options, next) {
+                // params: async (value) => {
+
+                //     console.log('testing');
+                //     return value;
+                // },
+                query: async (value) => {
 
                     console.log('testing');
-                    next(null, value);
+                    return value;
                 },
-                query: function (value, options, next) {
+                headers: async (value) => {
 
                     console.log('testing');
-                    next(null, value);
-                },
-                headers: function (value, options, next) {
-
-                    console.log('testing');
-                    next(null, value);
+                    return value;
                 }
             }
         }
     };
 
 
-    lab.test('function not joi', (done) => {
+    lab.test('function not joi', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test'].post.parameters).to.equal([
-                    {
-                        'type': 'string',
-                        'name': 'Hidden Model',
-                        'in': 'header'
-                    },
-                    {
-                        'type': 'string',
-                        'name': 'Hidden Model',
-                        'in': 'query'
-                    },
-                    {
-                        'in': 'body',
-                        'name': 'body',
-                        'schema': {
-                            '$ref': '#/definitions/Hidden Model'
-                        }
-                    }
-                ]);
-                expect(response.result.definitions).to.equal({
-                    'Hidden Model': {
-                        'type': 'object'
-                    }
-                });
-                Helper.validate(response, done, expect);
-            });
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test'].post.parameters).to.equal([
+            {
+                'type': 'string',
+                'name': 'Hidden Model',
+                'in': 'header'
+            },
+            {
+                'type': 'string',
+                'name': 'Hidden Model',
+                'in': 'query'
+            },
+            {
+                'in': 'body',
+                'name': 'body',
+                'schema': {
+                    '$ref': '#/definitions/Hidden Model'
+                }
+            }
+        ]);
+        expect(response.result.definitions).to.equal({
+            'Hidden Model': {
+                'type': 'object'
+            }
         });
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
 });

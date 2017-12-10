@@ -7,11 +7,9 @@ URLs and plugin
 * `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
 * `auth`: (boolean, string or object) defines security strategy to use for plugin resources - default: `false`,
 * `cors`: (boolean) weather the swagger.json routes is servered with cors support - default: `false`,
-* `connectionLabel`: (string) A label used to document an API on a different HAPI server connection
-
 
 JSON (JSON endpoint needed to create UI)
-* `jsonPath`: (string) The path of JSON endpoint that describes the API - default: `/swagger.json`
+* `jsonPath`: (string) The path of JSON endpoint at describes the API - default: `/swagger.json`
 * `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) -  default: `/`
 * `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints - default: `1`
 * `pathReplacements` : (array) methods for modifying path and group names in documentation - default: `[]`

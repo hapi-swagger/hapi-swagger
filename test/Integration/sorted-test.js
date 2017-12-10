@@ -1,7 +1,7 @@
-'use strict';
 const Code = require('code');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -124,16 +124,13 @@ lab.experiment('sort', () => {
      */
 
 
-    lab.test('sort ordered path-method', (done) => {
+    lab.test('sort ordered path-method', async() => {
 
-        Helper.createServer({ sortPaths: 'path-method' }, routes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                //console.log(JSON.stringify(Object.keys(response.result.paths['/a'])));
-                expect(Object.keys(response.result.paths['/a'])).to.equal(['delete', 'get', 'post']);
-                Helper.validate(response, done, expect);
-            });
-        });
+        const server = await Helper.createServer({ sortPaths: 'path-method' }, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(Object.keys(response.result.paths['/a'])).to.equal(['delete', 'get', 'post']);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
 

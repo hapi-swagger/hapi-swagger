@@ -1,8 +1,8 @@
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -14,7 +14,7 @@ lab.experiment('definitions', () => {
     const routes = [{
         method: 'POST',
         path: '/test/',
-        config: {
+        options: {
             handler: Helper.defaultHandler,
             tags: ['api'],
             validate: {
@@ -41,7 +41,7 @@ lab.experiment('definitions', () => {
     },{
         method: 'POST',
         path: '/test/2',
-        config: {
+        options: {
             handler: Helper.defaultHandler,
             tags: ['api'],
             validate: {
@@ -56,7 +56,7 @@ lab.experiment('definitions', () => {
     },{
         method: 'POST',
         path: '/test/3',
-        config: {
+        options: {
             handler: Helper.defaultHandler,
             tags: ['api'],
             validate: {
@@ -71,82 +71,75 @@ lab.experiment('definitions', () => {
     }];
 
 
-    lab.test('payload with inline definition', (done) => {
+    lab.test('payload with inline definition', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
 
-            expect(err).to.equal(null);
-            const defination = {
-                'properties': {
-                    'a': {
-                        'description': 'the first number',
-                        'type': 'number'
-                    },
-                    'b': {
-                        'description': 'the second number',
-                        'type': 'number'
-                    },
-                    'operator': {
-                        'description': 'the opertator i.e. + - / or *',
-                        'default': '+',
-                        'type': 'string'
-                    },
-                    'equals': {
-                        'description': 'the result of the sum',
-                        'type': 'number'
-                    }
+        const defination = {
+            'properties': {
+                'a': {
+                    'description': 'the first number',
+                    'type': 'number'
                 },
-                'required': [
-                    'a',
-                    'b',
-                    'operator',
-                    'equals'
-                ],
-                'type': 'object'
-            };
+                'b': {
+                    'description': 'the second number',
+                    'type': 'number'
+                },
+                'operator': {
+                    'description': 'the opertator i.e. + - / or *',
+                    'default': '+',
+                    'type': 'string'
+                },
+                'equals': {
+                    'description': 'the result of the sum',
+                    'type': 'number'
+                }
+            },
+            'required': [
+                'a',
+                'b',
+                'operator',
+                'equals'
+            ],
+            'type': 'object'
+        };
 
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
-                    '$ref': '#/definitions/Model 1'
-                });
-                expect(response.result.definitions['Model 1']).to.equal(defination);
-                Helper.validate(response, done, expect);
-            });
-
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
+            '$ref': '#/definitions/Model 1'
         });
+        expect(response.result.definitions['Model 1']).to.equal(defination);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
 
-    lab.test('override definition named Model', (done) => {
+    lab.test('override definition named Model', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
+        //console.log(JSON.stringify(response.result.definitions));
+        expect(response.result.definitions.b).to.exists();
+        expect(response.result.definitions.Model).to.exists();
+        expect(response.result.definitions['Model 1']).to.exists();
 
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                //console.log(JSON.stringify(response.result.definitions));
-                expect(response.result.definitions.b).to.exists();
-                expect(response.result.definitions.Model).to.exists();
-                expect(response.result.definitions['Model 1']).to.exists();
-
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
-    lab.test('reuseDefinitions = false', (done) => {
+    lab.test('reuseDefinitions = false', async() => {
 
         // forces two models even though the model hash is the same
 
         const tempRoutes = [{
             method: 'POST',
             path: '/store1/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -161,7 +154,7 @@ lab.experiment('definitions', () => {
         }, {
             method: 'POST',
             path: '/store2/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -175,28 +168,27 @@ lab.experiment('definitions', () => {
             }
         }];
 
-        Helper.createServer({ reuseDefinitions: false }, tempRoutes, (err, server) => {
+        const server = await Helper.createServer({ reuseDefinitions: false }, tempRoutes);
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.definitions.A).to.exist();
-                expect(response.result.definitions.B).to.exist();
-                Helper.validate(response, done, expect);
-            });
-        });
+        //console.log(JSON.stringify(response.result));
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.definitions.A).to.exist();
+        expect(response.result.definitions.B).to.exist();
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
-    lab.test('definitionPrefix = useLabel', (done) => {
+    lab.test('definitionPrefix = useLabel', async() => {
 
         // use the label as a prefix for dynamic model names
 
         const tempRoutes = [{
             method: 'POST',
             path: '/store1/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -211,7 +203,7 @@ lab.experiment('definitions', () => {
         }, {
             method: 'POST',
             path: '/store2/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -226,7 +218,7 @@ lab.experiment('definitions', () => {
         }, {
             method: 'POST',
             path: '/store3/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -240,26 +232,24 @@ lab.experiment('definitions', () => {
             }
         }];
 
-        Helper.createServer({ definitionPrefix: 'useLabel' }, tempRoutes, (err, server) => {
+        const server = await Helper.createServer({ definitionPrefix: 'useLabel' }, tempRoutes);
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.definitions.A).to.exist();
-                expect(response.result.definitions['A A']).to.exist();
-                expect(response.result.definitions['A 1']).to.exist();
-                Helper.validate(response, done, expect);
-            });
-        });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.definitions.A).to.exist();
+        expect(response.result.definitions['A A']).to.exist();
+        expect(response.result.definitions['A 1']).to.exist();
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('test that optional array is not in swagger output', (done) => {
+    lab.test('test that optional array is not in swagger output', async() => {
 
         let testRoutes = [{
             method: 'POST',
             path: '/server/1/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -271,33 +261,30 @@ lab.experiment('definitions', () => {
             }
         }];
 
-        Helper.createServer({}, testRoutes, (err, server) => {
+        const server = await Helper.createServer({}, testRoutes);
 
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-                expect(err).to.equal(null);
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.definitions.test).to.equal({
-                    'type': 'object',
-                    'properties': {
-                        'a': {
-                            'type': 'number'
-                        },
-                        'b': {
-                            'type': 'string'
-                        }
-                    },
-                    'required': [
-                        'a'
-                    ]
-                });
-                done();
-            });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.definitions.test).to.equal({
+            'type': 'object',
+            'properties': {
+                'a': {
+                    'type': 'number'
+                },
+                'b': {
+                    'type': 'string'
+                }
+            },
+            'required': [
+                'a'
+            ]
         });
+
     });
 
 
-    lab.test('test that name changing for required', (done) => {
+    lab.test('test that name changing for required', async() => {
 
 
         const FormDependencyDefinition = Joi.object({
@@ -313,7 +300,7 @@ lab.experiment('definitions', () => {
         let testRoutes = [{
             method: 'POST',
             path: '/server/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -322,30 +309,27 @@ lab.experiment('definitions', () => {
             }
         }];
 
-        Helper.createServer({}, testRoutes, (err, server) => {
+        const server = await Helper.createServer({}, testRoutes);
 
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-                expect(err).to.equal(null);
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.definitions.ActionDefinition).to.equal({
-                    'type': 'object',
-                    'properties': {
-                        'id': {
-                            'type': 'number'
-                        },
-                        'reminder': {
-                            '$ref': '#/definitions/FormDependencyDefinition'
-                        }
-                    },
-                    'required': [
-                        'id',
-                        'reminder'
-                    ]
-                });
-                done();
-            });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.definitions.ActionDefinition).to.equal({
+            'type': 'object',
+            'properties': {
+                'id': {
+                    'type': 'number'
+                },
+                'reminder': {
+                    '$ref': '#/definitions/FormDependencyDefinition'
+                }
+            },
+            'required': [
+                'id',
+                'reminder'
+            ]
         });
+
     });
 
 

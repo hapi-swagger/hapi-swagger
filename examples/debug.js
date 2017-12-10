@@ -1,5 +1,3 @@
-'use strict';
-
 // `debug.js` - how to validate swagger output and get warning/error messages during development
 
 const Hapi = require('hapi');

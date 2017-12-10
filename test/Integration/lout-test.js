@@ -1,4 +1,3 @@
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
@@ -744,18 +743,13 @@ lab.experiment('lout examples', () => {
         }
     ];
 
-    lab.test('all routes parsed', done => {
-        Helper.createServer({}, routes, (err, server) => {
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function(
-                response
-            ) {
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                // the 40 to 45 difference is in one route having a number of methods
-                expect(response.result.paths).to.have.length(40);
-                done();
-            });
-        });
+    lab.test('all routes parsed', async() => {
+
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        // the 40 to 45 difference is in one route having a number of methods
+        expect(response.result.paths).to.have.length(40);
+
     });
 });

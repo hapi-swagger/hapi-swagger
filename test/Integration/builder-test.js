@@ -1,8 +1,8 @@
-'use strict';
 const Joi = require('joi');
 const Code = require('code');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -13,7 +13,7 @@ const routes = [{
     method: 'GET',
     path: '/test',
     handler: Helper.defaultHandler,
-    config: {
+    options: {
         tags: ['api']
     }
 }];
@@ -22,7 +22,7 @@ const xPropertiesRoutes = [{
     method: 'POST',
     path: '/test',
     handler: Helper.defaultHandler,
-    config: {
+    options: {
         tags: ['api'],
         validate: {
             payload: {
@@ -39,7 +39,7 @@ const reuseModelsRoutes = [{
     method: 'POST',
     path: '/test',
     handler: Helper.defaultHandler,
-    config: {
+    options: {
         tags: ['api'],
         validate: {
             payload: {
@@ -55,27 +55,23 @@ const reuseModelsRoutes = [{
 lab.experiment('builder', () => {
 
 
-    lab.test('defaults for swagger root object properties', (done) => {
+    lab.test('defaults for swagger root object properties', async() => {
 
-        Helper.createServer({}, routes, (err, server) => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.swagger).to.equal('2.0');
-                expect(response.result.schemes).to.equal(['http']);
-                expect(response.result.basePath).to.equal('/');
-                expect(response.result.consumes).to.not.exist();
-                expect(response.result.produces).to.not.exist();
-                Helper.validate(response, done, expect);
-            });
-
-        });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.swagger).to.equal('2.0');
+        expect(response.result.schemes).to.equal(['http']);
+        expect(response.result.basePath).to.equal('/');
+        expect(response.result.consumes).to.not.exist();
+        expect(response.result.produces).to.not.exist();
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
 
-    lab.test('set values for swagger root object properties', (done) => {
+    lab.test('set values for swagger root object properties', async() => {
 
         const swaggerOptions = {
             'swagger': '5.9.45',
@@ -89,194 +85,171 @@ lab.experiment('builder', () => {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.swagger).to.equal('2.0');
+        expect(response.result.schemes).to.equal(['https']);
+        expect(response.result.basePath).to.equal('/base');
+        expect(response.result.consumes).to.equal(['application/x-www-form-urlencoded']);
+        expect(response.result.produces).to.equal(['application/json', 'application/xml']);
+        expect(response.result.externalDocs).to.equal(swaggerOptions.externalDocs);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                expect(response.statusCode).to.equal(200);
-                //console.log(JSON.stringify(response.result))
-                expect(response.result.swagger).to.equal('2.0');
-                expect(response.result.schemes).to.equal(['https']);
-                expect(response.result.basePath).to.equal('/base');
-                expect(response.result.consumes).to.equal(['application/x-www-form-urlencoded']);
-                expect(response.result.produces).to.equal(['application/json', 'application/xml']);
-                expect(response.result.externalDocs).to.equal(swaggerOptions.externalDocs);
-                Helper.validate(response, done, expect);
-            });
-
-        });
     });
 
 
 
 
-    lab.test('xProperties : false', (done) => {
+    lab.test('xProperties : false', async() => {
 
-        Helper.createServer({ 'xProperties': false }, xPropertiesRoutes, (err, server) => {
+        const server = await Helper.createServer({ 'xProperties': false }, xPropertiesRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.equal({
-                    'array': {
-                        'type': 'array',
-                        'items': {
-                            'type': 'string'
-                        }
+        expect(response.result.definitions).to.equal({
+            'array': {
+                'type': 'array',
+                'items': {
+                    'type': 'string'
+                }
+            },
+            'Model 1': {
+                'type': 'object',
+                'properties': {
+                    'number': {
+                        'type': 'number'
                     },
-                    'Model 1': {
-                        'type': 'object',
-                        'properties': {
-                            'number': {
-                                'type': 'number'
-                            },
-                            'string': {
-                                'type': 'string'
-                            },
-                            'array': {
-                                '$ref': '#/definitions/array',
-                                'type': 'array'
-                            }
-                        }
+                    'string': {
+                        'type': 'string'
+                    },
+                    'array': {
+                        '$ref': '#/definitions/array',
+                        'type': 'array'
                     }
-                });
-
-                Helper.validate(response, done, expect);
-            });
-
+                }
+            }
         });
+
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
 
-    lab.test('xProperties : false', (done) => {
+    lab.test('xProperties : false', async() => {
 
-        Helper.createServer({ 'xProperties': true }, xPropertiesRoutes, (err, server) => {
+        const server = await Helper.createServer({ 'xProperties': true }, xPropertiesRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.equal({
-                    'array': {
-                        'type': 'array',
+        expect(response.result.definitions).to.equal({
+            'array': {
+                'type': 'array',
+                'x-constraint': {
+                    'length': 2
+                },
+                'items': {
+                    'type': 'string'
+                }
+            },
+            'Model 1': {
+                'type': 'object',
+                'properties': {
+                    'number': {
+                        'type': 'number',
                         'x-constraint': {
-                            'length': 2
-                        },
-                        'items': {
-                            'type': 'string'
+                            'greater': 10
                         }
                     },
-                    'Model 1': {
-                        'type': 'object',
-                        'properties': {
-                            'number': {
-                                'type': 'number',
-                                'x-constraint': {
-                                    'greater': 10
-                                }
-                            },
-                            'string': {
-                                'type': 'string',
-                                'x-format': {
-                                    'alphanum': true
-                                }
-                            },
-                            'array': {
-                                '$ref': '#/definitions/array',
-                                'type': 'array'
-                            }
+                    'string': {
+                        'type': 'string',
+                        'x-format': {
+                            'alphanum': true
                         }
+                    },
+                    'array': {
+                        '$ref': '#/definitions/array',
+                        'type': 'array'
                     }
-                });
-
-                Helper.validate(response, done, expect);
-            });
-
+                }
+            }
         });
+
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
 
-    lab.test('reuseDefinitions : true', (done) => {
+    lab.test('reuseDefinitions : true', async() => {
 
-        Helper.createServer({ 'reuseDefinitions': true }, reuseModelsRoutes, (err, server) => {
+        const server = await Helper.createServer({ 'reuseDefinitions': true }, reuseModelsRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.equal({
+        expect(response.result.definitions).to.equal({
+            'a': {
+                'type': 'object',
+                'properties': {
                     'a': {
-                        'type': 'object',
-                        'properties': {
-                            'a': {
-                                'type': 'string'
-                            }
-                        }
-                    },
-                    'Model 1': {
-                        'type': 'object',
-                        'properties': {
-                            'a': {
-                                '$ref': '#/definitions/a'
-                            },
-                            'b': {
-                                '$ref': '#/definitions/a'
-                            }
-                        }
+                        'type': 'string'
                     }
-                });
-
-                Helper.validate(response, done, expect);
-            });
-
-        });
-    });
-
-
-    lab.test('reuseDefinitions : false', (done) => {
-
-        Helper.createServer({ 'reuseDefinitions': false }, reuseModelsRoutes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.definitions).to.equal({
+                }
+            },
+            'Model 1': {
+                'type': 'object',
+                'properties': {
                     'a': {
-                        'type': 'object',
-                        'properties': {
-                            'a': {
-                                'type': 'string'
-                            }
-                        }
+                        '$ref': '#/definitions/a'
                     },
                     'b': {
-                        'type': 'object',
-                        'properties': {
-                            'a': {
-                                'type': 'string'
-                            }
-                        }
-                    },
-                    'Model 1': {
-                        'type': 'object',
-                        'properties': {
-                            'a': {
-                                '$ref': '#/definitions/a'
-                            },
-                            'b': {
-                                '$ref': '#/definitions/b'
-                            }
-                        }
+                        '$ref': '#/definitions/a'
                     }
-                });
-
-                Helper.validate(response, done, expect);
-            });
-
+                }
+            }
         });
+
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+    });
+
+
+    lab.test('reuseDefinitions : false', async() => {
+
+        const server = await Helper.createServer({ 'reuseDefinitions': false }, reuseModelsRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+        //console.log(JSON.stringify(response.result));
+        expect(response.result.definitions).to.equal({
+            'a': {
+                'type': 'object',
+                'properties': {
+                    'a': {
+                        'type': 'string'
+                    }
+                }
+            },
+            'b': {
+                'type': 'object',
+                'properties': {
+                    'a': {
+                        'type': 'string'
+                    }
+                }
+            },
+            'Model 1': {
+                'type': 'object',
+                'properties': {
+                    'a': {
+                        '$ref': '#/definitions/a'
+                    },
+                    'b': {
+                        '$ref': '#/definitions/b'
+                    }
+                }
+            }
+        });
+
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
 });
@@ -285,29 +258,27 @@ lab.experiment('builder', () => {
 lab.experiment('builder', () => {
 
     let logs = [];
-    lab.before((done) => {
-        Helper.createServer({ 'debug': true }, reuseModelsRoutes, (err, server) => {
-            server.on('log', (event) => {
+    lab.before(async() => {
+        const server = await Helper.createServer({ 'debug': true }, reuseModelsRoutes);
+
+        return new Promise((resolve) => {
+            server.events.on('log', (event) => {
 
                 logs = event.tags;
                 //console.log(event);
                 if (event.data === 'PASSED - The swagger.json validation passed.') {
                     logs = event.tags;
-                    done();
+                    resolve();
                 }
             });
-            server.inject({ method: 'GET', url: '/swagger.json' }, function () {
-
-            });
+            server.inject({ method: 'GET', url: '/swagger.json' });
         });
+
     });
 
 
-
-    lab.test('debug : true', (done) => {
-        //console.log(logs);
+    lab.test('debug : true', () => {
         expect(logs).to.equal(['hapi-swagger', 'validation', 'info']);
-        done();
     });
 
 });

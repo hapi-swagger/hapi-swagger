@@ -1,4 +1,3 @@
-'use strict';
 const BearerToken = require('hapi-auth-bearer-token');
 const H2o2 = require('h2o2');
 const Hapi = require('hapi');
@@ -6,14 +5,11 @@ const Boom = require('boom');
 const Inert = require('inert');
 const Vision = require('vision');
 const Wreck = require('wreck');
-const JWT = require('jsonwebtoken');
+// const JWT = require('jsonwebtoken');
 const HapiSwagger = require('../lib/index.js');
-const Validate = require('../lib/validate.js');
 
 const helper = module.exports = {};
 
-
-
 /**
 * creates a Hapi server
 *
@@ -21,52 +17,31 @@ const helper = module.exports = {};
 * @param  {Object} routes
 * @param  {Function} callback
 */
-helper.createServer = function (swaggerOptions, routes, callback) {
+helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
+    const server = new Hapi.Server(serverOptions);
 
-    helper.createServerWithConnection({}, swaggerOptions, routes, callback);
-};
-
-/**
-* creates a Hapi server
-*
-* @param  {Object} swaggerOptions
-* @param  {Object} routes
-* @param  {Function} callback
-*/
-helper.createServerWithConnection = function (connectionOptions, swaggerOptions, routes, callback) {
-
-    const server = new Hapi.Server();
-
-    server.connection(connectionOptions);
-
-    server.register([
-        Inert,
-        Vision,
-        H2o2,
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ], (err) => {
-
-        if (err) {
-            return callback(err, null);
-        }
-
-        server.route(routes);
-        server.start(function (err) {
-
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, server);
+    try {
+        await server.register([
+            Inert,
+            Vision,
+            H2o2,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
             }
-        });
-    });
+        ]);
 
+        if (routes) {
+            server.route(routes);
+        }
+
+        await server.start();
+        return server;
+    } catch (e) {
+        throw e;
+    }
 
 };
-
 
 /**
 * creates a Hapi server using bearer token auth
@@ -75,43 +50,30 @@ helper.createServerWithConnection = function (connectionOptions, swaggerOptions,
 * @param  {Object} routes
 * @param  {Function} callback
 */
-helper.createAuthServer = function (swaggerOptions, routes, callback) {
+helper.createAuthServer = async (swaggerOptions, routes, serverOptions = {}) => {
 
-    const server = new Hapi.Server();
+    const server = new Hapi.Server(serverOptions);
 
-    server.connection();
-
-    server.register([
+    await server.register([
         Inert,
         Vision,
         H2o2,
         BearerToken,
         {
-            register: HapiSwagger,
+            plugin: HapiSwagger,
             options: swaggerOptions
         }
-    ], (err) => {
+    ]);
 
-        if (err) {
-            return callback(err, null);
-        }
-
-        server.auth.strategy('bearer', 'bearer-access-token', {
-            'accessTokenName': 'access_token',
-            'validateFunc': helper.validateBearer
-        });
-        server.route(routes);
-        server.start(function (err) {
-
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, server);
-            }
-
-        });
+    server.auth.strategy('bearer', 'bearer-access-token', {
+        accessTokenName: 'access_token',
+        validate: helper.validateBearer
     });
+    server.route(routes);
 
+    await server.start();
+
+    return server;
 
 };
 
@@ -123,7 +85,7 @@ helper.createAuthServer = function (swaggerOptions, routes, callback) {
 * @param  {Object} routes
 * @param  {Function} callback
 */
-helper.createJWTAuthServer = function (swaggerOptions, routes, callback) {
+helper.createJWTAuthServer = async(swaggerOptions, routes) => {
 
     let people = {
         56732: {
@@ -133,21 +95,20 @@ helper.createJWTAuthServer = function (swaggerOptions, routes, callback) {
         }
     };
     const privateKey = 'hapi hapi joi joi';
-    const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
-    const validateJWT = function (decoded, request, next) {
+    // const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
+    const validateJWT = (decoded) => {
 
         if (!people[decoded.id]) {
-            return next(null, false);
+            return {valid: false};
         }
-        return next(null, true, people[decoded.id]);
+
+        return  {valid: true};
     };
 
 
     const server = new Hapi.Server();
 
-    server.connection();
-
-    server.register([
+    await server.register([
         Inert,
         Vision,
         require('hapi-auth-jwt2'),
@@ -155,126 +116,21 @@ helper.createJWTAuthServer = function (swaggerOptions, routes, callback) {
             register: HapiSwagger,
             options: swaggerOptions
         }
-    ], (err) => {
+    ]);
 
-        if (err) {
-            return callback(err, null);
-        }
 
-        server.auth.strategy('jwt', 'jwt', {
-            key: privateKey,
-            validateFunc: validateJWT,
-            verifyOptions: { algorithms: ['HS256'] }
-        });
-
-        server.auth.default('jwt');
-
-        server.route(routes);
-        server.start(function (err) {
-
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, server);
-            }
-
-        });
+    server.auth.strategy('jwt', 'jwt', {
+        key: privateKey,
+        validate: validateJWT,
+        verifyOptions: { algorithms: ['HS256'] }
     });
 
+    server.auth.default('jwt');
+
+    server.route(routes);
+    await server.start();
 
 };
-
-
-
-/**
-* creates a Hapi server using promises
-*
-* @param  {Object} swaggerOptions
-* @param  {Object} routes
-* @param  {Function} callback
-*/
-helper.createServerWithPromises = function (swaggerOptions, routes, callback) {
-
-    const server = new Hapi.Server();
-
-    // start server using promises
-    registerPlugins(server, swaggerOptions)
-        .then( (msg) => {
-            console.log(msg);
-            return startServer(server, routes);
-        })
-        .then( (msg) => {
-            console.log(msg);
-            console.log('Server running at:', server.info.uri);
-            return registerViews(server);
-        })
-        .then( (msg) => {
-            console.log(msg);
-            callback(null, server);
-        })
-        .catch( (err) => {
-            console.log(err);
-            callback(err, null);
-        });
-};
-
-
-/**
-* a registers plugins using a promise
-*
-* @return {Object}
-*/
-const registerPlugins = function (server, swaggerOptions) {
-
-    return new Promise((resolve, reject) =>
-        server.register([
-            Inert,
-            Vision,
-            H2o2,
-            {
-                register: HapiSwagger,
-                options: swaggerOptions
-            }
-        ], (err) => {
-            (err)
-                ? reject('Failed to configure main plugin group: ${err}')
-                : resolve('Main plugin group setup');
-        }
-        ));
-
-};
-
-const registerViews = function (server) {
-
-    return new Promise((resolve) => {
-
-        server.views({
-            path: 'bin',
-            engines: { html: require('handlebars') },
-            isCached: false
-        });
-        resolve('Templates views setup');
-    });
-};
-
-/**
-* starts server using a promise
-*
-* @return {Object}
-*/
-const startServer = function (server, routes) {
-
-    return new Promise((resolve, reject) => {
-
-        server.route(routes);
-        server.start((err) => {
-            (err)
-                ? reject('Failed to start server: ${err}')
-                : resolve('Started server');
-        });
-    });
-};
-
 
 /**
 * a handler function used to mock a response
@@ -282,9 +138,8 @@ const startServer = function (server, routes) {
 * @param  {Object} request
 * @param  {Object} reply
 */
-helper.defaultHandler = function (request, reply) {
-
-    reply('ok');
+helper.defaultHandler = () => {
+    return 'ok';
 };
 
 
@@ -294,12 +149,12 @@ helper.defaultHandler = function (request, reply) {
 * @param  {Object} request
 * @param  {Object} reply
 */
-helper.defaultAuthHandler = function (request, reply) {
+helper.defaultAuthHandler = (request) => {
 
     if (request.auth && request.auth.credentials && request.auth.credentials.user) {
-        reply(request.auth.credentials.user);
+        return request.auth.credentials.user;
     } else {
-        reply(Boom.unauthorized(['unauthorized access'], [request.auth.strategy]));
+        return Boom.unauthorized(['unauthorized access'], [request.auth.strategy]);
     }
 };
 
@@ -310,21 +165,19 @@ helper.defaultAuthHandler = function (request, reply) {
 * @param  {String} token
 * @param  {Function} callback
 */
-helper.validateBearer = function (token, callback) {
+helper.validateBearer = async (request, token) => {
 
-    if (token === '12345') {
-        callback(null, true, {
-            'token': token,
-            'user': {
-                'username': 'glennjones',
-                'name': 'Glenn Jones',
-                'groups': ['admin', 'user']
+    return {
+        isValid: token === '12345',
+        credentials: {
+            token,
+            user: {
+                username: 'glennjones',
+                name: 'Glenn Jones',
+                groups: ['admin', 'user']
             }
-        });
-    } else {
-        // for bad token keep err as null just return false
-        callback(null, false, {});
-    }
+        }
+    };
 };
 
 
@@ -337,14 +190,11 @@ helper.validateBearer = function (token, callback) {
 * @param  {Object} reply
 * @param  {Object} settings
 * @param  {Int} ttl
-*/
-/* eslint no-unused-vars:0 */
-helper.replyWithJSON  = function (err, res, request, reply, settings, ttl) {
+**/
+helper.replyWithJSON  = async (err, res) => {
 
-    Wreck.read(res, { json: true }, function (err, payload) {
-
-        reply(payload);
-    });
+    const { payload } = await Wreck.read(res, { json: true });
+    return payload;
 };
 
 
@@ -354,29 +204,12 @@ helper.replyWithJSON  = function (err, res, request, reply, settings, ttl) {
 *
  * @return {Object}
 */
-helper.objWithNoOwnProperty = function () {
+helper.objWithNoOwnProperty = () => {
 
     const  sides = { a: 1, b: 2, c: 3 };
-    let Triangle = function () {
+    let Triangle = function() {
 
     };
     Triangle.prototype = sides;
     return new Triangle();
-};
-
-
-/**
-* checks the JSON response is a valid swagger document, then fires done()
-*
-* @param  {Object} response
-* @param  {Function} done
-* @param  {Function} expect
-*/
-helper.validate = function (response, done, expect) {
-
-    Validate.test(response.result, (err, status) => {
-        //console.log(err,status);
-        expect(err).to.be.null();
-        done();
-    });
 };

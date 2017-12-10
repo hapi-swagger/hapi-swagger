@@ -1,5 +1,4 @@
 
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
@@ -14,7 +13,7 @@ const lab = exports.lab = Lab.script();
 lab.experiment('utilities', () => {
 
 
-    lab.test('isObject', (done) => {
+    lab.test('isObject', () => {
 
         expect(Utilities.isObject(function () { })).to.equal(false);
         expect(Utilities.isObject({})).to.equal(true);
@@ -24,11 +23,10 @@ lab.experiment('utilities', () => {
         expect(Utilities.isObject([])).to.equal(false);
         expect(Utilities.isObject('string')).to.equal(false);
         expect(Utilities.isObject(5)).to.equal(false);
-        done();
     });
 
 
-    lab.test('isFunction', (done) => {
+    lab.test('isFunction', () => {
 
         expect(Utilities.isFunction(function () { })).to.equal(true);
         expect(Utilities.isFunction({})).to.equal(false);
@@ -38,11 +36,10 @@ lab.experiment('utilities', () => {
         expect(Utilities.isFunction([])).to.equal(false);
         expect(Utilities.isFunction('string')).to.equal(false);
         expect(Utilities.isFunction(5)).to.equal(false);
-        done();
     });
 
 
-    lab.test('isRegex', (done) => {
+    lab.test('isRegex', () => {
 
         expect(Utilities.isRegex(undefined)).to.equal(false);
         expect(Utilities.isRegex(null)).to.equal(false);
@@ -56,20 +53,18 @@ lab.experiment('utilities', () => {
 
         expect(Utilities.isRegex(/a/g)).to.equal(true);
         expect(Utilities.isRegex(new RegExp('a', 'g'))).to.equal(true);
-        done();
     });
 
 
-    lab.test('hasProperties', (done) => {
+    lab.test('hasProperties', () => {
 
         expect(Utilities.hasProperties({})).to.equal(false);
         expect(Utilities.hasProperties({ 'name': 'test' })).to.equal(true);
         expect(Utilities.hasProperties(Helper.objWithNoOwnProperty())).to.equal(false);
-        done();
     });
 
 
-    lab.test('deleteEmptyProperties', (done) => {
+    lab.test('deleteEmptyProperties', () => {
 
         //console.log( JSON.stringify(Utilities.deleteEmptyProperties(objWithNoOwnProperty())) );
         expect(Utilities.deleteEmptyProperties({})).to.equal({});
@@ -83,22 +78,20 @@ lab.experiment('utilities', () => {
         expect(Utilities.deleteEmptyProperties({ 'example': {}, default: {} })).to.equal({ 'example': {}, default: {} });
         // this needs JSON.stringify to compare outputs
         expect(JSON.stringify(Utilities.deleteEmptyProperties(Helper.objWithNoOwnProperty()))).to.equal('{}');
-        done();
     });
 
 
-    lab.test('first', (done) => {
+    lab.test('first', () => {
 
         expect(Utilities.first({})).to.equal(undefined);
         expect(Utilities.first('test')).to.equal(undefined);
         expect(Utilities.first([])).to.equal(undefined);
         expect(Utilities.first(['test'])).to.equal('test');
         expect(Utilities.first(['one', 'two'])).to.equal('one');
-        done();
     });
 
 
-    lab.test('hasKey', (done) => {
+    lab.test('hasKey', () => {
 
         expect(Utilities.hasKey({}, 'x')).to.equal(false);
         expect(Utilities.hasKey([], 'x')).to.equal(false);
@@ -118,11 +111,10 @@ lab.experiment('utilities', () => {
         expect(Utilities.hasKey(Helper.objWithNoOwnProperty(), 'x')).to.equal(false);
         expect(Utilities.hasKey({ a: {} }, 'x')).to.equal(false);
 
-        done();
     });
 
 
-    lab.test('findAndRenameKey', (done) => {
+    lab.test('findAndRenameKey', () => {
 
         expect(Utilities.findAndRenameKey({}, 'x', 'y')).to.equal({});
         expect(Utilities.findAndRenameKey([], 'x', 'y')).to.equal([]);
@@ -145,11 +137,10 @@ lab.experiment('utilities', () => {
 
         expect(Utilities.findAndRenameKey(Helper.objWithNoOwnProperty(), 'x', 'y')).to.equal({});
 
-        done();
     });
 
 
-    lab.test('replaceValue', (done) => {
+    lab.test('replaceValue', () => {
 
         expect(Utilities.replaceValue(['a','b'], 'a', 'c')).to.equal(['b','c']);
         expect(Utilities.replaceValue(['a','b'], null, null)).to.equal(['a','b']);
@@ -157,87 +148,78 @@ lab.experiment('utilities', () => {
         expect(Utilities.replaceValue(null, null, null)).to.equal(null);
         expect(Utilities.replaceValue()).to.equal(undefined);
 
-        done();
     });
 
 
-    lab.test('removeProps', (done) => {
+    lab.test('removeProps', () => {
 
         expect(Utilities.removeProps({ 'a': 1, 'b': 2 }, ['a'])).to.equal({ 'a': 1 });
         expect(Utilities.removeProps({ 'a': 1, 'b': 2 }, ['a', 'b'])).to.equal({ 'a': 1, 'b': 2 });
         expect(Utilities.removeProps({ 'a': 1, 'b': 2 }, ['c'])).to.equal({});
         expect(Utilities.removeProps(Helper.objWithNoOwnProperty(), ['b'])).to.equal({});
 
-        done();
     });
 
 
-    lab.test('isJoi', (done) => {
+    lab.test('isJoi', () => {
 
         expect(Utilities.isJoi({})).to.equal(false);
         expect(Utilities.isJoi(Joi.object())).to.equal(true);
         expect(Utilities.isJoi(Joi.object({
             id: Joi.string()
         }))).to.equal(true);
-        done();
     });
 
 
-    lab.test('hasJoiChildren', (done) => {
+    lab.test('hasJoiChildren', () => {
 
         expect(Utilities.hasJoiChildren({})).to.equal(false);
         expect(Utilities.hasJoiChildren(Joi.object())).to.equal(false);
         expect(Utilities.hasJoiChildren(Joi.object({
             id: Joi.string()
         }))).to.equal(true);
-        done();
     });
 
 
-    lab.test('toJoiObject', (done) => {
+    lab.test('toJoiObject', () => {
 
         expect(Utilities.toJoiObject({}).isJoi).to.equal(true);
         expect(Utilities.toJoiObject(Joi.object()).isJoi).to.equal(true);
-        done();
     });
 
 
-    lab.test('hasJoiMeta', (done) => {
+    lab.test('hasJoiMeta', () => {
 
         expect(Utilities.hasJoiMeta({})).to.equal(false);
         expect(Utilities.hasJoiMeta(Joi.object())).to.equal(true);
         expect(Utilities.hasJoiMeta(Joi.object().meta({ 'test': 'test' }))).to.equal(true);
-        done();
     });
 
 
-    lab.test('getJoiMetaProperty', (done) => {
+    lab.test('getJoiMetaProperty', () => {
 
         expect(Utilities.getJoiMetaProperty({}, 'test')).to.equal(undefined);
         expect(Utilities.getJoiMetaProperty(Joi.object(), 'test')).to.equal(undefined);
         expect(Utilities.getJoiMetaProperty(Joi.object().meta({ 'test': 'test' }), 'test')).to.equal('test');
         expect(Utilities.getJoiMetaProperty(Joi.object().meta({ 'test': 'test' }), 'nomatch')).to.equal(undefined);
-        done();
     });
 
 
-    lab.test('toTitleCase', (done) => {
+    lab.test('toTitleCase', () => {
 
         expect(Utilities.toTitleCase('test')).to.equal('Test');
         expect(Utilities.toTitleCase('tesT')).to.equal('Test');
-        done();
     });
 
 
-    lab.test('createId', (done) => {
+    lab.test('createId', () => {
 
         expect(Utilities.createId('PUT', 'v1/sum/add/{a}/{b}')).to.equal('putV1SumAddAB');
         expect(Utilities.createId('PUT', 'sum')).to.equal('putSum');
-        done();
     });
 
 
-    lab.test('replaceInPath', (done) => {
+    lab.test('replaceInPath', () => {
 
         const pathReplacements = [{
             replaceIn: 'all',
@@ -253,7 +235,6 @@ lab.experiment('utilities', () => {
         expect(Utilities.replaceInPath('api/v2/users', ['groups'], pathReplacements)).to.equal('api/users');
         expect(Utilities.replaceInPath('api/users.get', ['groups'], pathReplacements)).to.equal('api/users');
         expect(Utilities.replaceInPath('api/users.search', ['groups'], pathReplacements)).to.equal('api/users');
-        done();
     });
 
 
