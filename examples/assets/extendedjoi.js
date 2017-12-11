@@ -1,5 +1,4 @@
 const Joi = require('joi');
-
 const customJoi = Joi.extend((joi) => ({
     base: joi.number(),
     name: 'number',
@@ -18,7 +17,7 @@ const customJoi = Joi.extend((joi) => ({
     rules: [
         {
             name: 'round',
-            setup() {
+            setup(params) {
 
                 this._flags.round = true; // Set a flag for later use
             },

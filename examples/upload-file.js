@@ -10,13 +10,9 @@ const Joi = require('joi');
 
 const HapiSwagger = require('../');
 
-let server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
 
-const storeFile = function(request, reply) {
+const storeFile = async function(request, h) {
+
     const payload = request.payload;
     let data = '';
 
@@ -28,13 +24,10 @@ const storeFile = function(request, reply) {
 
         // check the content-type is json
         if (headers['content-type'] === 'application/json') {
-            // read the stream into memory
-            file.on('data', chunk => {
-                data += chunk;
-            });
 
-            // once we have all the data
-            file.on('end', () => {
+            try {
+                let data = await streamToPromise(file);
+
                 // use Joi to validate file data format
                 const addSumSchema = Joi.object().keys({
                     a: Joi.number().required(),
@@ -43,28 +36,41 @@ const storeFile = function(request, reply) {
                     equals: Joi.number().required()
                 });
 
-                Joi.validate(data, addSumSchema, err => {
-                    if (err) {
-                        reply(
-                            Boom.badRequest(
-                                'JSON file has incorrect format or properties. ' +
-                                    err
-                            )
-                        );
-                    } else {
-                        // do something with JSON.parse(data)
-                        console.log('File uploaded correctly');
-                        reply(data);
-                    }
-                });
-            });
+                await Joi.validate(data, addSumSchema);
+                return h.response(data);
+
+            }
+            catch(err){
+                return Boom.badRequest(err.message);
+            }
+
         } else {
-            reply(Boom.unsupportedMediaType());
+            return Boom.unsupportedMediaType();
         }
     } else {
-        reply(Boom.badRequest('File is required'));
+        return Boom.badRequest('File is required');
     }
+
 };
+
+
+
+function streamToPromise(stream) {
+
+    return new Promise(function (resolve, reject) {
+        let data = '';
+        stream.on('data', chunk => {
+            data += chunk;
+        });
+        stream.on('end', () => {
+            resolve(data);
+        });
+        stream.on('error', (err) => {
+            reject(err);
+        });
+    });
+}
+
 
 const swaggerOptions = {};
 
@@ -96,36 +102,54 @@ const routes = [
     }
 ];
 
-server.register(
-    [
-        Inert,
-        Vision,
-        Blipp,
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ],
-    err => {
-        if (err) {
-            console.log(err);
-        }
+
+const ser = async () => {
+
+    try {
+
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
+        });
+
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
+            }
+        ]);
 
         server.route(routes);
 
-        server.start(startErr => {
-            if (startErr) {
-                console.log(startErr);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
+        // add templates only for testing custom.html
+        server.views({
+            path: 'bin',
+            engines: { html: require('handlebars') },
+            isCached: false
         });
-    }
-);
 
-// add templates only for testing custom.html
-server.views({
-    path: 'bin',
-    engines: { html: require('handlebars') },
-    isCached: false
-});
+
+        await server.start();
+        return server;
+
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });
+

@@ -9,13 +9,8 @@ const Inert = require('inert');
 const Vision = require('vision');
 const HapiSwagger = require('../');
 
-// Create a server with a host and port
-const server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
 
+/*
 const goodOptions = {
     ops: {
         interval: 1000
@@ -39,6 +34,7 @@ const goodOptions = {
         ]
     }
 };
+*/
 
 const swaggerOptions = {
     pathPrefixSize: 2,
@@ -56,25 +52,24 @@ const swaggerOptions = {
     ]
 };
 
-// Start the server
-server.register(
-    [
-        Inert,
-        Vision,
-        Blipp,
-        {
-            register: require('good'),
-            options: goodOptions
-        },
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ],
-    err => {
-        if (err) {
-            throw err;
-        }
+const ser = async () => {
+
+    try {
+
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
+        });
+
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
+            }
+        ]);
 
         // Add a route - handler and route definition is the same for all versions
         server.route({
@@ -100,8 +95,8 @@ server.register(
         server.route({
             method: 'GET',
             path: '/api/user.get',
-            handler: function(request, reply) {
-                return reply(users);
+            handler: function(request, h) {
+                return h.response(users);
             },
             config: {
                 tags: ['api']
@@ -111,25 +106,32 @@ server.register(
         server.route({
             method: 'GET',
             path: '/api/user.search',
-            handler: function(request, reply) {
-                return reply(users);
+            handler: function(request, h) {
+                return h.response(users);
             },
             config: {
                 tags: ['api']
             }
         });
 
-        // Add a versioned route - This is a simple version of the '/users' route where just the handlers
-        // differ and even those just a little. It maybe is the preferred option if just the formatting of
-        // the response differs between versions.
+        await server.start();
 
-        // Start the server
-        server.start(err => {
-            if (err) {
-                throw err;
-            }
+        return server;
 
-            console.log('Server running at:', server.info.uri);
-        });
+    } catch (err) {
+        throw err;
     }
-);
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });
