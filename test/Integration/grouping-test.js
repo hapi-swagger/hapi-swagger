@@ -23,9 +23,9 @@ const testPlugin = {
                 tags: ['api', 'hello group', 'another group']
             }
         });
-
     }
 };
+
 
 let swaggerOptions = {
     schemes: ['http'],
@@ -44,11 +44,12 @@ let swaggerOptions = {
     }
 };
 
+
 lab.experiment('default grouping', () => {
 
     lab.test('group by path', async() => {
 
-        const server = new Hapi.Server({ host: 'localhost', port: 3000});
+        const server = await new Hapi.Server({});
         await server.register([
             Inert,
             Vision,
@@ -64,7 +65,6 @@ lab.experiment('default grouping', () => {
 
         const response = await server.inject({ method: 'GET', url: '/swagger.json' });
         expect(response.statusCode).to.equal(200);
-        expect(response.result.host).to.equal('localhost');
         expect(response.result.paths['/grouping1']).to.equal({
 
             'get': {
@@ -92,7 +92,7 @@ lab.experiment('default grouping', () => {
 
         lab.test('group by tags', async() => {
 
-            const server = new Hapi.Server({ host: 'localhost', port: 3000});
+            const server = await new Hapi.Server({});
             swaggerOptions.grouping = 'tags';
             await server.register([
                 Inert,
@@ -106,7 +106,6 @@ lab.experiment('default grouping', () => {
             await server.start();
             const response = await server.inject({ method: 'GET', url: '/swagger.json' });
             expect(response.statusCode).to.equal(200);
-            expect(response.result.host).to.equal('localhost:3000');
             expect(response.result.paths['/grouping1']).to.equal({
 
                 'get': {
@@ -133,11 +132,11 @@ lab.experiment('default grouping', () => {
     });
 
 
-    lab.experiment('tag grouping with tasGroupingFilter', () => {
+    lab.experiment('tag grouping with tagsGroupingFilter', () => {
 
         lab.test('group by filtered tags', async() => {
 
-            const server = new Hapi.Server({ host: 'localhost', port: 3000});
+            const server = await new Hapi.Server({});
             swaggerOptions.grouping = 'tags';
             swaggerOptions.tagsGroupingFilter = (tag) => tag === 'hello group';
 
@@ -155,7 +154,6 @@ lab.experiment('default grouping', () => {
             const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
             expect(response.statusCode).to.equal(200);
-            expect(response.result.host).to.equal('localhost:3000');
             expect(response.result.paths['/grouping1']).to.equal({
 
                 'get': {

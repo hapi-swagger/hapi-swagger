@@ -137,4 +137,23 @@ lab.experiment('debug', () => {
         expect(logs[0].data).to.equal('The /test/{a}/{b?} params parameter {b} is set as optional. This will work in the UI, but is invalid in the swagger spec');
     });
 
+
+});
+
+
+lab.test('debug page', async() => {
+
+    const routes = {
+        method: 'GET',
+        path: '/test/',
+        options: {
+            handler: async () => { },
+            tags: ['api']
+        }
+    };
+
+    const server = await Helper.createServer({ 'debug': true }, routes);
+    const response = await server.inject({ method: 'GET', url: '/documentation/debug' });
+    expect(response.statusCode).to.equal(200);
+
 });
