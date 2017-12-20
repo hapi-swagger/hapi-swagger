@@ -74,6 +74,7 @@ const ser = async () => {
         await server.register([
             Inert,
             Vision,
+            Blipp,
             {
                 plugin: HapiSwagger,
                 options: swaggerOptions

@@ -4,7 +4,7 @@ const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
-const Good = require('good');
+// const Good = require('good');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
@@ -92,6 +92,7 @@ const ser = async () => {
         await server.register([
             Inert,
             Vision,
+            Blipp,
             {
                 plugin: HapiSwagger,
                 options: swaggerOptions

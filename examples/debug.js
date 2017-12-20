@@ -1,5 +1,6 @@
 // `debug.js` - how to validate swagger output and get warning/error messages during development
 
+const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
@@ -44,6 +45,7 @@ const ser = async () => {
         await server.register([
             Inert,
             Vision,
+            Blipp,
             {
                 plugin: HapiSwagger,
                 options: swaggerOptions

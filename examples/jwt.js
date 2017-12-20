@@ -1,6 +1,6 @@
 // `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
 
-console.log(`The plugin 'hapi-auth-jwt2' does not yet support HAPI v17.x. This example will be updated at a later date.`);
+console.log('The plugin "hapi-auth-jwt2" does not yet support HAPI v17.x. This example will be updated at a later date.');
 /*
 var Hapi = require('hapi');
 var jwt = require('jsonwebtoken');

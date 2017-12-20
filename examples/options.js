@@ -112,7 +112,7 @@ const ser = async () => {
         await server.register(BearerToken);
         server.auth.strategy('bearer', 'bearer-access-token', {
             accessTokenName: 'access_token',
-            validate: async (request, token, h) => {
+            validate: async (request, token) => {
 
                 const isValid = token === '12345';
                 let credentials = null;
@@ -137,6 +137,7 @@ const ser = async () => {
         await server.register([
             Inert,
             Vision,
+            Blipp,
             {
                 plugin: HapiSwagger,
                 options: swaggerOptions

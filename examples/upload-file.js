@@ -14,7 +14,6 @@ const HapiSwagger = require('../');
 const storeFile = async function(request, h) {
 
     const payload = request.payload;
-    let data = '';
 
     // check that required file is present
     // the filepath property incorrectlty uses a string 'undefined'
@@ -116,6 +115,7 @@ const ser = async () => {
         await server.register([
             Inert,
             Vision,
+            Blipp,
             {
                 plugin: HapiSwagger,
                 options: swaggerOptions
