@@ -1,4 +1,4 @@
-# 7.9.0 Usage Guide
+# 9.0.0 Usage Guide
 
 ### Content
 * [JSON body](#json-body)
@@ -309,17 +309,17 @@ config: {
     tags: ['api'],
     notes: ['Adds together two numbers and return the result'],
     plugins: {
-			'hapi-swagger': {
-				responses: {
-            		'200': {
-                        'description': 'Success',
-                        'schema': Joi.object({
-                                equals: Joi.number(),
-                            }).label('Result')
-                    },
-            		'400': {'description': 'Bad Request'}
-			    }
-			},
+		'hapi-swagger': {
+			responses: {
+        		'200': {
+                    'description': 'Success',
+                    'schema': Joi.object({
+                            equals: Joi.number(),
+                        }).label('Result')
+                },
+        		'400': {'description': 'Bad Request'}
+		    }
+		},
     validate: {
         params: {
             a: Joi.number()
@@ -669,10 +669,6 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
     ?tags=mountains,+beach,-horses
     this will show routes WITH 'mountains' AND 'beach' AND NO 'horses'
 
-
-
-
-
 # Example code in project
 There are a number of examples of different uses of `hapi-swagger` in the examples directory. These files contain a full HAPI node app:
 
@@ -685,11 +681,6 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 *  [`swagger-client.js`](examples/swagger-client.js) - how use the plug-in to build an lib interface with `swagger-client`
 *  [`upload-file.js`](examples/upload-file.js) - how create documenation for a file upload
 *  [`versions.js`](examples/versions.js) - how to use the plug-in with `hapi-api-version` for versioning of an API
-
-
-
-
-
 
 # External example projects
 Both these example use a custom HTML page

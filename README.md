@@ -8,6 +8,8 @@ in a project.
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
 
+Release Notes for Version 9.0.x which only supports hapi v17 and above.
+Note: For hapi versions below v17, you must use versions [v7.x.x](https://github.com/glennjones/hapi-swagger/tree/v7.x) of this module.
 
 # Install
 
@@ -111,7 +113,4 @@ Read the [contributing guidelines](https://github.com/glennjones/hapi-swagger/bl
 
 
 # Thanks
-I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger
-is like putting a round plug in a square hole. Without the help of others it would not be possible.
-
-
+I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger is like putting a round plug in a square hole. Without the help of others it would not be possible.

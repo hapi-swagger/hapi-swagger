@@ -1,4 +1,4 @@
-# 7.9.0 Options Reference
+# 9.0.0 Options Reference
 
 ## Plugin Options
 
@@ -77,42 +77,34 @@ The plugin level options are added as you register the `hapi-swagger` plugin.
 
 ```Javascript
 const options = {
-        'info': {
-            'title': 'Test API Documentation',
-            'version': '5.14.3',
-            'contact': {
-                'name': 'Glenn Jones',
-                'email': 'glenn@example.com'
-        },
-        'schemes': ['https'],
-        'host': 'example.com'
-    };
+    'info': {
+        'title': 'Test API Documentation',
+        'version': '5.14.3',
+        'contact': {
+            'name': 'Glenn Jones',
+            'email': 'glenn@example.com'
+    },
+    'schemes': ['https'],
+    'host': 'example.com'
+};
 
-server.register([
-    require('inert'),
-    require('vision'),
+await server.register([
+    Inert,
+    Vision,
     {
-        require('hapi-swagger'),
-        options: options
-    }],
-    (err) => {
+        'register': HapiSwagger,
+        'options': options
+    }
+]);
 
-        if (err) {
-            console.log(err);
-        }
-
-        server.route(Routes);
-
-        server.start((err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
-        });
-    });
+try {
+    await server.start( (err) => {
+    console.log('Server running at:', server.info.uri);
+} catch(err) {
+    console.log(err);
+}
+server.route(Routes);
 ```
-
 
 # Route options example
 The route level options are always placed within the `plugins.hapi-swagger` object under `config`. These options are
@@ -142,7 +134,3 @@ only assigned to the route they are apply to.
     }
 }
 ```
-
-
-
-
