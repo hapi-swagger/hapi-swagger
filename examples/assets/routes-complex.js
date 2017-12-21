@@ -222,7 +222,9 @@ module.exports = [
                     f: Joi.number().precision(2).description('precision'),
                     g: Joi.number().positive().description('positive'),
                     h: Joi.number().negative().description('negative'),
-                    i: Joi.number().integer().description('integer')
+                    i: Joi.number().integer().description('integer'),
+                    j: Joi.number().integer().positive().allow(0).meta({disableDropdown: true}),
+                    k: Joi.number().integer().positive().allow(0)
                 }
             }
         }

@@ -349,4 +349,40 @@ lab.experiment('plugin', () => {
             }
         });
     });
+
+
+    lab.test('test {disableDropdown: true} in swagger', async() => {
+        const testRoutes = [{
+            method: 'POST',
+            path: '/test/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: {
+                        a: Joi.number().integer().allow(0).meta( {disableDropdown: true} )
+                    }
+                }
+            }
+        }];
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        //console.log(JSON.stringify(response.result));
+        expect(response.result.definitions).to.equal(
+            {
+                'Model 1': {
+                    'type': 'object',
+                    'properties': {
+                        'a': {
+                            'type': 'integer',
+                            'x-meta': {
+                                'disableDropdown': true
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    });
+
 });
