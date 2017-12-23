@@ -63,7 +63,7 @@ await server.register([
 ]);
 
 try {
-    await server.start( (err) => {
+    await server.start();
     console.log('Server running at:', server.info.uri);
 } catch(err) {
     console.log(err);
