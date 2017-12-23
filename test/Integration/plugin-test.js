@@ -1,4 +1,3 @@
-'use strict';
 const Code = require('code');
 const Hapi = require('hapi');
 const Inert = require('inert');
@@ -10,8 +9,6 @@ const Helper = require('../helper.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
-
-
 
 lab.experiment('plugin', () => {
 
@@ -33,389 +30,246 @@ lab.experiment('plugin', () => {
     }];
 
 
-    lab.test('plug-in register no vision dependency', (done) => {
-
-        try {
-            var server = new Hapi.Server();
-            server.connection();
-            server.register([
-                Inert,
-                HapiSwagger
-            ], function (err) {
-
-                expect(err).to.equal(undefined);
-                server.start(function (err) {
-
-                    expect(err).to.exist();
-                    done();
-                });
-            });
-            server.route(routes);
-        } catch (err) {
-            expect(err.message).to.equal('Missing vision plug-in registation');
-            done();
-        }
-    });
-
-
-    lab.test('plug-in register no inert dependency', (done) => {
+    lab.test('plug-in register no vision dependency', async() => {
 
         try {
             const server = new Hapi.Server();
-            server.connection();
-            server.register([
-                Vision,
+            await server.register([
+                Inert,
                 HapiSwagger
-            ], function (err) {
-
-                expect(err).to.equal(undefined);
-                server.start(function (err) {
-
-                    expect(err).to.exist();
-                    done();
-                });
-            });
+            ]);
             server.route(routes);
+            await server.start();
         } catch (err) {
-            expect(err.message).to.equal('Missing inert plug-in registation');
-            done();
+            expect(err.message).to.equal('Plugin hapi-swagger missing dependency vision');
         }
     });
 
+    lab.test('plug-in register no inert dependency', async() => {
 
-    lab.test('plug-in register no options', (done) => {
+        try {
+            const server = new Hapi.Server();
+            await server.register([
+                Vision,
+                HapiSwagger
+            ]);
+            server.route(routes);
+            await server.start();
+        } catch (err) {
+            expect(err.message).to.equal('Plugin hapi-swagger missing dependency inert');
+        }
+    });
 
-        const server = new Hapi.Server();
-        server.connection();
-        server.register([
-            Inert,
-            Vision,
-            HapiSwagger
-        ], function (err) {
+    lab.test('plug-in register no options', async() => {
 
+        try {
+            const server = new Hapi.Server();
+            await server.register([
+                Inert,
+                Vision,
+                HapiSwagger
+            ]);
+            server.route(routes);
+            await server.start();
+            expect(server).to.be.an.object();
+        } catch(err) {
             expect(err).to.equal(undefined);
-            server.start(function (err) {
+        }
 
-                expect(err).to.equal(undefined);
-                done();
-            });
-        });
-        server.route(routes);
     });
 
+    lab.test('plug-in register test', async() => {
 
-    lab.test('plug-in register test', (done) => {
-
-        Helper.createServer({}, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                //console.log(JSON.stringify(response.result.paths));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths).to.have.length(1);
-                done();
-            });
-
-        });
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths).to.have.length(1);
     });
 
+    lab.test('default jsonPath url', async() => {
 
-
-    lab.test('default jsonPath url', (done) => {
-
-        Helper.createServer({}, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
     });
 
+    lab.test('default documentationPath url', async() => {
 
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/documentation' });
+        expect(response.statusCode).to.equal(200);
 
-    lab.test('default documentationPath url', (done) => {
-
-        Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ method: 'GET', url: '/documentation' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
     });
 
+    lab.test('default swaggerUIPath url', async() => {
 
-
-    lab.test('default swaggerUIPath url', (done) => {
-        Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' });
+        expect(response.statusCode).to.equal(200);
     });
 
-
-    lab.test('swaggerUIPath + extend.js remapping', (done) => {
-        Helper.createServer({}, routes, (err, server) => {
-
-            server.inject({ method: 'GET', url: '/swaggerui/extend.js' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
+    lab.test('swaggerUIPath + extend.js remapping', async() => {
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/swaggerui/extend.js' });
+        expect(response.statusCode).to.equal(200);
     });
 
-
-    let swaggerOptions = {
+    const swaggerOptions = {
         'jsonPath': '/test.json',
         'documentationPath': '/testdoc',
         'swaggerUIPath': '/testui/'
     };
 
+    lab.test('repathed jsonPath url', async () => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/test.json' });
+        expect(response.statusCode).to.equal(200);
+    });
 
-    Helper.createServer(swaggerOptions, routes, (err, server) => {
+    lab.test('repathed documentationPath url', async () => {
 
-        expect(err).to.equal(null);
-        lab.test('repathed jsonPath url', (done) => {
-
-            server.inject({ method: 'GET', url: '/test.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
-
-        lab.test('repathed documentationPath url', (done) => {
-
-            server.inject({ method: 'GET', url: '/testdoc' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
-
-        lab.test('repathed swaggerUIPath url', (done) => {
-
-            server.inject({ method: 'GET', url: '/testui/swagger-ui.js' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
-
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/testdoc' });
+        expect(response.statusCode).to.equal(200);
     });
 
 
-    lab.test('disable documentation path', (done) => {
+    lab.test('disable documentation path', async() => {
 
-        swaggerOptions = {
+        const swaggerOptions = {
             'documentationPage': false
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/documentation' });
+        expect(response.statusCode).to.equal(404);
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/documentation' }, function (response) {
-
-                expect(response.statusCode).to.equal(404);
-                done();
-            });
-        });
     });
 
+    lab.test('disable swagger UI', async() => {
 
-    lab.test('disable swagger UI', (done) => {
-
-        swaggerOptions = {
+        const swaggerOptions = {
             'swaggerUI': false,
             'documentationPage': false
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
-
-                expect(response.statusCode).to.equal(404);
-                done();
-            });
-        });
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' });
+        expect(response.statusCode).to.equal(404);
     });
 
+    lab.test('disable swagger UI overriden by documentationPage', async() => {
 
-    lab.test('disable swagger UI overriden by documentationPage', (done) => {
-
-        swaggerOptions = {
+        const swaggerOptions = {
             'swaggerUI': false,
             'documentationPage': true
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' });
+        expect(response.statusCode).to.equal(200);
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swaggerui/swagger-ui.js' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
     });
 
-    lab.test('should take the plugin route prefix into account when rendering the UI', (done) => {
+    lab.test('should take the plugin route prefix into account when rendering the UI', async() => {
 
         const server = new Hapi.Server();
-        server.connection();
-        server.register([
+        await server.register([
             Inert,
             Vision,
             {
-                register: HapiSwagger,
+                plugin: HapiSwagger,
                 routes: {
                     prefix: '/implicitPrefix'
                 },
                 options: {}
             }
-        ], (err) => {
+        ]);
 
-            expect(err).to.not.exist();
+        server.route(routes);
+        await server.start();
+        const response = await server.inject({ method: 'GET', url: '/implicitPrefix/documentation' });
+        expect(response.statusCode).to.equal(200);
+        const htmlContent = response.result;
+        expect(htmlContent).to.contain([
+            '/implicitPrefix/swaggerui/swagger-ui.js',
+            '/implicitPrefix/swagger.json'
+        ]);
 
-            server.route(routes);
-            server.start(function (err) {
-
-                expect(err).to.not.exist();
-                server.inject({ method: 'GET', url: '/implicitPrefix/documentation' }, function (response) {
-
-                    expect(response.statusCode).to.equal(200);
-                    const htmlContent = response.result;
-                    expect(htmlContent).to.contain([
-                        '/implicitPrefix/swaggerui/swagger-ui.js',
-                        '/implicitPrefix/swagger.json'
-                    ]);
-
-                    done();
-                });
-            });
-        });
     });
 
-    lab.test('enable cors settings, should return headers with origin settings', (done) => {
+    lab.test('enable cors settings, should return headers with origin settings', async() => {
 
-        swaggerOptions = {
+        const swaggerOptions = {
             'cors': true
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.headers.vary).to.equal('origin,accept-encoding');
-                expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
-                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
-                done();
-            });
-
-        });
+        expect(response.statusCode).to.equal(200);
+        // https://stackoverflow.com/questions/25329405/why-isnt-vary-origin-response-set-on-a-cors-miss
+        expect(response.headers.vary).to.equal('origin');
+        expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
+        expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
     });
 
-    lab.test('disable cors settings, should return headers without origin settings', (done) => {
+    lab.test('disable cors settings, should return headers without origin settings', async() => {
 
-        swaggerOptions = {
+        const swaggerOptions = {
             'cors': false
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.headers.vary).to.not.equal('origin,accept-encoding');
-                expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
-                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
-                done();
-            });
-
-        });
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers.vary).to.not.equal('origin');
+        expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
+        expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
     });
 
-    lab.test('default cors settings as false, should return headers without origin settings', (done) => {
+    lab.test('default cors settings as false, should return headers without origin settings', async() => {
 
-        swaggerOptions = {
-        };
+        const swaggerOptions = {};
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.headers.vary).to.not.equal('origin,accept-encoding');
-                expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
-                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
-                done();
-            });
-
-        });
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers.vary).to.not.equal('origin,accept-encoding');
+        expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
+        expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
     });
 
-    lab.test('payloadType = form global', (done) => {
+    lab.test('payloadType = form global', async() => {
 
-        swaggerOptions = {
+        const swaggerOptions = {
             'payloadType': 'json'
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
-                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
-                done();
-            });
-
-        });
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/store/'].post.parameters.length).to.equal(1);
+        expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('body');
     });
 
+    lab.test('payloadType = json global', async() => {
 
-    lab.test('payloadType = json global', (done) => {
-
-        swaggerOptions = {
+        const swaggerOptions = {
             'payloadType': 'form'
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/store/'].post.parameters.length).to.equal(4);
+        expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('a');
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/store/'].post.parameters.length).to.equal(4);
-                expect(response.result.paths['/store/'].post.parameters[0].name).to.equal('a');
-                done();
-            });
-
-        });
     });
 
+    lab.test('pathPrefixSize global', async() => {
 
-    lab.test('pathPrefixSize global', (done) => {
-
-        swaggerOptions = {
+        const swaggerOptions = {
             'pathPrefixSize': 2
         };
 
@@ -428,81 +282,45 @@ lab.experiment('plugin', () => {
             }
         }];
 
-        Helper.createServer(swaggerOptions, prefixRoutes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/foo/bar/extra'].get.tags[0]).to.equal('foo/bar');
-                done();
-            });
-
-        });
+        const server = await Helper.createServer(swaggerOptions, prefixRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/foo/bar/extra'].get.tags[0]).to.equal('foo/bar');
     });
 
-
-    lab.test('expanded none', (done) => {
+    lab.test('expanded none', async() => {
 
         // TODO find a way to test impact of property change
-        Helper.createServer({ 'expanded': 'none' }, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
+        const server = await Helper.createServer({ 'expanded': 'none' });
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
     });
 
 
-    lab.test('expanded list', (done) => {
+    lab.test('expanded list', async() => {
 
-        Helper.createServer({ 'expanded': 'list' }, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
+        const server = await Helper.createServer({ 'expanded': 'list' });
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
     });
 
+    lab.test('expanded full', async() => {
 
-    lab.test('expanded full', (done) => {
-
-        Helper.createServer({ 'expanded': 'full' }, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
+        const server = await Helper.createServer({ 'expanded': 'full' }, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
     });
 
+    lab.test('pass through of tags querystring', async() => {
 
-    lab.test('pass through of tags querystring', (done) => {
-
-        Helper.createServer({}, routes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/documentation?tags=reduced' }, function (response) {
-
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.indexOf('swagger.json?tags=reduced') > -1).to.equal(true);
-                done();
-            });
-
-        });
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ method: 'GET', url: '/documentation?tags=reduced' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.indexOf('swagger.json?tags=reduced') > -1).to.equal(true);
     });
 
-
-    lab.test('test route x-meta appears in swagger', (done) => {
-        let testRoutes = [{
+    lab.test('test route x-meta appears in swagger', async() => {
+        const testRoutes = [{
             method: 'POST',
             path: '/test/',
             config: {
@@ -521,24 +339,50 @@ lab.experiment('plugin', () => {
                 },
             }
         }];
-        Helper.createServer({}, testRoutes, (err, server) => {
-
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                //console.log(JSON.stringify(response.result));
-                expect(response.result.paths['/test/'].post['x-meta']).to.equal({
-                    test1: true,
-                    test2: 'test',
-                    test3: {
-                        test: true,
-                    }
-                });
-                done();
-            });
-
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.result.paths['/test/'].post['x-meta']).to.equal({
+            test1: true,
+            test2: 'test',
+            test3: {
+                test: true,
+            }
         });
     });
 
+
+    lab.test('test {disableDropdown: true} in swagger', async() => {
+        const testRoutes = [{
+            method: 'POST',
+            path: '/test/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    payload: {
+                        a: Joi.number().integer().allow(0).meta( {disableDropdown: true} )
+                    }
+                }
+            }
+        }];
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        //console.log(JSON.stringify(response.result));
+        expect(response.result.definitions).to.equal(
+            {
+                'Model 1': {
+                    'type': 'object',
+                    'properties': {
+                        'a': {
+                            'type': 'integer',
+                            'x-meta': {
+                                'disableDropdown': true
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    });
 
 });

@@ -1,6 +1,4 @@
-'use strict';
 const Joi = require('joi');
-
 const customJoi = Joi.extend((joi) => ({
     base: joi.number(),
     name: 'number',
@@ -16,11 +14,11 @@ const customJoi = Joi.extend((joi) => ({
 
         return value; // Keep the value as it was
     },
+    /*eslint-disable */
     rules: [
         {
             name: 'round',
-            setup() {
-
+            setup(params) {
                 this._flags.round = true; // Set a flag for later use
             },
             validate(params, value, state, options) {
@@ -49,6 +47,7 @@ const customJoi = Joi.extend((joi) => ({
             }
         }
     ]
+    /*eslint-enable */
 }));
 
 module.exports = customJoi;

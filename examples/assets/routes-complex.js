@@ -1,4 +1,3 @@
-'use strict';
 const Joi = require('joi');
 const js2xmlparser = require('js2xmlparser');
 
@@ -112,11 +111,12 @@ const resultHTTPStatus = {
  * @param  {Object} request
  * @param  {Object} reply
  */
-const replyByType = function(name, json, request, reply) {
+const replyByType = function (name, json, request, h) {
+
     if (request.headers.accept === 'application/xml') {
-        reply(js2xmlparser(name, json)).type('application/xml');
+        return h.response(js2xmlparser(name, json)).type('application/xml');
     } else {
-        reply(json).type('application/json');
+        return h.response(json).type('application/json');
     }
 };
 
@@ -126,7 +126,7 @@ const replyByType = function(name, json, request, reply) {
  * @param  {Object} request
  * @param  {Object} reply
  */
-const defaultHandler = function(request, reply) {
+const defaultHandler = function (request, h) {
     let sum = {
         id: 'x78P9c',
         a: 5,
@@ -145,14 +145,15 @@ const defaultHandler = function(request, reply) {
     };
 
     if (request.path.indexOf('/v1/sum/') > -1) {
-        replyByType('result', { equals: 43 }, request, reply);
+        return replyByType('result', { equals: 43 }, request, h);
     } else {
         if (request.path === '/v1/store/' && request.method === 'get') {
-            replyByType('list', list, request, reply);
+            return replyByType('list', list, request, h);
         } else {
-            replyByType('sum', sum, request, reply);
+            return replyByType('sum', sum, request, h);
         }
     }
+
 };
 
 module.exports = [
@@ -221,7 +222,9 @@ module.exports = [
                     f: Joi.number().precision(2).description('precision'),
                     g: Joi.number().positive().description('positive'),
                     h: Joi.number().negative().description('negative'),
-                    i: Joi.number().integer().description('integer')
+                    i: Joi.number().integer().description('integer'),
+                    j: Joi.number().integer().positive().allow(0).meta({disableDropdown: true}),
+                    k: Joi.number().integer().positive().allow(0)
                 }
             }
         }
@@ -553,9 +556,7 @@ module.exports = [
                     file: Joi.any()
                         .meta({ swaggerType: 'file' })
                         .required()
-                        .description(
-                            'json file with object containing: a, b, operator and equals'
-                        )
+                        .description('json file with object containing: a, b, operator and equals')
                 }
             },
             payload: {
@@ -569,7 +570,7 @@ module.exports = [
         method: 'GET',
         path: '/custom',
         config: {
-            handler: function(request, reply) {
+            handler: function (request, reply) {
                 reply.view('custom.html', {});
             }
         }

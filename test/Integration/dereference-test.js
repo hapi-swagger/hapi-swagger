@@ -1,9 +1,9 @@
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
 const Builder = require('../../lib/builder.js');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -15,7 +15,7 @@ lab.experiment('dereference', () => {
     const routes = [{
         method: 'POST',
         path: '/store/',
-        config: {
+        options: {
             handler: Helper.defaultHandler,
             tags: ['api'],
             validate: {
@@ -30,54 +30,48 @@ lab.experiment('dereference', () => {
     }];
 
 
-    lab.test('flatten with no references', (done) => {
+    lab.test('flatten with no references', async() => {
 
-        Helper.createServer({ deReference: true }, routes, (err, server) => {
-
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                expect(response.result.paths['/store/'].post.parameters).to.equal([
-                    {
-                        'in': 'body',
-                        'name': 'body',
-                        'schema': {
-                            'properties': {
-                                'a': {
-                                    'type': 'number'
-                                },
-                                'b': {
-                                    'type': 'number'
-                                },
-                                'operator': {
-                                    'type': 'string'
-                                },
-                                'equals': {
-                                    'type': 'number'
-                                }
-                            },
-                            'type': 'object'
+        const server = await Helper.createServer({ deReference: true }, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.paths['/store/'].post.parameters).to.equal([
+            {
+                'in': 'body',
+                'name': 'body',
+                'schema': {
+                    'properties': {
+                        'a': {
+                            'type': 'number'
+                        },
+                        'b': {
+                            'type': 'number'
+                        },
+                        'operator': {
+                            'type': 'string'
+                        },
+                        'equals': {
+                            'type': 'number'
                         }
-                    }
-                ]);
-                Helper.validate(response, done, expect);
-            });
-        });
+                    },
+                    'type': 'object'
+                }
+            }
+        ]);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
 
-    lab.test('dereferences error', (done) => {
+    lab.test('dereferences error', async() => {
 
-        Builder.dereference(null, function (err, json) {
-
-            //console.log(JSON.stringify(json));
+        try {
+            await Builder.dereference(null);
+        } catch(err) {
             expect(err).to.exists();
-            expect(err).to.equal({ 'error': 'fail to dereference schema' });
-            expect(json).to.not.exists();
-            done();
-        });
+            expect(err.message).to.equal('failed to dereference schema');
+        }
 
     });
 

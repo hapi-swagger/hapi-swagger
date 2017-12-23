@@ -1,5 +1,3 @@
-'use strict';
-
 // `group.js` - how to use tag based grouping
 const Blipp = require('blipp');
 const Hapi = require('hapi');
@@ -109,6 +107,7 @@ const Routes = [
     }
 ];
 
+/*
 const goodOptions = {
     ops: {
         interval: 1000
@@ -132,12 +131,8 @@ const goodOptions = {
         ]
     }
 };
+*/
 
-let server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
 
 let swaggerOptions = {
     basePath: '/v1',
@@ -161,40 +156,47 @@ let swaggerOptions = {
     sortEndpoints: 'ordered'
 };
 
-server.register(
-    [
-        Inert,
-        Vision,
-        Blipp,
-        {
-            register: require('good'),
-            options: goodOptions
-        },
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ],
-    err => {
-        if (err) {
-            console.log(err);
-        }
+const ser = async () => {
+
+    try {
+
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
+        });
+
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            Blipp,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
+            }
+        ]);
 
         server.route(Routes);
 
-        server.start(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
-        });
-    }
-);
+        await server.start();
 
-// add templates only for testing custom.html
-server.views({
-    path: 'bin',
-    engines: { html: require('handlebars') },
-    isCached: false
-});
+        return server;
+
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });
+

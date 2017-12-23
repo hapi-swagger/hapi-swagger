@@ -1,4 +1,4 @@
-# 7.9.0 Usage Guide
+# 9.0.0 Usage Guide
 
 ### Content
 * [JSON body](#json-body)
@@ -14,7 +14,6 @@
 * [Caching](#caching)
 * [File upload](#file-upload)
 * [Headers and .unknown()](#headers-and-unknown)
-* [API on one connection and documentation on another](#api-on-one-connection-and-documentation-on-another)
 * [Additional HAPI data using x-*](#additional-hapi-data-using-x-)
 * [JSON without UI](#json-without-ui)
 * [Simplifying the JSON](#simplifying-the-json)
@@ -310,17 +309,17 @@ config: {
     tags: ['api'],
     notes: ['Adds together two numbers and return the result'],
     plugins: {
-			'hapi-swagger': {
-				responses: {
-            		'200': {
-                        'description': 'Success',
-                        'schema': Joi.object({
-                                equals: Joi.number(),
-                            }).label('Result')
-                    },
-            		'400': {'description': 'Bad Request'}
-			    }
-			},
+		'hapi-swagger': {
+			responses: {
+        		'200': {
+                    'description': 'Success',
+                    'schema': Joi.object({
+                            equals: Joi.number(),
+                        }).label('Result')
+                },
+        		'400': {'description': 'Bad Request'}
+		    }
+		},
     validate: {
         params: {
             a: Joi.number()
@@ -454,55 +453,6 @@ This includes `Joi.alternatives()` where `try(...)` defines more than one possib
 alternatives model means the the swagger.json may also contain `x-alt-definitions` object to store
 alternatives models.
 
-
-
-# API on one connection and documentation on another
-By default `hapi-swaggger` will document the server connection it is loaded on, you can change this by using the
-`options.connectionLabel` property to select another connection.
-
-Create two connections, the API connection needs to support CORS so the client-side Javascript in swaggerui  can
-access the API endpoints across the different host connections.
-
-```Javascript
-let server = new Hapi.Server();
-server.connection({ host: 'localhost', port: 3000, labels: 'api', routes: { cors: true } });
-server.connection({ host: 'localhost', port: 3001, labels: 'docs' });
-```
-Then add the `options.connectionLabel` property with the value set to the label name of the API connection. Register
-your plugins using the `select` property to specify which connection to add the functionally to.
-
-```Javascript
-let options = {
-    info: {
-        'title': 'Test API Documentation',
-        'description': 'This is a sample example of API documentation.',
-    },
-    connectionLabel: 'api'
-};
-
-server.register([
-    Inert,
-    Vision,
-    {
-        register: apiRoutesPlugin,
-        select: ['api']
-    },
-    {
-        register: HapiSwagger,
-        options: options,
-        select: ['docs']
-    }
-], (err) => {
-
-    server.start((err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('Server running');
-        }
-    });
-});
-```
 
 # JSON without UI
 If you wish just to used `swagger.json` endpoint without the automatically generated documentation page simply set `options.documentationPage` to `false`.
@@ -719,15 +669,9 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
     ?tags=mountains,+beach,-horses
     this will show routes WITH 'mountains' AND 'beach' AND NO 'horses'
 
-
-
-
-
 # Example code in project
 There are a number of examples of different uses of `hapi-swagger` in the examples directory. These files contain a full HAPI node app:
 
-*  [`connections.js`](examples/connections.js) - how to uses the plug-in with muiltple server connections
-*  [`connections-sep-docs.js`](examples/connections-sep-docs.js) - how to have API on one connection and documentation on another
 *  [`custom.js`](examples/custom.js) - how build a custom documentation page with its own CSS and JS
 *  [`debug.js`](examples/debug.js) - how console.log debug information from `hapi-swagger`
 *  [`group-ordered.js`](examples/group-ordered.js) - how group and ordered endpoints in the UI
@@ -737,11 +681,6 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 *  [`swagger-client.js`](examples/swagger-client.js) - how use the plug-in to build an lib interface with `swagger-client`
 *  [`upload-file.js`](examples/upload-file.js) - how create documenation for a file upload
 *  [`versions.js`](examples/versions.js) - how to use the plug-in with `hapi-api-version` for versioning of an API
-
-
-
-
-
 
 # External example projects
 Both these example use a custom HTML page

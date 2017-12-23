@@ -1,7 +1,6 @@
-'use strict';
-
 // `debug.js` - how to validate swagger output and get warning/error messages during development
 
+const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
@@ -11,11 +10,7 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple.js');
 
-let server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
+
 
 let swaggerOptions = {
     basePath: '/v1',
@@ -35,37 +30,56 @@ const formatLogEvent = function(event) {
         console.log(`[${event.tags}], ${Chalk.green(event.data)}`);
     }
 };
-server.on('log', formatLogEvent);
 
-server.register(
-    [
-        Inert,
-        Vision,
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ],
-    err => {
-        if (err) {
-            console.log(err);
-        }
+
+const ser = async () => {
+
+    try {
+
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
+        });
+
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            Blipp,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
+            }
+        ]);
 
         server.route(Routes);
 
-        server.start(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
+        server.views({
+            path: 'examples/assets',
+            engines: { html: require('handlebars') },
+            isCached: false
         });
-    }
-);
 
-// add templates only for testing custom.html
-server.views({
-    path: 'bin',
-    engines: { html: require('handlebars') },
-    isCached: false
-});
+
+        await server.start();
+        server.events.on('log', formatLogEvent);
+
+        return server;
+
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });

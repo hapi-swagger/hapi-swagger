@@ -1,5 +1,6 @@
-'use strict';
 
+console.log('The plugin "hapi-api-version" does not yet support HAPI v17.x. This example will be updated at a later date.');
+/*
 // `versions.js` - how to use plug-in with `hapi-api-version` for versioning of an API
 
 // This file also shows the use of `pathReplacements` to remove all version numbers in paths
@@ -250,3 +251,4 @@ server.register(
         });
     }
 );
+*/

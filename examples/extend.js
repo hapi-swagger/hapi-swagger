@@ -1,5 +1,3 @@
-'use strict';
-
 // `extend-joi.js`
 
 // This only works at moment if you have a base JOI type like number.
@@ -11,13 +9,7 @@ const Vision = require('vision');
 const HapiSwagger = require('../');
 const ExtendedJoi = require('./assets/extendedjoi.js');
 
-// Create a server with a host and port
-const server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
-
+/*
 const goodOptions = {
     ops: {
         interval: 1000
@@ -41,6 +33,7 @@ const goodOptions = {
         ]
     }
 };
+*/
 
 const swaggerOptions = {
     info: {
@@ -49,52 +42,65 @@ const swaggerOptions = {
     }
 };
 
-// Start the server
-server.register(
-    [
-        Inert,
-        Vision,
-        Blipp,
-        {
-            register: require('good'),
-            options: goodOptions
-        },
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ],
-    err => {
-        if (err) {
-            throw err;
-        }
 
-        // Start the server
-        server.start(err => {
-            if (err) {
-                throw err;
-            }
 
-            console.log('Server running at:', server.info.uri);
+const ser = async () => {
+
+    try {
+
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
         });
-    }
-);
 
-server.route({
-    method: 'PUT',
-    path: '/sum/dividableby/{number}',
-    config: {
-        handler: (request, reply) => {
-            return reply({
-                status: 'OK'
-            });
-        },
-        description: 'Dividable',
-        tags: ['api'],
-        validate: {
-            params: {
-                number: ExtendedJoi.number().round().dividable(3).required()
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            Blipp,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
             }
-        }
+        ]);
+
+        server.route({
+            method: 'PUT',
+            path: '/sum/dividableby/{number}',
+            config: {
+                handler: (request, h) => {
+                    return h.response({
+                        status: 'OK'
+                    });
+                },
+                description: 'Dividable',
+                tags: ['api'],
+                validate: {
+                    params: {
+                        number: ExtendedJoi.number().round().dividable(3).required()
+                    }
+                }
+            }
+        });
+
+        await server.start();
+
+        return server;
+
+    } catch (err) {
+        throw err;
     }
-});
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });

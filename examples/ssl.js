@@ -1,10 +1,7 @@
-'use strict';
-
 // `ssl.js` - how to use many of the plug-in options
 const Fs = require('fs');
 const Path = require('path');
 const Blipp = require('blipp');
-const H2o2 = require('h2o2');
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
@@ -13,39 +10,7 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple.js');
 
-const goodOptions = {
-    ops: {
-        interval: 1000
-    },
-    reporters: {
-        console: [
-            {
-                module: 'good-squeeze',
-                name: 'Squeeze',
-                args: [
-                    {
-                        log: '*',
-                        response: '*'
-                    }
-                ]
-            },
-            {
-                module: 'good-console'
-            },
-            'stdout'
-        ]
-    }
-};
 
-let server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000, // will get a EACCES on a desktop if you try 443
-    tls: {
-        key: Fs.readFileSync(Path.join(__dirname, '../test/certs/server.key')),
-        cert: Fs.readFileSync(Path.join(__dirname, '../test/certs/server.crt'))
-    }
-});
 
 let swaggerOptions = {
     basePath: '/v1',
@@ -92,41 +57,56 @@ let swaggerOptions = {
     ]
 };
 
-server.register(
-    [
-        Inert,
-        Vision,
-        Blipp,
-        H2o2,
-        {
-            register: require('good'),
-            options: goodOptions
-        },
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ],
-    err => {
-        if (err) {
-            console.log(err);
-        }
+const ser = async () => {
+
+    try {
+
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000,
+            tls: {
+                key: Fs.readFileSync(Path.join(__dirname, '../test/certs/server.key')),
+                cert: Fs.readFileSync(Path.join(__dirname, '../test/certs/server.crt'))
+            }
+        });
+
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            Blipp,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
+            }
+        ]);
 
         server.route(Routes);
 
-        server.start(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
+        server.views({
+            path: 'examples/assets',
+            engines: { html: require('handlebars') },
+            isCached: false
         });
-    }
-);
 
-// add templates only for testing custom.html
-server.views({
-    path: 'bin',
-    engines: { html: require('handlebars') },
-    isCached: false
-});
+
+        await server.start();
+        return server;
+
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });

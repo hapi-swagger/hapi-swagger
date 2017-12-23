@@ -8,6 +8,8 @@ in a project.
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
 
+[Release Notes for v9.0.x](https://github.com/glennjones/hapi-swagger/issues/487) which only supports hapi v17 and above.
+Note: For hapi versions below v17, you must use versions [v7.x.x](https://github.com/glennjones/hapi-swagger/tree/v7.x) of this module.
 
 # Install
 
@@ -39,11 +41,10 @@ const Vision = require('vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
-const server = new Hapi.Server();
-server.connection({
-        host: 'localhost',
-        port: 3000
-    });
+const server = await new Hapi.Server({
+    host: 'localhost',
+    port: 3000
+});
 
 const options = {
     info: {
@@ -52,21 +53,21 @@ const options = {
         }
     };
 
-server.register([
+await server.register([
     Inert,
     Vision,
     {
         'register': HapiSwagger,
         'options': options
-    }], (err) => {
-        server.start( (err) => {
-           if (err) {
-                console.log(err);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
-        });
-    });
+    }
+]);
+
+try {
+    await server.start( (err) => {
+    console.log('Server running at:', server.info.uri);
+} catch(err) {
+    console.log(err);
+}
 
 server.route(Routes);
 ```
@@ -112,7 +113,4 @@ Read the [contributing guidelines](https://github.com/glennjones/hapi-swagger/bl
 
 
 # Thanks
-I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger
-is like putting a round plug in a square hole. Without the help of others it would not be possible.
-
-
+I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger is like putting a round plug in a square hole. Without the help of others it would not be possible.

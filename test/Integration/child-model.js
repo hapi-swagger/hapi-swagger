@@ -3,6 +3,7 @@ const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
@@ -102,121 +103,119 @@ lab.experiment('child-models', () => {
         }
     ];
 
-    lab.test('child definitions models', done => {
-        Helper.createServer({}, routes, (err, server) => {
-            server.inject(requestOptions, function(response) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
 
-                expect(
-                    response.result.paths['/foo/v1/bar'].post.parameters[0]
-                        .schema
-                ).to.equal({
-                    $ref: '#/definitions/Model 1'
-                });
+    lab.test('child definitions models', async() => {
 
-                expect(response.result.definitions['Model 1']).to.equal({
-                    properties: {
-                        outer1: {
-                            $ref: '#/definitions/outer1'
-                        },
-                        outer2: {
-                            $ref: '#/definitions/outer2'
-                        }
-                    },
-                    type: 'object'
-                });
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject(requestOptions);
 
-                expect(response.result.definitions.outer1).to.equal({
-                    properties: {
-                        inner1: {
-                            type: 'string'
-                        }
-                    },
-                    type: 'object'
-                });
-                Helper.validate(response, done, expect);
-            });
+        expect(response.statusCode).to.equal(200);
+
+        expect(
+            response.result.paths['/foo/v1/bar'].post.parameters[0]
+                .schema
+        ).to.equal({
+            $ref: '#/definitions/Model 1'
         });
+
+        expect(response.result.definitions['Model 1']).to.equal({
+            properties: {
+                outer1: {
+                    $ref: '#/definitions/outer1'
+                },
+                outer2: {
+                    $ref: '#/definitions/outer2'
+                }
+            },
+            type: 'object'
+        });
+
+        expect(response.result.definitions.outer1).to.equal({
+            properties: {
+                inner1: {
+                    type: 'string'
+                }
+            },
+            type: 'object'
+        });
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
     });
 
-    lab.test('object within an object - array within an array', done => {
-        Helper.createServer({}, routes, (err, server) => {
-            server.inject(requestOptions, function(response) {
-                expect(err).to.equal(null);
-                //console.log(JSON.stringify(response.result));
-                //console.log(JSON.stringify(response.result.definitions));
-                expect(response.statusCode).to.equal(200);
 
-                expect(
-                    response.result.paths['/bar/objects'].post.parameters[0]
-                        .schema
-                ).to.equal({
-                    $ref: '#/definitions/FooObjParent'
-                });
-                expect(
-                    response.result.paths['/bar/objects'].post.responses[200]
-                        .schema
-                ).to.equal({
-                    $ref: '#/definitions/FooObjParent'
-                });
-                expect(response.result.definitions.FooObjParent).to.equal({
-                    type: 'object',
-                    properties: {
-                        foos: {
-                            $ref: '#/definitions/FooObj'
-                        }
-                    }
-                });
-                expect(response.result.definitions.FooObj).to.equal({
-                    type: 'object',
-                    properties: {
-                        foo: {
-                            type: 'string',
-                            description: 'some foo'
-                        }
-                    }
-                });
+    lab.test('object within an object - array within an array', async() => {
 
-                expect(
-                    response.result.paths['/bar/arrays'].post.parameters[0]
-                        .schema
-                ).to.equal({
-                    type: 'array',
-                    $ref: '#/definitions/FooArrParent'
-                });
-                expect(
-                    response.result.paths['/bar/arrays'].post.responses[200]
-                        .schema
-                ).to.equal({
-                    type: 'array',
-                    $ref: '#/definitions/FooArrParent'
-                });
-                expect(response.result.definitions.FooArrParent).to.equal({
-                    type: 'array',
-                    items: {
-                        $ref: '#/definitions/FooArr',
-                        type: 'array'
-                    }
-                });
-                expect(response.result.definitions.FooArr).to.equal({
-                    type: 'array',
-                    items: {
-                        $ref: '#/definitions/FooArrObj'
-                    }
-                });
-                expect(response.result.definitions.FooArrObj).to.equal({
-                    type: 'object',
-                    properties: {
-                        bar: {
-                            type: 'string'
-                        }
-                    }
-                });
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject(requestOptions);
 
-                Helper.validate(response, done, expect);
-            });
+        expect(response.statusCode).to.equal(200);
+
+        expect(
+            response.result.paths['/bar/objects'].post.parameters[0]
+                .schema
+        ).to.equal({
+            $ref: '#/definitions/FooObjParent'
         });
+        expect(
+            response.result.paths['/bar/objects'].post.responses[200]
+                .schema
+        ).to.equal({
+            $ref: '#/definitions/FooObjParent'
+        });
+        expect(response.result.definitions.FooObjParent).to.equal({
+            type: 'object',
+            properties: {
+                foos: {
+                    $ref: '#/definitions/FooObj'
+                }
+            }
+        });
+        expect(response.result.definitions.FooObj).to.equal({
+            type: 'object',
+            properties: {
+                foo: {
+                    type: 'string',
+                    description: 'some foo'
+                }
+            }
+        });
+
+        expect(
+            response.result.paths['/bar/arrays'].post.parameters[0]
+                .schema
+        ).to.equal({
+            type: 'array',
+            $ref: '#/definitions/FooArrParent'
+        });
+        expect(
+            response.result.paths['/bar/arrays'].post.responses[200]
+                .schema
+        ).to.equal({
+            type: 'array',
+            $ref: '#/definitions/FooArrParent'
+        });
+        expect(response.result.definitions.FooArrParent).to.equal({
+            type: 'array',
+            items: {
+                $ref: '#/definitions/FooArr',
+                type: 'array'
+            }
+        });
+        expect(response.result.definitions.FooArr).to.equal({
+            type: 'array',
+            items: {
+                $ref: '#/definitions/FooArrObj'
+            }
+        });
+        expect(response.result.definitions.FooArrObj).to.equal({
+            type: 'object',
+            properties: {
+                bar: {
+                    type: 'string'
+                }
+            }
+        });
+
+
     });
 });

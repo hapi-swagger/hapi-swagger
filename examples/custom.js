@@ -1,16 +1,16 @@
-'use strict';
-
 // `custom.js` - how build a custom documentation page with its own CSS and JS
 
 const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
+// const Good = require('good');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple');
 
+/*
 const goodOptions = {
     ops: {
         interval: 1000
@@ -34,12 +34,8 @@ const goodOptions = {
         ]
     }
 };
+*/
 
-let server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
 
 let swaggerOptions = {
     documentationPage: false,
@@ -82,6 +78,59 @@ let swaggerOptions = {
     validatorUrl: null
 };
 
+
+const ser = async () => {
+
+    try {
+
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
+        });
+
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            Blipp,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
+            }
+        ]);
+
+        server.route(Routes);
+
+        server.views({
+            path: 'examples/assets',
+            engines: { html: require('handlebars') },
+            isCached: false
+        });
+
+
+        await server.start();
+        return server;
+
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });
+
+
+/*
 server.register(
     [
         Inert,
@@ -119,3 +168,4 @@ server.views({
     engines: { html: require('handlebars') },
     isCached: false
 });
+*/

@@ -1,8 +1,6 @@
-'use strict';
-
 // `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
 
-var Hapi = require('hapi');
+const Hapi = require('hapi');
 const Joi = require('joi');
 const Basic = require('hapi-auth-basic');
 const Blipp = require('blipp');
@@ -11,6 +9,7 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 
+
 let swaggerOptions = {
     info: {
         title: 'Test API Documentation',
@@ -18,6 +17,7 @@ let swaggerOptions = {
     },
     auth: 'simple'
 };
+
 
 const users = {
     jane: {
@@ -28,92 +28,112 @@ const users = {
     }
 };
 
-// bring your own validation function
-var validate = function(request, username, password, callback) {
+
+var validate = function (request, username, password) {
+
     const user = users[username];
     if (!user) {
-        return callback(null, false);
+        return { isValid: false, credentials: null };
     }
+
     const isValid = password === user.password;
-    callback(null, isValid, { id: user.id, name: user.name });
+    let credentials = null;
+    if (isValid) {
+        credentials = { id: user.id, name: user.name };
+    }
+
+    return { isValid, credentials };
 };
 
-var server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
 
-server.register([Basic], function(err) {
-    if (err) {
-        console.log(err);
-    }
+const ser = async () => {
 
-    server.auth.strategy('simple', 'basic', { validateFunc: validate });
+    try {
 
-    server.register(
-        [
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
+        });
+
+
+        await server.register(Basic);
+        server.auth.strategy('simple', 'basic', { validate });
+        server.auth.default('simple');
+
+        // Blipp - Needs updating for Hapi v17.x
+        await server.register([
             Inert,
             Vision,
             Blipp,
             {
-                register: HapiSwagger,
+                plugin: HapiSwagger,
                 options: swaggerOptions
             }
-        ],
-        function(err) {
+        ]);
 
-            if (err) {
-                console.log(err);
-            }
 
-            server.route({
-                method: 'PUT',
-                path: '/v1/store/{id?}',
-                config: {
-                    handler: function() {},
-                    description: 'Update sum',
-                    notes: ['Update a sum in our data store'],
-                    plugins: {
-                        'hapi-swagger': {
-                            payloadType: 'form'
-                        }
+        server.route({
+            method: 'PUT',
+            path: '/v1/store/{id?}',
+            config: {
+                handler: function ( request, h ) {
+                    return h.response('success');
+                },
+                description: 'Update sum',
+                notes: ['Update a sum in our data store'],
+                plugins: {
+                    'hapi-swagger': {
+                        payloadType: 'form'
+                    }
+                },
+                tags: ['api'],
+                validate: {
+                    params: {
+                        id: Joi.string()
+                            .required()
+                            .description('the id of the sum in the store')
                     },
-                    tags: ['api'],
-                    validate: {
-                        params: {
-                            id: Joi.string()
-                                .required()
-                                .description('the id of the sum in the store')
-                        },
-                        payload: {
-                            a: Joi.number()
-                                .required()
-                                .description('the first number'),
+                    payload: {
+                        a: Joi.number()
+                            .required()
+                            .description('the first number'),
 
-                            b: Joi.number()
-                                .required()
-                                .description('the second number'),
+                        b: Joi.number()
+                            .required()
+                            .description('the second number'),
 
-                            operator: Joi.string()
-                                .required()
-                                .default('+')
-                                .valid(['+', '-', '/', '*'])
-                                .description('the opertator i.e. + - / or *'),
+                        operator: Joi.string()
+                            .required()
+                            .default('+')
+                            .valid(['+', '-', '/', '*'])
+                            .description('the opertator i.e. + - / or *'),
 
-                            equals: Joi.number()
-                                .required()
-                                .description('the result of the sum')
-                        }
+                        equals: Joi.number()
+                            .required()
+                            .description('the result of the sum')
                     }
                 }
-            });
+            }
+        });
 
-            server.start(function() {
-                console.log('Server running at:', server.info.uri);
-            });
 
-        }
-    );
-});
+        await server.start();
+        return server;
 
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+
+ser()
+    .then((server) => {
+
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
+
+        console.error(err);
+        process.exit(1);
+    });
