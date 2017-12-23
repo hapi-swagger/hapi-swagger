@@ -8,7 +8,7 @@ in a project.
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
 
-Release Notes for Version 9.0.x which only supports hapi v17 and above.
+[Release Notes for v9.0.x](https://github.com/glennjones/hapi-swagger/issues/487) which only supports hapi v17 and above.
 Note: For hapi versions below v17, you must use versions [v7.x.x](https://github.com/glennjones/hapi-swagger/tree/v7.x) of this module.
 
 # Install
