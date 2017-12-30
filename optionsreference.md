@@ -92,8 +92,8 @@ await server.register([
     Inert,
     Vision,
     {
-        'register': HapiSwagger,
-        'options': options
+        plugin: HapiSwagger,
+        options: options
     }
 ]);
 
