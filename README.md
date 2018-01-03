@@ -41,35 +41,37 @@ const Vision = require('vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
-const server = await new Hapi.Server({
-    host: 'localhost',
-    port: 3000
-});
-
-const options = {
-    info: {
-            'title': 'Test API Documentation',
-            'version': Pack.version,
+(async () => {
+    const server = await new Hapi.Server({
+        host: 'localhost',
+        port: 3000,
+    });
+    
+    const swaggerOptions = {
+        info: {
+                title: 'Test API Documentation',
+                version: Pack.version,
+            },
+        };
+    
+    await server.register([
+        Inert,
+        Vision,
+        {
+            plugin: HapiSwagger,
+            options: swaggerOptions
         }
-    };
-
-await server.register([
-    Inert,
-    Vision,
-    {
-        plugin: HapiSwagger,
-        options: swaggerOptions
+    ]);
+    
+    try {
+        await server.start();
+        console.log('Server running at:', server.info.uri);
+    } catch(err) {
+        console.log(err);
     }
-]);
-
-try {
-    await server.start();
-    console.log('Server running at:', server.info.uri);
-} catch(err) {
-    console.log(err);
-}
-
-server.route(Routes);
+    
+    server.route(Routes);
+)();
 ```
 
 # Tagging your API routes
