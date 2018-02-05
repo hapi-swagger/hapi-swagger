@@ -33,6 +33,7 @@ JSON (JSON endpoint needed to create UI)
 *  `tagsGroupingFilter`: (function) A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`) - default: `(tag) => tag !== 'api'`
 *  `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 *  `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
+* `documentationRouteTags`: (string or array) Add hapi tags to internal `hapi-swagger` routes - default: `[]`
 *  `consumes`: (array) The mimetypes consumed - default: `['application/json']`
 *  `produces`: (array) The mimetypes produced - default: `['application/json']`
 *  `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`,
