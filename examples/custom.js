@@ -23,7 +23,10 @@ const goodOptions = {
                 args: [
                     {
                         log: '*',
-                        response: '*'
+                        response: '*',
+                        request: {
+                            exclude: ['no-logging']
+                        }
                     }
                 ]
             },
@@ -39,6 +42,7 @@ const goodOptions = {
 
 let swaggerOptions = {
     documentationPage: false,
+    documentationRouteTags: 'no-logging',
     swaggerUIPath: '/ui/',
     basePath: '/v1/',
     pathPrefixSize: 2,
