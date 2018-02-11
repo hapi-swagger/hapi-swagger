@@ -4,40 +4,33 @@ const Blipp = require('blipp');
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
-// const Good = require('good');
+const Good = require('good');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple');
 
-/*
+
 const goodOptions = {
     ops: {
         interval: 1000
     },
     reporters: {
-        console: [
-            {
-                module: 'good-squeeze',
-                name: 'Squeeze',
-                args: [
-                    {
-                        log: '*',
-                        response: '*',
-                        request: {
-                            exclude: ['no-logging']
-                        }
-                    }
-                ]
-            },
-            {
-                module: 'good-console'
-            },
-            'stdout'
-        ]
+        myConsoleReporter: [{
+            module: 'good-squeeze',
+            name: 'Squeeze',
+            args: [{
+                log: '*',
+                response: {
+                    exclude: ['no-logging']
+                }
+            }]
+        }, {
+            module: 'good-console'
+        }, 'stdout'],
     }
 };
-*/
+
 
 
 let swaggerOptions = {
@@ -98,6 +91,10 @@ const ser = async () => {
             Vision,
             Blipp,
             {
+                plugin: Good,
+                options: goodOptions
+            },
+            {
                 plugin: HapiSwagger,
                 options: swaggerOptions
             }
@@ -132,44 +129,3 @@ ser()
         console.error(err);
         process.exit(1);
     });
-
-
-/*
-server.register(
-    [
-        Inert,
-        Vision,
-        Blipp,
-        {
-            register: require('good'),
-            options: goodOptions
-        },
-        {
-            register: HapiSwagger,
-            options: swaggerOptions
-        }
-    ],
-    err => {
-        if (err) {
-            console.log(err);
-        }
-
-        server.route(Routes);
-
-        server.start(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Server running at:', server.info.uri);
-            }
-        });
-    }
-);
-
-// add templates only for testing custom.html
-server.views({
-    path: 'examples/assets',
-    engines: { html: require('handlebars') },
-    isCached: false
-});
-*/
