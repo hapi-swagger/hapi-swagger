@@ -71,7 +71,7 @@ const Pack = require('./package');
     }
     
     server.route(Routes);
-)();
+})();
 ```
 
 # Tagging your API routes
