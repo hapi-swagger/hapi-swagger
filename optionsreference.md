@@ -6,7 +6,7 @@ URLs and plugin
 * `schemes`: (array) The transfer protocol of the API ie `['http']`
 * `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
 * `auth`: (boolean, string or object) defines security strategy to use for plugin resources - default: `false`,
-* `cors`: (boolean) weather the swagger.json routes is servered with cors support - default: `false`,
+* `cors`: (boolean) whether the swagger.json routes is servered with cors support - default: `false`,
 
 JSON (JSON endpoint needed to create UI)
 * `jsonPath`: (string) The path of JSON endpoint at describes the API - default: `/swagger.json`
