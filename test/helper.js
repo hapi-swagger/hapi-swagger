@@ -5,7 +5,6 @@ const Boom = require('boom');
 const Inert = require('inert');
 const Vision = require('vision');
 const Wreck = require('wreck');
-// const JWT = require('jsonwebtoken');
 const HapiSwagger = require('../lib/index.js');
 
 const helper = module.exports = {};
@@ -113,7 +112,7 @@ helper.createJWTAuthServer = async(swaggerOptions, routes) => {
         Vision,
         require('hapi-auth-jwt2'),
         {
-            register: HapiSwagger,
+            plugin: HapiSwagger,
             options: swaggerOptions
         }
     ]);
@@ -129,6 +128,7 @@ helper.createJWTAuthServer = async(swaggerOptions, routes) => {
 
     server.route(routes);
     await server.start();
+    return server;
 
 };
 
