@@ -1,9 +1,9 @@
-'use strict';
 const Code = require('code');
 const Joi = require('joi');
 const Lab = require('lab');
 
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
@@ -15,7 +15,7 @@ lab.experiment('plugin', () => {
     const routes = [{
         method: 'POST',
         path: '/store/',
-        config: {
+        options: {
             handler: Helper.defaultHandler,
             tags: ['api'],
             validate: {
@@ -31,7 +31,7 @@ lab.experiment('plugin', () => {
 
 
 
-    lab.test('basic cache', (done) => {
+    lab.test('basic cache', async() => {
 
         let swaggerOptions = {
             'cache': {
@@ -39,45 +39,40 @@ lab.experiment('plugin', () => {
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function () {
+        // double call to test code paths as cache works
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.statusCode).to.equal(200);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                // double call to test code paths as cache works
-                server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
-                    //console.log(JSON.stringify(response.result));
-                    expect(response.statusCode).to.equal(200);
-                    Helper.validate(response, done, expect);
-                });
-            });
-        });
+
     });
 
 
-    lab.test('cache with generateTimeout', (done) => {
+    lab.test('cache with generateTimeout', async() => {
 
         let swaggerOptions = {
-            'cache': {
-                'expiresIn': 24 * 60 * 60 * 1000,
-                'generateTimeout': 30 * 1000
+            cache: {
+                expiresIn: 24 * 60 * 60 * 1000,
+                generateTimeout: 30 * 1000
             }
         };
 
-        Helper.createServer(swaggerOptions, routes, (err, server) => {
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
 
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                Helper.validate(response, done, expect);
-            });
-        });
+        expect(response.statusCode).to.equal(200);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+
     });
 
 
-    lab.test('model cache using weakmap', (done) => {
+    lab.test('model cache using weakmap', async() => {
 
         // test if a joi object weakmap cache
         // the Joi object should only be parsed once
@@ -92,7 +87,7 @@ lab.experiment('plugin', () => {
         const tempRoutes = [{
             method: 'POST',
             path: '/store1/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -102,7 +97,7 @@ lab.experiment('plugin', () => {
         },{
             method: 'POST',
             path: '/store2/',
-            config: {
+            options: {
                 handler: Helper.defaultHandler,
                 tags: ['api'],
                 validate: {
@@ -111,16 +106,13 @@ lab.experiment('plugin', () => {
             }
         }];
 
-        Helper.createServer({}, tempRoutes, (err, server) => {
+        const server = await Helper.createServer({}, tempRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-            expect(err).to.equal(null);
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        expect(response.statusCode).to.equal(200);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
 
-                //console.log(JSON.stringify(response.result));
-                expect(response.statusCode).to.equal(200);
-                Helper.validate(response, done, expect);
-            });
-        });
     });
 
 

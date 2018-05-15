@@ -1,5 +1,3 @@
-'use strict';
-
 // `dot-grouping.js`
 
 // This file also shows the use of `pathReplacements` to group endpoints by replacing `.` with '/`
@@ -12,72 +10,73 @@ const Vision = require('vision');
 const HapiSwagger = require('../');
 
 
-// Create a server with a host and port
-const server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 3000
-});
-
-
+/*
 const goodOptions = {
     ops: {
         interval: 1000
     },
     reporters: {
-        console: [{
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [{
-                log: '*',
-                response: '*'
-            }]
-        }, {
-            module: 'good-console'
-        }, 'stdout']
+        console: [
+            {
+                module: 'good-squeeze',
+                name: 'Squeeze',
+                args: [
+                    {
+                        log: '*',
+                        response: '*'
+                    }
+                ]
+            },
+            {
+                module: 'good-console'
+            },
+            'stdout'
+        ]
     }
 };
-
+*/
 
 const swaggerOptions = {
     pathPrefixSize: 2,
     basePath: '/api/',
     info: {
-        'title': 'Test API Documentation',
-        'description': 'This is a sample example of API documentation.'
+        title: 'Test API Documentation',
+        description: 'This is a sample example of API documentation.'
     },
-    pathReplacements: [{
-        replaceIn: 'groups',
-        pattern: /[.].*$/,
-        replacement: '/'
-    }]
+    pathReplacements: [
+        {
+            replaceIn: 'groups',
+            pattern: /[.].*$/,
+            replacement: '/'
+        }
+    ]
 };
 
+const ser = async () => {
 
-// Start the server
-server.register([
-    Inert,
-    Vision,
-    Blipp,
-    {
-        register: require('good'),
-        options: goodOptions
-    }, {
-        register: HapiSwagger,
-        options: swaggerOptions
-    }],
-    (err) => {
+    try {
 
-        if (err) {
-            throw err;
-        }
+        const server = Hapi.Server({
+            host: 'localhost',
+            port: 3000
+        });
+
+        // Blipp and Good - Needs updating for Hapi v17.x
+        await server.register([
+            Inert,
+            Vision,
+            Blipp,
+            {
+                plugin: HapiSwagger,
+                options: swaggerOptions
+            }
+        ]);
 
         // Add a route - handler and route definition is the same for all versions
         server.route({
             method: 'GET',
             path: '/version',
-            handler: function (request, reply) {
-
+            handler: function(request, reply) {
                 // Return the api-version which was requested
                 return reply({
                     version: request.pre.apiVersion
@@ -85,21 +84,20 @@ server.register([
             }
         });
 
-
-        const users = [{
-            firstname: 'Peter',
-            lastname: 'Miller'
-        }];
-
+        const users = [
+            {
+                firstname: 'Peter',
+                lastname: 'Miller'
+            }
+        ];
 
         // Add a versioned route - which is actually two routes with prefix '/v1' and '/v2'. Not only the
-        // handlers are different, but also the route defintion itself (like here with response validation).
+        // handlers are different, but also the route definition itself (like here with response validation).
         server.route({
             method: 'GET',
             path: '/api/user.get',
-            handler: function (request, reply) {
-
-                return reply(users);
+            handler: function(request, h) {
+                return h.response(users);
             },
             config: {
                 tags: ['api']
@@ -109,31 +107,32 @@ server.register([
         server.route({
             method: 'GET',
             path: '/api/user.search',
-            handler: function (request, reply) {
-
-                return reply(users);
+            handler: function(request, h) {
+                return h.response(users);
             },
             config: {
                 tags: ['api']
             }
         });
 
+        await server.start();
+
+        return server;
+
+    } catch (err) {
+        throw err;
+    }
+
+};
 
 
+ser()
+    .then((server) => {
 
+        console.log(`Server listening on ${server.info.uri}`);
+    })
+    .catch((err) => {
 
-        // Add a versioned route - This is a simple version of the '/users' route where just the handlers
-        // differ and even those just a little. It maybe is the preferred option if just the formatting of
-        // the response differs between versions.
-
-        // Start the server
-        server.start((err) => {
-
-            if (err) {
-                throw err;
-            }
-
-            console.log('Server running at:', server.info.uri);
-        });
-
+        console.error(err);
+        process.exit(1);
     });

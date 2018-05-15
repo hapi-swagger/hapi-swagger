@@ -1,4 +1,3 @@
-'use strict';
 const Code = require('code');
 const Lab = require('lab');
 const Validate = require('../../lib/validate.js');
@@ -60,21 +59,26 @@ const swaggerJSON = {
 
 lab.experiment('validate - log ', () => {
 
-    lab.test('bad schema', (done) => {
+    lab.test('bad schema', async() => {
 
-        Validate.log({}, (tags) => {
+        const cb = (tags) => {
             expect(tags).to.equal(['validation', 'error']);
-            done();
-        });
+        };
+
+        const isValid = await Validate.log({}, cb);
+        expect(isValid).to.false();
+
     });
 
 
-    lab.test('good schema', (done) => {
+    lab.test('good schema', async() => {
 
-        Validate.log(swaggerJSON, (tags) => {
+        const cb = (tags) => {
             expect(tags).to.equal(['validation', 'info']);
-            done();
-        });
+        };
+
+        const isValid = await Validate.log(swaggerJSON, cb);
+        expect(isValid).to.true();
     });
 
 
@@ -83,21 +87,19 @@ lab.experiment('validate - log ', () => {
 
 lab.experiment('validate - test ', () => {
 
-    lab.test('bad schema', (done) => {
+    lab.test('bad schema', async() => {
 
-        Validate.test({}, ( err, status ) => {
-            expect( status ).to.equal(false);
-            done();
-        });
+        const status = await Validate.test({});
+        expect( status ).to.equal(false);
+
     });
 
 
-    lab.test('good schema', (done) => {
+    lab.test('good schema', async() => {
 
-        Validate.test(swaggerJSON, ( err, status ) => {
-            expect( status ).to.equal(true);
-            done();
-        });
+        const status = await Validate.test(swaggerJSON);
+        expect( status ).to.equal(true);
+
     });
 
 
