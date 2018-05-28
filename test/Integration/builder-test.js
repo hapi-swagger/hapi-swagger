@@ -82,7 +82,7 @@ lab.experiment('builder', () => {
             'externalDocs': {
                 'description': 'Find out more about HAPI',
                 'url': 'http://hapijs.com'
-            }
+            },
         };
 
         const server = await Helper.createServer(swaggerOptions, routes);
@@ -101,7 +101,27 @@ lab.experiment('builder', () => {
     });
 
 
+    lab.test('set values for swagger root object properties using special property getHost', async() => {
 
+        const swaggerOptions = {
+            'swagger': '5.9.45',
+            'schemes': ['https'],
+            'basePath': '/base',
+            'consumes': ['application/x-www-form-urlencoded'],
+            'produces': ['application/json', 'application/xml'],
+            'externalDocs': {
+                'description': 'Find out more about HAPI',
+                'url': 'http://hapijs.com'
+            },
+            'getHost': (req)=>req.headers['header-with-host']
+        };
+
+        const server = await Helper.createServer(swaggerOptions, routes);
+        const response = await server.inject({ headers: { 'header-with-host': 'localhost2' }, method: 'GET', url: '/swagger.json' });
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.host).to.equal('localhost2');
+    });
 
     lab.test('xProperties : false', async() => {
 
