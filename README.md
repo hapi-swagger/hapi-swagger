@@ -86,7 +86,7 @@ HTML page (see next section).
 {
     method: 'GET',
     path: '/todo/{id}/',
-    config: {
+    options: {
         handler: handlers.getToDo,
         description: 'Get todo',
         notes: 'Returns a todo item by the id passed in the path',
