@@ -125,8 +125,7 @@ lab.experiment('builder', () => {
                         'type': 'string'
                     },
                     'array': {
-                        '$ref': '#/definitions/array',
-                        'type': 'array'
+                        '$ref': '#/definitions/array'
                     }
                 }
             }
@@ -168,8 +167,7 @@ lab.experiment('builder', () => {
                         }
                     },
                     'array': {
-                        '$ref': '#/definitions/array',
-                        'type': 'array'
+                        '$ref': '#/definitions/array'
                     }
                 }
             }
@@ -282,5 +280,3 @@ lab.experiment('builder', () => {
     });
 
 });
-
-
