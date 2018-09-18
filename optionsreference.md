@@ -48,7 +48,7 @@ UI
 * `documentationPage`: (boolean) Add documentation page - default: `true`
 * `documentationPath`: (string) The path of the documentation page - default: `/documentation`
 * `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
-* `jsonEditor`: (boolean) If UI should use JSON Edtior - default: `false`
+* `jsonEditor`: (boolean) If UI should use JSON Editor - default: `false`
 * `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
 * `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
 * `lang`: (string) The language of the UI `en`, `es`, `fr`, `it`, `ja`, `pl`, `pt`, `ru`, `tr` or `zh-cn` - default: `en`
