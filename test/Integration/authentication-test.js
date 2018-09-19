@@ -7,7 +7,6 @@ const Validate = require('../../lib/validate.js');
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
 
-/* This set of test has been comment out until the JWT module has been upgraded to work with Hapi v17+
 lab.experiment('default `auth` settings', () => {
     const routes = [
         {
@@ -59,14 +58,13 @@ lab.experiment('default `auth` settings', () => {
             url: '/documentation'
         };
 
-        const server = await Helper.createJWTAuthServer({ auth: undefined });
+        const server = await Helper.createJWTAuthServer({ auth: undefined }, routes);
         const response = await server.inject(requestOptions);
         expect(response.statusCode).to.equal(401);
     });
 
 
 });
-*/
 
 
 

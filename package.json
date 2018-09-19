@@ -27,7 +27,7 @@
     "http-status": "^1.0.1",
     "joi": "^13.1.2",
     "json-schema-ref-parser": "^4.1.0",
-    "swagger-parser": "^4.0.2"
+    "swagger-parser": "4.0.2"
   },
   "devDependencies": {
     "blipp": "^3.0.0",
@@ -42,7 +42,7 @@
     "hapi-api-version": "^1.4.0",
     "hapi-auth-basic": "^5.0.0",
     "hapi-auth-bearer-token": "^6.0.1",
-    "hapi-auth-jwt2": "^7.4.1",
+    "hapi-auth-jwt2": "^8.0.0",
     "husky": "^0.14.3",
     "inert": "^5.1.0",
     "js2xmlparser": "^3.0.0",
