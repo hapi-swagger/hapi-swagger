@@ -461,8 +461,7 @@ lab.experiment('responses', () => {
         ).to.equal({
             description: 'Success',
             schema: {
-                $ref: '#/definitions/HTTP200',
-                type: 'array'
+                $ref: '#/definitions/HTTP200'
             }
         });
         expect(response.result.definitions.HTTP200).to.equal({
