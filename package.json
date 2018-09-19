@@ -47,7 +47,7 @@
     "inert": "^5.1.0",
     "js2xmlparser": "^3.0.0",
     "jsonwebtoken": "^8.1.1",
-    "lab": "^15.2.2",
+    "lab": "^16.1.0",
     "swagger-client": "^3.4.11",
     "vision": "^5.3.1",
     "wreck": "^14.0.2"
