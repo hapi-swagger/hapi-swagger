@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "boom": "^7.1.1",
-    "fast-safe-stringify": "^1.2.3",
     "handlebars": "^4.0.11",
     "hoek": "^5.0.3",
     "http-status": "^1.0.1",
