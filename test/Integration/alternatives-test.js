@@ -28,11 +28,14 @@ lab.experiment('alternatives', () => {
             handler: Helper.defaultHandler,
             tags: ['api'],
             validate: {
-                payload: Joi.alternatives().try(Joi.object({
-                    name: Joi.string().required()
-                }).label('alt1'), Joi.object({
-                    name: Joi.number().required()
-                }).label('alt2')).label('Alt')
+                payload: Joi.alternatives().try(
+                    Joi.object({
+                        name: Joi.string().required()
+                    }).label('alt1'),
+                    Joi.object({
+                        name: Joi.number().required()
+                    }).label('alt2'))
+                    .label('Alt')
             },
             response: {
                 schema: Joi.alternatives().try(Joi.object({
@@ -91,6 +94,10 @@ lab.experiment('alternatives', () => {
             validate: {
                 payload: Joi.object({
                     type: Joi.string().valid('string', 'number', 'image').label('Type'),
+                    key: Joi.string().when('category', {
+                        is: 'stuff',
+                        then: Joi.forbidden(), // https://github.com/glennjones/hapi-swagger/issues/338
+                    }),
                     data: Joi.alternatives()
                         .when('type', { is: 'string', then: Joi.string() })
                         .when('type', { is: 'number', then: Joi.number() })
@@ -108,7 +115,8 @@ lab.experiment('alternatives', () => {
                 })
             }
         }
-    }];
+    },
+    ];
 
 
     lab.test('x-alternatives', async() => {
