@@ -250,6 +250,26 @@ lab.experiment('builder', () => {
         expect(isValid).to.be.true();
     });
 
+    lab.test('getSwaggerJSON determines host and port from request info', async () => {
+
+        const server = await Helper.createServer({});
+
+        const response = await server.inject({ method: 'GET', headers: { host: '194.418.15.24:7645' }, url: '/swagger.json' });
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.host).to.equal('194.418.15.24:7645');
+    });
+
+    lab.test('getSwaggerJSON doesn\'t specify port from request info when port is default', async () => {
+
+        const server = await Helper.createServer({});
+
+        const response = await server.inject({ method: 'GET', headers: { host: '194.418.15.24:80' }, url: '/swagger.json' });
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.host).to.equal('194.418.15.24');
+    });
+
 });
 
 
