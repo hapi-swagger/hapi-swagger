@@ -82,7 +82,8 @@ lab.experiment('builder', () => {
             'externalDocs': {
                 'description': 'Find out more about HAPI',
                 'url': 'http://hapijs.com'
-            }
+            },
+            'x-custom': 'custom'
         };
 
         const server = await Helper.createServer(swaggerOptions, routes);
