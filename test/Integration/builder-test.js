@@ -96,6 +96,7 @@ lab.experiment('builder', () => {
         expect(response.result.consumes).to.equal(['application/x-www-form-urlencoded']);
         expect(response.result.produces).to.equal(['application/json', 'application/xml']);
         expect(response.result.externalDocs).to.equal(swaggerOptions.externalDocs);
+        expect(response.result['x-custom']).to.equal('custom');
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
 
