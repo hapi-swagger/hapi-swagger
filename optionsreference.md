@@ -36,11 +36,12 @@ JSON (JSON endpoint needed to create UI)
 * `documentationRouteTags`: (string or array) Add hapi tags to internal `hapi-swagger` routes - default: `[]`
 *  `consumes`: (array) The mimetypes consumed - default: `['application/json']`
 *  `produces`: (array) The mimetypes produced - default: `['application/json']`
-*  `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`,
-*  `reuseDefinitions`: Reuse of definition models to save space - default: `true`,
-*  `definitionPrefix`: Dynamic naming convention. `default` or `useLabel` - default: `default`,
+*  `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`
+*  `reuseDefinitions`: Reuse of definition models to save space - default: `true`
+*  `definitionPrefix`: Dynamic naming convention. `default` or `useLabel` - default: `default`
 *  `deReference`: Dereferences JSON output - default: `false`,
-*  `debug`: Validates the JSON ouput against swagger specification - default: `false`,
+*  `debug`: Validates the JSON ouput against swagger specification - default: `false`
+* `x-*` (any): any property or object with a key starting with *x-* is included in the swagger definition (similar to `x-*` options in the `info` object).
 
 UI
 * `swaggerUI`: (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`
