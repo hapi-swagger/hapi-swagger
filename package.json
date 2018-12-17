@@ -42,7 +42,7 @@
     "hapi-auth-basic": "^5.0.0",
     "hapi-auth-bearer-token": "^6.0.1",
     "hapi-auth-jwt2": "^8.0.0",
-    "husky": "^0.14.3",
+    "husky": "^1.2.1",
     "inert": "^5.1.0",
     "js2xmlparser": "^3.0.0",
     "jsonwebtoken": "^8.1.1",
