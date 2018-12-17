@@ -10,28 +10,31 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple');
 
-
 const goodOptions = {
     ops: {
         interval: 1000
     },
     reporters: {
-        myConsoleReporter: [{
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [{
-                log: '*',
-                response: {
-                    exclude: ['no-logging']
-                }
-            }]
-        }, {
-            module: 'good-console'
-        }, 'stdout'],
+        myConsoleReporter: [
+            {
+                module: 'good-squeeze',
+                name: 'Squeeze',
+                args: [
+                    {
+                        log: '*',
+                        response: {
+                            exclude: ['no-logging']
+                        }
+                    }
+                ]
+            },
+            {
+                module: 'good-console'
+            },
+            'stdout'
+        ]
     }
 };
-
-
 
 let swaggerOptions = {
     documentationPage: false,
@@ -49,8 +52,7 @@ let swaggerOptions = {
         },
         license: {
             name: 'MIT',
-            url:
-                'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
+            url: 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
         }
     },
     tags: [
@@ -75,11 +77,8 @@ let swaggerOptions = {
     validatorUrl: null
 };
 
-
 const ser = async () => {
-
     try {
-
         const server = Hapi.Server({
             host: 'localhost',
             port: 3000
@@ -108,24 +107,18 @@ const ser = async () => {
             isCached: false
         });
 
-
         await server.start();
         return server;
-
     } catch (err) {
         throw err;
     }
-
 };
 
-
 ser()
-    .then((server) => {
-
+    .then(server => {
         console.log(`Server listening on ${server.info.uri}`);
     })
-    .catch((err) => {
-
+    .catch(err => {
         console.error(err);
         process.exit(1);
     });

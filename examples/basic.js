@@ -9,7 +9,6 @@ const Vision = require('vision');
 
 const HapiSwagger = require('../');
 
-
 let swaggerOptions = {
     info: {
         title: 'Test API Documentation',
@@ -17,7 +16,6 @@ let swaggerOptions = {
     },
     auth: 'simple'
 };
-
 
 const users = {
     jane: {
@@ -28,9 +26,7 @@ const users = {
     }
 };
 
-
-var validate = function (request, username, password) {
-
+var validate = function(request, username, password) {
     const user = users[username];
     if (!user) {
         return { isValid: false, credentials: null };
@@ -45,16 +41,12 @@ var validate = function (request, username, password) {
     return { isValid, credentials };
 };
 
-
 const ser = async () => {
-
     try {
-
         const server = Hapi.Server({
             host: 'localhost',
             port: 3000
         });
-
 
         await server.register(Basic);
         server.auth.strategy('simple', 'basic', { validate });
@@ -71,12 +63,11 @@ const ser = async () => {
             }
         ]);
 
-
         server.route({
             method: 'PUT',
             path: '/v1/store/{id?}',
             config: {
-                handler: function ( request, h ) {
+                handler: function(request, h) {
                     return h.response('success');
                 },
                 description: 'Update sum',
@@ -116,24 +107,18 @@ const ser = async () => {
             }
         });
 
-
         await server.start();
         return server;
-
     } catch (err) {
         throw err;
     }
-
 };
 
-
 ser()
-    .then((server) => {
-
+    .then(server => {
         console.log(`Server listening on ${server.info.uri}`);
     })
-    .catch((err) => {
-
+    .catch(err => {
         console.error(err);
         process.exit(1);
     });

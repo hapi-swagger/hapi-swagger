@@ -9,7 +9,6 @@ const Inert = require('inert');
 const Vision = require('vision');
 const HapiSwagger = require('../');
 
-
 /*
 const goodOptions = {
     ops: {
@@ -53,9 +52,7 @@ const swaggerOptions = {
 };
 
 const ser = async () => {
-
     try {
-
         const server = Hapi.Server({
             host: 'localhost',
             port: 3000
@@ -118,21 +115,16 @@ const ser = async () => {
         await server.start();
 
         return server;
-
     } catch (err) {
         throw err;
     }
-
 };
 
-
 ser()
-    .then((server) => {
-
+    .then(server => {
         console.log(`Server listening on ${server.info.uri}`);
     })
-    .catch((err) => {
-
+    .catch(err => {
         console.error(err);
         process.exit(1);
     });

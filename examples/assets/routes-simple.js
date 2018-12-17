@@ -2,14 +2,22 @@ const Joi = require('joi');
 const js2xmlparser = require('js2xmlparser');
 
 const sumModel = Joi.object({
-    id: Joi.string().required().example('x78P9c'),
-    a: Joi.number().required().example(5),
-    b: Joi.number().required().example(5),
+    id: Joi.string()
+        .required()
+        .example('x78P9c'),
+    a: Joi.number()
+        .required()
+        .example(5),
+    b: Joi.number()
+        .required()
+        .example(5),
     operator: Joi.string()
         .required()
         .description('either +, -, /, or *')
         .example('+'),
-    equals: Joi.number().required().example(10),
+    equals: Joi.number()
+        .required()
+        .example(10),
     created: Joi.string()
         .required()
         .isoDate()
@@ -25,10 +33,18 @@ const sumModel = Joi.object({
 
 const listModel = Joi.object({
     items: Joi.array().items(sumModel),
-    count: Joi.number().required().example('1'),
-    pageSize: Joi.number().required().example('10'),
-    page: Joi.number().required().example('1'),
-    pageCount: Joi.number().required().example('1')
+    count: Joi.number()
+        .required()
+        .example('1'),
+    pageSize: Joi.number()
+        .required()
+        .example('10'),
+    page: Joi.number()
+        .required()
+        .example('1'),
+    pageCount: Joi.number()
+        .required()
+        .example('1')
 }).label('List');
 
 const resultModel = Joi.object({
@@ -112,7 +128,6 @@ const resultHTTPStatus = {
  * @param  {Object} reply
  */
 const replyByType = function(name, json, request, h) {
-
     if (request.headers.accept === 'application/xml') {
         return h.response(js2xmlparser(name, json)).type('application/xml');
     } else {
@@ -153,7 +168,6 @@ const defaultHandler = function(request, h) {
             return replyByType('sum', sum, request, h);
         }
     }
-
 };
 
 module.exports = [
@@ -174,9 +188,13 @@ module.exports = [
             },
             validate: {
                 params: {
-                    a: Joi.number().required().description('the first number'),
+                    a: Joi.number()
+                        .required()
+                        .description('the first number'),
 
-                    b: Joi.number().required().description('the second number')
+                    b: Joi.number()
+                        .required()
+                        .description('the second number')
                 }
             }
         }
@@ -187,9 +205,7 @@ module.exports = [
         config: {
             handler: defaultHandler,
             description: 'Subtract',
-            notes: [
-                'Subtracts the second number from the first and return the result'
-            ],
+            notes: ['Subtracts the second number from the first and return the result'],
             tags: ['api'],
             plugins: {
                 'hapi-swagger': {
@@ -198,9 +214,13 @@ module.exports = [
             },
             validate: {
                 params: {
-                    a: Joi.number().required().description('the first number'),
+                    a: Joi.number()
+                        .required()
+                        .description('the first number'),
 
-                    b: Joi.number().required().description('the second number')
+                    b: Joi.number()
+                        .required()
+                        .description('the second number')
                 }
             }
         }
@@ -211,9 +231,7 @@ module.exports = [
         config: {
             handler: defaultHandler,
             description: 'Divide',
-            notes: [
-                'Divides the first number by the second and return the result'
-            ],
+            notes: ['Divides the first number by the second and return the result'],
             tags: ['api'],
             plugins: {
                 'hapi-swagger': {
@@ -250,9 +268,13 @@ module.exports = [
             tags: ['api'],
             validate: {
                 params: {
-                    a: Joi.number().required().description('the first number'),
+                    a: Joi.number()
+                        .required()
+                        .description('the first number'),
 
-                    b: Joi.number().required().description('the second number')
+                    b: Joi.number()
+                        .required()
+                        .description('the second number')
                 }
             }
         }
@@ -274,9 +296,7 @@ module.exports = [
                 query: {
                     page: Joi.number().description('the page number'),
 
-                    pagesize: Joi.number().description(
-                        'the number of items to a page'
-                    )
+                    pagesize: Joi.number().description('the number of items to a page')
                 }
             }
         }
@@ -326,7 +346,9 @@ module.exports = [
                         .description('the first number')
                         .default(10),
 
-                    b: Joi.number().required().description('the second number'),
+                    b: Joi.number()
+                        .required()
+                        .description('the second number'),
 
                     operator: Joi.string()
                         .required()
@@ -362,9 +384,13 @@ module.exports = [
                         .description('the id of the sum in the store')
                 },
                 payload: {
-                    a: Joi.number().required().description('the first number'),
+                    a: Joi.number()
+                        .required()
+                        .description('the first number'),
 
-                    b: Joi.number().required().description('the second number'),
+                    b: Joi.number()
+                        .required()
+                        .description('the second number'),
 
                     operator: Joi.string()
                         .required()
@@ -407,9 +433,7 @@ module.exports = [
         config: {
             handler: defaultHandler,
             description: 'Add sum, with JSON object',
-            notes: [
-                'Adds a sum to the data store, using JSON object in payload'
-            ],
+            notes: ['Adds a sum to the data store, using JSON object in payload'],
             plugins: {
                 'hapi-swagger': {
                     responses: sumHTTPStatus
@@ -418,9 +442,13 @@ module.exports = [
             tags: ['api', 'reduced', 'three'],
             validate: {
                 payload: Joi.object({
-                    a: Joi.number().required().description('the first number'),
+                    a: Joi.number()
+                        .required()
+                        .description('the first number'),
 
-                    b: Joi.number().required().description('the second number'),
+                    b: Joi.number()
+                        .required()
+                        .description('the second number'),
 
                     operator: Joi.string()
                         .required()
@@ -447,9 +475,7 @@ module.exports = [
         config: {
             handler: defaultHandler,
             description: 'Add sum, with JSON file',
-            notes: [
-                'Adds a sum to the data store, using JSON object in a uploaded file'
-            ],
+            notes: ['Adds a sum to the data store, using JSON object in a uploaded file'],
             plugins: {
                 'hapi-swagger': {
                     responses: fileHTTPStatus,
@@ -464,9 +490,7 @@ module.exports = [
                     file: Joi.any()
                         .meta({ swaggerType: 'file' })
                         .required()
-                        .description(
-                            'json file with object containing: a, b, operator and equals'
-                        )
+                        .description('json file with object containing: a, b, operator and equals')
                 }
             },
             payload: {

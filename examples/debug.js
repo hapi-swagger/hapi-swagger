@@ -10,8 +10,6 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-simple.js');
 
-
-
 let swaggerOptions = {
     basePath: '/v1',
     pathPrefixSize: 2,
@@ -31,11 +29,8 @@ const formatLogEvent = function(event) {
     }
 };
 
-
 const ser = async () => {
-
     try {
-
         const server = Hapi.Server({
             host: 'localhost',
             port: 3000
@@ -60,26 +55,20 @@ const ser = async () => {
             isCached: false
         });
 
-
         await server.start();
         server.events.on('log', formatLogEvent);
 
         return server;
-
     } catch (err) {
         throw err;
     }
-
 };
 
-
 ser()
-    .then((server) => {
-
+    .then(server => {
         console.log(`Server listening on ${server.info.uri}`);
     })
-    .catch((err) => {
-
+    .catch(err => {
         console.error(err);
         process.exit(1);
     });

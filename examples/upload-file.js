@@ -10,9 +10,7 @@ const Joi = require('joi');
 
 const HapiSwagger = require('../');
 
-
 const storeFile = async function(request, h) {
-
     const payload = request.payload;
 
     // check that required file is present
@@ -23,7 +21,6 @@ const storeFile = async function(request, h) {
 
         // check the content-type is json
         if (headers['content-type'] === 'application/json') {
-
             try {
                 let data = await streamToPromise(file);
 
@@ -37,26 +34,19 @@ const storeFile = async function(request, h) {
 
                 await Joi.validate(data, addSumSchema);
                 return h.response(data);
-
-            }
-            catch(err){
+            } catch (err) {
                 return Boom.badRequest(err.message);
             }
-
         } else {
             return Boom.unsupportedMediaType();
         }
     } else {
         return Boom.badRequest('File is required');
     }
-
 };
 
-
-
 function streamToPromise(stream) {
-
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         let data = '';
         stream.on('data', chunk => {
             data += chunk;
@@ -64,12 +54,11 @@ function streamToPromise(stream) {
         stream.on('end', () => {
             resolve(data);
         });
-        stream.on('error', (err) => {
+        stream.on('error', err => {
             reject(err);
         });
     });
 }
-
 
 const swaggerOptions = {};
 
@@ -101,11 +90,8 @@ const routes = [
     }
 ];
 
-
 const ser = async () => {
-
     try {
-
         const server = Hapi.Server({
             host: 'localhost',
             port: 3000
@@ -131,25 +117,18 @@ const ser = async () => {
             isCached: false
         });
 
-
         await server.start();
         return server;
-
     } catch (err) {
         throw err;
     }
-
 };
 
-
 ser()
-    .then((server) => {
-
+    .then(server => {
         console.log(`Server listening on ${server.info.uri}`);
     })
-    .catch((err) => {
-
+    .catch(err => {
         console.error(err);
         process.exit(1);
     });
-

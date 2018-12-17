@@ -7,15 +7,15 @@ const Vision = require('vision');
 const Wreck = require('wreck');
 const HapiSwagger = require('../lib/index.js');
 
-const helper = module.exports = {};
+const helper = (module.exports = {});
 
 /**
-* creates a Hapi server
-*
-* @param  {Object} swaggerOptions
-* @param  {Object} routes
-* @param  {Function} callback
-*/
+ * creates a Hapi server
+ *
+ * @param  {Object} swaggerOptions
+ * @param  {Object} routes
+ * @param  {Function} callback
+ */
 helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
     const server = new Hapi.Server(serverOptions);
 
@@ -39,18 +39,16 @@ helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
     } catch (e) {
         throw e;
     }
-
 };
 
 /**
-* creates a Hapi server using bearer token auth
-*
-* @param  {Object} swaggerOptions
-* @param  {Object} routes
-* @param  {Function} callback
-*/
+ * creates a Hapi server using bearer token auth
+ *
+ * @param  {Object} swaggerOptions
+ * @param  {Object} routes
+ * @param  {Function} callback
+ */
 helper.createAuthServer = async (swaggerOptions, routes, serverOptions = {}) => {
-
     const server = new Hapi.Server(serverOptions);
 
     await server.register([
@@ -73,19 +71,16 @@ helper.createAuthServer = async (swaggerOptions, routes, serverOptions = {}) => 
     await server.start();
 
     return server;
-
 };
 
-
 /**
-* creates a Hapi server using JWT auth
-*
-* @param  {Object} swaggerOptions
-* @param  {Object} routes
-* @param  {Function} callback
-*/
-helper.createJWTAuthServer = async(swaggerOptions, routes) => {
-
+ * creates a Hapi server using JWT auth
+ *
+ * @param  {Object} swaggerOptions
+ * @param  {Object} routes
+ * @param  {Function} callback
+ */
+helper.createJWTAuthServer = async (swaggerOptions, routes) => {
     let people = {
         56732: {
             id: 56732,
@@ -95,15 +90,13 @@ helper.createJWTAuthServer = async(swaggerOptions, routes) => {
     };
     const privateKey = 'hapi hapi joi joi';
     // const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
-    const validateJWT = (decoded) => {
-
+    const validateJWT = decoded => {
         if (!people[decoded.id]) {
-            return {valid: false};
+            return { valid: false };
         }
 
-        return  {valid: true};
+        return { valid: true };
     };
-
 
     const server = new Hapi.Server();
 
@@ -117,7 +110,6 @@ helper.createJWTAuthServer = async(swaggerOptions, routes) => {
         }
     ]);
 
-
     server.auth.strategy('jwt', 'jwt', {
         key: privateKey,
         validate: validateJWT,
@@ -129,28 +121,25 @@ helper.createJWTAuthServer = async(swaggerOptions, routes) => {
     server.route(routes);
     await server.start();
     return server;
-
 };
 
 /**
-* a handler function used to mock a response
-*
-* @param  {Object} request
-* @param  {Object} reply
-*/
+ * a handler function used to mock a response
+ *
+ * @param  {Object} request
+ * @param  {Object} reply
+ */
 helper.defaultHandler = () => {
     return 'ok';
 };
 
-
 /**
-* a handler function used to mock a response to a authorized request
-*
-* @param  {Object} request
-* @param  {Object} reply
-*/
-helper.defaultAuthHandler = (request) => {
-
+ * a handler function used to mock a response to a authorized request
+ *
+ * @param  {Object} request
+ * @param  {Object} reply
+ */
+helper.defaultAuthHandler = request => {
     if (request.auth && request.auth.credentials && request.auth.credentials.user) {
         return request.auth.credentials.user;
     } else {
@@ -158,15 +147,13 @@ helper.defaultAuthHandler = (request) => {
     }
 };
 
-
 /**
-* a validation function for bearer strategy
-*
-* @param  {String} token
-* @param  {Function} callback
-*/
+ * a validation function for bearer strategy
+ *
+ * @param  {String} token
+ * @param  {Function} callback
+ */
 helper.validateBearer = async (request, token) => {
-
     return {
         isValid: token === '12345',
         credentials: {
@@ -180,36 +167,29 @@ helper.validateBearer = async (request, token) => {
     };
 };
 
-
 /**
-* fires a HAPI reply with json payload - see h2o2 onResponse function signature
-*
-* @param  {Object} err
-* @param  {Object} res
-* @param  {Object} request
-* @param  {Object} reply
-* @param  {Object} settings
-* @param  {Int} ttl
-**/
-helper.replyWithJSON  = async (err, res) => {
-
+ * fires a HAPI reply with json payload - see h2o2 onResponse function signature
+ *
+ * @param  {Object} err
+ * @param  {Object} res
+ * @param  {Object} request
+ * @param  {Object} reply
+ * @param  {Object} settings
+ * @param  {Int} ttl
+ **/
+helper.replyWithJSON = async (err, res) => {
     const { payload } = await Wreck.read(res, { json: true });
     return payload;
 };
 
-
-
 /**
-* creates an object with properties which are not its own
-*
+ * creates an object with properties which are not its own
+ *
  * @return {Object}
-*/
+ */
 helper.objWithNoOwnProperty = () => {
-
-    const  sides = { a: 1, b: 2, c: 3 };
-    let Triangle = function() {
-
-    };
+    const sides = { a: 1, b: 2, c: 3 };
+    let Triangle = function() {};
     Triangle.prototype = sides;
     return new Triangle();
 };

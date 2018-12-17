@@ -10,7 +10,6 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 let Routes = require('./assets/routes-complex.js');
 
-
 /*
 const goodOptions = {
     ops: {
@@ -37,7 +36,6 @@ const goodOptions = {
 };
 */
 
-
 let swaggerOptions = {
     basePath: '/v1',
     pathPrefixSize: 2,
@@ -51,8 +49,7 @@ let swaggerOptions = {
         },
         license: {
             name: 'MIT',
-            url:
-                'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
+            url: 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
         }
     },
     tags: [
@@ -97,23 +94,17 @@ let swaggerOptions = {
     }
 };
 
-
-
 const ser = async () => {
-
     try {
-
         const server = Hapi.Server({
             host: 'localhost',
             port: 3000
         });
 
-
         await server.register(BearerToken);
         server.auth.strategy('bearer', 'bearer-access-token', {
             accessTokenName: 'access_token',
             validate: async (request, token) => {
-
                 const isValid = token === '12345';
                 let credentials = null;
                 let artifacts = null;
@@ -131,7 +122,6 @@ const ser = async () => {
                 }
             }
         });
-
 
         // Blipp and Good - Needs updating for Hapi v17.x
         await server.register([
@@ -155,21 +145,16 @@ const ser = async () => {
         await server.start();
 
         return server;
-
     } catch (err) {
         throw err;
     }
-
 };
 
-
 ser()
-    .then((server) => {
-
+    .then(server => {
         console.log(`Server listening on ${server.info.uri}`);
     })
-    .catch((err) => {
-
+    .catch(err => {
         console.error(err);
         process.exit(1);
     });

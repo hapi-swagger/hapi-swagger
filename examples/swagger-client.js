@@ -5,7 +5,6 @@ const Joi = require('joi');
 const Swagger = require('swagger-client');
 const HapiSwagger = require('../');
 
-
 let swaggerOptions = {
     documentationPage: false,
     swaggerUI: false,
@@ -111,9 +110,7 @@ const routes = [
 ];
 
 const ser = async () => {
-
     try {
-
         const server = Hapi.Server({
             host: 'localhost',
             port: 3000
@@ -131,79 +128,61 @@ const ser = async () => {
 
         await server.start();
         return server;
-
     } catch (err) {
         throw err;
     }
-
 };
 
-
 ser()
-    .then((server) => {
-
+    .then(server => {
         console.log(`Server listening on ${server.info.uri}`);
 
         // create swagger client using json output from plugin
 
-        Swagger(server.info.uri + '/swagger.json')
-            .then(client => {
+        Swagger(server.info.uri + '/swagger.json').then(client => {
+            // Three calls to API using swagger client
 
-                // Three calls to API using swagger client
+            client.apis.math
+                .add1({ a: 8, b: 8 }, { responseContentType: 'application/json' })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-                client.apis.math.add1(
-                    { a: 8, b: 8 },
-                    { responseContentType: 'application/json' },
-                )
-                    .then((data) => {
-                        console.log(data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+            client.apis.sum
+                .add2({ a: 7, b: 7 }, { responseContentType: 'application/json' })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
+            client.apis.mathematics
+                .putMathematicsAddAB({ a: 9, b: 9 }, { responseContentType: 'application/json' })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-                client.apis.sum.add2(
-                    { a: 7, b: 7 },
-                    { responseContentType: 'application/json' },
-                )
-                    .then((data) => {
-                        console.log(data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-
-
-                client.apis.mathematics.putMathematicsAddAB(
-                    { a: 9, b: 9 },
-                    { responseContentType: 'application/json' },
-                )
-                    .then((data) => {
-                        console.log(data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-
-
-                client.execute({
+            client
+                .execute({
                     operationId: 'add',
                     parameters: { a: 9, b: 9 }
                 })
-                    .then((data) => {
-                        console.log(data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-
-            });
-
-
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
     })
-    .catch((err) => {
-
+    .catch(err => {
         console.error(err);
         process.exit(1);
     });
