@@ -350,6 +350,32 @@ lab.experiment('plugin', () => {
         });
     });
 
+    lab.test('test aribrary vendor extensions (x-*) appears in swagger', async() => {
+        const testRoutes = [{
+            method: 'POST',
+            path: '/test/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        'x-code-samples': {
+                            lang: 'JavaScript',
+                            source: 'console.log("Hello World");'
+                        },
+                        'x-custom-string': 'some string',
+                    },
+                },
+            }
+        }];
+        const server = await Helper.createServer({}, testRoutes);
+        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+        expect(response.result.paths['/test/'].post['x-code-samples']).to.equal({
+            lang: 'JavaScript',
+            source: 'console.log("Hello World");'
+        });
+        expect(response.result.paths['/test/'].post['x-custom-string']).to.equal('some string');
+    });
 
     lab.test('test {disableDropdown: true} in swagger', async() => {
         const testRoutes = [{
