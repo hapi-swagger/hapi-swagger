@@ -34,7 +34,7 @@ The most common API endpoint with HAPI.js is one that POST's a JSON body.
     method: 'POST',
     path: '/items',
     config: {
-        handler: (request, reply) => { reply('OK'); },
+        handler: (request, h) => { return 'OK'; },
         tags: ['api'],
         validate: {
             payload: Joi.object({
@@ -53,7 +53,7 @@ If you wish to have hapi-swagger display a interface to POST data in `form-urlen
     method: 'POST',
     path: '/items',
     config: {
-        handler: (request, reply) => { reply('OK'); },
+        handler: (request, h) => { return 'OK'; },
         tags: ['api'],
         plugins: {
             'hapi-swagger': {
@@ -78,7 +78,7 @@ The plugin will take either a JavaScript or JOI object for `params` `query` and 
     method: 'GET',
     path: '/items/{pageNo}',
     config: {
-        handler: (request, reply) => { reply('OK'); },
+        handler: (request, h) => { return 'OK'; },
         tags: ['api'],
         validate: {
             params: {
@@ -145,7 +145,7 @@ let routes = [{
     method: 'GET',
     path: '/petstore/{id}',
     config: {
-        handler: (request, reply) => { reply({ ok: true }); },
+        handler: (request, h) => { return { ok: true }; },
         description: 'Array properties',
         tags: ['api', 'petstore']
     }
@@ -153,7 +153,7 @@ let routes = [{
     method: 'GET',
     path: '/store/{id}/address',
     config: {
-        handler: (request, reply) => { reply({ ok: true }); },
+        handler: (request, h) => { return { ok: true }; },
         description: 'Array properties',
         tags: ['api', 'petstore']
     }
@@ -309,17 +309,17 @@ config: {
     tags: ['api'],
     notes: ['Adds together two numbers and return the result'],
     plugins: {
-		'hapi-swagger': {
-			responses: {
-        		'200': {
+        'hapi-swagger': {
+            responses: {
+                '200': {
                     'description': 'Success',
                     'schema': Joi.object({
                             equals: Joi.number(),
                         }).label('Result')
                 },
-        		'400': {'description': 'Bad Request'}
-		    }
-		},
+                '400': {'description': 'Bad Request'}
+            }
+        },
     validate: {
         params: {
             a: Joi.number()
