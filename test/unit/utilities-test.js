@@ -237,7 +237,16 @@ lab.experiment('utilities', () => {
         expect(Utilities.replaceInPath('api/users.search', ['groups'], pathReplacements)).to.equal('api/users');
     });
 
+    lab.test('mergeVendorExtensions', () => {
 
+        expect(Utilities.assignVendorExtensions({a: 1, b: 2}, {'x-a': 1, 'x-b': 2, c: 3})).to.equal({a: 1, b: 2, 'x-a': 1, 'x-b': 2});
+        expect(Utilities.assignVendorExtensions({a: 1, b: 2}, null)).to.equal({a: 1, b: 2});
+        expect(Utilities.assignVendorExtensions(null, null)).to.equal(null);
+        expect(Utilities.assignVendorExtensions(null, {'x-a': 1, 'x-b': 2, c: 3})).to.equal(null);
+        expect(Utilities.assignVendorExtensions({a: 1, b: 2}, {'x-a': 1, 'x-b': null, c: 3})).to.equal({a: 1, b: 2, 'x-a': 1, 'x-b': null});
+        expect(Utilities.assignVendorExtensions({a: 1, b: 2, 'x-a':100}, {'x-a': 1, 'x-b': 2, c: 3})).to.equal({a: 1, b: 2, 'x-a': 1, 'x-b': 2});
+        expect(Utilities.assignVendorExtensions({a: 1, b: 2}, {'x-': 1})).to.equal({a: 1, b: 2});
+    });
 
 
 });
