@@ -80,6 +80,40 @@ lab.experiment('proxies', () => {
     });
 
 
+    lab.test('x-forwarded options', async() => {
+
+        const options = {};
+
+        requestOptions.headers = {
+            'x-forwarded-host': 'proxyhost',
+            'x-forwarded-proto': 'https'
+        };
+
+        const server = await Helper.createServer(options, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.host).to.equal(requestOptions.headers['x-forwarded-host']);
+        expect(response.result.schemes).to.equal(['https']);
+
+    });
+
+
+    lab.test('multi-hop x-forwarded options', async() => {
+
+        const options = {};
+
+        requestOptions.headers = {
+            'x-forwarded-host': 'proxyhost,internalproxy',
+            'x-forwarded-proto': 'https,http'
+        };
+
+        const server = await Helper.createServer(options, routes);
+        const response = await server.inject(requestOptions);
+        expect(response.result.host).to.equal('proxyhost');
+        expect(response.result.schemes).to.equal(['https']);
+
+    });
+
+
     lab.test('Azure Web Sites options', async() => {
 
         const options = {};
