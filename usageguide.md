@@ -525,7 +525,7 @@ The all the files in the URLs below are added by the plugin, but you must server
 <script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.slideto.min.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.wiggle.min.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.swaggerUIPath}}lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-<script src='{{hapiSwagger.swaggerUIPath}}lib/handlebars-2.0.0.js' type='text/javascript'></script>
+<script src='{{hapiSwagger.swaggerUIPath}}lib/handlebars-4.1.0.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.swaggerUIPath}}lib/js-yaml.min.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.swaggerUIPath}}lib/lodash.min.js' type='text/javascript'></script>
 <script src='{{hapiSwagger.swaggerUIPath}}lib/backbone-min.js' type='text/javascript'></script>
