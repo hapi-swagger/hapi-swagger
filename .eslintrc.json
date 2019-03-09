@@ -1,31 +1,14 @@
 {
-    "parserOptions": {
-      "ecmaVersion": 8
-    },
-    "rules": {
-        "no-console": 0,
-        "indent": [
-            2,
-            4,
-            { "SwitchCase": 1 }
-        ],
-        "quotes": [
-            2,
-            "single"
-        ],
-        "linebreak-style": [
-            2,
-            "unix"
-        ],
-        "semi": [
-            2,
-            "always"
-        ]
-    },
+    "extends": ["eslint:recommended", "prettier"],
     "env": {
         "node": true,
-        "es6": true,
-        "browser": true
+        "es6": true
     },
-    "extends": "eslint:recommended"
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 8
+    },
+    "rules": {
+        "no-console": 0
+    }
 }
