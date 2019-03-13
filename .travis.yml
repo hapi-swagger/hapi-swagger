@@ -2,5 +2,10 @@ language: node_js
 node_js:
   - "8"
   - "10"
-after_success:
+env:
+  - HAPI=hapi@17
+  - HAPI=hapi@18
+before_script:
+  - npm install --save-dev $HAPI
+after_script:
   - "npm run test-cov-coveralls"
