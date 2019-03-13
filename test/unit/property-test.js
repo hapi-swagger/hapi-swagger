@@ -203,6 +203,16 @@ lab.experiment('property - ', () => {
         clearDown();
         expect(propertiesNoAlt.parseProperty('x', Joi.date(), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
 
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().min('1-1-1974'), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().min('now'), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().min(Joi.ref('y')), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
+
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().max('1-1-1974'), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().max('now'), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().max(Joi.ref('y')), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
+
+        expect(propertiesNoAlt.parseProperty('x', Joi.date().min('1-1-1974').max('now'), null, 'body', true, false)).to.equal({ 'type': 'string', 'format': 'date' });
+
         /*  not yet 'x',
         date.min(date)
         date.max(date)
