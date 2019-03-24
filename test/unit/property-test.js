@@ -83,6 +83,7 @@ lab.experiment('property - ', () => {
         clearDown();
         expect(propertiesNoAlt.parseProperty('x', Joi.string().description('this is bob'), null, 'body', true, false)).to.equal({ 'type': 'string', 'description': 'this is bob' });
         expect(propertiesAlt.parseProperty('x', Joi.string().example('bob'), null, 'body', true, false)).to.equal({ 'type': 'string', 'example': 'bob' });
+        expect(propertiesAlt.parseProperty('x', Joi.allow('').example(''), null, 'body', true, false)).to.equal({ 'type': 'string', 'example': '' });
 
     });
 
