@@ -1,37 +1,26 @@
 # 9.0.0 Usage Guide
 
 ### Content
-- [9.0.0 Usage Guide](#900-usage-guide)
-    - [Content](#content)
-    - [Links](#links)
-- [JSON body](#json-body)
-- [Form body](#form-body)
-- [Params query and headers](#params-query-and-headers)
-- [Naming](#naming)
-- [Grouping endpoints by path or tags](#grouping-endpoints-by-path-or-tags)
-- [Extending group information with tag objects](#extending-group-information-with-tag-objects)
-- [Ordering the endpoints within groups](#ordering-the-endpoints-within-groups)
-- [Rewriting paths and groupings](#rewriting-paths-and-groupings)
-    - [Option 1 `basePath` and `pathPrefixSize`](#option-1-basepath-and-pathprefixsize)
-    - [Option 2 `pathReplacements`](#option-2-pathreplacements)
-- [Response Object](#response-object)
-- [Status Codes](#status-codes)
-- [Caching](#caching)
-- [File upload](#file-upload)
-- [Default values and examples](#default-values-and-examples)
-- [Headers and .unknown()](#headers-and-unknown)
-- [Additional HAPI data using `x-*`](#additional-hapi-data-using-x)
-- [JSON without UI](#json-without-ui)
-- [Simplifying the JSON](#simplifying-the-json)
-- [Debugging](#debugging)
-- [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
-- [Known issues with `jsonEditor`](#known-issues-with-jsoneditor)
-- [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
-    - [Adding the javascript](#adding-the-javascript)
-    - [Adding the HTML elements](#adding-the-html-elements)
-    - [Custom tag-specific documentation](#custom-tag-specific-documentation)
-- [Example code in project](#example-code-in-project)
-- [External example projects](#external-example-projects)
+* [JSON body](#json-body)
+* [Form body](#form-body)
+* [Params query and headers](#params-query-and-headers)
+* [Naming](#naming)
+* [Grouping endpoints by path or tags](#grouping-endpoints-by-path-or-tags)
+* [Extending group information with tag objects](#extending-group-information-with-tag-objects)
+* [Ordering the endpoints within groups](#ordering-the-endpoints-within-groups)
+* [Rewriting paths and groupings](#rewriting-paths-and-groupings)
+* [Response Object](#response-object)
+* [Status Codes](#status-codes)
+* [Caching](#caching)
+* [File upload](#file-upload)
+* [Headers and .unknown()](#headers-and-unknown)
+* [Additional HAPI data using x-*](#additional-hapi-data-using-x-)
+* [JSON without UI](#json-without-ui)
+* [Simplifying the JSON](#simplifying-the-json)
+* [Debugging](#debugging)
+* [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
+* [Known issues with `jsonEditor`](#known-issues-with-jsoneditor)
+* [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
 
 ### Links
 * [Example code in project](#example-code-in-project)
@@ -389,7 +378,6 @@ config: {
     }
 }
 ```
-
 
 # Caching
 It can take some time to create the `swagger.json` data if your server has many complex routes. So `hapi-swagger`
