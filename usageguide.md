@@ -319,7 +319,7 @@ config: {
                 description : 'Bad Request'
             }
         }
-    }
+    },
     validate: {
         params: {
             a: Joi.number()
