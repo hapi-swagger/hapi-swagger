@@ -1,26 +1,37 @@
 # 9.0.0 Usage Guide
 
 ### Content
-* [JSON body](#json-body)
-* [Form body](#form-body)
-* [Params query and headers](#params-query-and-headers)
-* [Naming](#naming)
-* [Grouping endpoints by path or tags](#grouping-endpoints-by-path-or-tags)
-* [Extending group information with tag objects](#extending-group-information-with-tag-objects)
-* [Ordering the endpoints within groups](#ordering-the-endpoints-within-groups)
-* [Rewriting paths and groupings](#rewriting-paths-and-groupings)
-* [Response Object](#response-object)
-* [Status Codes](#status-codes)
-* [Caching](#caching)
-* [File upload](#file-upload)
-* [Headers and .unknown()](#headers-and-unknown)
-* [Additional HAPI data using x-*](#additional-hapi-data-using-x-)
-* [JSON without UI](#json-without-ui)
-* [Simplifying the JSON](#simplifying-the-json)
-* [Debugging](#debugging)
-* [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
-* [Known issues with `jsonEditor`](#known-issues-with-jsoneditor)
-* [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
+- [9.0.0 Usage Guide](#900-usage-guide)
+    - [Content](#content)
+    - [Links](#links)
+- [JSON body](#json-body)
+- [Form body](#form-body)
+- [Params query and headers](#params-query-and-headers)
+- [Naming](#naming)
+- [Grouping endpoints by path or tags](#grouping-endpoints-by-path-or-tags)
+- [Extending group information with tag objects](#extending-group-information-with-tag-objects)
+- [Ordering the endpoints within groups](#ordering-the-endpoints-within-groups)
+- [Rewriting paths and groupings](#rewriting-paths-and-groupings)
+    - [Option 1 `basePath` and `pathPrefixSize`](#option-1-basepath-and-pathprefixsize)
+    - [Option 2 `pathReplacements`](#option-2-pathreplacements)
+- [Response Object](#response-object)
+- [Status Codes](#status-codes)
+- [Caching](#caching)
+- [File upload](#file-upload)
+- [Default values and examples](#default-values-and-examples)
+- [Headers and .unknown()](#headers-and-unknown)
+- [Additional HAPI data using `x-*`](#additional-hapi-data-using-x)
+- [JSON without UI](#json-without-ui)
+- [Simplifying the JSON](#simplifying-the-json)
+- [Debugging](#debugging)
+- [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
+- [Known issues with `jsonEditor`](#known-issues-with-jsoneditor)
+- [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
+    - [Adding the javascript](#adding-the-javascript)
+    - [Adding the HTML elements](#adding-the-html-elements)
+    - [Custom tag-specific documentation](#custom-tag-specific-documentation)
+- [Example code in project](#example-code-in-project)
+- [External example projects](#external-example-projects)
 
 ### Links
 * [Example code in project](#example-code-in-project)
@@ -298,9 +309,51 @@ A working demo of more complex uses of response object can be found in the [be-m
 
 
 # Status Codes
-You can add HTTP status codes to each of the endpoints. As HAPI routes does not have a property for response status codes
-it is added as a plugin configuration. The status codes need to be added as an array of objects with an error
-code and description. The `description` is required.  The schema is optional, and unlike the example above, the schema object does not validate the API response.
+You can add HTTP status codes to each of the endpoints. 
+As of Hapi.js v18.1.0, one can use Hapi's `response.status` option in order to document the schemas of the response objects. Hapi uses the `response.status` for its validation with Joi.
+
+```Javascript
+config: {
+    handler: handlers.add,
+    description: 'Add',
+    tags: ['api'],
+    notes: ['Adds together two numbers and return the result'],
+    response: {
+        status: {
+            200: {
+                description: 'Success',
+                schema: Joi.object({
+                        equals: Joi.number(),
+                    }).label('Result')
+            },
+            400: {
+                description : 'Bad Request'
+            }
+        }
+    }
+    validate: {
+        params: {
+            a: Joi.number()
+                .required()
+                .description('the first number'),
+
+            b: Joi.number()
+                .required()
+                .description('the second number')
+        }
+    }
+}
+```
+
+Note: The `Reason` box in Swagger-UI for the response will take the value of the default description of its' corresponding status code.
+For example:
+- 200 -> `Successful`
+- 404 -> `Not Found`
+
+Basically, Swagger requires a `description` for each response, and by taking the default description we can overcome this requirement.
+
+However, if one wishes to provide a custom `description`, then hapi-swagger offers the `plugins.hapi-swager.responses` option in which response objects specify a `description` key which allows this.
+With this option, the `description` is required, the `schema` is optional, and unlike `response.status`  option above, the schema object does not validate the API response.
 
 ```Javascript
 config: {
@@ -311,15 +364,18 @@ config: {
     plugins: {
         'hapi-swagger': {
             responses: {
-                '200': {
-                    'description': 'Success',
-                    'schema': Joi.object({
+                200: {
+                    description: 'Success',
+                    schema: Joi.object({
                             equals: Joi.number(),
                         }).label('Result')
                 },
-                '400': {'description': 'Bad Request'}
+                400: {
+                    description: 'Bad Request'
+                }
             }
-        },
+        }
+    },
     validate: {
         params: {
             a: Joi.number()
