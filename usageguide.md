@@ -337,12 +337,17 @@ config: {
 Note: The `Reason` box in Swagger-UI for the response will take the value of the default description of its' corresponding status code.
 For example:
 - 200 -> `Successful`
+- 400 -> `Bad Request`
 - 404 -> `Not Found`
 
 Basically, Swagger requires a `description` for each response, and by taking the default description we can overcome this requirement.
 
 However, if one wishes to provide a custom `description`, then hapi-swagger offers the `plugins.hapi-swager.responses` option in which response objects specify a `description` key which allows this.
 With this option, the `description` is required, the `schema` is optional, and unlike `response.status`  option above, the schema object does not validate the API response.
+
+In the following example, the `Reason` box in Swagger-UI will show the following descriptions:
+- 200 -> `Smooth sail`
+- 400 -> `Something wrong happened`
 
 ```Javascript
 config: {
@@ -354,13 +359,13 @@ config: {
         'hapi-swagger': {
             responses: {
                 200: {
-                    description: 'Success',
+                    description: 'Smooth sail',
                     schema: Joi.object({
                             equals: Joi.number(),
                         }).label('Result')
                 },
                 400: {
-                    description: 'Bad Request'
+                    description: 'Something wrong happened'
                 }
             }
         }
