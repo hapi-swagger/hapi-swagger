@@ -309,15 +309,10 @@ config: {
     notes: ['Adds together two numbers and return the result'],
     response: {
         status: {
-            200: {
-                description: 'Success',
-                schema: Joi.object({
-                        equals: Joi.number(),
-                    }).label('Result')
-            },
-            400: {
-                description : 'Bad Request'
-            }
+            200: Joi.object({
+                equals: Joi.number()
+            }).label('Result'),
+            400: Joi.any()
         }
     },
     validate: {
@@ -361,8 +356,8 @@ config: {
                 200: {
                     description: 'Smooth sail',
                     schema: Joi.object({
-                            equals: Joi.number(),
-                        }).label('Result')
+                        equals: Joi.number()
+                    }).label('Result')
                 },
                 400: {
                     description: 'Something wrong happened'
