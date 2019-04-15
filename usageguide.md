@@ -298,9 +298,8 @@ A working demo of more complex uses of response object can be found in the [be-m
 
 
 # Status Codes
-You can add HTTP status codes to each of the endpoints. As HAPI routes does not have a property for response status codes
-it is added as a plugin configuration. The status codes need to be added as an array of objects with an error
-code and description. The `description` is required.  The schema is optional, and unlike the example above, the schema object does not validate the API response.
+You can add HTTP status codes to each of the endpoints. 
+As of Hapi.js v18.1.0, one can use Hapi's `response.status` option in order to document the schemas of the response objects. Hapi uses the `response.status` for its validation with Joi.
 
 ```Javascript
 config: {
@@ -308,18 +307,19 @@ config: {
     description: 'Add',
     tags: ['api'],
     notes: ['Adds together two numbers and return the result'],
-    plugins: {
-        'hapi-swagger': {
-            responses: {
-                '200': {
-                    'description': 'Success',
-                    'schema': Joi.object({
-                            equals: Joi.number(),
-                        }).label('Result')
-                },
-                '400': {'description': 'Bad Request'}
+    response: {
+        status: {
+            200: {
+                description: 'Success',
+                schema: Joi.object({
+                        equals: Joi.number(),
+                    }).label('Result')
+            },
+            400: {
+                description : 'Bad Request'
             }
-        },
+        }
+    },
     validate: {
         params: {
             a: Joi.number()
@@ -334,6 +334,55 @@ config: {
 }
 ```
 
+Note: The `Reason` box in Swagger-UI for the response will take the value of the default description of its' corresponding status code.
+For example:
+- 200 -> `Successful`
+- 400 -> `Bad Request`
+- 404 -> `Not Found`
+
+Basically, Swagger requires a `description` for each response, and by taking the default description we can overcome this requirement.
+
+However, if one wishes to provide a custom `description`, then hapi-swagger offers the `plugins.hapi-swager.responses` option in which response objects specify a `description` key which allows this.
+With this option, the `description` is required, the `schema` is optional, and unlike `response.status`  option above, the schema object does not validate the API response.
+
+In the following example, the `Reason` box in Swagger-UI will show the following descriptions:
+- 200 -> `Smooth sail`
+- 400 -> `Something wrong happened`
+
+```Javascript
+config: {
+    handler: handlers.add,
+    description: 'Add',
+    tags: ['api'],
+    notes: ['Adds together two numbers and return the result'],
+    plugins: {
+        'hapi-swagger': {
+            responses: {
+                200: {
+                    description: 'Smooth sail',
+                    schema: Joi.object({
+                            equals: Joi.number(),
+                        }).label('Result')
+                },
+                400: {
+                    description: 'Something wrong happened'
+                }
+            }
+        }
+    },
+    validate: {
+        params: {
+            a: Joi.number()
+                .required()
+                .description('the first number'),
+
+            b: Joi.number()
+                .required()
+                .description('the second number')
+        }
+    }
+}
+```
 
 # Caching
 It can take some time to create the `swagger.json` data if your server has many complex routes. So `hapi-swagger`
