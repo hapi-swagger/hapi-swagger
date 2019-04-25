@@ -2,10 +2,10 @@
 
 // This only works at moment if you have a base JOI type like number.
 
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const Blipp = require('blipp');
-const Inert = require('inert');
-const Vision = require('vision');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
 const HapiSwagger = require('../');
 const ExtendedJoi = require('./assets/extendedjoi.js');
 
@@ -17,7 +17,7 @@ const goodOptions = {
     reporters: {
         console: [
             {
-                module: 'good-squeeze',
+                module: '@hapi/good-squeeze',
                 name: 'Squeeze',
                 args: [
                     {

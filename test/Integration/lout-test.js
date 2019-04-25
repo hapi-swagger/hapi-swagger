@@ -1,6 +1,6 @@
-const Code = require('code');
-const Joi = require('joi');
-const Lab = require('lab');
+const Code = require('@hapi/code');
+const Joi = require('@hapi/joi');
+const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
 
 const expect = Code.expect;
@@ -14,7 +14,7 @@ lab.experiment('lout examples', () => {
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
-        * Redistributions of source code must retain the above copyright
+        * Redistributions of source '@hapi/code' must retain the above copyright
         notice, this list of conditions and the following disclaimer.
         * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
@@ -42,7 +42,9 @@ lab.experiment('lout examples', () => {
                 handler: Helper.defaultHandler,
                 validate: {
                     query: {
-                        param1: Joi.string().insensitive().required()
+                        param1: Joi.string()
+                            .insensitive()
+                            .required()
                     }
                 },
                 tags: ['api'],
@@ -179,11 +181,7 @@ lab.experiment('lout examples', () => {
                 handler: Helper.defaultHandler,
                 validate: {
                     query: Joi.array()
-                        .items(
-                            Joi.string().required(),
-                            Joi.object({ param1: Joi.number() }),
-                            Joi.number().forbidden()
-                        )
+                        .items(Joi.string().required(), Joi.object({ param1: Joi.number() }), Joi.number().forbidden())
                         .min(2)
                         .max(5)
                         .length(3)
@@ -201,7 +199,9 @@ lab.experiment('lout examples', () => {
                         .ordered('foo', 'bar')
                         .items(
                             Joi.string().required(),
-                            Joi.string().valid('four').forbidden(),
+                            Joi.string()
+                                .valid('four')
+                                .forbidden(),
                             Joi.object({ param1: Joi.number() }),
                             Joi.number().forbidden()
                         )
@@ -247,10 +247,7 @@ lab.experiment('lout examples', () => {
                 handler: Helper.defaultHandler,
                 validate: {
                     query: {
-                        param1: Joi.alternatives().try(
-                            Joi.number().required(),
-                            Joi.string().valid('first', 'last')
-                        )
+                        param1: Joi.alternatives().try(Joi.number().required(), Joi.string().valid('first', 'last'))
                     }
                 }
             }
@@ -283,8 +280,12 @@ lab.experiment('lout examples', () => {
                                             }).description('this is cool too')
                                         },
                                         Joi.array().items('foo', 'bar'),
-                                        Joi.number().min(42).required(),
-                                        Joi.number().max(42).required()
+                                        Joi.number()
+                                            .min(42)
+                                            .required(),
+                                        Joi.number()
+                                            .max(42)
+                                            .required()
                                     )
                                 }).description('all the way down')
                             )
@@ -381,9 +382,7 @@ lab.experiment('lout examples', () => {
                 handler: Helper.defaultHandler,
                 validate: {
                     query: {
-                        param1: Joi.string().notes(
-                            '<span class="htmltypenote">HTML type note</span>'
-                        )
+                        param1: Joi.string().notes('<span class="htmltypenote">HTML type note</span>')
                     }
                 },
                 notes: '<span class="htmlroutenote">HTML route note</span>'
@@ -413,7 +412,9 @@ lab.experiment('lout examples', () => {
                 handler: Helper.defaultHandler,
                 validate: {
                     query: {
-                        param1: Joi.string().regex(/^\w{1,5}$/).example('abcde')
+                        param1: Joi.string()
+                            .regex(/^\w{1,5}$/)
+                            .example('abcde')
                     }
                 }
             }
@@ -530,7 +531,9 @@ lab.experiment('lout examples', () => {
                 handler: Helper.defaultHandler,
                 validate: {
                     query: {
-                        param1: Joi.date().min('1-1-1974').max('12-31-2020')
+                        param1: Joi.date()
+                            .min('1-1-1974')
+                            .max('12-31-2020')
                     }
                 }
             }
@@ -662,16 +665,8 @@ lab.experiment('lout examples', () => {
                 handler: Helper.defaultHandler,
                 validate: {
                     query: {
-                        param1: Joi.object().assert(
-                            'd.e',
-                            Joi.ref('a.c'),
-                            'equal to a.c'
-                        ),
-                        param2: Joi.object().assert(
-                            '$x',
-                            Joi.ref('b.e'),
-                            'equal to b.e'
-                        )
+                        param1: Joi.object().assert('d.e', Joi.ref('a.c'), 'equal to a.c'),
+                        param2: Joi.object().assert('$x', Joi.ref('b.e'), 'equal to b.e')
                     }
                 }
             }
@@ -743,13 +738,11 @@ lab.experiment('lout examples', () => {
         }
     ];
 
-    lab.test('all routes parsed', async() => {
-
+    lab.test('all routes parsed', async () => {
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ method: 'GET', url: '/swagger.json' });
         expect(response.statusCode).to.equal(200);
         // the 40 to 45 difference is in one route having a number of methods
         expect(response.result.paths).to.have.length(40);
-
     });
 });

@@ -1,10 +1,10 @@
 // `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
 
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const jwt = require('jsonwebtoken');
 const Blipp = require('blipp');
-const Inert = require('inert');
-const Vision = require('vision');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
 
 const HapiSwagger = require('../');
 

@@ -1,19 +1,17 @@
-const Code = require('code');
-const Hapi = require('hapi');
-const Inert = require('inert');
-const Lab = require('lab');
-const Vision = require('vision');
+const Code = require('@hapi/code');
+const Hapi = require('@hapi/hapi');
+const Inert = require('@hapi/inert');
+const Lab = require('@hapi/lab');
+const Vision = require('@hapi/vision');
 const HapiSwagger = require('../../lib/index.js');
 const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
-const lab = exports.lab = Lab.script();
-
+const lab = (exports.lab = Lab.script());
 
 const testPlugin = {
     name: 'grouping1',
-    register: (server) => {
-
+    register: server => {
         server.route({
             method: 'GET',
             path: '/grouping1',
@@ -26,29 +24,25 @@ const testPlugin = {
     }
 };
 
-
 let swaggerOptions = {
     schemes: ['http'],
     info: {
-        'title': 'Test API Documentation',
-        'description': 'This is a sample example of API documentation.',
-        'version': '1.0.0',
-        'termsOfService': 'https://github.com/glennjones/hapi-swagger/',
-        'contact': {
-            'email': 'glennjonesnet@gmail.com'
+        title: 'Test API Documentation',
+        description: 'This is a sample example of API documentation.',
+        version: '1.0.0',
+        termsOfService: 'https://github.com/glennjones/hapi-swagger/',
+        contact: {
+            email: 'glennjonesnet@gmail.com'
         },
-        'license': {
-            'name': 'MIT',
-            'url': 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
+        license: {
+            name: 'MIT',
+            url: 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
         }
     }
 };
 
-
 lab.experiment('default grouping', () => {
-
-    lab.test('group by path', async() => {
-
+    lab.test('group by path', async () => {
         const server = await new Hapi.Server({});
         await server.register([
             Inert,
@@ -66,32 +60,26 @@ lab.experiment('default grouping', () => {
         const response = await server.inject({ method: 'GET', url: '/swagger.json' });
         expect(response.statusCode).to.equal(200);
         expect(response.result.paths['/grouping1']).to.equal({
-
-            'get': {
-                'tags': [
-                    'grouping1'
-                ],
-                'responses': {
-                    'default': {
-                        'schema': {
-                            'type': 'string'
+            get: {
+                tags: ['grouping1'],
+                responses: {
+                    default: {
+                        schema: {
+                            type: 'string'
                         },
-                        'description': 'Successful'
+                        description: 'Successful'
                     }
                 },
-                'operationId': 'getGrouping1',
-                'summary': 'plugin1'
+                operationId: 'getGrouping1',
+                summary: 'plugin1'
             }
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.experiment('tag grouping', async() => {
-
-        lab.test('group by tags', async() => {
-
+    lab.experiment('tag grouping', async () => {
+        lab.test('group by tags', async () => {
             const server = await new Hapi.Server({});
             swaggerOptions.grouping = 'tags';
             await server.register([
@@ -107,38 +95,30 @@ lab.experiment('default grouping', () => {
             const response = await server.inject({ method: 'GET', url: '/swagger.json' });
             expect(response.statusCode).to.equal(200);
             expect(response.result.paths['/grouping1']).to.equal({
-
-                'get': {
-                    'tags': [
-                        'hello group',
-                        'another group'
-                    ],
-                    'responses': {
-                        'default': {
-                            'schema': {
-                                'type': 'string'
+                get: {
+                    tags: ['hello group', 'another group'],
+                    responses: {
+                        default: {
+                            schema: {
+                                type: 'string'
                             },
-                            'description': 'Successful'
+                            description: 'Successful'
                         }
                     },
-                    'operationId': 'getGrouping1',
-                    'summary': 'plugin1'
+                    operationId: 'getGrouping1',
+                    summary: 'plugin1'
                 }
             });
             const isValid = await Validate.test(response.result);
             expect(isValid).to.be.true();
         });
-
     });
 
-
     lab.experiment('tag grouping with tagsGroupingFilter', () => {
-
-        lab.test('group by filtered tags', async() => {
-
+        lab.test('group by filtered tags', async () => {
             const server = await new Hapi.Server({});
             swaggerOptions.grouping = 'tags';
-            swaggerOptions.tagsGroupingFilter = (tag) => tag === 'hello group';
+            swaggerOptions.tagsGroupingFilter = tag => tag === 'hello group';
 
             await server.register([
                 Inert,
@@ -146,7 +126,7 @@ lab.experiment('default grouping', () => {
                 testPlugin,
                 {
                     plugin: HapiSwagger,
-                    options: swaggerOptions,
+                    options: swaggerOptions
                 }
             ]);
 
@@ -155,21 +135,18 @@ lab.experiment('default grouping', () => {
 
             expect(response.statusCode).to.equal(200);
             expect(response.result.paths['/grouping1']).to.equal({
-
-                'get': {
-                    'tags': [
-                        'hello group'
-                    ],
-                    'responses': {
-                        'default': {
-                            'schema': {
-                                'type': 'string'
+                get: {
+                    tags: ['hello group'],
+                    responses: {
+                        default: {
+                            schema: {
+                                type: 'string'
                             },
-                            'description': 'Successful'
+                            description: 'Successful'
                         }
                     },
-                    'operationId': 'getGrouping1',
-                    'summary': 'plugin1'
+                    operationId: 'getGrouping1',
+                    summary: 'plugin1'
                 }
             });
             const isValid = await Validate.test(response.result);

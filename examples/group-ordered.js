@@ -1,8 +1,8 @@
 // `group.js` - how to use tag based grouping
 const Blipp = require('blipp');
-const Hapi = require('hapi');
-const Inert = require('inert');
-const Vision = require('vision');
+const Hapi = require('@hapi/hapi');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
@@ -115,7 +115,7 @@ const goodOptions = {
     reporters: {
         console: [
             {
-                module: 'good-squeeze',
+                module: '@hapi/good-squeeze',
                 name: 'Squeeze',
                 args: [
                     {

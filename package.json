@@ -1,13 +1,18 @@
 {
     "name": "hapi-swagger",
     "description": "A swagger documentation UI generator plugin for hapi",
-    "version": "9.2.0",
+    "version": "10.0.0-alpha.0",
     "author": "Glenn Jones",
     "repository": {
         "type": "git",
         "url": "git://github.com/glennjones/hapi-swagger.git"
     },
     "main": "index.js",
+    "files": [
+        "lib",
+        "public",
+        "index.js"
+    ],
     "keywords": [
         "api",
         "docs",
@@ -20,41 +25,42 @@
         "node": ">=8.0.0"
     },
     "dependencies": {
-        "boom": "^7.1.1",
+        "@hapi/boom": "^7.1.1",
+        "@hapi/hoek": "^6.1.2",
         "handlebars": "^4.0.11",
-        "hoek": "^6.1.2",
         "http-status": "^1.0.1",
-        "joi": "^13.1.2",
-        "json-schema-ref-parser": "^4.1.0",
-        "swagger-parser": "4.0.2"
+        "@hapi/joi": "^14.0.0",
+        "json-schema-ref-parser": "^6.1.0",
+        "swagger-parser": "^6.0.5"
     },
     "devDependencies": {
-        "blipp": "^3.0.0",
+        "@hapi/basic": "^5.0.0",
+        "@hapi/code": "^5.2.0",
+        "@hapi/good": "^8.0.1",
+        "@hapi/good-console": "^8.0.0",
+        "@hapi/h2o2": "^8.1.2",
+        "@hapi/hapi": "^18.3.1",
+        "@hapi/inert": "^5.1.0",
+        "@hapi/lab": "^18.0.0",
+        "@hapi/vision": "^5.3.1",
+        "@hapi/wreck": "^15.0.0",
+        "babel-eslint": "^10.0.1",
+        "blipp": "^4.0.0",
         "chalk": "^2.3.1",
-        "code": "^5.2.0",
         "coveralls": "^3.0.2",
-        "eslint": "^5.10.0",
-        "eslint-config-prettier": "^3.3.0",
-        "eslint-plugin-prettier": "^3.0.0",
-        "good": "^8.0.1",
-        "good-console": "^7.0.1",
+        "eslint": "^5.15.1",
+        "eslint-config-prettier": "^4.1.0",
         "good-squeeze": "^5.0.2",
-        "h2o2": "^8.1.2",
-        "hapi": "^17.8.1",
+        "hapi": "^18.0.0",
         "hapi-api-version": "^2.1.0",
-        "hapi-auth-basic": "^5.0.0",
-        "hapi-auth-bearer-token": "^6.0.1",
+        "hapi-auth-bearer-token": "^6.1.1",
         "hapi-auth-jwt2": "^8.0.0",
-        "husky": "^1.2.1",
-        "inert": "^5.1.0",
-        "js2xmlparser": "^3.0.0",
+        "husky": "^2.1.0",
+        "js2xmlparser": "^4.0.0",
         "jsonwebtoken": "^8.1.1",
-        "lab": "^16.1.0",
         "lint-staged": "^8.1.0",
-        "prettier": "^1.15.3",
-        "swagger-client": "^3.4.11",
-        "vision": "^5.3.1",
-        "wreck": "^14.0.2"
+        "prettier": "^1.16.4",
+        "swagger-client": "^3.8.25"
     },
     "scripts": {
         "start": "node ./bin/test-server.js",
@@ -67,7 +73,7 @@
         "prettier": "prettier --write '{lib,examples,text}/**/*.js'"
     },
     "peerDependencies": {
-        "hapi": "^17.0.0"
+        "@hapi/hapi": "^18.0.0"
     },
     "lint-staged": {
         "*.{js}": [
@@ -82,7 +88,8 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged"
+            "pre-commit": "lint-staged",
+            "pre-push": "npm test"
         }
     },
     "prettier": {

@@ -1,10 +1,10 @@
 const BearerToken = require('hapi-auth-bearer-token');
-const H2o2 = require('h2o2');
-const Hapi = require('hapi');
-const Boom = require('boom');
-const Inert = require('inert');
-const Vision = require('vision');
-const Wreck = require('wreck');
+const H2o2 = require('@hapi/h2o2');
+const Hapi = require('@hapi/hapi');
+const Boom = require('@hapi/boom');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
+const Wreck = require('@hapi/wreck');
 const HapiSwagger = require('../lib/index.js');
 
 const helper = (module.exports = {});

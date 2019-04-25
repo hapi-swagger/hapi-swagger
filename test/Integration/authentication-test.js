@@ -1,11 +1,11 @@
-const Code = require('code');
-const Joi = require('joi');
-const Lab = require('lab');
+const Code = require('@hapi/code');
+const Joi = require('@hapi/joi');
+const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
 const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
-const lab = exports.lab = Lab.script();
+const lab = (exports.lab = Lab.script());
 
 lab.experiment('default `auth` settings', () => {
     const routes = [
@@ -18,7 +18,8 @@ lab.experiment('default `auth` settings', () => {
                     return { text: 'Token not required' };
                 }
             }
-        }, {
+        },
+        {
             method: 'GET',
             path: '/restricted',
             options: {
@@ -26,20 +27,20 @@ lab.experiment('default `auth` settings', () => {
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
-                        security: [{ 'jwt': [] }]
+                        security: [{ jwt: [] }]
                     }
                 },
-                handler: function (request, h) {
-                    h.response({ text: `You used a Token! ${request.auth.credentials.name}`})
-                        .header('Authorization', request.headers.authorization);
+                handler: function(request, h) {
+                    h.response({ text: `You used a Token! ${request.auth.credentials.name}` }).header(
+                        'Authorization',
+                        request.headers.authorization
+                    );
                 }
             }
         }
     ];
 
-
-    lab.test('get documentation page should not be restricted', async() => {
-
+    lab.test('get documentation page should not be restricted', async () => {
         const requestOptions = {
             method: 'GET',
             url: '/documentation'
@@ -50,9 +51,7 @@ lab.experiment('default `auth` settings', () => {
         expect(response.statusCode).to.equal(200);
     });
 
-
-    lab.test('get documentation page should be restricted 401', async() => {
-
+    lab.test('get documentation page should be restricted 401', async () => {
         const requestOptions = {
             method: 'GET',
             url: '/documentation'
@@ -62,14 +61,9 @@ lab.experiment('default `auth` settings', () => {
         const response = await server.inject(requestOptions);
         expect(response.statusCode).to.equal(401);
     });
-
-
 });
 
-
-
 lab.experiment('authentication', () => {
-
     // route using bearer token auth
     const routes = {
         method: 'POST',
@@ -99,9 +93,7 @@ lab.experiment('authentication', () => {
         }
     };
 
-
-    lab.test('get plug-in interface with bearer token', async() => {
-
+    lab.test('get plug-in interface with bearer token', async () => {
         const requestOptions = {
             method: 'GET',
             url: '/swagger.json',
@@ -116,12 +108,9 @@ lab.experiment('authentication', () => {
         expect(response.statusCode).to.equal(200);
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-
-    lab.test('get plug-in interface without bearer token', async() => {
-
+    lab.test('get plug-in interface without bearer token', async () => {
         const requestOptions = {
             method: 'GET',
             url: '/swagger.json'
@@ -133,12 +122,9 @@ lab.experiment('authentication', () => {
         expect(response.statusCode).to.equal(200);
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-
-    lab.test('get API interface with bearer token', async() => {
-
+    lab.test('get API interface with bearer token', async () => {
         const requestOptions = {
             method: 'POST',
             url: '/bookmarks/',
@@ -153,12 +139,9 @@ lab.experiment('authentication', () => {
         const server = await Helper.createAuthServer({}, routes);
         const response = await server.inject(requestOptions);
         expect(response.statusCode).to.equal(200);
-
     });
 
-
-    lab.test('get API interface with incorrect bearer token', async() => {
-
+    lab.test('get API interface with incorrect bearer token', async () => {
         const requestOptions = {
             method: 'POST',
             url: '/bookmarks/',
@@ -173,8 +156,5 @@ lab.experiment('authentication', () => {
         const server = await Helper.createAuthServer({}, routes);
         const response = await server.inject(requestOptions);
         expect(response.statusCode).to.equal(401);
-
     });
-
-
 });

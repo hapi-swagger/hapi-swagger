@@ -7,11 +7,11 @@ console.log(
 // This file also shows the use of `pathReplacements` to remove all version numbers in paths
 // The routes are versioned ie '/api/v1/users' and '/api/v2/users'
 
-const Hapi = require('hapi');
-const Joi = require('joi');
+const Hapi = require('@hapi/hapi');
+const Joi = require('@hapi/joi');
 const Blipp = require('blipp');
-const Inert = require('inert');
-const Vision = require('vision');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
 const HapiApiVersion = require('hapi-api-version');
 const HapiSwagger = require('../');
 
@@ -35,7 +35,7 @@ const goodOptions = {
     reporters: {
         console: [
             {
-                module: 'good-squeeze',
+                module: '@hapi/good-squeeze',
                 name: 'Squeeze',
                 args: [
                     {

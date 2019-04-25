@@ -1,6 +1,6 @@
-const Code = require('code');
-const Joi = require('joi');
-const Lab = require('lab');
+const Code = require('@hapi/code');
+const Joi = require('@hapi/joi');
+const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
 const Defaults = require('../../lib/defaults.js');
 const Responses = require('../../lib/responses.js');
@@ -17,8 +17,7 @@ lab.experiment('responses', () => {
             type: 'integer'
         },
         'X-Rate-Limit-Remaining': {
-            description:
-                'The number of remaining requests in the current period',
+            description: 'The number of remaining requests in the current period',
             type: 'integer'
         },
         'X-Rate-Limit-Reset': {
@@ -50,14 +49,22 @@ lab.experiment('responses', () => {
         .meta({ headers: headers, examples: examples });
 
     const joiSumModel = Joi.object({
-        id: Joi.string().required().example('x78P9c'),
-        a: Joi.number().required().example(5),
-        b: Joi.number().required().example(5),
+        id: Joi.string()
+            .required()
+            .example('x78P9c'),
+        a: Joi.number()
+            .required()
+            .example(5),
+        b: Joi.number()
+            .required()
+            .example(5),
         operator: Joi.string()
             .required()
             .description('either +, -, /, or *')
             .example('+'),
-        equals: Joi.number().required().example(10),
+        equals: Joi.number()
+            .required()
+            .example(10),
         created: Joi.string()
             .required()
             .isoDate()
@@ -99,7 +106,7 @@ lab.experiment('responses', () => {
         }
     };
 
-    lab.test('using hapi response.schema', async() => {
+    lab.test('using hapi response.schema', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -124,49 +131,40 @@ lab.experiment('responses', () => {
 
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ url: '/swagger.json' });
-        expect(
-            response.result.paths['/store/'].post.responses
-        ).to.exist();
+        expect(response.result.paths['/store/'].post.responses).to.exist();
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test(
-        'conditional variables produce `required = true`, not `required = [...]`',
-        async() => {
-            const routes = {
-                method: 'POST',
-                path: '/store/',
-                config: {
-                    handler: Helper.defaultHandler,
-                    tags: ['api'],
-                    validate: {
-                        query: {
-                            nonce: Joi.string().when('response_type', {
-                                is: /^id_token( token)?$/,
-                                then: Joi.required()
-                            }),
-                            response_type: Joi.string()
-                                .allow('code', 'id_token token', 'id_token')
-                                .required()
-                        }
+    lab.test('conditional variables produce `required = true`, not `required = [...]`', async () => {
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            config: {
+                handler: Helper.defaultHandler,
+                tags: ['api'],
+                validate: {
+                    query: {
+                        nonce: Joi.string().when('response_type', {
+                            is: /^id_token( token)?$/,
+                            then: Joi.required()
+                        }),
+                        response_type: Joi.string()
+                            .allow('@hapi/code', 'id_token token', 'id_token')
+                            .required()
                     }
                 }
-            };
+            }
+        };
 
-            const server = await Helper.createServer({}, routes);
-            const response = await server.inject({ url: '/swagger.json' });
-            expect(
-                response.result.paths['/store/'].post.parameters[0]
-                    .required
-            ).to.equal(true);
-            const isValid = await Validate.test(response.result);
-            expect(isValid).to.be.true();
-        }
-    );
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ url: '/swagger.json' });
+        expect(response.result.paths['/store/'].post.parameters[0].required).to.equal(true);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+    });
 
-    lab.test('using hapi response.schema with child objects', async() => {
+    lab.test('using hapi response.schema with child objects', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -195,10 +193,9 @@ lab.experiment('responses', () => {
         expect(response.result.definitions.Sum).to.exist();
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using hapi response.status', async() => {
+    lab.test('using hapi response.status', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -226,26 +223,15 @@ lab.experiment('responses', () => {
 
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ url: '/swagger.json' });
-        expect(
-            response.result.paths['/store/'].post.responses[200]
-        ).to.exist();
-        expect(
-            response.result.paths['/store/'].post.responses[400]
-                .description
-        ).to.equal('Bad Request');
-        expect(
-            response.result.paths['/store/'].post.responses[400].headers
-        ).to.equal(headers);
-        expect(
-            response.result.paths['/store/'].post.responses[400]
-                .examples
-        ).to.equal(examples);
+        expect(response.result.paths['/store/'].post.responses[200]).to.exist();
+        expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
+        expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
+        expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using hapi response.status without 200', async() => {
+    lab.test('using hapi response.status without 200', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -272,26 +258,15 @@ lab.experiment('responses', () => {
 
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ url: '/swagger.json' });
-        expect(
-            response.result.paths['/store/'].post.responses[200]
-        ).to.equal(undefined);
-        expect(
-            response.result.paths['/store/'].post.responses[400]
-                .description
-        ).to.equal('Bad Request');
-        expect(
-            response.result.paths['/store/'].post.responses[400].headers
-        ).to.equal(headers);
-        expect(
-            response.result.paths['/store/'].post.responses[400]
-                .examples
-        ).to.equal(examples);
+        expect(response.result.paths['/store/'].post.responses[200]).to.equal(undefined);
+        expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
+        expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
+        expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using route base plugin override - object', async() => {
+    lab.test('using route base plugin override - object', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -315,22 +290,14 @@ lab.experiment('responses', () => {
 
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ url: '/swagger.json' });
-        expect(
-            response.result.paths['/store/'].post.responses[200].schema
-        ).to.exist();
-        expect(
-            response.result.paths['/store/'].post.responses[400]
-                .description
-        ).to.equal('Bad Request');
-        expect(
-            response.result.paths['/store/'].post.responses[400].headers
-        ).to.equal(headers);
+        expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
+        expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
+        expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using route merging response and plugin override', async() => {
+    lab.test('using route merging response and plugin override', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -357,61 +324,43 @@ lab.experiment('responses', () => {
 
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ url: '/swagger.json' });
-        expect(
-            response.result.paths['/store/'].post.responses[200].schema
-        ).to.exist();
-        expect(
-            response.result.paths['/store/'].post.responses[200]
-                .description
-        ).to.equal('Success its a 200');
-        expect(
-            response.result.paths['/store/'].post.responses[200][
-                'x-meta'
-            ]
-        ).to.equal('x-meta test data');
-        expect(
-            response.result.paths['/store/'].post.responses[200].schema
-        ).to.equal({
+        expect(response.result.paths['/store/'].post.responses[200].schema).to.exist();
+        expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Success its a 200');
+        expect(response.result.paths['/store/'].post.responses[200]['x-meta']).to.equal('x-meta test data');
+        expect(response.result.paths['/store/'].post.responses[200].schema).to.equal({
             $ref: '#/definitions/Result'
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test(
-        'test a default response description is provided when no description is given',
-        async() => {
-            const routes = {
-                method: 'POST',
-                path: '/store/',
-                handler: Helper.defaultHandler,
-                config: {
-                    tags: ['api'],
-                    plugins: {
-                        'hapi-swagger': {
-                            responses: {
-                                '200': {
-                                    'x-meta': 'x-meta test data'
-                                }
+    lab.test('test a default response description is provided when no description is given', async () => {
+        const routes = {
+            method: 'POST',
+            path: '/store/',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                'x-meta': 'x-meta test data'
                             }
                         }
                     }
                 }
-            };
+            }
+        };
 
-            const server = await Helper.createServer({}, routes);
-            const response = await server.inject({ url: '/swagger.json' });
-            expect(
-                response.result.paths['/store/'].post.responses[200]
-                    .description
-            ).to.equal('Successful');
-            const isValid = await Validate.test(response.result);
-            expect(isValid).to.be.true();
-        }
-    );
+        const server = await Helper.createServer({}, routes);
+        const response = await server.inject({ url: '/swagger.json' });
+        expect(response.result.paths['/store/'].post.responses[200].description).to.equal('Successful');
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+    });
 
-    lab.test('using route base plugin override - array', async() => {
+    lab.test('using route base plugin override - array', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -456,9 +405,7 @@ lab.experiment('responses', () => {
 
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ url: '/swagger.json' });
-        expect(
-            response.result.paths['/store/'].post.responses[200]
-        ).to.equal({
+        expect(response.result.paths['/store/'].post.responses[200]).to.equal({
             description: 'Success',
             schema: {
                 $ref: '#/definitions/HTTP200'
@@ -478,17 +425,13 @@ lab.experiment('responses', () => {
                 }
             }
         });
-        expect(
-            response.result.paths['/store/'].post.responses[400]
-                .description
-        ).to.equal('Bad Request');
+        expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
         expect(response.result.definitions.HTTP400).exists();
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('failback to 200', async() => {
+    lab.test('failback to 200', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -507,9 +450,7 @@ lab.experiment('responses', () => {
 
         const server = await Helper.createServer({}, routes);
         const response = await server.inject({ url: '/swagger.json' });
-        expect(
-            response.result.paths['/store/'].post.responses
-        ).to.equal({
+        expect(response.result.paths['/store/'].post.responses).to.equal({
             default: {
                 schema: {
                     type: 'string'
@@ -519,10 +460,9 @@ lab.experiment('responses', () => {
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('No ownProperty', async() => {
+    lab.test('No ownProperty', async () => {
         let objA = Helper.objWithNoOwnProperty();
         const objB = Helper.objWithNoOwnProperty();
         const objC = Helper.objWithNoOwnProperty();
@@ -556,10 +496,9 @@ lab.experiment('responses', () => {
                 description: 'Successful'
             }
         });
-
     });
 
-    lab.test('with same path but different method', async() => {
+    lab.test('with same path but different method', async () => {
         const routes = [
             {
                 method: 'POST',
@@ -613,10 +552,9 @@ lab.experiment('responses', () => {
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('with deep labels', async() => {
+    lab.test('with deep labels', async () => {
         const routes = [
             {
                 method: 'POST',
@@ -638,10 +576,9 @@ lab.experiment('responses', () => {
         expect(response.result.definitions.labelA).to.exist();
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('array with required #249', async() => {
+    lab.test('array with required #249', async () => {
         const dataPointSchema = Joi.object()
             .keys({
                 date: Joi.date().required(),
@@ -694,14 +631,17 @@ lab.experiment('responses', () => {
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('replace example with x-example for response', async() => {
+    lab.test('replace example with x-example for response', async () => {
         const dataPointSchema = Joi.object()
             .keys({
-                date: Joi.date().required().example('2016-08-26'),
-                value: Joi.number().required().example('1024')
+                date: Joi.date()
+                    .required()
+                    .example('2016-08-26'),
+                value: Joi.number()
+                    .required()
+                    .example('1024')
             })
             .label('datapoint')
             .required();
@@ -752,10 +692,9 @@ lab.experiment('responses', () => {
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using hapi response.schema and plugin ', async() => {
+    lab.test('using hapi response.schema and plugin ', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -795,10 +734,9 @@ lab.experiment('responses', () => {
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using hapi response.schema and plugin mismatch', async() => {
+    lab.test('using hapi response.schema and plugin mismatch', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -841,10 +779,9 @@ lab.experiment('responses', () => {
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using hapi response.schema and plugin mismatch', async() => {
+    lab.test('using hapi response.schema and plugin mismatch', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -885,10 +822,9 @@ lab.experiment('responses', () => {
         });
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
 
-    lab.test('using hapi response.schema and plugin mixed results', async() => {
+    lab.test('using hapi response.schema and plugin mixed results', async () => {
         const routes = {
             method: 'POST',
             path: '/store/',
@@ -914,9 +850,7 @@ lab.experiment('responses', () => {
                     status: {
                         200: joiSumModel,
                         400: Joi.object({ err: Joi.string() }),
-                        404: Joi.object({ err: Joi.string() }).description(
-                            '404 from response status object'
-                        ),
+                        404: Joi.object({ err: Joi.string() }).description('404 from response status object'),
                         429: Joi.object({ err: Joi.string() })
                     }
                 }
@@ -941,12 +875,10 @@ lab.experiment('responses', () => {
                             schema: {
                                 $ref: '#/definitions/Model 1'
                             },
-                            description:
-                                '400 - Added from plugin-options'
+                            description: '400 - Added from plugin-options'
                         },
                         '404': {
-                            description:
-                                '404 from response status object',
+                            description: '404 from response status object',
                             schema: {
                                 $ref: '#/definitions/Model 1'
                             }
@@ -958,8 +890,7 @@ lab.experiment('responses', () => {
                             description: 'Too Many Requests'
                         },
                         '500': {
-                            description:
-                                '500 - Added from plugin-options'
+                            description: '500 - Added from plugin-options'
                         }
                     }
                 }

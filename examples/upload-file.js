@@ -1,12 +1,12 @@
 // `upload-file.js` - how create documenation for a file upload
 // the file `example/assets/test-upload.json` has data in the correct format for this example
 
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const Blipp = require('blipp');
-const Inert = require('inert');
-const Vision = require('vision');
-const Boom = require('boom');
-const Joi = require('joi');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
+const Boom = require('@hapi/boom');
+const Joi = require('@hapi/joi');
 
 const HapiSwagger = require('../');
 

@@ -1,9 +1,9 @@
 // `custom.js` - how build a custom documentation page with its own CSS and JS
 
 const Blipp = require('blipp');
-const Hapi = require('hapi');
-const Inert = require('inert');
-const Vision = require('vision');
+const Hapi = require('@hapi/hapi');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
 const Good = require('good');
 
 const HapiSwagger = require('../');
@@ -17,7 +17,7 @@ const goodOptions = {
     reporters: {
         myConsoleReporter: [
             {
-                module: 'good-squeeze',
+                module: '@hapi/good-squeeze',
                 name: 'Squeeze',
                 args: [
                     {

@@ -1,22 +1,22 @@
-const Code = require('code');
-const Lab = require('lab');
+const Code = require('@hapi/code');
+const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
 const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
-const lab = exports.lab = Lab.script();
-
+const lab = (exports.lab = Lab.script());
 
 lab.experiment('documentation-route-tags', () => {
-
-    const routes = [{
-        method: 'GET',
-        path: '/test',
-        handler: Helper.defaultHandler,
-        config: {
-            tags: ['api']
+    const routes = [
+        {
+            method: 'GET',
+            path: '/test',
+            handler: Helper.defaultHandler,
+            config: {
+                tags: ['api']
+            }
         }
-    }];
+    ];
 
     const testServer = async (swaggerOptions, tagName) => {
         const server = await Helper.createServer(swaggerOptions, routes);
@@ -42,18 +42,18 @@ lab.experiment('documentation-route-tags', () => {
         expect(isValid).to.be.true();
     };
 
-    lab.test('no documentationRouteTags property passed', async() => {
+    lab.test('no documentationRouteTags property passed', async () => {
         await testServer({}, []);
     });
 
-    lab.test('documentationRouteTags property passed', async() => {
+    lab.test('documentationRouteTags property passed', async () => {
         const swaggerOptions = {
             documentationRouteTags: ['no-logging']
         };
         await testServer(swaggerOptions, swaggerOptions.documentationRouteTags);
     });
 
-    lab.test('multiple documentationRouteTags passed', async() => {
+    lab.test('multiple documentationRouteTags passed', async () => {
         const swaggerOptions = {
             documentationRouteTags: ['hello', 'world']
         };

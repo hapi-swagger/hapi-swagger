@@ -1,17 +1,13 @@
-const Code = require('code');
-const Lab = require('lab');
+const Code = require('@hapi/code');
+const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
 const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
-const lab = exports.lab = Lab.script();
-
-
+const lab = (exports.lab = Lab.script());
 
 lab.experiment('wildcard routes', () => {
-
-    lab.test('method *', async() => {
-
+    lab.test('method *', async () => {
         const routes = {
             method: '*',
             path: '/test',
@@ -32,12 +28,9 @@ lab.experiment('wildcard routes', () => {
         expect(response.result.paths['/test']).to.include('put');
         expect(response.result.paths['/test']).to.include('patch');
         expect(response.result.paths['/test']).to.include('delete');
-
     });
 
-
-    lab.test('method array [GET, POST]', async() => {
-
+    lab.test('method array [GET, POST]', async () => {
         const routes = {
             method: ['GET', 'POST'],
             path: '/test',
@@ -57,7 +50,5 @@ lab.experiment('wildcard routes', () => {
         expect(response.result.paths['/test']).to.include('post');
         const isValid = await Validate.test(response.result);
         expect(isValid).to.be.true();
-
     });
-
 });

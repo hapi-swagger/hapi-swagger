@@ -1,5 +1,5 @@
-const Code = require('code');
-const Lab = require('lab');
+const Code = require('@hapi/code');
+const Lab = require('@hapi/lab');
 const Group = require('../../lib/group.js');
 const Helper = require('../helper.js');
 

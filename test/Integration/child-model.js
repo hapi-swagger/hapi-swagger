@@ -1,7 +1,7 @@
 'use strict';
-const Code = require('code');
-const Joi = require('joi');
-const Lab = require('lab');
+const Code = require('@hapi/code');
+const Joi = require('@hapi/joi');
+const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
 const Validate = require('../../lib/validate.js');
 
@@ -77,11 +77,7 @@ lab.experiment('child-models', () => {
                     schema: Joi.array()
                         .items(
                             Joi.array()
-                                .items(
-                                    Joi.object({ bar: Joi.string() }).label(
-                                        'FooArrObj'
-                                    )
-                                )
+                                .items(Joi.object({ bar: Joi.string() }).label('FooArrObj'))
                                 .label('FooArr')
                         )
                         .label('FooArrParent')
@@ -90,11 +86,7 @@ lab.experiment('child-models', () => {
                     payload: Joi.array()
                         .items(
                             Joi.array()
-                                .items(
-                                    Joi.object({ bar: Joi.string() }).label(
-                                        'FooArrObj'
-                                    )
-                                )
+                                .items(Joi.object({ bar: Joi.string() }).label('FooArrObj'))
                                 .label('FooArr')
                         )
                         .label('FooArrParent')
@@ -103,18 +95,13 @@ lab.experiment('child-models', () => {
         }
     ];
 
-
-    lab.test('child definitions models', async() => {
-
+    lab.test('child definitions models', async () => {
         const server = await Helper.createServer({}, routes);
         const response = await server.inject(requestOptions);
 
         expect(response.statusCode).to.equal(200);
 
-        expect(
-            response.result.paths['/foo/v1/bar'].post.parameters[0]
-                .schema
-        ).to.equal({
+        expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.equal({
             $ref: '#/definitions/Model 1'
         });
 
@@ -142,24 +129,16 @@ lab.experiment('child-models', () => {
         expect(isValid).to.be.true();
     });
 
-
-    lab.test('object within an object - array within an array', async() => {
-
+    lab.test('object within an object - array within an array', async () => {
         const server = await Helper.createServer({}, routes);
         const response = await server.inject(requestOptions);
 
         expect(response.statusCode).to.equal(200);
 
-        expect(
-            response.result.paths['/bar/objects'].post.parameters[0]
-                .schema
-        ).to.equal({
+        expect(response.result.paths['/bar/objects'].post.parameters[0].schema).to.equal({
             $ref: '#/definitions/FooObjParent'
         });
-        expect(
-            response.result.paths['/bar/objects'].post.responses[200]
-                .schema
-        ).to.equal({
+        expect(response.result.paths['/bar/objects'].post.responses[200].schema).to.equal({
             $ref: '#/definitions/FooObjParent'
         });
         expect(response.result.definitions.FooObjParent).to.equal({
@@ -180,16 +159,10 @@ lab.experiment('child-models', () => {
             }
         });
 
-        expect(
-            response.result.paths['/bar/arrays'].post.parameters[0]
-                .schema
-        ).to.equal({
+        expect(response.result.paths['/bar/arrays'].post.parameters[0].schema).to.equal({
             $ref: '#/definitions/FooArrParent'
         });
-        expect(
-            response.result.paths['/bar/arrays'].post.responses[200]
-                .schema
-        ).to.equal({
+        expect(response.result.paths['/bar/arrays'].post.responses[200].schema).to.equal({
             $ref: '#/definitions/FooArrParent'
         });
         expect(response.result.definitions.FooArrParent).to.equal({
@@ -212,7 +185,5 @@ lab.experiment('child-models', () => {
                 }
             }
         });
-
-
     });
 });
