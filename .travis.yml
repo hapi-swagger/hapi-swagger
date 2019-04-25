@@ -3,7 +3,6 @@ node_js:
   - '8'
   - '10'
 env:
-  - HAPI=hapi@17
   - HAPI=hapi@18
 before_script:
   - npm install --save-dev $HAPI
