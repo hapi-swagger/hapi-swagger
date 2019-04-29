@@ -538,11 +538,13 @@ lab.experiment('property - ', () => {
             items: { type: 'string' },
             'x-constraint': { length: 2 }
         });
+
+        // https://github.com/hapijs/joi/pull/1511
         expect(propertiesAlt.parseProperty('x', Joi.array().unique(), null, 'body', false, false)).to.equal({
             type: 'array',
             name: 'x',
             items: { type: 'string' },
-            'x-constraint': { unique: true }
+            'x-constraint': { unique: { ignoreUndefined: false } }
         });
 
         // test options.xProperties = false
