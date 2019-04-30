@@ -61,7 +61,7 @@
         "wreck": "^14.0.2"
     },
     "scripts": {
-        "start": "node ./bin/test-server.js",
+        "start": "node examples/simple.js",
         "lint": "eslint .",
         "test": "lab -L -t 100",
         "test-cov-html": "lab -r html -o coverage.html",
