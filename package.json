@@ -27,11 +27,12 @@
     "dependencies": {
         "@hapi/boom": "^7.1.1",
         "@hapi/hoek": "^6.1.2",
+        "@hapi/joi": "^14.0.0",
         "handlebars": "^4.0.11",
         "http-status": "^1.0.1",
-        "@hapi/joi": "^14.0.0",
         "json-schema-ref-parser": "^6.1.0",
-        "swagger-parser": "^6.0.5"
+        "swagger-parser": "^6.0.5",
+        "swagger-ui-dist": "^3.22.1"
     },
     "devDependencies": {
         "@hapi/basic": "^5.0.0",
@@ -63,7 +64,7 @@
         "swagger-client": "^3.8.25"
     },
     "scripts": {
-        "start": "node ./bin/test-server.js",
+        "start": "node ./examples/simple.js",
         "test": "lab -L -t 100",
         "lint": "eslint .",
         "test-cov-html": "lab -r html -o coverage.html",
