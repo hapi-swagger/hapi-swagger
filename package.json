@@ -64,7 +64,7 @@
         "swagger-client": "^3.8.25"
     },
     "scripts": {
-        "start": "node ./examples/simple.js",
+        "start": "node examples/simple.js",
         "test": "lab -L -t 100",
         "lint": "eslint .",
         "test-cov-html": "lab -r html -o coverage.html",
