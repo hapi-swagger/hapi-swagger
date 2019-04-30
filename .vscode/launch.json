@@ -7,11 +7,21 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "start",
+            "program": "${workspaceFolder}/examples/simple.js",
+            "skipFiles": ["<node_internals>/**/*.js"],
+            "console": "integratedTerminal",
+            "disableOptimisticBPs": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "test using lab identifier",
             "program": "${workspaceFolder}/node_modules/.bin/lab",
             "args": ["-i", "${input:inputLabTestIdentifier}"],
             "console": "integratedTerminal",
-            "skipFiles": ["<node_internals>/**/*.js"]
+            "skipFiles": ["<node_internals>/**/*.js"],
+            "disableOptimisticBPs": true
         }
     ],
     "inputs": [
