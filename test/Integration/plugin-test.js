@@ -164,7 +164,10 @@ lab.experiment('plugin', () => {
         const response = await server.inject({ method: 'GET', url: '/implicitPrefix/documentation' });
         expect(response.statusCode).to.equal(200);
         const htmlContent = response.result;
-        expect(htmlContent).to.contain(['/implicitPrefix/swaggerui/swagger-ui.js', '/implicitPrefix/swagger.json']);
+        expect(htmlContent).to.contain([
+            '/implicitPrefix/swaggerui/swagger-ui-bundle.js',
+            '/implicitPrefix/swagger.json'
+        ]);
     });
 
     lab.test('enable cors settings, should return headers with origin settings', async () => {
