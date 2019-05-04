@@ -31,7 +31,7 @@
         "handlebars": "^4.0.11",
         "http-status": "^1.0.1",
         "json-schema-ref-parser": "^6.1.0",
-        "swagger-parser": "^6.0.5",
+        "swagger-parser": "4.0.2",
         "swagger-ui-dist": "^3.22.1"
     },
     "devDependencies": {
@@ -65,7 +65,7 @@
     },
     "scripts": {
         "start": "node examples/simple.js",
-        "test": "lab -L -t 100",
+        "test": "lab -L -t 100 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
         "lint": "eslint .",
         "test-cov-html": "lab -r html -o coverage.html",
         "test-cov-coveralls": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls",
