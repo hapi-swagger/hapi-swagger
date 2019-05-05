@@ -225,8 +225,6 @@ lab.experiment('property - ', () => {
             'x-format': { token: true }
         });
 
-        debugger;
-
         const result = propertiesAlt.parseProperty(
             'x',
             Joi.string().email({
