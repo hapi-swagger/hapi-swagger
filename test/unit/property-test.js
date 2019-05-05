@@ -225,28 +225,24 @@ lab.experiment('property - ', () => {
             'x-format': { token: true }
         });
 
-        expect(
-            propertiesAlt.parseProperty(
-                'x',
-                Joi.string().email({
-                    errorLevel: 256,
-                    tldWhitelist: ['example.com'],
-                    minDomainAtoms: 2
-                }),
-                null,
-                true,
-                true
-            )
-        ).to.equal({
-            type: 'string',
-            'x-format': {
-                email: {
-                    errorLevel: 256,
-                    tldWhitelist: ['example.com'],
-                    minDomainAtoms: 2
-                }
-            }
-        });
+        debugger;
+
+        const result = propertiesAlt.parseProperty(
+            'x',
+            Joi.string().email({
+                tlds: {
+                    allow: ['example.com']
+                },
+                minDomainSegments: 2
+            }),
+            null,
+            true,
+            true
+        );
+
+        expect(result.type).to.equal('string');
+        expect(result['x-format'].email.tlds.allow).to.exist();
+        expect(result['x-format'].email.minDomainSegments).to.equal(2);
 
         expect(
             propertiesAlt.parseProperty(

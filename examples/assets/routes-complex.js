@@ -200,9 +200,10 @@ module.exports = [
                         .description('token'),
                     g: Joi.string()
                         .email({
-                            errorLevel: 256,
-                            tldWhitelist: ['example.com'],
-                            minDomainAtoms: 2
+                            tlds: {
+                                allow: ['example.com']
+                            },
+                            minDomainSegments: 2
                         })
                         .description('email'),
                     h: Joi.string()
