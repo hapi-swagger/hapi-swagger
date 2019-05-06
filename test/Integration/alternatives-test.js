@@ -33,24 +33,32 @@ lab.experiment('alternatives', () => {
                         .try(
                             Joi.object({
                                 name: Joi.string().required()
-                            }).label('alt1'),
+                            })
+                                .label('alt1')
+                                .meta({ swaggerLabel: 'alternative1' }),
                             Joi.object({
                                 name: Joi.number().required()
-                            }).label('alt2')
+                            })
+                                .label('alt2')
+                                .meta({ swaggerLabel: 'alternative2' })
                         )
-                        .label('Alt')
+                        .label('Alternative')
                 },
                 response: {
                     schema: Joi.alternatives()
                         .try(
                             Joi.object({
                                 name: Joi.string().required()
-                            }).label('alt1'),
+                            })
+                                .label('alt1')
+                                .meta({ swaggerLabel: 'alternative1' }),
                             Joi.object({
                                 name: Joi.number().required()
-                            }).label('alt2')
+                            })
+                                .label('alt2')
+                                .meta({ swaggerLabel: 'alternative2' })
                         )
-                        .label('Alt')
+                        .label('Alternative')
                 }
             }
         },
@@ -96,7 +104,9 @@ lab.experiment('alternatives', () => {
                                 then: Joi.object({
                                     width: Joi.number(),
                                     height: Joi.number()
-                                }).label('Dimensions'),
+                                })
+                                    .label('Dimensions')
+                                    .meta({ swaggerLabel: 'Dimensions' }),
                                 otherwise: Joi.forbidden()
                             })
                             .label('Extra')
@@ -168,14 +178,14 @@ lab.experiment('alternatives', () => {
                 in: 'body',
                 name: 'body',
                 schema: {
-                    $ref: '#/definitions/Alt'
+                    $ref: '#/definitions/Alternative'
                 },
                 'x-alternatives': [
                     {
-                        $ref: '#/x-alt-definitions/alt1'
+                        $ref: '#/x-alt-definitions/alternative1'
                     },
                     {
-                        $ref: '#/x-alt-definitions/alt2'
+                        $ref: '#/x-alt-definitions/alternative2'
                     }
                 ]
             }
@@ -184,13 +194,13 @@ lab.experiment('alternatives', () => {
         expect(response.result.paths['/store2/'].post.responses).to.equal({
             '200': {
                 schema: {
-                    $ref: '#/definitions/Alt',
+                    $ref: '#/definitions/Alternative',
                     'x-alternatives': [
                         {
-                            $ref: '#/x-alt-definitions/alt1'
+                            $ref: '#/x-alt-definitions/alternative1'
                         },
                         {
-                            $ref: '#/x-alt-definitions/alt2'
+                            $ref: '#/x-alt-definitions/alternative2'
                         }
                     ]
                 },
@@ -198,7 +208,7 @@ lab.experiment('alternatives', () => {
             }
         });
 
-        expect(response.result['x-alt-definitions'].alt1).to.equal({
+        expect(response.result['x-alt-definitions'].alternative1).to.equal({
             type: 'object',
             properties: {
                 name: {
@@ -268,7 +278,7 @@ lab.experiment('alternatives', () => {
                 name: 'body',
                 in: 'body',
                 schema: {
-                    $ref: '#/definitions/Alt'
+                    $ref: '#/definitions/Alternative'
                 }
             }
         ]);

@@ -65,10 +65,10 @@
     },
     "scripts": {
         "start": "node examples/simple.js",
-        "test": "lab -L -t 100 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
+        "test": "lab -L -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
         "lint": "eslint .",
         "test-cov-html": "lab -r html -o coverage.html",
-        "test-cov-coveralls": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls",
+        "test-cov-coveralls": "npx lab -r lcov | npx coveralls",
         "precommit": "npm test",
         "prepush": "npm test",
         "prettier": "prettier --write '{lib,examples,text}/**/*.js'"
