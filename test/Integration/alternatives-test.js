@@ -294,7 +294,7 @@ lab.experiment('alternatives', () => {
         ]);
 
         expect(response.result.definitions).to.equal({
-            Alt: {
+            Alternative: {
                 properties: {
                     name: {
                         type: 'string'
