@@ -21,7 +21,8 @@
             "args": ["-i", "${input:inputLabTestIdentifier}"],
             "console": "integratedTerminal",
             "skipFiles": ["<node_internals>/**/*.js"],
-            "disableOptimisticBPs": true
+            "disableOptimisticBPs": true,
+            "sourceMaps": false
         }
     ],
     "inputs": [
