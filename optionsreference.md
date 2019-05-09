@@ -1,4 +1,4 @@
-# 9.0.0 Options Reference
+# Options
 
 ## Plugin Options
 
@@ -52,12 +52,11 @@ UI
 -   `documentationPage`: (boolean) Add documentation page - default: `true`
 -   `documentationPath`: (string) The path of the documentation page - default: `/documentation`
 -   `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
--   `jsonEditor`: (boolean) If UI should use JSON Editor - default: `false`
 -   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
 -   `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
 -   `lang`: (string) The language of the UI `en`, `es`, `fr`, `it`, `ja`, `pl`, `pt`, `ru`, `tr` or `zh-cn` - default: `en`
 -   `uiCompleteScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
--   `validatorUrl`: (string || null) sets the external validating URL Can swtich off by setting to `null`
+-   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
 
 ## Route Options
 
@@ -75,7 +74,9 @@ UI
 -   `x-*` (any): any property or object with a key starting with _x-_ is included in the swagger definition (similar to `x-*` options in the `info` object).
 -   `deprecated`: (boolean) Whether a endpoint has been deprecated - default: false
 
-# Plugin options example
+## Examples
+
+### Plugins Example
 
 The plugin level options are added as you register the `hapi-swagger` plugin.
 
@@ -110,7 +111,7 @@ try {
 server.route(Routes);
 ```
 
-# Route options example
+### Route Example
 
 The route level options are always placed within the `plugins.hapi-swagger` object under `config`. These options are
 only assigned to the route they are apply to.
