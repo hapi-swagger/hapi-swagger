@@ -2,14 +2,14 @@
 
 ## Plugin Options
 
-URLs and plugin
+### URLs and plugin
 
 -   `schemes`: (array) The transfer protocol of the API ie `['http']`
 -   `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
 -   `auth`: (boolean, string or object) defines security strategy to use for plugin resources - default: `false`,
 -   `cors`: (boolean) whether the swagger.json routes is servered with cors support - default: `false`,
 
-JSON (JSON endpoint needed to create UI)
+#### JSON (JSON endpoint needed to create UI)
 
 -   `jsonPath`: (string) The path of JSON endpoint at describes the API - default: `/swagger.json`
 -   `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) - default: `/`
@@ -45,7 +45,7 @@ JSON (JSON endpoint needed to create UI)
 -   `debug`: Validates the JSON ouput against swagger specification - default: `false`
 -   `x-*` (any): any property or object with a key starting with _x-_ is included in the swagger definition (similar to `x-*` options in the `info` object).
 
-UI
+### UI
 
 -   `swaggerUI`: (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`
 -   `swaggerUIPath`: (string) The path of to all the SwaggerUI resources - default: `/swaggerui/`
