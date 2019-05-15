@@ -11,6 +11,7 @@
   "files": [
     "lib",
     "public",
+    "templates",
     "index.js"
   ],
   "keywords": [
