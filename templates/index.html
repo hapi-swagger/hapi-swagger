@@ -50,19 +50,19 @@
 
         var swaggerOptions = {
           url: url,
-          validatorUrl: validatorUrl
-        }
-
-        const options = Object.assign({
+          validatorUrl: validatorUrl,
           dom_id: '#swagger-ui',
           deepLinking: true,
           presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
           plugins: [SwaggerUIBundle.plugins.DownloadUrl],
-          layout: 'StandaloneLayout'
-        }, swaggerOptions)
+          layout: 'StandaloneLayout',
+          docExpansion: "{{hapiSwagger.expanded}}",
+          apisSorter: apisSorter.{{hapiSwagger.sortTags}},
+          operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
+        }
 
         // Begin Swagger UI call region
-        const ui = SwaggerUIBundle(options);
+        var ui = SwaggerUIBundle(options);
 
         window.ui = ui;
       };
