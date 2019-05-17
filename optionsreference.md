@@ -54,7 +54,6 @@
 -   `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
 -   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
 -   `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
--   `lang`: (string) The language of the UI `en`, `es`, `fr`, `it`, `ja`, `pl`, `pt`, `ru`, `tr` or `zh-cn` - default: `en`
 -   `uiCompleteScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
 -   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
 

@@ -42,11 +42,6 @@
                 url = "{{{hapiSwagger.jsonPath}}}";
             }
 
-            // Pre load translate...
-            if(window.SwaggerTranslator) {
-                window.SwaggerTranslator.translate();
-            }
-
             // pull validatorUrl string or null form server
             var validatorUrl = null;
             {{#if hapiSwagger.validatorUrl}}
