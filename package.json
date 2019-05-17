@@ -66,6 +66,7 @@
   },
   "scripts": {
     "start": "node examples/simple.js",
+    "start:basic": "node examples/basic.js",
     "test": "lab -L -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
     "lint": "eslint .",
     "test-cov-html": "lab -r html -o coverage.html",
