@@ -57,11 +57,10 @@
           plugins: [SwaggerUIBundle.plugins.DownloadUrl],
           layout: 'StandaloneLayout',
           docExpansion: "{{hapiSwagger.expanded}}",
-          apisSorter: apisSorter.{{hapiSwagger.sortTags}},
+          tagsSorter: apisSorter.{{hapiSwagger.sortTags}},
           operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
         }
 
-        // Begin Swagger UI call region
         var ui = SwaggerUIBundle(swaggerOptions);
 
         window.ui = ui;

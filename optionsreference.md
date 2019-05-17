@@ -52,7 +52,7 @@
 -   `documentationPage`: (boolean) Add documentation page - default: `true`
 -   `documentationPath`: (string) The path of the documentation page - default: `/documentation`
 -   `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
--   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `alpha`, `default` or `name`
+-   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `alpha`
     -   `alpha`: sort by paths alphanumerically
 -   `sortEndpoints`: (string) a sort method for endpoints in UI. `alpha`, `method`, `ordered`.
     -   `alpha`: sort by paths alphanumerically
