@@ -78,7 +78,6 @@ let swaggerOptions = {
       }
     }
   ],
-  jsonEditor: true,
   securityDefinitions: {
     Bearer: {
       type: 'apiKey',

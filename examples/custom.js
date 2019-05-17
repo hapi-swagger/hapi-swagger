@@ -73,7 +73,6 @@ let swaggerOptions = {
       }
     }
   ],
-  jsonEditor: true,
   validatorUrl: null
 };
 

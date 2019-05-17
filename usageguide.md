@@ -20,7 +20,6 @@
 -   [Simplifying the JSON](#simplifying-the-json)
 -   [Debugging](#debugging)
 -   [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
--   [Known issues with `jsonEditor`](#known-issues-with-jsoneditor)
 -   [Adding the interface into your own custom page](#adding-the-interface-into-your-own-custom-page)
 
 ## Links

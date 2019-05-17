@@ -17,7 +17,6 @@
     <script src="{{ hapiSwagger.swaggerUIPath }}lib/backbone-min.js" type="text/javascript"></script>
     <script src="{{ hapiSwagger.swaggerUIPath }}swagger-ui.js" type="text/javascript"></script>
     <script src="{{ hapiSwagger.swaggerUIPath }}lib/highlight.7.3.pack.js" type="text/javascript"></script>
-    <script src="{{ hapiSwagger.swaggerUIPath }}lib/jsoneditor.min.js" type="text/javascript"></script>
     <script src="{{ hapiSwagger.swaggerUIPath }}lib/marked.js" type="text/javascript"></script>
     <script src="{{ hapiSwagger.swaggerUIPath }}lib/swagger-oauth.js" type="text/javascript"></script>
     <script src="{{ hapiSwagger.swaggerUIPath }}extend.js" type="text/javascript"></script>
@@ -85,7 +84,6 @@
                 operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
                 showRequestHeaders: false,
                 validatorUrl: '{{hapiSwagger.validatorUrl}}',
-                jsonEditor: {{#if hapiSwagger.jsonEditor}}true{{else}}false{{/if}}
             });
 
 
