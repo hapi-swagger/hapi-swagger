@@ -9,32 +9,6 @@ const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const HapiSwagger = require('../');
 
-/*
-const goodOptions = {
-    ops: {
-        interval: 1000
-    },
-    reporters: {
-        console: [
-            {
-                module: '@hapi/good-squeeze',
-                name: 'Squeeze',
-                args: [
-                    {
-                        log: '*',
-                        response: '*'
-                    }
-                ]
-            },
-            {
-                module: 'good-console'
-            },
-            'stdout'
-        ]
-    }
-};
-*/
-
 const swaggerOptions = {
   pathPrefixSize: 2,
   basePath: '/api/',
@@ -58,7 +32,6 @@ const ser = async () => {
       port: 3000
     });
 
-    // Blipp and Good - Needs updating for Hapi v17.x
     await server.register([
       Inert,
       Vision,

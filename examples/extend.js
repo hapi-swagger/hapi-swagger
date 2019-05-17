@@ -9,32 +9,6 @@ const Vision = require('@hapi/vision');
 const HapiSwagger = require('../');
 const ExtendedJoi = require('./assets/extendedjoi.js');
 
-/*
-const goodOptions = {
-    ops: {
-        interval: 1000
-    },
-    reporters: {
-        console: [
-            {
-                module: '@hapi/good-squeeze',
-                name: 'Squeeze',
-                args: [
-                    {
-                        log: '*',
-                        response: '*'
-                    }
-                ]
-            },
-            {
-                module: 'good-console'
-            },
-            'stdout'
-        ]
-    }
-};
-*/
-
 const swaggerOptions = {
   info: {
     title: 'Test API Documentation',
