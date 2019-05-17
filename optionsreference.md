@@ -54,6 +54,7 @@
 -   `swaggerUIPath`: (string) The path of to all the SwaggerUI resources - default: `/swaggerui/`
 -   `documentationPage`: (boolean) Add documentation page - default: `true`
 -   `documentationPath`: (string) The path of the documentation page - default: `/documentation`
+-   `templates`: (string) The directory path used by `hapi-swagger` and `@hapi/vision` to resolve and load the templates to render `swagger-ui` interface. The directory must contain `index.html` and `debug.html` templates. Default is `templates` directory in this package.
 -   `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
 -   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `alpha`
     -   `alpha`: sort by paths alphanumerically

@@ -4,6 +4,7 @@ const Inert = require('@hapi/inert');
 const Joi = require('@hapi/joi');
 const Lab = require('@hapi/lab');
 const Vision = require('@hapi/vision');
+const { resolve } = require('path');
 const HapiSwagger = require('../../lib/index.js');
 const Helper = require('../helper.js');
 
@@ -134,7 +135,7 @@ lab.experiment('plugin', () => {
     expect(response.statusCode).to.equal(404);
   });
 
-  lab.test('disable swagger UI overriden by documentationPage', async () => {
+  lab.test('disable swagger UI overridden by documentationPage', async () => {
     const swaggerOptions = {
       swaggerUI: false,
       documentationPage: true
@@ -165,6 +166,27 @@ lab.experiment('plugin', () => {
     expect(response.statusCode).to.equal(200);
     const htmlContent = response.result;
     expect(htmlContent).to.contain(['/implicitPrefix/swaggerui/swagger-ui-bundle.js', '/implicitPrefix/swagger.json']);
+  });
+
+  lab.test('should use templates options to render ui', async () => {
+    const server = new Hapi.Server();
+    await server.register([
+      Inert,
+      Vision,
+      {
+        plugin: HapiSwagger,
+        options: {
+          templates: resolve(__dirname, 'templates')
+        }
+      }
+    ]);
+
+    server.route(routes);
+    await server.start();
+    const response = await server.inject({ method: 'GET', url: '/documentation' });
+    expect(response.statusCode).to.equal(200);
+    const htmlContent = response.result;
+    expect(htmlContent).to.contain(['swagger-ui-userland']);
   });
 
   lab.test('enable cors settings, should return headers with origin settings', async () => {
@@ -311,7 +333,7 @@ lab.experiment('plugin', () => {
     });
   });
 
-  lab.test('test aribrary vendor extensions (x-*) appears in swagger', async () => {
+  lab.test('test arbitrary vendor extensions (x-*) appears in swagger', async () => {
     const testRoutes = [
       {
         method: 'POST',
