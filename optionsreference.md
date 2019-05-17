@@ -44,8 +44,11 @@
 -   `deReference`: Dereferences JSON output - default: `false`,
 -   `debug`: Validates the JSON ouput against swagger specification - default: `false`
 -   `x-*` (any): any property or object with a key starting with _x-_ is included in the swagger definition (similar to `x-*` options in the `info` object).
+-   `oauthOptions`: [TODO](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/oauth2.md)
 
 ### UI
+
+> @see [swagger-ui options](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md) as reference.
 
 -   `swaggerUI`: (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`
 -   `swaggerUIPath`: (string) The path of to all the SwaggerUI resources - default: `/swaggerui/`
@@ -73,7 +76,7 @@
     -   `headers`: (JOI object) allows you to `headers` route documentation outside of HAPI validation
     -   `payload`: (JOI object) allows you to `payload` route documentation outside of HAPI validation
 -   `security`: Hoek.reach(routeOptions, 'security') || null,
--   `order`: (int) The order in which endpoints are displayed, works with options.sortEndpoints = 'ordered'
+-   `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints === ordered`
 -   `x-*` (any): any property or object with a key starting with _x-_ is included in the swagger definition (similar to `x-*` options in the `info` object).
 -   `deprecated`: (boolean) Whether a endpoint has been deprecated - default: false
 
