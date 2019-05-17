@@ -36,65 +36,65 @@ const goodOptions = {
 */
 
 const swaggerOptions = {
-    info: {
-        title: 'Test API Documentation',
-        description: 'This is a sample example of API documentation.'
-    }
+  info: {
+    title: 'Test API Documentation',
+    description: 'This is a sample example of API documentation.'
+  }
 };
 
 const ser = async () => {
-    try {
-        const server = Hapi.Server({
-            host: 'localhost',
-            port: 3000
-        });
+  try {
+    const server = Hapi.Server({
+      host: 'localhost',
+      port: 3000
+    });
 
-        // Blipp and Good - Needs updating for Hapi v17.x
-        await server.register([
-            Inert,
-            Vision,
-            Blipp,
-            {
-                plugin: HapiSwagger,
-                options: swaggerOptions
-            }
-        ]);
+    // Blipp and Good - Needs updating for Hapi v17.x
+    await server.register([
+      Inert,
+      Vision,
+      Blipp,
+      {
+        plugin: HapiSwagger,
+        options: swaggerOptions
+      }
+    ]);
 
-        server.route({
-            method: 'PUT',
-            path: '/sum/dividableby/{number}',
-            config: {
-                handler: (request, h) => {
-                    return h.response({
-                        status: 'OK'
-                    });
-                },
-                description: 'Dividable',
-                tags: ['api'],
-                validate: {
-                    params: {
-                        number: ExtendedJoi.number()
-                            .round()
-                            .dividable(3)
-                            .required()
-                    }
-                }
-            }
-        });
+    server.route({
+      method: 'PUT',
+      path: '/sum/dividableby/{number}',
+      config: {
+        handler: (request, h) => {
+          return h.response({
+            status: 'OK'
+          });
+        },
+        description: 'Dividable',
+        tags: ['api'],
+        validate: {
+          params: {
+            number: ExtendedJoi.number()
+              .round()
+              .dividable(3)
+              .required()
+          }
+        }
+      }
+    });
 
-        await server.start();
+    await server.start();
 
-        return server;
-    } catch (err) {
-        throw err;
-    }
+    return server;
+  } catch (err) {
+    throw err;
+  }
 };
 
 ser()
-    .then(server => {
-        console.log(`Server listening on ${server.info.uri}`);
-    })
-    .catch(err => {
-        console.error(err);
-        process.exit(1);
-    });
+  .then(server => {
+    console.log(`Server listening on ${server.info.uri}`);
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });

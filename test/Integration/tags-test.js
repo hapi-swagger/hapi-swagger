@@ -7,64 +7,64 @@ const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
 
 lab.experiment('tags', () => {
-    const routes = [
+  const routes = [
+    {
+      method: 'GET',
+      path: '/test',
+      handler: Helper.defaultHandler,
+      config: {
+        tags: ['api']
+      }
+    }
+  ];
+
+  lab.test('no tag objects passed', async () => {
+    const server = await Helper.createServer({}, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.tags).to.equal([]);
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
+
+  lab.test('name property passed', async () => {
+    const swaggerOptions = {
+      tags: [
         {
-            method: 'GET',
-            path: '/test',
-            handler: Helper.defaultHandler,
-            config: {
-                tags: ['api']
-            }
+          name: 'test'
         }
-    ];
+      ]
+    };
 
-    lab.test('no tag objects passed', async () => {
-        const server = await Helper.createServer({}, routes);
-        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.tags).to.equal([]);
-        const isValid = await Validate.test(response.result);
-        expect(isValid).to.be.true();
-    });
+    const server = await Helper.createServer(swaggerOptions, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.tags[0].name).to.equal('test');
 
-    lab.test('name property passed', async () => {
-        const swaggerOptions = {
-            tags: [
-                {
-                    name: 'test'
-                }
-            ]
-        };
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
 
-        const server = await Helper.createServer(swaggerOptions, routes);
-        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.tags[0].name).to.equal('test');
+  lab.test('full tag object', async () => {
+    const swaggerOptions = {
+      tags: [
+        {
+          name: 'test',
+          description: 'Everything about test',
+          externalDocs: {
+            description: 'Find out more',
+            url: 'http://swagger.io'
+          }
+        }
+      ]
+    };
 
-        const isValid = await Validate.test(response.result);
-        expect(isValid).to.be.true();
-    });
+    const server = await Helper.createServer(swaggerOptions, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
-    lab.test('full tag object', async () => {
-        const swaggerOptions = {
-            tags: [
-                {
-                    name: 'test',
-                    description: 'Everything about test',
-                    externalDocs: {
-                        description: 'Find out more',
-                        url: 'http://swagger.io'
-                    }
-                }
-            ]
-        };
-
-        const server = await Helper.createServer(swaggerOptions, routes);
-        const response = await server.inject({ method: 'GET', url: '/swagger.json' });
-
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.tags).to.equal(swaggerOptions.tags);
-        const isValid = await Validate.test(response.result);
-        expect(isValid).to.be.true();
-    });
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.tags).to.equal(swaggerOptions.tags);
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
 });

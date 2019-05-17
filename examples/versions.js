@@ -1,5 +1,5 @@
 console.log(
-    'The plugin "hapi-api-version" does not yet support HAPI v17.x. This example will be updated at a later date.'
+  'The plugin "hapi-api-version" does not yet support HAPI v17.x. This example will be updated at a later date.'
 );
 /*
 // `versions.js` - how to use plug-in with `hapi-api-version` for versioning of an API
