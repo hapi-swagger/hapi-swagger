@@ -54,11 +54,13 @@ const ser = async () => {
           payload: {
             a: Joi.number()
               .required()
-              .description('the first number'),
+              .description('the first number')
+              .default('1'),
 
             b: Joi.number()
               .required()
-              .description('the second number'),
+              .description('the second number')
+              .example('2'),
 
             operator: Joi.string()
               .required()
