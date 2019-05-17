@@ -52,8 +52,12 @@
 -   `documentationPage`: (boolean) Add documentation page - default: `true`
 -   `documentationPath`: (string) The path of the documentation page - default: `/documentation`
 -   `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
--   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `default` or `name`
--   `sortEndpoints`: (string) a sort method for endpoints in UI. `path`, `method`, `ordered`
+-   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `alpha`, `default` or `name`
+    -   `alpha`: sort by paths alphanumerically
+-   `sortEndpoints`: (string) a sort method for endpoints in UI. `alpha`, `method`, `ordered`.
+    -   `alpha`: sort by paths alphanumerically
+    -   `method`: sort by HTTP method
+    -   `ordered`: sorty by `order` value of the `hapi-swagger` plugin options of the route.
 -   `uiCompleteScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
 -   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
 

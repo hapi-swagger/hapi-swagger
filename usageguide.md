@@ -210,7 +210,7 @@ the order by name A-Z by switching the plugin `options.sortTags = 'name'`.
 ## Ordering the endpoints within groups
 
 The endpoints within the UI groups can be order with the property `options.sortEndpoints`, by default the are ordered
-A-Z using the `path` information. Can also order them by `method`. Finally if you wish to enforce you own order then
+A-Z using the `alpha` (path) information. Can also order them by `method`. Finally if you wish to enforce you own order then
 you added route option `order` to each endpoint and switch the plugin options to `options.sortEndpoints = 'ordered'`.
 
 ```javascript

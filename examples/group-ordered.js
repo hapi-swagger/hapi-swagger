@@ -7,7 +7,6 @@ const Vision = require('@hapi/vision');
 const HapiSwagger = require('../');
 const Pack = require('../package');
 
-//
 const Routes = [
   {
     method: 'POST',
@@ -106,32 +105,6 @@ const Routes = [
     }
   }
 ];
-
-/*
-const goodOptions = {
-    ops: {
-        interval: 1000
-    },
-    reporters: {
-        console: [
-            {
-                module: '@hapi/good-squeeze',
-                name: 'Squeeze',
-                args: [
-                    {
-                        log: '*',
-                        response: '*'
-                    }
-                ]
-            },
-            {
-                module: 'good-console'
-            },
-            'stdout'
-        ]
-    }
-};
-*/
 
 let swaggerOptions = {
   basePath: '/v1',
