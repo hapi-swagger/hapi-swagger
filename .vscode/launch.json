@@ -1,35 +1,53 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "start",
-            "program": "${workspaceFolder}/examples/simple.js",
-            "skipFiles": ["<node_internals>/**/*.js"],
-            "console": "integratedTerminal",
-            "disableOptimisticBPs": true
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "test using lab identifier",
-            "program": "${workspaceFolder}/node_modules/.bin/lab",
-            "args": ["-i", "${input:inputLabTestIdentifier}"],
-            "console": "integratedTerminal",
-            "skipFiles": ["<node_internals>/**/*.js"],
-            "disableOptimisticBPs": true,
-            "sourceMaps": false
-        }
-    ],
-    "inputs": [
-        {
-            "id": "inputLabTestIdentifier",
-            "type": "promptString",
-            "description": "Which test identifier do you want to run?"
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "start",
+      "program": "${workspaceFolder}/examples/simple.js",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "start:basic",
+      "program": "${workspaceFolder}/examples/basic.js",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "start:group:ordered",
+      "program": "${workspaceFolder}/examples/group-ordered.js",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "test using lab identifier",
+      "program": "${workspaceFolder}/node_modules/.bin/lab",
+      "args": ["-i", "${input:inputLabTestIdentifier}"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "disableOptimisticBPs": true,
+      "sourceMaps": false
+    }
+  ],
+  "inputs": [
+    {
+      "id": "inputLabTestIdentifier",
+      "type": "promptString",
+      "description": "Which test identifier do you want to run?"
+    }
+  ]
 }
