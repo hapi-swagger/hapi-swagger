@@ -8,6 +8,7 @@
     "url": "git://github.com/glennjones/hapi-swagger.git"
   },
   "main": "index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib",
     "public",
