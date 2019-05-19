@@ -28,8 +28,8 @@ If you want to view the documentation from your API you will also need to instal
 content serving.
 
 ```bash
-> npm install inert --save
-> npm install vision --save
+> npm install @hapi/inert --save
+> npm install @hapi/vision --save
 ```
 
 ## Documentation
