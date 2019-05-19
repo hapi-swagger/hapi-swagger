@@ -27,12 +27,10 @@
     -   `license`
         -   `name` (string) The name of the license used for the API
         -   `url` (string) The URL to the license used by the API. MUST be formatted as a URL
-    -   `x-*` (any): any property or object with a key starting with _x-_ is included as such in the _info_ section
-        of the object returned by the JSON endpoint. This allows custom properties to be defined as options and
-        copied as such.
+    -   `x-*` (any): any property or object with a key starting with `x-*` is included as such in the `info` section of the object returned by the JSON endpoint. This allows custom properties to be defined as options and copied as such.
 -   `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI. No defaults are provided.
 -   `grouping`: (string) how to create grouping of endpoints value either `path` or `tags` - default: `path`
--   `tagsGroupingFilter`: (function) A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`) - default: `(tag) => tag !== 'api'`
+-   `tagsGroupingFilter`: (function) A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`) - default: `spa`
 -   `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 -   `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 -   `documentationRouteTags`: (string or array) Add hapi tags to internal `hapi-swagger` routes - default: `[]`
@@ -42,7 +40,7 @@
 -   `reuseDefinitions`: Reuse of definition models to save space - default: `true`
 -   `definitionPrefix`: Dynamic naming convention. `default` or `useLabel` - default: `default`
 -   `deReference`: Dereferences JSON output - default: `false`,
--   `debug`: Validates the JSON ouput against swagger specification - default: `false`
+-   `debug`: Validates the JSON output against swagger specification - default: `false`
 -   `x-*` (any): any property or object with a key starting with _x-_ is included in the swagger definition (similar to `x-*` options in the `info` object).
 -   `oauthOptions`: [TODO](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/oauth2.md)
 
@@ -58,10 +56,10 @@
 -   `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
 -   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `alpha`
     -   `alpha`: sort by paths alphanumerically
--   `sortEndpoints`: (string) a sort method for endpoints in UI. `alpha`, `method`, `ordered`.
+-   `sortEndpoints`: (string) a sort method for endpoints in UI. `alpha`, `method`, `ordered`. Default is `alpha`.
     -   `alpha`: sort by paths alphanumerically
     -   `method`: sort by HTTP method
-    -   `ordered`: sorty by `order` value of the `hapi-swagger` plugin options of the route.
+    -   `ordered`: sort by `order` value of the `hapi-swagger` plugin options of the route.
 -   `uiCompleteScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
 -   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
 
