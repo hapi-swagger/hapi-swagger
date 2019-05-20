@@ -26,6 +26,22 @@ declare module '@hapi/hapi' {
        * @default ['application/json']
        */
       produces?: string[];
+
+      /**
+       * The order in which endpoints are displayed, works with `options.sortEndpoints === ordered`
+       */
+      order?: number;
+
+      /**
+       * Whether a endpoint has been deprecated.
+       * @default false
+       */
+      deprecated?: boolean;
+
+      /**
+       * Any property or object with a key starting with `x-*` is included in the swagger definition (similar to `x-*` options in the `info` object).
+       */
+      [key: string]: any;
     };
   }
 }
