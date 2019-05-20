@@ -34,8 +34,8 @@
 -   `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 -   `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 -   `documentationRouteTags`: (string or array) Add hapi tags to internal `hapi-swagger` routes - default: `[]`
--   `consumes`: (array) The mimetypes consumed - default: `['application/json']`
--   `produces`: (array) The mimetypes produced - default: `['application/json']`
+-   `consumes`: (array) The mime types consumed - default: `['application/json']`
+-   `produces`: (array) The mime types produced - default: `['application/json']`
 -   `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`
 -   `reuseDefinitions`: Reuse of definition models to save space - default: `true`
 -   `definitionPrefix`: Dynamic naming convention. `default` or `useLabel` - default: `default`
@@ -67,8 +67,8 @@
 
 -   `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 -   `responses`: (object) a collection of example responses for each HTTP statuses
--   `consumes`: (array) The mimetypes consumed - default: `['application/json']`
--   `produces`: (array) The mimetypes produced - default: `['application/json']`
+-   `consumes`: (array) The mime types consumed - default: `['application/json']`
+-   `produces`: (array) The mime types produced - default: `['application/json']`
 -   `validate`
     -   `params`: (JOI object) allows you to `param` route documentation outside of HAPI validation
     -   `query`: (JOI object) allows you to `query` route documentation outside of HAPI validation
@@ -76,7 +76,7 @@
     -   `payload`: (JOI object) allows you to `payload` route documentation outside of HAPI validation
 -   `security`: Hoek.reach(routeOptions, 'security') || null,
 -   `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints === ordered`
--   `x-*` (any): any property or object with a key starting with _x-_ is included in the swagger definition (similar to `x-*` options in the `info` object).
+-   `x-*` (any): any property or object with a key starting with `x-*` is included in the swagger definition (similar to `x-*` options in the `info` object).
 -   `deprecated`: (boolean) Whether a endpoint has been deprecated - default: false
 
 ## Examples
