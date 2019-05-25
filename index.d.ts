@@ -207,7 +207,12 @@ declare namespace hapiswagger {
     /**
      * A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`)
      *
+     * @remarks
+     * @link https://swagger.io/specification/#tagObject
+     *
+     *
      * @param tag - String used to group API endpoint
+     * @returns True or false
      *
      * @example
      * ```

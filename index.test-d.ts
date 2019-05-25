@@ -19,7 +19,7 @@ import * as hapiswagger from '.';
           email: 'who@where.com'
         }
       },
-      tagsGroupFilter: tag => tag !== 'api'
+      tagsGroupFilter: (tag: string) => tag !== 'api'
     }
   });
 
