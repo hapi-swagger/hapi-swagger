@@ -43,7 +43,7 @@ In your HAPI apps main JavaScript file add the following code to created a HAPI 
 
 ```Javascript
 const Hapi = require('@hapi/hapi');
-const Inert = require('inert');
+const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
