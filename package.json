@@ -31,7 +31,8 @@
     "start:extend": "node examples/extend.js",
     "start:group:ordered": "node examples/group-ordered.js",
     "start:routes:simple": "node examples/group-ordered.js",
-    "test": "lab -L -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
+    "test": "npm run test:lib && npm run test:ts",
+    "test:lib": "lab -L -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
     "test:ts": "tsd",
     "lint": "eslint .",
     "test:cov:html": "lab -r html -o coverage.html",
@@ -91,6 +92,7 @@
   "lint-staged": {
     "*.{js}": [
       "eslint --fix",
+      "npm test",
       "prettier --write",
       "git add"
     ],

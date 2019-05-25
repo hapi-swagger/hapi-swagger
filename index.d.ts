@@ -322,7 +322,7 @@ declare namespace hapiswagger {
      *
      * @default 'list'
      */
-    expanded: ExpandedType;
+    expanded?: ExpandedType;
 
     /**
      * Sort method for `tags` i.e. groups in UI.
