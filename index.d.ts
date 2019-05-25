@@ -1,9 +1,9 @@
-import { Plugin, RouteOptions } from '@hapi/hapi';
+import { Plugin } from '@hapi/hapi';
 
 declare module '@hapi/hapi' {
   // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/hapi__hapi/index.d.ts#L97
   interface PluginSpecificConfiguration {
-    hapiswagger?: {
+    'hapi-swagger'?: {
       /**
        * How payload parameters are displayed `json` or `form`
        * @default 'json'
@@ -47,138 +47,26 @@ declare module '@hapi/hapi' {
 }
 
 declare namespace hapiswagger {
-  type SecurityDefinition = {
-    [key: string]: SecurityDefinitionOption;
-  };
+  type AuthOptions = object;
 
-  type SecurityDefinitionOption = {
+  type ExpandedType = 'none' | 'list' | 'full';
+
+  type SortTagsType = 'alpha';
+
+  type SortEndpointsType = 'alpaha' | 'method' | 'ordered';
+
+  interface LicenseOptions {
     /**
-     * The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-     */
-    type: string;
-
-    /**
-     * A short description for security scheme.
-     */
-    description?: string;
-
-    /**
-     * The name of the header or query parameter to be used.
-     */
-    name: string;
-
-    /**
-     * The location of the API key. Valid values are "query" or "header".
-     */
-    in: string;
-
-    /**
-     * The flow used by the OAuth2 security scheme. Valid values are "implicit", "password", "application" or "accessCode".
-     */
-    flow: string;
-
-    /**
-     * The authorization URL to be used for this flow. This SHOULD be in the form of a URL.
-     */
-    authorizationUrl: string;
-
-    /**
-     * The token URL to be used for this flow. This SHOULD be in the form of a URL.
-     */
-    tokenUrl: string;
-
-    /**
-     * The available scopes for the OAuth2 security scheme.
-     */
-    scopes: ScopeObject;
-  };
-
-  type ScopeObject = {
-    [key: string]: ScopeObjectOptions;
-  };
-
-  type ScopeObjectOptions = {
-    /**
-     * Maps between a name of a scope to a short description of it (as the value of the property).
-     * @example
-     * ```
-     * {
-     *  "write:pets": "modify pets in your account",
-     *  "read:pets": "read your pets"
-     * }
-      ```
-     */
-    [key: string]: string;
-  };
-
-  type TagOption = {
-    /**
-     * The name of the tag.
+     * The name of the license used for the API
      */
     name: string;
     /**
-     * A short description for the tag. GFM syntax can be used for rich text representation.
-     */
-    description?: string;
-
-    /**
-     * Additional external documentation for this tag.
-     */
-    externalDocs: ExternalOption;
-  };
-
-  type ExternalOption = {
-    /**
-     * A short description of the target documentation. GFM syntax can be used for rich text representation.
-     */
-    description?: string;
-
-    /**
-     * The URL for the target documentation. Value MUST be in the format of a URL.
+     * The URL to the license used by the API. MUST be formatted as a URL
      */
     url: string;
-  };
+  }
 
-  type PathReplacementOptions = {
-    replaceIn: string;
-    pattern: RegExp;
-    replacement: string;
-  };
-
-  type InfoOptions = {
-    /**
-     * The title of the application
-     */
-    title: string;
-
-    /**
-     * The version number of the API
-     * @default '0.0.1'
-     */
-    version?: string;
-
-    /**
-     * A short description of the application
-     */
-    description: string;
-
-    /**
-     * A URL to the Terms of Service of the API
-     */
-    termsOfService?: string;
-
-    /**
-     * Owner and license information about API.
-     */
-    contact?: ContactOptions;
-
-    /**
-     * Any property or object with a key starting with 'x-*' is included as such in the `info` section of the object returned by the JSON endpoint. This allows custom properties to be defined as options and copied as such.
-     */
-    [key: string]: any;
-  };
-
-  type ContactOptions = {
+  interface ContactOptions {
     /**
      * A contact name for the API
      */
@@ -198,21 +86,68 @@ declare namespace hapiswagger {
      * Metadata about the license that describes how the API can be used.
      */
     license?: LicenseOptions;
-  };
+  }
 
-  type LicenseOptions = {
+  interface InfoOptions {
     /**
-     * The name of the license used for the API
+     * The title of the application
+     */
+    title: string;
+
+    /**
+     * The version number of the API
+     * @default '0.0.1'
+     */
+    version?: string;
+
+    /**
+     * A short description of the application
+     */
+    description?: string;
+
+    /**
+     * A URL to the Terms of Service of the API
+     */
+    termsOfService?: string;
+
+    /**
+     * Owner and license information about API.
+     */
+    contact?: ContactOptions;
+
+    /**
+     * Any property or object with a key starting with 'x-*' is included as such in the `info` section of the object returned by the JSON endpoint. This allows custom properties to be defined as options and copied as such.
+     */
+    [key: string]: any;
+  }
+
+  interface ExternalDocumentation {
+    /**
+     * A short description of the target documentation. GFM syntax can be used for rich text representation.
+     */
+    description?: string;
+
+    /**
+     * The URL for the target documentation. Value MUST be in the format of a URL.
+     */
+    string: string;
+  }
+
+  interface TagOptions {
+    /**
+     * The name of the tag.
      */
     name: string;
-    /**
-     * The URL to the license used by the API. MUST be formatted as a URL
-     */
-    url: string;
-  };
 
-  type AuthOptions = object;
-  interface Options {
+    /**
+     * A short description for the tag. GFM syntax can be used for rich text representation.
+     */
+    description?: string;
+
+    externalDocs?: ExternalDocumentation;
+  }
+
+  interface RegisterOptions {
     /**
      * The transfer protocol of the API ie `['http']`
      */
@@ -254,20 +189,14 @@ declare namespace hapiswagger {
     pathPrefixSize?: number;
 
     /**
-     * Methods for modifying path and group names in documentation
-     * @default []
-     */
-    pathReplacements?: PathReplacementOptions[];
-
-    /**
      * Metadata about the API endpoints
      */
     info: InfoOptions;
 
     /**
-     * Containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI. No defaults are provided.
+     * Allows adding meta data to a single tag that is used by the Operation Object. It is not mandatory to have a Tag Object per tag used there.
      */
-    tags?: TagOption[];
+    tags?: TagOptions;
 
     /**
      * How to create grouping of endpoints value either `path` or `tags`
@@ -277,18 +206,15 @@ declare namespace hapiswagger {
 
     /**
      * A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`)
+     *
+     * @param tag - String used to group API endpoint
+     *
      * @example
      * ```
      * (tag) => tag !== 'api'
      * ```
      */
     tagsGroupingFilter?(tag: string): boolean;
-
-    /**
-     * Containing Security Definitions Object. No defaults are provided.
-     * @link [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject)
-     */
-    securityDefinitions: SecurityDefinition;
 
     /**
      * How payload parameters are displayed 'json' or 'form'
@@ -304,18 +230,21 @@ declare namespace hapiswagger {
 
     /**
      * The mime types consumed
+     *
      * @default: 'application/json'
      */
     consumes?: string[];
 
     /**
      * The mime types produced
+     *
      * @default 'application/json'
      */
     produces?: string[];
 
     /**
      * Adds JOI data that cannot be use directly by swagger as metadata
+     *
      * @default true;
      */
     xProperties?: boolean;
@@ -328,18 +257,21 @@ declare namespace hapiswagger {
 
     /**
      * Dynamic naming convention. `default` or `useLabel`
+     *
      * @default 'default'
      */
     definitionPrefix?: string;
 
     /**
      * Dereferences JSON output
+     *
      * @default: false
      */
     deReference?: boolean;
 
     /**
      * Validates the JSON output against swagger specification
+     *
      * @default false
      */
     debug?: boolean;
@@ -348,6 +280,12 @@ declare namespace hapiswagger {
      * Any property or object with a key starting with 'x-*' is included as such in the `info` section of the object returned by the JSON endpoint. This allows custom properties to be defined as options and copied as such.
      */
     [key: string]: any;
+
+    //FIXME: https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/oauth2.md
+    /**
+     * Oauth configurations for swagger ui.
+     */
+    oauthOptions?: any;
 
     /**
      * Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false
@@ -380,16 +318,23 @@ declare namespace hapiswagger {
     templates?: string;
 
     /**
+     * Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing).
+     *
+     * @default 'list'
+     */
+    expanded: ExpandedType;
+
+    /**
      * Sort method for `tags` i.e. groups in UI.
      * @default: 'alpha'
      */
-    sortTags?: string;
+    sortTags?: SortTagsType;
 
     /**
      * Sort method for endpoints in UI. Values include `alpha`, `method`, `ordered`.
      * @default: 'alpha'
      */
-    sortEndpoints?: string;
+    sortEndpoints?: SortEndpointsType;
 
     /**
      * A JavaScript string injected into the HTML, called when UI loads.
@@ -405,6 +350,6 @@ declare namespace hapiswagger {
   }
 }
 
-declare const HapiSwagger: Plugin<hapiswagger.Options>;
+declare const hapiswagger: Plugin<hapiswagger.RegisterOptions>;
 
-export = HapiSwagger;
+export = hapiswagger;

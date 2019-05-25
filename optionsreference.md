@@ -41,7 +41,7 @@
 -   `definitionPrefix`: Dynamic naming convention. `default` or `useLabel` - default: `default`
 -   `deReference`: Dereferences JSON output - default: `false`,
 -   `debug`: Validates the JSON output against swagger specification - default: `false`
--   `x-*` (any): any property or object with a key starting with _x-_ is included in the swagger definition (similar to `x-*` options in the `info` object).
+-   `x-*` (any): any property or object with a key starting with `x-*` is included in the swagger definition (similar to `x-*` options in the `info` object).
 -   `oauthOptions`: [TODO](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/oauth2.md)
 
 ### UI
@@ -63,21 +63,24 @@
 -   `uiCompleteScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
 -   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
 
-## Route Options
+## Plugin Specific Route Options
 
 -   `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 -   `responses`: (object) a collection of example responses for each HTTP statuses
 -   `consumes`: (array) The mime types consumed - default: `['application/json']`
 -   `produces`: (array) The mime types produced - default: `['application/json']`
+-   `security`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
+-   `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints === ordered`
+-   `x-*` (any): any property or object with a key starting with `x-*` is included in the swagger definition (similar to `x-*` options in the `info` object).
+-   `deprecated`: (boolean) Whether a endpoint has been deprecated - default: false
+
+## Route Options
+
 -   `validate`
     -   `params`: (JOI object) allows you to `param` route documentation outside of HAPI validation
     -   `query`: (JOI object) allows you to `query` route documentation outside of HAPI validation
     -   `headers`: (JOI object) allows you to `headers` route documentation outside of HAPI validation
     -   `payload`: (JOI object) allows you to `payload` route documentation outside of HAPI validation
--   `security`: Hoek.reach(routeOptions, 'security') || null,
--   `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints === ordered`
--   `x-*` (any): any property or object with a key starting with `x-*` is included in the swagger definition (similar to `x-*` options in the `info` object).
--   `deprecated`: (boolean) Whether a endpoint has been deprecated - default: false
 
 ## Examples
 
