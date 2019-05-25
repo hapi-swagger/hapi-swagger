@@ -8,11 +8,13 @@
     "url": "git://github.com/glennjones/hapi-swagger.git"
   },
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "lib",
     "public",
     "templates",
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "keywords": [
     "api",
@@ -21,6 +23,24 @@
     "hapi",
     "joi"
   ],
+  "scripts": {
+    "start": "node examples/simple.js",
+    "start:basic": "node examples/basic.js",
+    "start:debug": "node examples/debug.js",
+    "start:dot:grouping": "node examples/dot-grouping.js",
+    "start:extend": "node examples/extend.js",
+    "start:group:ordered": "node examples/group-ordered.js",
+    "start:routes:simple": "node examples/group-ordered.js",
+    "test": "npm run test:lib && npm run test:ts",
+    "test:lib": "lab -L -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
+    "test:ts": "tsd",
+    "lint": "eslint .",
+    "test:cov:html": "lab -r html -o coverage.html",
+    "test:cov:coveralls": "npx lab -r lcov | npx coveralls",
+    "precommit": "npm test",
+    "postversion": "npm publish --tag=next",
+    "postpublish": "git push origin --all; git push origin --tags"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=8.0.0"
@@ -46,6 +66,7 @@
     "@hapi/lab": "^18.0.0",
     "@hapi/vision": "^5.3.1",
     "@hapi/wreck": "^15.0.0",
+    "@types/hapi__hapi": "^18.2.1",
     "babel-eslint": "^10.0.1",
     "blipp": "^4.0.0",
     "chalk": "^2.3.1",
@@ -62,23 +83,8 @@
     "jsonwebtoken": "^8.1.1",
     "lint-staged": "^8.1.0",
     "prettier": "^1.16.4",
-    "swagger-client": "^3.8.25"
-  },
-  "scripts": {
-    "start": "node examples/simple.js",
-    "start:basic": "node examples/basic.js",
-    "start:debug": "node examples/debug.js",
-    "start:dot:grouping": "node examples/dot-grouping.js",
-    "start:extend": "node examples/extend.js",
-    "start:group:ordered": "node examples/group-ordered.js",
-    "start:routes:simple": "node examples/group-ordered.js",
-    "test": "lab -L -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
-    "lint": "eslint .",
-    "test-cov-html": "lab -r html -o coverage.html",
-    "test-cov-coveralls": "npx lab -r lcov | npx coveralls",
-    "precommit": "npm test",
-    "postversion": "npm publish --tag=next",
-    "postpublish": "git push origin --all; git push origin --tags"
+    "swagger-client": "^3.8.25",
+    "tsd": "^0.7.3"
   },
   "peerDependencies": {
     "@hapi/hapi": "^18.0.0"
@@ -86,6 +92,7 @@
   "lint-staged": {
     "*.{js}": [
       "eslint --fix",
+      "npm test",
       "prettier --write",
       "git add"
     ],

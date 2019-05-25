@@ -10,4 +10,4 @@ env:
 before_script:
   - npm install --save-dev $HAPI
 after_script:
-  - 'npm run test-cov-coveralls'
+  - 'npm run test:cov:coveralls'

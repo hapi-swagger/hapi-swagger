@@ -3,18 +3,18 @@
 This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [HAPI](http://hapijs.com/) When installed it will self document the API interface
 in a project.
 
-[![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=flat-square)](http://travis-ci.org/glennjones/hapi-swagger)
-[![Coverage Status](https://img.shields.io/coveralls/glennjones/hapi-swagger/dev.svg?style=flat-square)](https://coveralls.io/r/glennjones/hapi-swagger)
-[![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=flat-square)](https://www.npmjs.com/package/hapi-swagger)
-[![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.github.com/glennjones/microformat-shic/master/license.txt)
+[![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=for-the-badge)](http://travis-ci.org/glennjones/hapi-swagger)
+[![Coverage Status](https://img.shields.io/coveralls/glennjones/hapi-swagger/dev.svg?style=for-the-badge)](https://coveralls.io/r/glennjones/hapi-swagger)
+[![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=for-the-badge)](https://www.npmjs.com/package/hapi-swagger)
+[![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.github.com/glennjones/hapi-swagger/master/license.txt)
 
 ## Compatibility
 
-| Version | [hapi.js](https://github.com/hapijs/hapi) | Node  | Release Notes                                                            |
-| ------- | ----------------------------------------- | ----- | ------------------------------------------------------------------------ |
-| `v10.x` | `>=18.3.1 @hapi/hapi`                     | `>=8` | [hapijs/hapi#587](https://github.com/glennjones/hapi-swagger/issues/587) |
-| `9.x`   | `>=17 hapi`                               | `>=8` | [hapijs/hapi#487](https://github.com/glennjones/hapi-swagger/issues/487) |
-| `7.x`   | `<17 hapi`                                | ???   | [hapijs/hapi#325](https://github.com/glennjones/hapi-swagger/issues/325) |
+| Version | [hapi.js](https://github.com/hapijs/hapi) | Node  | Release Notes                                                 |
+| ------- | ----------------------------------------- | ----- | ------------------------------------------------------------- |
+| `v10.x` | `>=18.3.1 @hapi/hapi`                     | `>=8` | [#587](https://github.com/glennjones/hapi-swagger/issues/587) |
+| `9.x`   | `>=17 hapi`                               | `>=8` | [#487](https://github.com/glennjones/hapi-swagger/issues/487) |
+| `7.x`   | `<17 hapi`                                | ???   | [#325](https://github.com/glennjones/hapi-swagger/issues/325) |
 
 ## Installation
 
@@ -28,8 +28,8 @@ If you want to view the documentation from your API you will also need to instal
 content serving.
 
 ```bash
-> npm install inert --save
-> npm install vision --save
+> npm install @hapi/inert --save
+> npm install @hapi/vision --save
 ```
 
 ## Documentation
