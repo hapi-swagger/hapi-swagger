@@ -38,7 +38,7 @@
     "test:cov:html": "lab -r html -o coverage.html",
     "test:cov:coveralls": "npx lab -r lcov | npx coveralls",
     "precommit": "npm test",
-    "postversion": "npm publish --tag=next",
+    "postversion": "npm publish",
     "postpublish": "git push origin --all; git push origin --tags"
   },
   "license": "MIT",
