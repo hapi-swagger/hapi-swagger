@@ -1,16 +1,29 @@
-#### Context
+# Issue
 
--   _hapi-swagger version_:
--   _any other relevant information_:
+## Environment
 
-#### What are you trying to achieve or the steps to reproduce?
+```bash
+npx envinfo --npmPackages '*hapi*' --binaries
+```
 
-Describe your issue here, include example `route` or JOI schemas.
+(paste the output of the command here)
+
+## Steps to Reproduce
+
+(describe your issue here, include example `route` or **joi** schemas)
 
 ```js
 const server.routes({...})
 ```
 
-#### What result did you get?
+## Expected Behavior
 
-#### What did you expect?
+(write what you thought would happen)
+
+## Actual Behavior
+
+(write what happened)
+
+## Reproducible Demo
+
+(Paste the link to an example project and exact instructions to reproduce the issue)
