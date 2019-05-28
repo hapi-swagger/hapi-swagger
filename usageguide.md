@@ -143,7 +143,7 @@ let options = {
         'title': 'Test API Documentation',
         'version': Pack.version,
     },
-    options.grouping: 'tags'
+    grouping: 'tags'
 };
 
 let routes = [{
