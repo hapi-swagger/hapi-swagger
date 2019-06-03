@@ -65,7 +65,7 @@ lab.experiment('property - ', () => {
       format: 'binary'
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, 'body', true, false)).to.equal({
-      $ref: '#/definitions/Model 1'
+      $ref: '#/definitions/Model%201'
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.any(), null, 'body', true, false)).to.equal({ type: 'string' });
     //expect(propertiesNoAlt.parseProperty('x', Joi.func(), null, 'body', true, false)).to.equal({ 'type': 'string' });

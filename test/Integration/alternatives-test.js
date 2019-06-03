@@ -288,7 +288,7 @@ lab.experiment('alternatives', () => {
         in: 'body',
         name: 'body',
         schema: {
-          $ref: '#/definitions/Model 1'
+          $ref: '#/definitions/Model%201'
         }
       }
     ]);
