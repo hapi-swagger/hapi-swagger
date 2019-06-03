@@ -102,7 +102,7 @@ lab.experiment('child-models', () => {
     expect(response.statusCode).to.equal(200);
 
     expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.equal({
-      $ref: '#/definitions/Model 1'
+      $ref: '#/definitions/Model%201'
     });
 
     expect(response.result.definitions['Model 1']).to.equal({

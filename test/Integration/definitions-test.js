@@ -102,7 +102,7 @@ lab.experiment('definitions', () => {
 
     expect(response.statusCode).to.equal(200);
     expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
-      $ref: '#/definitions/Model 1'
+      $ref: '#/definitions/Model%201'
     });
     expect(response.result.definitions['Model 1']).to.equal(defination);
     const isValid = await Validate.test(response.result);

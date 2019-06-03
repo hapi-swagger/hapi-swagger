@@ -873,19 +873,19 @@ lab.experiment('responses', () => {
             },
             '400': {
               schema: {
-                $ref: '#/definitions/Model 1'
+                $ref: '#/definitions/Model%201'
               },
               description: '400 - Added from plugin-options'
             },
             '404': {
               description: '404 from response status object',
               schema: {
-                $ref: '#/definitions/Model 1'
+                $ref: '#/definitions/Model%201'
               }
             },
             '429': {
               schema: {
-                $ref: '#/definitions/Model 1'
+                $ref: '#/definitions/Model%201'
               },
               description: 'Too Many Requests'
             },
