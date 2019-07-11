@@ -212,6 +212,7 @@ lab.experiment('responses', () => {
         response: {
           status: {
             200: joiSumModel,
+            204: undefined,
             400: err400,
             404: err404,
             429: err429,
