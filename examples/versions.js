@@ -152,7 +152,7 @@ server.register(
                     'application/vnd.mysuperapi.v1+json'
                 );
             },
-            config: {
+            options: {
                 tags: ['api', 'v1'],
                 plugins: {
                     'hapi-swagger': {
@@ -182,7 +182,7 @@ server.register(
                     'application/vnd.mysuperapi.v2+json'
                 );
             },
-            config: {
+            options: {
                 tags: ['api', 'v1', 'v2'],
                 plugins: {
                     'hapi-swagger': {
@@ -213,7 +213,7 @@ server.register(
                     'application/vnd.mysuperapi.v2+json'
                 );
             },
-            config: {
+            options: {
                 tags: ['api', 'v2'],
                 plugins: {
                     'hapi-swagger': {

@@ -11,7 +11,7 @@ lab.experiment('sort', () => {
     {
       method: 'POST',
       path: '/x',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -24,7 +24,7 @@ lab.experiment('sort', () => {
     {
       method: 'GET',
       path: '/b',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -37,7 +37,7 @@ lab.experiment('sort', () => {
     {
       method: 'GET',
       path: '/b/c',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -50,7 +50,7 @@ lab.experiment('sort', () => {
     {
       method: 'POST',
       path: '/b/c/d',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -63,7 +63,7 @@ lab.experiment('sort', () => {
     {
       method: 'GET',
       path: '/b/c/d',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -76,7 +76,7 @@ lab.experiment('sort', () => {
     {
       method: 'DELETE',
       path: '/a',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -89,7 +89,7 @@ lab.experiment('sort', () => {
     {
       method: 'POST',
       path: '/a',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -102,7 +102,7 @@ lab.experiment('sort', () => {
     {
       method: 'GET',
       path: '/a',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {

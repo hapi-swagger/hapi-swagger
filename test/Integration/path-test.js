@@ -339,7 +339,7 @@ lab.experiment('path', () => {
       {
         method: 'POST',
         path: '/server/1/{a}/{b?}',
-        config: {
+        options: {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
@@ -353,7 +353,7 @@ lab.experiment('path', () => {
       {
         method: 'POST',
         path: '/server/2/{c}/{d?}',
-        config: {
+        options: {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
@@ -367,7 +367,7 @@ lab.experiment('path', () => {
       {
         method: 'POST',
         path: '/server/3/{e}/{f?}',
-        config: {
+        options: {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
@@ -526,7 +526,7 @@ lab.experiment('path', () => {
     let testRoutes = {
       method: 'GET',
       path: '/{name}',
-      config: {
+      options: {
         handler: () => {},
         tags: ['api'],
         validate: {
@@ -559,7 +559,7 @@ lab.experiment('path', () => {
     let testRoutes = {
       method: 'POST',
       path: '/{name}',
-      config: {
+      options: {
         handler: () => {},
         tags: ['api'],
         validate: {
@@ -590,7 +590,7 @@ lab.experiment('path', () => {
     let testRoutes = {
       method: 'POST',
       path: '/',
-      config: {
+      options: {
         handler: () => {},
         tags: ['api'],
         validate: {

@@ -20,7 +20,7 @@ lab.experiment('proxies', () => {
     method: 'GET',
     path: '/test',
     handler: Helper.defaultHandler,
-    config: {
+    options: {
       tags: ['api']
     }
   };
@@ -138,7 +138,7 @@ lab.experiment('proxies', () => {
     routes = {
       method: 'POST',
       path: '/tools/microformats/',
-      config: {
+      options: {
         tags: ['api'],
         plugins: {
           'hapi-swagger': {
@@ -207,7 +207,7 @@ lab.experiment('proxies', () => {
     routes = {
       method: 'POST',
       path: '/tools/microformats/',
-      config: {
+      options: {
         tags: ['api'],
         plugins: {
           'hapi-swagger': {
@@ -252,7 +252,7 @@ lab.experiment('proxies', () => {
       {
         method: 'POST',
         path: '/tools/microformats/1',
-        config: {
+        options: {
           tags: ['api'],
           plugins: {
             'hapi-swagger': {
@@ -278,7 +278,7 @@ lab.experiment('proxies', () => {
       {
         method: 'POST',
         path: '/tools/microformats/2',
-        config: {
+        options: {
           tags: ['api'],
           plugins: {
             'hapi-swagger': {
@@ -325,7 +325,7 @@ lab.experiment('proxies', () => {
       {
         method: 'POST',
         path: '/tools/microformats/1',
-        config: {
+        options: {
           tags: ['api'],
           plugins: {
             'hapi-swagger': {
@@ -351,7 +351,7 @@ lab.experiment('proxies', () => {
       {
         method: 'POST',
         path: '/tools/microformats/2',
-        config: {
+        options: {
           tags: ['api'],
           plugins: {
             'hapi-swagger': {

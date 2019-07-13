@@ -12,7 +12,7 @@ lab.experiment('documentation-route-tags', () => {
       method: 'GET',
       path: '/test',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api']
       }
     }

@@ -128,7 +128,7 @@ only assigned to the route they are apply to.
 {
     method: 'PUT',
     path: '/store/{id}',
-    config: {
+    options: {
         handler: handlers.storeUpdate,
         plugins: {
             'hapi-swagger': {

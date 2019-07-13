@@ -69,7 +69,7 @@ const ser = async () => {
       handler: function(request, h) {
         return h.response(users);
       },
-      config: {
+      options: {
         tags: ['api']
       }
     });
@@ -80,7 +80,7 @@ const ser = async () => {
       handler: function(request, h) {
         return h.response(users);
       },
-      config: {
+      options: {
         tags: ['api']
       }
     });

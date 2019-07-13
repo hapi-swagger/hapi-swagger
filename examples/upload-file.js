@@ -66,7 +66,7 @@ const routes = [
   {
     method: 'POST',
     path: '/store/file/',
-    config: {
+    options: {
       handler: storeFile,
       plugins: {
         'hapi-swagger': {

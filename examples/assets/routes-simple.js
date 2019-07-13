@@ -174,7 +174,7 @@ module.exports = [
   {
     method: 'PUT',
     path: '/v1/sum/add/{a}/{b}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Add',
       tags: ['api', 'reduced'],
@@ -202,7 +202,7 @@ module.exports = [
   {
     method: 'PUT',
     path: '/v1/sum/subtract/{a}/{b}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Subtract',
       notes: ['Subtracts the second number from the first and return the result'],
@@ -228,7 +228,7 @@ module.exports = [
   {
     method: 'PUT',
     path: '/v1/sum/divide/{a}/{b}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Divide',
       notes: ['Divides the first number by the second and return the result'],
@@ -255,7 +255,7 @@ module.exports = [
   {
     method: 'PUT',
     path: '/v1/sum/multiple/{a}/{b}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Multiple',
       notes: ['Multiples the two numbers together and return the result'],
@@ -282,7 +282,7 @@ module.exports = [
   {
     method: 'GET',
     path: '/v1/store/',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'List sums',
       notes: ['List the sums in the data store'],
@@ -304,7 +304,7 @@ module.exports = [
   {
     method: 'GET',
     path: '/v1/store/{id}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Get sum',
       notes: ['Get a sum from the store'],
@@ -326,7 +326,7 @@ module.exports = [
   {
     method: 'POST',
     path: '/v1/store/',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Add sum',
       notes: ['Adds a sum to the data store'],
@@ -366,7 +366,7 @@ module.exports = [
   {
     method: 'PUT',
     path: '/v1/store/{id?}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Update sum',
       notes: ['Update a sum in our data store'],
@@ -408,7 +408,7 @@ module.exports = [
   {
     method: 'DELETE',
     path: '/v1/store/{id}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Delete sums',
       notes: ['Delete a sums from the data store'],
@@ -430,7 +430,7 @@ module.exports = [
   {
     method: 'POST',
     path: '/v1/store/payload/',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Add sum, with JSON object',
       notes: ['Adds a sum to the data store, using JSON object in payload'],
@@ -472,7 +472,7 @@ module.exports = [
   {
     method: 'POST',
     path: '/v1/store/file/',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Add sum, with JSON file',
       notes: ['Adds a sum to the data store, using JSON object in a uploaded file'],
@@ -503,7 +503,7 @@ module.exports = [
   {
     method: 'GET',
     path: '/',
-    config: {
+    options: {
       handler: function(request, h) {
         return h.view('custom.html', {});
       }

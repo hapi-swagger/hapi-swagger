@@ -655,7 +655,7 @@ lab.experiment('property deep - ', () => {
       {
         method: 'POST',
         path: '/path/two',
-        config: {
+        options: {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: {

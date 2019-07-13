@@ -40,7 +40,7 @@ const routes = [
   {
     method: 'PUT',
     path: '/sum/add/{a}/{b}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Add',
       tags: ['api'],
@@ -65,7 +65,7 @@ const routes = [
   {
     method: 'PUT',
     path: '/math/add/{a}/{b}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Add',
       tags: ['api'],
@@ -90,7 +90,7 @@ const routes = [
   {
     method: 'PUT',
     path: '/mathematics/add/{a}/{b}',
-    config: {
+    options: {
       handler: defaultHandler,
       description: 'Add',
       tags: ['api'],

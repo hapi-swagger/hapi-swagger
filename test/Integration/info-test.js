@@ -12,7 +12,7 @@ lab.experiment('info', () => {
       method: 'GET',
       path: '/test',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api']
       }
     }

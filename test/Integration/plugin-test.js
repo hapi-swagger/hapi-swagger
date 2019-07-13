@@ -16,7 +16,7 @@ lab.experiment('plugin', () => {
     {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
@@ -261,7 +261,7 @@ lab.experiment('plugin', () => {
       {
         method: 'GET',
         path: '/foo/bar/extra',
-        config: {
+        options: {
           handler: Helper.defaultHandler,
           tags: ['api']
         }
@@ -305,7 +305,7 @@ lab.experiment('plugin', () => {
       {
         method: 'POST',
         path: '/test/',
-        config: {
+        options: {
           handler: Helper.defaultHandler,
           tags: ['api'],
           plugins: {
@@ -338,7 +338,7 @@ lab.experiment('plugin', () => {
       {
         method: 'POST',
         path: '/test/',
-        config: {
+        options: {
           handler: Helper.defaultHandler,
           tags: ['api'],
           plugins: {
@@ -367,7 +367,7 @@ lab.experiment('plugin', () => {
       {
         method: 'POST',
         path: '/test/',
-        config: {
+        options: {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {

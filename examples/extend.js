@@ -37,7 +37,7 @@ const ser = async () => {
     server.route({
       method: 'PUT',
       path: '/sum/dividableby/{number}',
-      config: {
+      options: {
         handler: (request, h) => {
           return h.response({
             status: 'OK'

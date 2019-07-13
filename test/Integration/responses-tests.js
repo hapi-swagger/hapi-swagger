@@ -110,7 +110,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
@@ -140,7 +140,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
@@ -168,7 +168,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
@@ -199,7 +199,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
@@ -235,7 +235,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
@@ -270,7 +270,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         plugins: {
@@ -302,7 +302,7 @@ lab.experiment('responses', () => {
       method: 'POST',
       path: '/store/',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api'],
         response: {
           schema: Joi.object()
@@ -339,7 +339,7 @@ lab.experiment('responses', () => {
       method: 'POST',
       path: '/store/',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api'],
         plugins: {
           'hapi-swagger': {
@@ -364,7 +364,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         plugins: {
@@ -435,7 +435,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
@@ -503,7 +503,7 @@ lab.experiment('responses', () => {
       {
         method: 'POST',
         path: '/path/two',
-        config: {
+        options: {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: {
@@ -516,7 +516,7 @@ lab.experiment('responses', () => {
       {
         method: 'GET',
         path: '/path/two',
-        config: {
+        options: {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: {
@@ -559,7 +559,7 @@ lab.experiment('responses', () => {
       {
         method: 'POST',
         path: '/path/two',
-        config: {
+        options: {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: {
@@ -596,7 +596,7 @@ lab.experiment('responses', () => {
       {
         method: 'POST',
         path: '/path/two',
-        config: {
+        options: {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: { schema: exampleSchema }
@@ -655,7 +655,7 @@ lab.experiment('responses', () => {
       {
         method: 'POST',
         path: '/path/two',
-        config: {
+        options: {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: { schema: exampleSchema }
@@ -698,7 +698,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         plugins: {
@@ -740,7 +740,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         plugins: {
@@ -785,7 +785,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         plugins: {
@@ -828,7 +828,7 @@ lab.experiment('responses', () => {
     const routes = {
       method: 'POST',
       path: '/store/',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         tags: ['api'],
         plugins: {

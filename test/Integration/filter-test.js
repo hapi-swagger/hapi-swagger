@@ -12,7 +12,7 @@ lab.experiment('filter', () => {
       method: 'GET',
       path: '/actors',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api']
       }
     },
@@ -20,7 +20,7 @@ lab.experiment('filter', () => {
       method: 'GET',
       path: '/movies',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api', 'a']
       }
     },
@@ -28,7 +28,7 @@ lab.experiment('filter', () => {
       method: 'GET',
       path: '/movies/movie',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api', 'b', 'a']
       }
     },
@@ -36,7 +36,7 @@ lab.experiment('filter', () => {
       method: 'GET',
       path: '/movies/movie/director',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api', 'a']
       }
     },
@@ -44,7 +44,7 @@ lab.experiment('filter', () => {
       method: 'GET',
       path: '/movies/movie/actor',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api', 'c']
       }
     },
@@ -52,7 +52,7 @@ lab.experiment('filter', () => {
       method: 'GET',
       path: '/movies/movie/actors',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api', 'd']
       }
     }

@@ -11,7 +11,7 @@ const Routes = [
   {
     method: 'POST',
     path: '/petstore',
-    config: {
+    options: {
       handler: (request, reply) => {
         reply({ ok: true });
       },
@@ -27,7 +27,7 @@ const Routes = [
   {
     method: 'GET',
     path: '/petstore',
-    config: {
+    options: {
       handler: (request, reply) => {
         reply({ ok: true });
       },
@@ -43,7 +43,7 @@ const Routes = [
   {
     method: 'GET',
     path: '/petstore/{id}',
-    config: {
+    options: {
       handler: (request, reply) => {
         reply({ ok: true });
       },
@@ -59,7 +59,7 @@ const Routes = [
   {
     method: 'POST',
     path: '/petstore/{id}/pet',
-    config: {
+    options: {
       handler: (request, reply) => {
         reply({ ok: true });
       },
@@ -75,7 +75,7 @@ const Routes = [
   {
     method: 'GET',
     path: '/pet/{id}',
-    config: {
+    options: {
       handler: (request, reply) => {
         reply({ ok: true });
       },
@@ -91,7 +91,7 @@ const Routes = [
   {
     method: 'GET',
     path: '/petstore/{id}/pet',
-    config: {
+    options: {
       handler: (request, reply) => {
         reply({ ok: true });
       },

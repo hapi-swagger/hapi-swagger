@@ -34,7 +34,7 @@ The most common API endpoint with HAPI.js is one that POST's a JSON body.
 {
     method: 'POST',
     path: '/items',
-    config: {
+    options: {
         handler: (request, h) => { return 'OK'; },
         tags: ['api'],
         validate: {
@@ -55,7 +55,7 @@ If you wish to have hapi-swagger display a interface to POST data in `form-urlen
 {
     method: 'POST',
     path: '/items',
-    config: {
+    options: {
         handler: (request, h) => { return 'OK'; },
         tags: ['api'],
         plugins: {
@@ -81,7 +81,7 @@ The plugin will take either a JavaScript or JOI object for `params` `query` and 
 {
     method: 'GET',
     path: '/items/{pageNo}',
-    config: {
+    options: {
         handler: (request, h) => { return 'OK'; },
         tags: ['api'],
         validate: {
@@ -140,29 +140,36 @@ custom tags for each route as below.
 ```javascript
 let options = {
     info: {
-        'title': 'Test API Documentation',
-        'version': Pack.version,
+        title: 'Test API Documentation',
+        version: Pack.version
     },
     grouping: 'tags'
 };
 
-let routes = [{
-    method: 'GET',
-    path: '/petstore/{id}',
-    config: {
-        handler: (request, h) => { return { ok: true }; },
-        description: 'Array properties',
-        tags: ['api', 'petstore']
+let routes = [
+    {
+        method: 'GET',
+        path: '/petstore/{id}',
+        options: {
+            handler: (request, h) => {
+                return { ok: true };
+            },
+            description: 'Array properties',
+            tags: ['api', 'petstore']
+        }
+    },
+    {
+        method: 'GET',
+        path: '/store/{id}/address',
+        options: {
+            handler: (request, h) => {
+                return { ok: true };
+            },
+            description: 'Array properties',
+            tags: ['api', 'petstore']
+        }
     }
-}, {
-    method: 'GET',
-    path: '/store/{id}/address',
-    config: {
-        handler: (request, h) => { return { ok: true }; },
-        description: 'Array properties',
-        tags: ['api', 'petstore']
-    }
-}]
+];
 ```
 
 Both the routes above would be grouped in `petstore`. This is because the second tag in each route is set to `petstore` and
@@ -217,7 +224,7 @@ you added route option `order` to each endpoint and switch the plugin options to
 {
     method: 'PUT',
     path: '/test',
-    config: {
+    options: {
         description: 'Add',
         tags: [
             'api'
@@ -290,7 +297,7 @@ const responseModel = Joi.object({
 within you route object ...
 
 ```javascript
-config: {
+options: {
     handler: handlers.add,
     description: 'Add',
     tags: ['api'],
@@ -318,7 +325,7 @@ You can add HTTP status codes to each of the endpoints.
 As of Hapi.js v18.1.0, one can use Hapi's `response.status` option in order to document the schemas of the response objects. Hapi uses the `response.status` for its validation with Joi.
 
 ```javascript
-config: {
+options: {
     handler: handlers.add,
     description: 'Add',
     tags: ['api'],
@@ -363,7 +370,7 @@ In the following example, the `Reason` box in Swagger-UI will show the following
 -   400 -> `Something wrong happened`
 
 ```javascript
-config: {
+options: {
     handler: handlers.add,
     description: 'Add',
     tags: ['api'],
@@ -435,7 +442,7 @@ the three important elements are:
 {
     method: 'POST',
     path: '/store/file/',
-    config: {
+    options: {
         handler: handlers.storeAddFile,
         plugins: {
             'hapi-swagger': {

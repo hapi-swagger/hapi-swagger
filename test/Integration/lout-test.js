@@ -38,7 +38,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/test',
-      config: {
+      options: {
         handler: Helper.defaultHandler,
         validate: {
           query: {
@@ -55,7 +55,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/another/test',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -68,7 +68,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/zanother/test',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -81,7 +81,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'POST',
       path: '/test',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -96,7 +96,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'DELETE',
       path: '/test',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -109,7 +109,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'PUT',
       path: '/test',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -122,7 +122,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'PATCH',
       path: '/test',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -136,7 +136,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/notincluded',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
@@ -147,7 +147,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/nested',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -163,7 +163,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/rootobject',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -176,7 +176,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/rootarray',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -191,7 +191,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/complexarray',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -216,7 +216,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/path/{pparam}/test',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -229,7 +229,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/emptyobject',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -242,7 +242,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/alternatives',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -255,7 +255,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withnestedalternatives',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -297,7 +297,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/novalidation',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler
       }
@@ -305,7 +305,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withresponse',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         response: {
@@ -318,7 +318,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withstatus',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         response: {
@@ -339,7 +339,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withpojoinarray',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -354,7 +354,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'POST',
       path: '/withnestedrulesarray',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -377,7 +377,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withhtmlnote',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -391,7 +391,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withnotesarray',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -407,7 +407,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withexample',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -422,7 +422,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'POST',
       path: '/denybody',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -433,7 +433,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'POST',
       path: '/rootemptyobject',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -444,7 +444,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withnestedexamples',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -467,7 +467,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withmeta',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -483,7 +483,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withunit',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -496,7 +496,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withdefaultvalue',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -509,7 +509,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withbinaryencoding',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -526,7 +526,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withdate',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -541,7 +541,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withpeersconditions',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -559,7 +559,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withpattern',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -574,7 +574,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withallowunknown',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -588,7 +588,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withstringspecifics',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -612,7 +612,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withconditionalalternatives',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -646,7 +646,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withreferences',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -660,7 +660,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withassert',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -675,7 +675,7 @@ lab.experiment('lout examples', () => {
       method: 'GET',
       path: '/withproperties',
       vhost: 'john.doe',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         cors: {
@@ -692,7 +692,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withrulereference',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -707,7 +707,7 @@ lab.experiment('lout examples', () => {
       method: 'GET',
       path: '/withcorstrue',
       vhost: 'john.doe',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         cors: true
@@ -716,7 +716,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/withstrip',
-      config: {
+      options: {
         tags: ['api'],
         handler: Helper.defaultHandler,
         validate: {
@@ -730,7 +730,7 @@ lab.experiment('lout examples', () => {
     {
       method: 'GET',
       path: '/internal',
-      config: {
+      options: {
         tags: ['api'],
         isInternal: true,
         handler: Helper.defaultHandler

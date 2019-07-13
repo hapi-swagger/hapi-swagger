@@ -21,7 +21,7 @@ lab.experiment('child-models', () => {
     {
       method: 'POST',
       path: '/foo/v1/bar',
-      config: {
+      options: {
         description: '...',
         tags: ['api'],
         validate: {
@@ -40,7 +40,7 @@ lab.experiment('child-models', () => {
     {
       path: '/bar/objects',
       method: 'POST',
-      config: {
+      options: {
         handler: function() {},
         tags: ['api'],
         response: {
@@ -70,7 +70,7 @@ lab.experiment('child-models', () => {
     {
       path: '/bar/arrays',
       method: 'POST',
-      config: {
+      options: {
         handler: function() {},
         tags: ['api'],
         response: {

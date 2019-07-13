@@ -12,7 +12,7 @@ lab.experiment('wildcard routes', () => {
       method: '*',
       path: '/test',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api'],
         notes: 'test'
       }
@@ -35,7 +35,7 @@ lab.experiment('wildcard routes', () => {
       method: ['GET', 'POST'],
       path: '/test',
       handler: Helper.defaultHandler,
-      config: {
+      options: {
         tags: ['api'],
         notes: 'test'
       }

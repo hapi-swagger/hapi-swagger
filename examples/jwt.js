@@ -77,7 +77,7 @@ const ser = async () => {
         {
           method: 'GET',
           path: '/',
-          config: {
+          options: {
             auth: false,
             handler: function(request, reply) {
               reply({ text: 'Token not required' });
@@ -87,7 +87,7 @@ const ser = async () => {
         {
           method: 'GET',
           path: '/restricted',
-          config: {
+          options: {
             auth: 'jwt',
             tags: ['api'],
             handler: function(request, reply) {
@@ -100,7 +100,7 @@ const ser = async () => {
         {
           method: 'GET',
           path: '/token',
-          config: {
+          options: {
             auth: false,
             tags: ['api'],
             handler: function(request, reply) {

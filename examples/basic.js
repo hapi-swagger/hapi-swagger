@@ -66,7 +66,7 @@ const ser = async () => {
     server.route({
       method: 'PUT',
       path: '/v1/store/{id?}',
-      config: {
+      options: {
         handler: function(request, h) {
           return h.response('success');
         },
