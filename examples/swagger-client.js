@@ -110,27 +110,23 @@ const routes = [
 ];
 
 const ser = async () => {
-  try {
-    const server = Hapi.Server({
-      host: 'localhost',
-      port: 3000
-    });
+  const server = Hapi.Server({
+    host: 'localhost',
+    port: 3000
+  });
 
-    // Blipp - Needs updating for Hapi v17.x
-    await server.register([
-      {
-        plugin: HapiSwagger,
-        options: swaggerOptions
-      }
-    ]);
+  // Blipp - Needs updating for Hapi v17.x
+  await server.register([
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
+    }
+  ]);
 
-    server.route(routes);
+  server.route(routes);
 
-    await server.start();
-    return server;
-  } catch (err) {
-    throw err;
-  }
+  await server.start();
+  return server;
 };
 
 ser()

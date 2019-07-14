@@ -14,73 +14,69 @@ let swaggerOptions = {
 };
 
 const ser = async () => {
-  try {
-    const server = Hapi.Server({
-      host: 'localhost',
-      port: 3000
-    });
+  const server = Hapi.Server({
+    host: 'localhost',
+    port: 3000
+  });
 
-    await server.register([
-      Inert,
-      Vision,
-      Blipp,
-      {
-        plugin: HapiSwagger,
-        options: swaggerOptions
-      }
-    ]);
+  await server.register([
+    Inert,
+    Vision,
+    Blipp,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
+    }
+  ]);
 
-    server.route({
-      method: 'PUT',
-      path: '/v1/store/{id?}',
-      options: {
-        handler: (request, h) => {
-          return h.response('success');
+  server.route({
+    method: 'PUT',
+    path: '/v1/store/{id?}',
+    options: {
+      handler: (request, h) => {
+        return h.response('success');
+      },
+      description: 'Update sum',
+      notes: ['Update a sum in our data store'],
+      plugins: {
+        'hapi-swagger': {
+          payloadType: 'form'
+        }
+      },
+      tags: ['api'],
+      validate: {
+        params: {
+          id: Joi.string()
+            .required()
+            .description('the id of the sum in the store')
         },
-        description: 'Update sum',
-        notes: ['Update a sum in our data store'],
-        plugins: {
-          'hapi-swagger': {
-            payloadType: 'form'
-          }
-        },
-        tags: ['api'],
-        validate: {
-          params: {
-            id: Joi.string()
-              .required()
-              .description('the id of the sum in the store')
-          },
-          payload: {
-            a: Joi.number()
-              .required()
-              .description('the first number')
-              .default('1'),
+        payload: {
+          a: Joi.number()
+            .required()
+            .description('the first number')
+            .default('1'),
 
-            b: Joi.number()
-              .required()
-              .description('the second number')
-              .example('2'),
+          b: Joi.number()
+            .required()
+            .description('the second number')
+            .example('2'),
 
-            operator: Joi.string()
-              .required()
-              .default('+')
-              .valid(['+', '-', '/', '*'])
-              .description('the opertator i.e. + - / or *'),
+          operator: Joi.string()
+            .required()
+            .default('+')
+            .valid(['+', '-', '/', '*'])
+            .description('the operator i.e. + - / or *'),
 
-            equals: Joi.number()
-              .required()
-              .description('the result of the sum')
-          }
+          equals: Joi.number()
+            .required()
+            .description('the result of the sum')
         }
       }
-    });
+    }
+  });
 
-    await server.start();
-    return server;
-  } catch (err) {
-    throw err;
-  }
+  await server.start();
+  return server;
 };
 
 ser()

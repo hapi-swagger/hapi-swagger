@@ -83,15 +83,15 @@ server.register(
         Vision,
         Blipp,
         {
-            register: require('good'),
+            plugin: require('good'),
             options: goodOptions
         },
         {
-            register: HapiSwagger,
+            plugin: HapiSwagger,
             options: swaggerOptions
         },
         {
-            register: HapiApiVersion,
+            plugin: HapiApiVersion,
             options: versionOptions
         }
     ],

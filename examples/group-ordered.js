@@ -44,8 +44,8 @@ const Routes = [
     method: 'GET',
     path: '/petstore/{id}',
     options: {
-      handler: (request, reply) => {
-        reply({ ok: true });
+      handler: () => {
+        return { ok: true };
       },
       description: 'Array properties',
       tags: ['api', 'petstore'],
@@ -60,8 +60,8 @@ const Routes = [
     method: 'POST',
     path: '/petstore/{id}/pet',
     options: {
-      handler: (request, reply) => {
-        reply({ ok: true });
+      handler: () => {
+        return { ok: true };
       },
       description: 'Array properties',
       tags: ['api', 'pet'],
@@ -76,8 +76,8 @@ const Routes = [
     method: 'GET',
     path: '/pet/{id}',
     options: {
-      handler: (request, reply) => {
-        reply({ ok: true });
+      handler: () => {
+        return { ok: true };
       },
       description: 'Array properties',
       tags: ['api', 'pet', 'extra'],
@@ -92,8 +92,8 @@ const Routes = [
     method: 'GET',
     path: '/petstore/{id}/pet',
     options: {
-      handler: (request, reply) => {
-        reply({ ok: true });
+      handler: () => {
+        return { ok: true };
       },
       description: 'Array properties',
       tags: ['api', 'pet'],
@@ -129,31 +129,27 @@ let swaggerOptions = {
 };
 
 const ser = async () => {
-  try {
-    const server = Hapi.Server({
-      host: 'localhost',
-      port: 3000
-    });
+  const server = Hapi.Server({
+    host: 'localhost',
+    port: 3000
+  });
 
-    // Blipp and Good - Needs updating for Hapi v17.x
-    await server.register([
-      Inert,
-      Vision,
-      Blipp,
-      {
-        plugin: HapiSwagger,
-        options: swaggerOptions
-      }
-    ]);
+  // Blipp and Good - Needs updating for Hapi v17.x
+  await server.register([
+    Inert,
+    Vision,
+    Blipp,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
+    }
+  ]);
 
-    server.route(Routes);
+  server.route(Routes);
 
-    await server.start();
+  await server.start();
 
-    return server;
-  } catch (err) {
-    throw err;
-  }
+  return server;
 };
 
 ser()

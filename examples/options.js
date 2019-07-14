@@ -94,59 +94,55 @@ let swaggerOptions = {
 };
 
 const ser = async () => {
-  try {
-    const server = Hapi.Server({
-      host: 'localhost',
-      port: 3000
-    });
+  const server = Hapi.Server({
+    host: 'localhost',
+    port: 3000
+  });
 
-    await server.register(BearerToken);
-    server.auth.strategy('bearer', 'bearer-access-token', {
-      accessTokenName: 'access_token',
-      validate: async (request, token) => {
-        const isValid = token === '12345';
-        let credentials = null;
-        let artifacts = null;
+  await server.register(BearerToken);
+  server.auth.strategy('bearer', 'bearer-access-token', {
+    accessTokenName: 'access_token',
+    validate: async (request, token) => {
+      const isValid = token === '12345';
+      let credentials = null;
+      let artifacts = null;
 
-        if (isValid) {
-          credentials = { token };
-          artifacts = {
-            user: {
-              username: 'glennjones',
-              name: 'Glenn Jones',
-              groups: ['admin', 'user']
-            }
-          };
-          return { isValid, credentials, artifacts };
-        }
+      if (isValid) {
+        credentials = { token };
+        artifacts = {
+          user: {
+            username: 'glennjones',
+            name: 'Glenn Jones',
+            groups: ['admin', 'user']
+          }
+        };
+        return { isValid, credentials, artifacts };
       }
-    });
+    }
+  });
 
-    // Blipp and Good - Needs updating for Hapi v17.x
-    await server.register([
-      Inert,
-      Vision,
-      Blipp,
-      {
-        plugin: HapiSwagger,
-        options: swaggerOptions
-      }
-    ]);
+  // Blipp and Good - Needs updating for Hapi v17.x
+  await server.register([
+    Inert,
+    Vision,
+    Blipp,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
+    }
+  ]);
 
-    server.route(Routes);
+  server.route(Routes);
 
-    server.views({
-      path: 'examples/assets',
-      engines: { html: require('handlebars') },
-      isCached: false
-    });
+  server.views({
+    path: 'examples/assets',
+    engines: { html: require('handlebars') },
+    isCached: false
+  });
 
-    await server.start();
+  await server.start();
 
-    return server;
-  } catch (err) {
-    throw err;
-  }
+  return server;
 };
 
 ser()

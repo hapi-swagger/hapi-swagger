@@ -91,37 +91,33 @@ const routes = [
 ];
 
 const ser = async () => {
-  try {
-    const server = Hapi.Server({
-      host: 'localhost',
-      port: 3000
-    });
+  const server = Hapi.Server({
+    host: 'localhost',
+    port: 3000
+  });
 
-    // Blipp and Good - Needs updating for Hapi v17.x
-    await server.register([
-      Inert,
-      Vision,
-      Blipp,
-      {
-        plugin: HapiSwagger,
-        options: swaggerOptions
-      }
-    ]);
+  // Blipp and Good - Needs updating for Hapi v17.x
+  await server.register([
+    Inert,
+    Vision,
+    Blipp,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
+    }
+  ]);
 
-    server.route(routes);
+  server.route(routes);
 
-    // add templates only for testing custom.html
-    server.views({
-      path: 'bin',
-      engines: { html: require('handlebars') },
-      isCached: false
-    });
+  // add templates only for testing custom.html
+  server.views({
+    path: 'bin',
+    engines: { html: require('handlebars') },
+    isCached: false
+  });
 
-    await server.start();
-    return server;
-  } catch (err) {
-    throw err;
-  }
+  await server.start();
+  return server;
 };
 
 ser()

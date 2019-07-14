@@ -26,71 +26,67 @@ const swaggerOptions = {
 };
 
 const ser = async () => {
-  try {
-    const server = Hapi.Server({
-      host: 'localhost',
-      port: 3000
-    });
+  const server = Hapi.Server({
+    host: 'localhost',
+    port: 3000
+  });
 
-    await server.register([
-      Inert,
-      Vision,
-      Blipp,
-      {
-        plugin: HapiSwagger,
-        options: swaggerOptions
-      }
-    ]);
+  await server.register([
+    Inert,
+    Vision,
+    Blipp,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
+    }
+  ]);
 
-    // Add a route - handler and route definition is the same for all versions
-    server.route({
-      method: 'GET',
-      path: '/version',
-      handler: function(request, reply) {
-        // Return the api-version which was requested
-        return reply({
-          version: request.pre.apiVersion
-        });
-      }
-    });
+  // Add a route - handler and route definition is the same for all versions
+  server.route({
+    method: 'GET',
+    path: '/version',
+    handler: function(request, reply) {
+      // Return the api-version which was requested
+      return reply({
+        version: request.pre.apiVersion
+      });
+    }
+  });
 
-    const users = [
-      {
-        firstname: 'Peter',
-        lastname: 'Miller'
-      }
-    ];
+  const users = [
+    {
+      firstname: 'Peter',
+      lastname: 'Miller'
+    }
+  ];
 
-    // Add a versioned route - which is actually two routes with prefix '/v1' and '/v2'. Not only the
-    // handlers are different, but also the route definition itself (like here with response validation).
-    server.route({
-      method: 'GET',
-      path: '/api/user.get',
-      handler: function(request, h) {
-        return h.response(users);
-      },
-      options: {
-        tags: ['api']
-      }
-    });
+  // Add a versioned route - which is actually two routes with prefix '/v1' and '/v2'. Not only the
+  // handlers are different, but also the route definition itself (like here with response validation).
+  server.route({
+    method: 'GET',
+    path: '/api/user.get',
+    handler: function(request, h) {
+      return h.response(users);
+    },
+    options: {
+      tags: ['api']
+    }
+  });
 
-    server.route({
-      method: 'GET',
-      path: '/api/user.search',
-      handler: function(request, h) {
-        return h.response(users);
-      },
-      options: {
-        tags: ['api']
-      }
-    });
+  server.route({
+    method: 'GET',
+    path: '/api/user.search',
+    handler: function(request, h) {
+      return h.response(users);
+    },
+    options: {
+      tags: ['api']
+    }
+  });
 
-    await server.start();
+  await server.start();
 
-    return server;
-  } catch (err) {
-    throw err;
-  }
+  return server;
 };
 
 ser()
