@@ -16,7 +16,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "start:basic",
+      "name": "start basic",
       "program": "${workspaceFolder}/examples/basic.js",
       "skipFiles": ["<node_internals>/**/*.js"],
       "console": "integratedTerminal",
@@ -25,7 +25,16 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "start:group:ordered",
+      "name": "start jwt",
+      "program": "${workspaceFolder}/examples/jwt.js",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "start group ordered",
       "program": "${workspaceFolder}/examples/group-ordered.js",
       "skipFiles": ["<node_internals>/**/*.js"],
       "console": "integratedTerminal",

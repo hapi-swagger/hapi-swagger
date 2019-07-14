@@ -27,6 +27,7 @@
     "start": "node examples/simple.js",
     "start:basic": "node examples/basic.js",
     "start:debug": "node examples/debug.js",
+    "start:jwt": "node examples/jwt.js",
     "start:dot:grouping": "node examples/dot-grouping.js",
     "start:extend": "node examples/extend.js",
     "start:group:ordered": "node examples/group-ordered.js",
@@ -71,20 +72,20 @@
     "blipp": "^4.0.0",
     "chalk": "^2.3.1",
     "coveralls": "^3.0.2",
-    "eslint": "^5.15.1",
-    "eslint-config-prettier": "^4.1.0",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
     "good-squeeze": "^5.0.2",
     "hapi": "^18.0.0",
     "hapi-api-version": "^2.1.0",
     "hapi-auth-bearer-token": "^6.1.1",
     "hapi-auth-jwt2": "^8.0.0",
-    "husky": "^2.1.0",
+    "husky": "^3.0.0",
     "js2xmlparser": "^4.0.0",
     "jsonwebtoken": "^8.1.1",
     "lint-staged": "^8.1.0",
     "prettier": "^1.16.4",
     "swagger-client": "^3.8.25",
-    "tsd": "^0.7.3"
+    "tsd": "^0.7.4"
   },
   "peerDependencies": {
     "@hapi/hapi": "^18.0.0"

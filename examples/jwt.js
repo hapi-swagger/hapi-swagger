@@ -35,82 +35,81 @@ const privateKey = 'hapi hapi joi joi';
 const token = jwt.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
 
 // bring your own validation function
-const validate = (decoded, request, callback) => {
+const validate = decoded => {
   // do your checks to see if the person is valid
   if (!people[decoded.id]) {
-    return callback(null, false);
+    return { isValid: false };
+  } else {
+    return { isValid: true };
   }
-  return callback(null, true, people[decoded.id]);
 };
 
 const ser = async () => {
-  const server = new Hapi.Server({
+  const server = Hapi.Server({
     host: 'localhost',
     port: 3000
   });
 
-  await server.register(
-    [
-      require('hapi-auth-jwt2'),
-      Inert,
-      Vision,
-      Blipp,
-      {
-        register: HapiSwagger,
-        options: swaggerOptions
-      }
-    ],
-    err => {
-      if (err) {
-        console.log(err);
-      }
-
-      server.auth.strategy('jwt', 'jwt', {
-        key: privateKey, // Never Share your secret key
-        validateFunc: validate, // validate function defined above
-        verifyOptions: { algorithms: ['HS256'] } // pick a strong algorithm
-      });
-
-      server.auth.default('jwt');
-
-      server.route([
-        {
-          method: 'GET',
-          path: '/',
-          options: {
-            auth: false,
-            handler: function(request, reply) {
-              reply({ text: 'Token not required' });
-            }
-          }
-        },
-        {
-          method: 'GET',
-          path: '/restricted',
-          options: {
-            auth: 'jwt',
-            tags: ['api'],
-            handler: function(request, reply) {
-              reply({
-                text: 'You used a Token! ' + request.auth.credentials.name
-              }).header('Authorization', request.headers.authorization);
-            }
-          }
-        },
-        {
-          method: 'GET',
-          path: '/token',
-          options: {
-            auth: false,
-            tags: ['api'],
-            handler: function(request, reply) {
-              reply({ token: token });
-            }
-          }
-        }
-      ]);
+  await server.register([
+    require('hapi-auth-jwt2'),
+    Inert,
+    Vision,
+    Blipp,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
     }
-  );
+  ]);
+
+  server.auth.strategy('jwt', 'jwt', {
+    key: privateKey,
+    validate,
+    verifyOptions: { algorithms: ['HS256'] }
+  });
+
+  server.auth.default('jwt');
+
+  server.route([
+    {
+      method: 'GET',
+      path: '/',
+      options: {
+        auth: false,
+        handler: () => {
+          return { text: 'Token not required' };
+        }
+      }
+    },
+    {
+      method: 'GET',
+      path: '/restricted',
+      options: {
+        auth: 'jwt',
+        tags: ['api'],
+        handler: (request, h) => {
+          const response = h.response({
+            text: 'You used a Token! ' + request.auth.credentials.name
+          });
+          response.header('Authorization', request.headers.authorization);
+          return response;
+        }
+      }
+    },
+    {
+      method: 'GET',
+      path: '/token',
+      options: {
+        auth: false,
+        tags: ['api'],
+        handler: () => {
+          return { token: token };
+        }
+      }
+    }
+  ]);
+
+  await server.start();
+  return server;
 };
 
 ser()
