@@ -234,6 +234,12 @@ declare namespace hapiswagger {
     documentationRouteTags?: string | string[];
 
     /**
+     * Add hapi plugins option to internal hapi-swagger routes
+     * @default []
+     */
+    documentationRoutePlugins?: object;
+
+    /**
      * The mime types consumed
      *
      * @default: 'application/json'

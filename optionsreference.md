@@ -34,6 +34,7 @@
 -   `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
 -   `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 -   `documentationRouteTags`: (string or array) Add hapi tags to internal `hapi-swagger` routes - default: `[]`
+-   `documentationRoutePlugins`: (object) Add hapi plugins to internal `hapi-swagger` routes - default: `{}`
 -   `consumes`: (array) The mime types consumed - default: `['application/json']`
 -   `produces`: (array) The mime types produced - default: `['application/json']`
 -   `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`

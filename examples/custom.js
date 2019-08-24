@@ -39,6 +39,15 @@ const goodOptions = {
 let swaggerOptions = {
   documentationPage: false,
   documentationRouteTags: 'no-logging',
+  documentationRoutePlugins: {
+    blankie: {
+      fontSrc: ['self', 'fonts.gstatic.com', 'data:'],
+      scriptSrc: ['self', 'unsafe-inline'],
+      styleSrc: ['self', 'fonts.googleapis.com', 'unsafe-inline'],
+      imgSrc: ['self', 'data:'],
+      generateNonces: false
+    }
+  },
   swaggerUIPath: '/ui/',
   basePath: '/v1/',
   pathPrefixSize: 2,
