@@ -512,7 +512,7 @@ module.exports = [
             .required()
             .default('+')
             .valid(['+', '-', '/', '*'])
-            .description('the opertator i.e. + - / or *'),
+            .description('the    i.e. + - / or *'),
 
           equals: Joi.number()
             .required()
@@ -554,7 +554,7 @@ module.exports = [
             .required()
             .default('+')
             .valid(['+', '-', '/', '*'])
-            .description('the opertator i.e. + - / or *'),
+            .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
             .required()
@@ -612,7 +612,7 @@ module.exports = [
             .required()
             .default('+')
             .valid(['+', '-', '/', '*'])
-            .description('the opertator i.e. + - / or *'),
+            .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
             .required()

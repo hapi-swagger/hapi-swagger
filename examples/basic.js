@@ -96,7 +96,7 @@ const ser = async () => {
             .required()
             .default('+')
             .valid(['+', '-', '/', '*'])
-            .description('the opertator i.e. + - / or *'),
+            .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
             .required()

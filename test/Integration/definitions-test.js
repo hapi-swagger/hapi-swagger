@@ -28,7 +28,7 @@ lab.experiment('definitions', () => {
             operator: Joi.string()
               .required()
               .default('+')
-              .description('the opertator i.e. + - / or *'),
+              .description('the operator i.e. + - / or *'),
 
             equals: Joi.number()
               .required()
@@ -74,7 +74,7 @@ lab.experiment('definitions', () => {
   lab.test('payload with inline definition', async () => {
     const server = await Helper.createServer({}, routes);
 
-    const defination = {
+    const definition = {
       properties: {
         a: {
           description: 'the first number',
@@ -85,7 +85,7 @@ lab.experiment('definitions', () => {
           type: 'number'
         },
         operator: {
-          description: 'the opertator i.e. + - / or *',
+          description: 'the operator i.e. + - / or *',
           default: '+',
           type: 'string'
         },
@@ -104,7 +104,7 @@ lab.experiment('definitions', () => {
     expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
       $ref: '#/definitions/Model%201'
     });
-    expect(response.result.definitions['Model 1']).to.equal(defination);
+    expect(response.result.definitions['Model 1']).to.equal(definition);
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });
