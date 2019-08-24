@@ -39,3 +39,17 @@ lab -r html -o coverage.html
 lab -r html -o coverage.html --lint
 lab -r console -o stdout -r html -o coverage.html --lint
 ```
+
+## Publishing
+
+To publish, just run:
+
+```bash
+npm version $VERSION_NUMBER
+```
+
+Where `$VERSION_NUMBER` is appropriate semver version for the current release. The `npm version` command will trigger:
+
+-   `npm test`
+-   `npm publish`
+-   `git push` to origin
