@@ -575,6 +575,7 @@ lab.test('parse type object', () => {
       }
     }
   });
+  expect(propertiesNoAlt.parseProperty('x', Joi.object().unknown(false), null, 'body', false, false)).to.equal({type: 'object', additionalProperties: false})
   expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, 'body', false, false)).to.equal({
     name: 'x',
     type: 'object',
@@ -606,7 +607,7 @@ lab.experiment('property deep - ', () => {
         .max(10)
         .required()
         .label('inner2')
-    })
+    }).unknown(false)
   });
 
   //console.log(JSON.stringify( propertiesNoAlt.parseProperty( deepStructure, {}, {}, null, false ) ));
@@ -631,6 +632,7 @@ lab.experiment('property deep - ', () => {
           required: ['inner1']
         },
         outer2: {
+          additionalProperties: false,
           name: 'outer2',
           type: 'object',
           properties: {
