@@ -530,10 +530,10 @@ lab.experiment('responses', () => {
 
     const server = await Helper.createServer({}, routes);
     const response = await server.inject({ url: '/swagger.json' });
-    expect(response.result.definitions['Model 1']).to.exist();
-    expect(response.result.definitions['Model 2']).to.exist();
+    expect(response.result.definitions['Model1']).to.exist();
+    expect(response.result.definitions['Model2']).to.exist();
     expect(response.result.definitions).to.equal({
-      'Model 1': {
+      'Model1': {
         type: 'object',
         properties: {
           value2222: {
@@ -541,7 +541,7 @@ lab.experiment('responses', () => {
           }
         }
       },
-      'Model 2': {
+      'Model2': {
         type: 'object',
         properties: {
           value1111: {
@@ -873,19 +873,19 @@ lab.experiment('responses', () => {
             },
             '400': {
               schema: {
-                $ref: '#/definitions/Model%201'
+                $ref: '#/definitions/Model1'
               },
               description: '400 - Added from plugin-options'
             },
             '404': {
               description: '404 from response status object',
               schema: {
-                $ref: '#/definitions/Model%201'
+                $ref: '#/definitions/Model1'
               }
             },
             '429': {
               schema: {
-                $ref: '#/definitions/Model%201'
+                $ref: '#/definitions/Model1'
               },
               description: 'Too Many Requests'
             },

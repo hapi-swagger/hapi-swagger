@@ -385,7 +385,7 @@ lab.experiment('plugin', () => {
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     //console.log(JSON.stringify(response.result));
     expect(response.result.definitions).to.equal({
-      'Model 1': {
+      'Model1': {
         type: 'object',
         properties: {
           a: {

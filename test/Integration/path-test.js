@@ -576,7 +576,7 @@ lab.experiment('path', () => {
         in: 'body',
         name: 'body',
         schema: {
-          $ref: '#/definitions/Model%201'
+          $ref: '#/definitions/Model1'
         }
       }
     ]);
