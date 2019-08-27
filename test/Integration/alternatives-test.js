@@ -218,7 +218,7 @@ lab.experiment('alternatives', () => {
       required: ['name']
     });
 
-    expect(response.result.definitions['Model 1']).to.equal({
+    expect(response.result.definitions['Model1']).to.equal({
       type: 'object',
       properties: {
         type: {
@@ -288,7 +288,7 @@ lab.experiment('alternatives', () => {
         in: 'body',
         name: 'body',
         schema: {
-          $ref: '#/definitions/Model%201'
+          $ref: '#/definitions/Model1'
         }
       }
     ]);
@@ -314,7 +314,7 @@ lab.experiment('alternatives', () => {
         },
         type: 'object'
       },
-      'Model 1': {
+      'Model1': {
         properties: {
           type: {
             type: 'string',

@@ -23,7 +23,7 @@ const swaggerJSON = {
             in: 'body',
             name: 'body',
             schema: {
-              $ref: '#/definitions/Model 1'
+              $ref: '#/definitions/Model1'
             }
           }
         ],
@@ -40,7 +40,7 @@ const swaggerJSON = {
     }
   },
   definitions: {
-    'Model 1': {
+    'Model1': {
       type: 'object',
       properties: {
         a: {

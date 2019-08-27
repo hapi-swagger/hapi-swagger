@@ -197,7 +197,7 @@ lab.experiment('proxies', () => {
         in: 'body',
         name: 'body',
         schema: {
-          $ref: '#/definitions/Model%201'
+          $ref: '#/definitions/Model1'
         }
       }
     ]);
@@ -387,7 +387,7 @@ lab.experiment('proxies', () => {
         required: ['a'],
         type: 'object'
       },
-      'Model 1': {
+      'Model1': {
         properties: {
           b: {
             type: 'string',

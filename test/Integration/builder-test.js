@@ -110,7 +110,7 @@ lab.experiment('builder', () => {
           type: 'string'
         }
       },
-      'Model 1': {
+      'Model1': {
         type: 'object',
         properties: {
           number: {
@@ -144,7 +144,7 @@ lab.experiment('builder', () => {
           type: 'string'
         }
       },
-      'Model 1': {
+      'Model1': {
         type: 'object',
         properties: {
           number: {
@@ -183,7 +183,7 @@ lab.experiment('builder', () => {
           }
         }
       },
-      'Model 1': {
+      'Model1': {
         type: 'object',
         properties: {
           a: {
@@ -222,7 +222,7 @@ lab.experiment('builder', () => {
           }
         }
       },
-      'Model 1': {
+      'Model1': {
         type: 'object',
         properties: {
           a: {
