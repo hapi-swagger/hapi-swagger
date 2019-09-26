@@ -78,12 +78,12 @@ const ser = async () => {
       },
       tags: ['api'],
       validate: {
-        params: {
+        params: Joi.object({
           id: Joi.string()
             .required()
             .description('the id of the sum in the store')
-        },
-        payload: {
+        }),
+        payload: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number'),
@@ -101,7 +101,7 @@ const ser = async () => {
           equals: Joi.number()
             .required()
             .description('the result of the sum')
-        }
+        })
       }
     }
   });

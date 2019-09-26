@@ -3,6 +3,7 @@
 // This only works at moment if you have a base JOI type like number.
 
 const Hapi = require('@hapi/hapi');
+const Joi = require('@hapi/joi');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
@@ -45,12 +46,12 @@ const ser = async () => {
       description: 'Dividable',
       tags: ['api'],
       validate: {
-        params: {
+        params: Joi.object({
           number: ExtendedJoi.number()
             .round()
             .dividable(3)
             .required()
-        }
+        })
       }
     }
   });

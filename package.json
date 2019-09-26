@@ -33,7 +33,7 @@
     "start:group:ordered": "node examples/group-ordered.js",
     "start:routes:simple": "node examples/group-ordered.js",
     "test": "npm run test:lib && npm run test:ts",
-    "test:lib": "lab -L -v -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
+    "test:lib": "lab -L -t 99 -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,CSS'",
     "test:ts": "tsd",
     "lint": "eslint .",
     "test:cov:html": "lab -r html -o coverage.html",
