@@ -130,16 +130,16 @@ lab.experiment('property - ', () => {
       type: 'string'
     }); // required in parent
     expect(propertiesNoAlt.parseProperty('x', Joi.any().forbidden(), null, 'body', true, false)).to.equal(undefined);
-    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b']), null, 'body', true, false)).to.equal({
+    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b'), null, 'body', true, false)).to.equal({
       type: 'string',
       enum: ['a', 'b']
     });
-    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b', '']), null, 'body', true, false)).to.equal({
+    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', ''), null, 'body', true, false)).to.equal({
       type: 'string',
       enum: ['a', 'b']
     });
     expect(
-      propertiesNoAlt.parseProperty('x', Joi.string().valid(['a', 'b', null]), null, 'body', true, false)
+      propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', null), null, 'body', true, false)
     ).to.equal({ type: 'string', enum: ['a', 'b'] });
     expect(
       propertiesNoAlt.parseProperty(
@@ -593,16 +593,16 @@ lab.experiment('property deep - ', () => {
     outer1: Joi.object({
       inner1: Joi.string()
         .description('child description')
-        .notes(['child notes'])
-        .tags(['child', 'api'])
+        .note('child notes')
+        .tag('child', 'api')
         .required()
         .label('inner1')
     }),
     outer2: Joi.object({
       inner2: Joi.number()
         .description('child description')
-        .notes(['child notes'])
-        .tags(['child', 'api'])
+        .note('child notes')
+        .tag('child', 'api')
         .min(5)
         .max(10)
         .required()

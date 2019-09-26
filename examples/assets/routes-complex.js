@@ -511,7 +511,7 @@ module.exports = [
           operator: Joi.string()
             .required()
             .default('+')
-            .valid(['+', '-', '/', '*'])
+            .valid('+', '-', '/', '*')
             .description('the    i.e. + - / or *'),
 
           equals: Joi.number()
@@ -553,7 +553,7 @@ module.exports = [
           operator: Joi.string()
             .required()
             .default('+')
-            .valid(['+', '-', '/', '*'])
+            .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
@@ -611,7 +611,7 @@ module.exports = [
           operator: Joi.string()
             .required()
             .default('+')
-            .valid(['+', '-', '/', '*'])
+            .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
@@ -621,7 +621,7 @@ module.exports = [
         headers: Joi.object({
           accept: Joi.string()
             .required()
-            .valid(['application/json', 'application/vnd.api+json'])
+            .valid('application/json', 'application/vnd.api+json')
             .default('application/vnd.api+json')
         }).unknown()
       }

@@ -94,12 +94,12 @@ lab.experiment('alternatives', () => {
               .valid('string', 'number', 'image')
               .label('Type'),
             data: Joi.alternatives()
-              .when('type', { is: 'string', then: Joi.string() })
-              .when('type', { is: 'number', then: Joi.number() })
-              .when('type', { is: 'image', then: Joi.string().uri() })
+              .conditional('type', { is: 'string', then: Joi.string() })
+              .conditional('type', { is: 'number', then: Joi.number() })
+              .conditional('type', { is: 'image', then: Joi.string().uri() })
               .label('Typed Data'),
             extra: Joi.alternatives()
-              .when('type', {
+              .conditional('type', {
                 is: 'image',
                 then: Joi.object({
                   width: Joi.number(),
@@ -130,12 +130,12 @@ lab.experiment('alternatives', () => {
               then: Joi.forbidden() // https://github.com/glennjones/hapi-swagger/issues/338
             }),
             data: Joi.alternatives()
-              .when('type', { is: 'string', then: Joi.string() })
-              .when('type', { is: 'number', then: Joi.number() })
-              .when('type', { is: 'image', then: Joi.string().uri() })
+              .conditional('type', { is: 'string', then: Joi.string() })
+              .conditional('type', { is: 'number', then: Joi.number() })
+              .conditional('type', { is: 'image', then: Joi.string().uri() })
               .label('Typed Data'),
             extra: Joi.alternatives()
-              .when('type', {
+              .conditional('type', {
                 is: 'image',
                 then: Joi.object({
                   width: Joi.number(),

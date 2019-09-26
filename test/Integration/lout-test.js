@@ -382,7 +382,7 @@ lab.experiment('lout examples', () => {
         handler: Helper.defaultHandler,
         validate: {
           query: {
-            param1: Joi.string().notes('<span class="htmltypenote">HTML type note</span>')
+            param1: Joi.string().note('<span class="htmltypenote">HTML type note</span>')
           }
         },
         notes: '<span class="htmlroutenote">HTML route note</span>'
@@ -396,10 +396,10 @@ lab.experiment('lout examples', () => {
         handler: Helper.defaultHandler,
         validate: {
           query: {
-            param1: Joi.string().notes([
+            param1: Joi.string().note(
               '<span class="htmltypenote">HTML type note</span>',
               '<span class="htmltypenote">HTML type note</span>'
-            ])
+            )
           }
         }
       }
@@ -618,24 +618,21 @@ lab.experiment('lout examples', () => {
         validate: {
           query: {
             param1: Joi.alternatives()
-              .when('b', {
+              .conditional('b', {
                 is: 5,
-                then: Joi.string(),
-                otherwise: Joi.number()
-                  .required()
-                  .description('Things and stuff')
+                then: Joi.string()
               })
-              .when('a', {
+              .conditional('a', {
                 is: true,
                 then: Joi.date(),
                 otherwise: Joi.any()
               }),
             param2: Joi.alternatives()
-              .when('b', {
+              .conditional('b', {
                 is: 5,
                 then: Joi.string()
               })
-              .when('a', {
+              .conditional('a', {
                 is: true,
                 otherwise: Joi.any()
               })

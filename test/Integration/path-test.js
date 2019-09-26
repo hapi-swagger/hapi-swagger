@@ -31,7 +31,7 @@ lab.experiment('path', () => {
           operator: Joi.string()
             .required()
             .default('+')
-            .valid(['+', '-', '/', '*'])
+            .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
@@ -238,7 +238,7 @@ lab.experiment('path', () => {
     testRoutes.options.validate.headers = Joi.object({
       accept: Joi.string()
         .required()
-        .valid(['application/json', 'application/vnd.api+json'])
+        .valid('application/json', 'application/vnd.api+json')
     }).unknown();
 
     const server = await Helper.createServer({}, testRoutes);
@@ -278,7 +278,7 @@ lab.experiment('path', () => {
     testRoutes.options.validate.headers = Joi.object({
       accept: Joi.string()
         .required()
-        .valid(['application/json', 'application/vnd.api+json'])
+        .valid('application/json', 'application/vnd.api+json')
         .default('application/vnd.api+json')
     }).unknown();
 
@@ -295,7 +295,7 @@ lab.experiment('path', () => {
     testRoutes.options.validate.headers = Joi.object({
       accept: Joi.string()
         .required()
-        .valid(['application/json', 'application/vnd.api+json'])
+        .valid('application/json', 'application/vnd.api+json')
         .default('application/vnd.api+json')
     }).unknown();
 
