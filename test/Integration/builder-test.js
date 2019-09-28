@@ -26,13 +26,13 @@ const xPropertiesRoutes = [
     options: {
       tags: ['api'],
       validate: {
-        payload: {
+        payload: Joi.object({
           number: Joi.number().greater(10),
           string: Joi.string().alphanum(),
           array: Joi.array()
             .items(Joi.string())
             .length(2)
-        }
+        })
       }
     }
   }
@@ -46,10 +46,10 @@ const reuseModelsRoutes = [
     options: {
       tags: ['api'],
       validate: {
-        payload: {
+        payload: Joi.object({
           a: Joi.object({ a: Joi.string() }),
           b: Joi.object({ a: Joi.string() })
-        }
+        })
       }
     }
   }

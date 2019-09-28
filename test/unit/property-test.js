@@ -146,7 +146,7 @@ lab.experiment('property - ', () => {
         'x',
         Joi.date()
           .timestamp()
-          .default(() => Date.now(), 'Current Timestamp')
+          .default(() => Date.now())
       ).default
     ).to.exist();
     //console.log(JSON.stringify(propertiesAlt.parseProperty('x',Joi.date().timestamp().default(() => Date.now(), 'Current Timestamp'))));
@@ -179,7 +179,7 @@ lab.experiment('property - ', () => {
     expect(nonNegativeWithoutDropdown).to.not.include({ enum: [0] });
   });
 
-  lab.test('parse type string', () => {
+  lab.test('asdf parse type string', () => {
     clearDown();
     expect(propertiesNoAlt.parseProperty('x', Joi.string(), null, 'body', true, false)).to.equal({
       type: 'string'
