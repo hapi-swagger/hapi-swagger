@@ -179,7 +179,7 @@ lab.experiment('property - ', () => {
     expect(nonNegativeWithoutDropdown).to.not.include({ enum: [0] });
   });
 
-  lab.test('asdf parse type string', () => {
+  lab.test('parse type string', () => {
     clearDown();
     expect(propertiesNoAlt.parseProperty('x', Joi.string(), null, 'body', true, false)).to.equal({
       type: 'string'
@@ -282,8 +282,7 @@ lab.experiment('property - ', () => {
     });
     expect(propertiesAlt.parseProperty('x', Joi.string().hex(), null, 'body', true, true)).to.equal({
       type: 'string',
-      pattern: '^[a-f0-9]+$',
-      'x-format': { hex: true }
+      'x-format': { hex: { byteAligned: false } }
     });
     expect(propertiesAlt.parseProperty('x', Joi.string().guid(), null, 'body', true, true)).to.equal({
       type: 'string',
@@ -300,11 +299,11 @@ lab.experiment('property - ', () => {
 
     expect(propertiesAlt.parseProperty('x', Joi.string().lowercase(), null, 'body', true, true)).to.equal({
       type: 'string',
-      'x-convert': { lowercase: true }
+      'x-convert': { case: 'lower' }
     });
     expect(propertiesAlt.parseProperty('x', Joi.string().uppercase(), null, 'body', true, true)).to.equal({
       type: 'string',
-      'x-convert': { uppercase: true }
+      'x-convert': { case: 'upper' }
     });
     expect(propertiesAlt.parseProperty('x', Joi.string().trim(), null, 'body', true, true)).to.equal({
       type: 'string',
@@ -374,7 +373,7 @@ lab.experiment('property - ', () => {
   lab.test('parse type date timestamp', () => {
     clearDown();
     expect(propertiesNoAlt.parseProperty('x', Joi.date().timestamp(), null, 'body', true, false)).to.equal({
-      type: 'number'
+      format: 'date', type: 'string'
     });
   });
 
@@ -412,11 +411,11 @@ lab.experiment('property - ', () => {
     });
     expect(propertiesAlt.parseProperty('x', Joi.number().positive(), null, 'body', true, true)).to.equal({
       type: 'number',
-      'x-constraint': { positive: true }
+      'x-constraint': { sign: 'positive' }
     });
     expect(propertiesAlt.parseProperty('x', Joi.number().negative(), null, 'body', true, true)).to.equal({
       type: 'number',
-      'x-constraint': { negative: true }
+      'x-constraint': { sign: 'negative' }
     });
 
     // test options.xProperties = false
@@ -545,7 +544,7 @@ lab.experiment('property - ', () => {
       type: 'array',
       name: 'x',
       items: { type: 'string' },
-      'x-constraint': { unique: { ignoreUndefined: false } }
+      'x-constraint': { unique: true }
     });
 
     // test options.xProperties = false
@@ -561,9 +560,7 @@ lab.test('parse type object', () => {
   clearDown();
   //console.log(JSON.stringify( propertiesNoAlt.parseProperty('x', Joi.object(), {}, {}, 'formData')  ));
   expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, 'body', false, false)).to.equal({ type: 'object' });
-  expect(propertiesNoAlt.parseProperty('x', Joi.object().keys(), null, 'body', false, false)).to.equal({
-    type: 'object'
-  });
+  expect(propertiesNoAlt.parseProperty('x', Joi.object().keys(), null, 'body', false, false)).to.equal({ type: 'object' });
   expect(
     propertiesNoAlt.parseProperty('x', Joi.object().keys({ a: Joi.string() }), null, 'body', false, false)
   ).to.equal({
@@ -575,7 +572,6 @@ lab.test('parse type object', () => {
       }
     }
   });
-  expect(propertiesNoAlt.parseProperty('x', Joi.object().unknown(false), null, 'body', false, false)).to.equal({type: 'object', additionalProperties: false})
   expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, 'body', false, false)).to.equal({
     name: 'x',
     type: 'object',
@@ -607,7 +603,7 @@ lab.experiment('property deep - ', () => {
         .max(10)
         .required()
         .label('inner2')
-    }).unknown(false)
+    })
   });
 
   //console.log(JSON.stringify( propertiesNoAlt.parseProperty( deepStructure, {}, {}, null, false ) ));
@@ -632,7 +628,6 @@ lab.experiment('property deep - ', () => {
           required: ['inner1']
         },
         outer2: {
-          additionalProperties: false,
           name: 'outer2',
           type: 'object',
           properties: {
@@ -691,9 +686,9 @@ lab.experiment('joi extension - ', () => {
     clearDown();
     const extension = Joi.extend({
       base: Joi.string(),
-      name: 'custom'
+      type: 'myCustomName'
     });
-    expect(propertiesNoAlt.parseProperty('x', extension.custom(), null, 'body', true, false)).to.equal({
+    expect(propertiesNoAlt.parseProperty('x', extension.myCustomName(), null, 'body', true, false)).to.equal({
       type: 'string'
     });
   });
