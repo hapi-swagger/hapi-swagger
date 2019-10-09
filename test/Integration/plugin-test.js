@@ -371,12 +371,12 @@ lab.experiment('plugin', () => {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
-            payload: {
+            payload: Joi.object({
               a: Joi.number()
                 .integer()
                 .allow(0)
                 .meta({ disableDropdown: true })
-            }
+            })
           }
         }
       }

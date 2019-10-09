@@ -18,7 +18,7 @@ lab.experiment('path', () => {
       notes: ['Adds a sum to the data store'],
       tags: ['api'],
       validate: {
-        payload: {
+        payload: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number')
@@ -37,7 +37,7 @@ lab.experiment('path', () => {
           equals: Joi.number()
             .required()
             .description('the result of the sum')
-        }
+        })
       }
     }
   };
@@ -148,11 +148,11 @@ lab.experiment('path', () => {
   lab.test('auto "multipart/form-data" consumes with { swaggerType: "file" }', async () => {
     let testRoutes = Hoek.clone(routes);
     testRoutes.options.validate = {
-      payload: {
+      payload: Joi.object({
         file: Joi.any()
           .meta({ swaggerType: 'file' })
           .description('json file')
-      }
+      })
     };
     const server = await Helper.createServer({}, testRoutes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
@@ -163,11 +163,11 @@ lab.experiment('path', () => {
   lab.test('auto "multipart/form-data" do not add two', async () => {
     let testRoutes = Hoek.clone(routes);
     testRoutes.options.validate = {
-      payload: {
+      payload: Joi.object({
         file: Joi.any()
           .meta({ swaggerType: 'file' })
           .description('json file')
-      }
+      })
     };
 
     testRoutes.options.plugins = {
@@ -186,9 +186,9 @@ lab.experiment('path', () => {
     let testRoutes = Hoek.clone(routes);
 
     (testRoutes.options.validate = {
-      payload: {
+      payload: Joi.object({
         file: Joi.string().description('json file')
-      }
+      })
     }),
       (testRoutes.options.plugins = {
         'hapi-swagger': {
@@ -319,13 +319,13 @@ lab.experiment('path', () => {
     let testRoutes = Hoek.clone(routes);
     testRoutes.path = '/servers/{id}/{note?}';
     testRoutes.options.validate = {
-      params: {
+      params: Joi.object({
         id: Joi.number()
           .integer()
           .required()
           .description('ID of server to delete'),
         note: Joi.string().description('Note..')
-      }
+      })
     };
 
     const server = await Helper.createServer({}, testRoutes);
@@ -343,10 +343,10 @@ lab.experiment('path', () => {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
-            params: {
+            params: Joi.object({
               a: Joi.number().required(),
               b: Joi.string().required()
-            }
+            })
           }
         }
       },
@@ -357,10 +357,10 @@ lab.experiment('path', () => {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
-            params: {
+            params: Joi.object({
               c: Joi.number().optional(),
               d: Joi.string().optional()
-            }
+            })
           }
         }
       },
@@ -371,10 +371,10 @@ lab.experiment('path', () => {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
-            params: {
+            params: Joi.object({
               e: Joi.number(),
               f: Joi.string()
-            }
+            })
           }
         }
       }
@@ -429,12 +429,12 @@ lab.experiment('path', () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.path = '/v3/servers/{id}';
     testRoutes.options.validate = {
-      params: {
+      params: Joi.object({
         id: Joi.number()
           .integer()
           .required()
           .description('ID of server to delete')
-      }
+      })
     };
 
     const server = await Helper.createServer({ basePath: '/v3' }, testRoutes);
@@ -447,12 +447,12 @@ lab.experiment('path', () => {
     let testRoutes = Hoek.clone(routes);
     testRoutes.path = '/v3/servers/{id}';
     testRoutes.options.validate = {
-      params: {
+      params: Joi.object({
         id: Joi.number()
           .integer()
           .required()
           .description('ID of server to delete')
-      }
+      })
     };
 
     const server = await Helper.createServer({ basePath: '/v3/' }, testRoutes);
@@ -465,12 +465,12 @@ lab.experiment('path', () => {
     let testRoutes = Hoek.clone(routes);
     testRoutes.path = '/api/v3/servers/{id}';
     testRoutes.options.validate = {
-      params: {
+      params: Joi.object({
         id: Joi.number()
           .integer()
           .required()
           .description('ID of server to delete')
-      }
+      })
     };
 
     const options = {
@@ -530,11 +530,11 @@ lab.experiment('path', () => {
         handler: () => {},
         tags: ['api'],
         validate: {
-          headers: true,
-          params: {
+          headers: Joi.boolean().truthy(),
+          params: Joi.object({
             name: Joi.string().min(2)
-          },
-          query: false
+          }),
+          query: Joi.boolean().falsy()
         }
       }
     };
