@@ -507,9 +507,9 @@ lab.experiment('responses', () => {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: {
-            schema: {
+            schema: Joi.object({
               value1111: Joi.boolean()
-            }
+            })
           }
         }
       },

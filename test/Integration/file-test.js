@@ -20,11 +20,11 @@ lab.experiment('file', () => {
       },
       tags: ['api'],
       validate: {
-        payload: {
+        payload: Joi.object({
           file: Joi.any()
             .meta({ swaggerType: 'file' })
             .required()
-        }
+        })
       },
       payload: {
         maxBytes: 1048576,

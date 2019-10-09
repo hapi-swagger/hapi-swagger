@@ -20,12 +20,12 @@ lab.experiment('plugin', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number(),
             b: Joi.number(),
             operator: Joi.string(),
             equals: Joi.number()
-          }
+          })
         }
       }
     }
@@ -371,12 +371,12 @@ lab.experiment('plugin', () => {
           handler: Helper.defaultHandler,
           tags: ['api'],
           validate: {
-            payload: {
+            payload: Joi.object({
               a: Joi.number()
                 .integer()
                 .allow(0)
                 .meta({ disableDropdown: true })
-            }
+            })
           }
         }
       }
