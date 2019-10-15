@@ -525,10 +525,10 @@ alternatives models.
 
 ## JSON without UI
 
-If you wish just to used `swagger.json` endpoint without the automatically generated documentation page simply set `options.documentationPage` to `false`.
+If you wish just to use the `swagger.json` endpoint without the automatically generated documentation page simply set `options.documentationPage` to `false`.
 You can still create a custom page and make use of the SwaggerUI files.
 
-If you wish only to the JSON output of the plugin for example with `swagger-codegen` and then set both `documentationPage` and `swaggerUI` set to false:
+If you wish only to use the JSON output of the plugin for example with `swagger-codegen` and then set both `documentationPage` and `swaggerUI` set to false:
 
 ```javascript
 options: {
@@ -537,7 +537,7 @@ options: {
 }
 ```
 
-With the both `documentationPage` and `swaggerUI` set to false you do not need to load `Inert` and `Vision` plugins to use `hapi-swagger`.
+With both `documentationPage` and `swaggerUI` set to false you do not need to load `Inert` and `Vision` plugins to use `hapi-swagger`.
 
 ## Simplifying the JSON
 
