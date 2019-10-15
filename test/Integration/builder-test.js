@@ -15,6 +15,22 @@ const routes = [
     options: {
       tags: ['api']
     }
+  },
+  {
+    method: 'GET',
+    path: '/test2',
+    handler: Helper.defaultHandler,
+    options: {
+      tags: ['api2']
+    }
+  },
+  {
+    method: 'GET',
+    path: '/not-part-of-api',
+    handler: Helper.defaultHandler,
+    options: {
+      tags: ['other']
+    }
   }
 ];
 
@@ -263,6 +279,62 @@ lab.experiment('builder', () => {
 
     expect(response.statusCode).to.equal(200);
     expect(response.result.host).to.equal('194.148.15.24');
+  });
+
+  lab.test('routeTag : "api"', async () => {
+    const server = await Helper.createServer({ routeTag: 'api' }, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+    expect(response.result.paths['/test']).to.equal({
+      get: {
+          operationId: 'getTest',
+          responses: {
+            default: {
+              description: 'Successful',
+              schema: {
+                type: 'string'
+              }
+            }
+          },
+          tags: [
+            'test'
+          ]
+        }
+      }
+    );
+    expect(response.result.paths['/test2']).to.equal(undefined);
+    expect(response.result.paths['/not-part-of-api']).to.equal(undefined);
+
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
+
+  lab.test('routeTag : "api2"', async () => {
+    const server = await Helper.createServer({ routeTag: 'api2' }, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+    expect(response.result.paths['/test']).to.equal(undefined);
+    expect(response.result.paths['/test2']).to.equal({
+      get: {
+          operationId: 'getTest2',
+          responses: {
+            default: {
+              description: 'Successful',
+              schema: {
+                type: 'string'
+              }
+            }
+          },
+          tags: [
+            'test2'
+          ]
+        }
+      }
+    );
+    expect(response.result.paths['/not-part-of-api']).to.equal(undefined);
+
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
   });
 });
 
