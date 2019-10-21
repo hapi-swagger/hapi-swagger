@@ -7,6 +7,7 @@ const Vision = require('@hapi/vision');
 const { resolve } = require('path');
 const HapiSwagger = require('../../lib/index.js');
 const Helper = require('../helper.js');
+const Validate = require('../../lib/validate.js');
 
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
@@ -398,4 +399,73 @@ lab.experiment('plugin', () => {
       }
     });
   });
+});
+
+
+lab.experiment('multiple plugins', () => {
+  const routes = [
+    {
+      method: 'POST',
+      path: '/store/',
+      options: {
+        handler: Helper.defaultHandler,
+        tags: ['store-api'],
+        validate: {
+          payload: {
+            a: Joi.number(),
+            b: Joi.number(),
+            operator: Joi.string(),
+            equals: Joi.number()
+          }
+        }
+      }
+    },
+    {
+      method: 'POST',
+      path: '/shop/',
+      options: {
+        handler: Helper.defaultHandler,
+        tags: ['shop-api'],
+        validate: {
+          payload: {
+            c: Joi.number(),
+            d: Joi.number(),
+            operator: Joi.string(),
+            equals: Joi.number()
+          }
+        }
+      }
+    }
+  ];
+
+  lab.test('multiple plugins can co-exist', async () => {
+    let swaggerOptions1 = {
+      routeTag: 'store-api',
+      info: {
+        description: 'This is the store API docs',
+      },
+    };
+    let swaggerOptions2 = {
+      routeTag: 'shop-api',
+      info: {
+        description: 'This is the shop API docs',
+      },
+    };
+    const server = await Helper.createServerMultiple(swaggerOptions1, swaggerOptions2, routes);
+
+    const response1 = await server.inject({ method: 'GET', url: '/store-api/swagger.json' });
+    expect(response1.statusCode).to.equal(200);
+    const isValid1 = await Validate.test(response1.result);
+    expect(isValid1).to.be.true();
+    expect(response1.result.info.description).to.equal('This is the store API docs');
+    expect(response1.result.paths['/store/'].post.operationId).to.equal('postStore');
+
+    const response2 = await server.inject({ method: 'GET', url: '/shop-api/swagger.json' });
+    expect(response2.statusCode).to.equal(200);
+    const isValid2 = await Validate.test(response2.result);
+    expect(isValid2).to.be.true();
+    expect(response2.result.info.description).to.equal('This is the shop API docs');
+    expect(response2.result.paths['/shop/'].post.operationId).to.equal('postShop');
+  });
+
 });
