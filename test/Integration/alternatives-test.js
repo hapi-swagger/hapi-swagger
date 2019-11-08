@@ -328,6 +328,28 @@ lab.experiment('alternatives', () => {
           }
         },
         type: 'object'
+      },
+      'Model2': {
+        properties: {
+          data: {
+            type: 'string'
+          },
+          extra: {
+            '$ref': '#/definitions/Dimensions'
+          },
+          key: {
+            type: 'string'
+          },
+          type: {
+            enum: [
+              'string',
+              'number',
+              'image'
+            ],
+            type: 'string'
+          }
+        },
+        type: 'object'
       }
     });
 

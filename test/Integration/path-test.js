@@ -203,10 +203,9 @@ lab.experiment('path', () => {
   });
 
   lab.test('a user set content-type header removes consumes', async () => {
-    let consumes = ['application/json', 'application/json;charset=UTF-8', 'application/json; charset=UTF-8'];
     let testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
-      'content-type': Joi.string().valid(consumes)
+      'content-type': Joi.string().valid('application/json', 'application/json;charset=UTF-8', 'application/json; charset=UTF-8')
     }).unknown();
 
     const server = await Helper.createServer({}, testRoutes);

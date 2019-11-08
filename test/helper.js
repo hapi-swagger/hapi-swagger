@@ -19,6 +19,7 @@ const helper = (module.exports = {});
 helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
   const server = new Hapi.Server(serverOptions);
 
+  // eslint-disable-next-line no-useless-catch
   try {
     await server.register([
       Inert,
