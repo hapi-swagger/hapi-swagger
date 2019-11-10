@@ -12,6 +12,7 @@ in a project.
 
 | Version | [hapi.js](https://github.com/hapijs/hapi) | Node  | Release Notes                                                 |
 | ------- | ----------------------------------------- | ----- | ------------------------------------------------------------- |
+| `v11.x` | `>=18.4.0 @hapi/hapi` && >=16.0 @hapi/joi | `>=8` |                                                               |
 | `v10.x` | `>=18.3.1 @hapi/hapi`                     | `>=8` | [#587](https://github.com/glennjones/hapi-swagger/issues/587) |
 | `9.x`   | `>=17 hapi`                               | `>=8` | [#487](https://github.com/glennjones/hapi-swagger/issues/487) |
 | `7.x`   | `<17 hapi`                                | ???   | [#325](https://github.com/glennjones/hapi-swagger/issues/325) |
