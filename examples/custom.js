@@ -86,6 +86,7 @@ let swaggerOptions = {
 };
 
 const ser = async () => {
+  // eslint-disable-next-line no-useless-catch
   try {
     const server = Hapi.Server({
       host: 'localhost',

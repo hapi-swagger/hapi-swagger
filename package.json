@@ -49,8 +49,8 @@
   "dependencies": {
     "@hapi/boom": "^7.4.10",
     "@hapi/hoek": "^8.2.4",
-    "@hapi/joi": "^16.1.4",
-    "handlebars": "^4.3.1",
+    "@hapi/joi": "^16.1.7",
+    "handlebars": "^4.5.1",
     "http-status": "^1.0.1",
     "json-schema-ref-parser": "^6.1.0",
     "swagger-parser": "4.0.2",
