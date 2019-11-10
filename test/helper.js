@@ -43,6 +43,50 @@ helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
 };
 
 /**
+ * creates a Hapi server with multiple plugins
+ *
+ * @param  {Object} swaggerOptions
+ * @param  {Object} routes
+ * @param  {Function} callback
+ */
+helper.createServerMultiple = async (swaggerOptions1, swaggerOptions2, routes, serverOptions = {}) => {
+  const server = new Hapi.Server(serverOptions);
+
+  try {
+    await server.register([
+      Inert,
+      Vision,
+      H2o2,
+    ]);
+
+    await server.register({
+      plugin: HapiSwagger,
+      options: swaggerOptions1,
+    },
+    {
+      routes: { prefix: '/' + swaggerOptions1.routeTag || 'api1', }
+    });
+
+    await server.register({
+      plugin: HapiSwagger,
+      options: swaggerOptions2,
+    },
+    {
+      routes: { prefix: '/' + swaggerOptions2.routeTag || 'api2', }
+    });
+
+    if (routes) {
+      server.route(routes);
+    }
+
+    await server.start();
+    return server;
+  } catch (e) {
+    throw e;
+  }
+};
+
+/**
  * creates a Hapi server using bearer token auth
  *
  * @param  {Object} swaggerOptions
