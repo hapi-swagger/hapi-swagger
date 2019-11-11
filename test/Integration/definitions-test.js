@@ -16,7 +16,7 @@ lab.experiment('definitions', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number()
               .required()
               .description('the first number'),
@@ -33,7 +33,7 @@ lab.experiment('definitions', () => {
             equals: Joi.number()
               .required()
               .description('the result of the sum')
-          }
+          })
         }
       }
     },

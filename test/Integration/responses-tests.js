@@ -114,11 +114,11 @@ lab.experiment('responses', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number()
               .required()
               .description('the first number')
-          }
+          })
         },
         payload: {
           maxBytes: 1048576,
@@ -144,7 +144,7 @@ lab.experiment('responses', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          query: {
+          query: Joi.object({
             nonce: Joi.string().when('response_type', {
               is: /^id_token( token)?$/,
               then: Joi.required()
@@ -152,7 +152,7 @@ lab.experiment('responses', () => {
             response_type: Joi.string()
               .allow('@hapi/code', 'id_token token', 'id_token')
               .required()
-          }
+          })
         }
       }
     };
@@ -172,11 +172,11 @@ lab.experiment('responses', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number()
               .required()
               .description('the first number')
-          }
+          })
         },
         payload: {
           maxBytes: 1048576,
@@ -203,11 +203,11 @@ lab.experiment('responses', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number()
               .required()
               .description('the first number')
-          }
+          })
         },
         response: {
           status: {
@@ -239,11 +239,11 @@ lab.experiment('responses', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number()
               .required()
               .description('the first number')
-          }
+          })
         },
         response: {
           status: {
@@ -279,11 +279,11 @@ lab.experiment('responses', () => {
           }
         },
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number()
               .required()
               .description('the first number')
-          }
+          })
         }
       }
     };
@@ -439,11 +439,11 @@ lab.experiment('responses', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number()
               .required()
               .description('the first number')
-          }
+          })
         }
       }
     };
@@ -507,9 +507,9 @@ lab.experiment('responses', () => {
           tags: ['api'],
           handler: Helper.defaultHandler,
           response: {
-            schema: {
+            schema: Joi.object({
               value1111: Joi.boolean()
-            }
+            })
           }
         }
       },

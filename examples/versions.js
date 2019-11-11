@@ -166,9 +166,9 @@ server.register(
                 },
                 validate: {
                     headers: Joi.object({
-                        accept: Joi.string().valid([
+                        accept: Joi.string().valid(
                             'application/vnd.mysuperapi.v1+json'
-                        ])
+                        )
                     }).unknown()
                 }
             }
@@ -196,10 +196,10 @@ server.register(
                 },
                 validate: {
                     headers: Joi.object({
-                        accept: Joi.string().valid([
+                        accept: Joi.string().valid(
                             'application/vnd.mysuperapi.v2+json',
                             'application/vnd.mysuperapi.v1+json'
-                        ])
+                        )
                     }).unknown()
                 }
             }
@@ -230,9 +230,9 @@ server.register(
                         id: Joi.number().required().description('id of user')
                     },
                     headers: Joi.object({
-                        accept: Joi.string().valid([
+                        accept: Joi.string().valid(
                             'application/vnd.mysuperapi.v2+json'
-                        ])
+                        )
                     }).unknown()
                 }
             }

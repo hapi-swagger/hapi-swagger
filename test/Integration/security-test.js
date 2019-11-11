@@ -45,11 +45,11 @@ lab.experiment('security', () => {
         },
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             url: Joi.string()
               .required()
               .description('the url to bookmark')
-          }
+          })
         }
       }
     },
@@ -70,11 +70,11 @@ lab.experiment('security', () => {
         },
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             url: Joi.string()
               .required()
               .description('the url to bookmark')
-          }
+          })
         }
       }
     }

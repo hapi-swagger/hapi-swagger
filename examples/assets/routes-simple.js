@@ -187,7 +187,7 @@ module.exports = [
         }
       },
       validate: {
-        params: {
+        params: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number'),
@@ -195,7 +195,7 @@ module.exports = [
           b: Joi.number()
             .required()
             .description('the second number')
-        }
+        })
       }
     }
   },
@@ -213,7 +213,7 @@ module.exports = [
         }
       },
       validate: {
-        params: {
+        params: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number'),
@@ -221,7 +221,7 @@ module.exports = [
           b: Joi.number()
             .required()
             .description('the second number')
-        }
+        })
       }
     }
   },
@@ -240,7 +240,7 @@ module.exports = [
         }
       },
       validate: {
-        params: {
+        params: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number - can NOT be 0'),
@@ -248,7 +248,7 @@ module.exports = [
           b: Joi.number()
             .required()
             .description('the second number - can NOT be 0')
-        }
+        })
       }
     }
   },
@@ -267,7 +267,7 @@ module.exports = [
       },
       tags: ['api'],
       validate: {
-        params: {
+        params: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number'),
@@ -275,7 +275,7 @@ module.exports = [
           b: Joi.number()
             .required()
             .description('the second number')
-        }
+        })
       }
     }
   },
@@ -293,11 +293,11 @@ module.exports = [
       },
       tags: ['api', 'reduced', 'one'],
       validate: {
-        query: {
+        query: Joi.object({
           page: Joi.number().description('the page number'),
 
           pagesize: Joi.number().description('the number of items to a page')
-        }
+        })
       }
     }
   },
@@ -315,11 +315,11 @@ module.exports = [
       },
       tags: ['api', 'reduced', 'two'],
       validate: {
-        params: {
+        params: Joi.object({
           id: Joi.string()
             .required()
             .description('the id of the sum in the store')
-        }
+        })
       }
     }
   },
@@ -340,7 +340,7 @@ module.exports = [
       },
       tags: ['api', 'reduced', 'three'],
       validate: {
-        payload: {
+        payload: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number')
@@ -353,13 +353,13 @@ module.exports = [
           operator: Joi.string()
             .required()
             .default('+')
-            .valid(['+', '-', '/', '*'])
+            .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
             .required()
             .description('the result of the sum')
-        }
+        })
       }
     }
   },
@@ -378,12 +378,12 @@ module.exports = [
       },
       tags: ['api'],
       validate: {
-        params: {
+        params: Joi.object({
           id: Joi.string()
             .required()
             .description('the id of the sum in the store')
-        },
-        payload: {
+        }),
+        payload: Joi.object({
           a: Joi.number()
             .required()
             .description('the first number'),
@@ -395,13 +395,13 @@ module.exports = [
           operator: Joi.string()
             .required()
             .default('+')
-            .valid(['+', '-', '/', '*'])
+            .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
             .required()
             .description('the result of the sum')
-        }
+        })
       }
     }
   },
@@ -419,11 +419,11 @@ module.exports = [
       },
       tags: ['api'],
       validate: {
-        params: {
+        params: Joi.object({
           id: Joi.string()
             .required()
             .description('the id of the sum in the store')
-        }
+        })
       }
     }
   },
@@ -453,7 +453,7 @@ module.exports = [
           operator: Joi.string()
             .required()
             .default('+')
-            .valid(['+', '-', '/', '*'])
+            .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
           equals: Joi.number()
@@ -463,7 +463,7 @@ module.exports = [
         headers: Joi.object({
           accept: Joi.string()
             .required()
-            .valid(['application/json', 'application/vnd.api+json'])
+            .valid('application/json', 'application/vnd.api+json')
             .default('application/vnd.api+json')
         }).unknown()
       }
@@ -486,12 +486,12 @@ module.exports = [
       },
       tags: ['api', 'reduced', 'three'],
       validate: {
-        payload: {
+        payload: Joi.object({
           file: Joi.any()
             .meta({ swaggerType: 'file' })
             .required()
             .description('json file with object containing: a, b, operator and equals')
-        }
+        })
       },
       payload: {
         maxBytes: 1048576,

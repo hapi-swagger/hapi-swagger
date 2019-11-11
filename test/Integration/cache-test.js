@@ -17,12 +17,12 @@ lab.experiment('plugin', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number(),
             b: Joi.number(),
             operator: Joi.string(),
             equals: Joi.number()
-          }
+          })
         }
       }
     }
@@ -115,12 +115,12 @@ lab.experiment('multiple plugins with cache', () => {
         handler: Helper.defaultHandler,
         tags: ['store-api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             a: Joi.number(),
             b: Joi.number(),
             operator: Joi.string(),
             equals: Joi.number()
-          }
+          })
         }
       }
     },
@@ -131,12 +131,12 @@ lab.experiment('multiple plugins with cache', () => {
         handler: Helper.defaultHandler,
         tags: ['shop-api'],
         validate: {
-          payload: {
+          payload: Joi.object({
             c: Joi.number(),
             d: Joi.number(),
             operator: Joi.string(),
             equals: Joi.number()
-          }
+          })
         }
       }
     }

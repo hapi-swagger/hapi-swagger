@@ -20,11 +20,11 @@ lab.experiment('file', () => {
       },
       tags: ['api'],
       validate: {
-        payload: {
+        payload: Joi.object({
           file: Joi.any()
             .meta({ swaggerType: 'file' })
             .required()
-        }
+        })
       },
       payload: {
         maxBytes: 1048576,
@@ -54,9 +54,11 @@ lab.experiment('file', () => {
   });
 
   lab.test('upload with binary file type', async () => {
-    routes.options.validate.payload.file = Joi.binary()
-      .meta({ swaggerType: 'file' })
-      .required();
+    routes.options.validate.payload = Joi.object({
+      file: Joi.binary()
+        .meta({ swaggerType: 'file' })
+        .required()
+    });
 
     const server = await Helper.createServer({}, routes);
 
@@ -80,9 +82,11 @@ lab.experiment('file', () => {
   });
 
   lab.test('file type not fired on other meta properties', async () => {
-    routes.options.validate.payload.file = Joi.any()
-      .meta({ anything: 'test' })
-      .required();
+    routes.options.validate.payload = Joi.object({
+      file: Joi.any()
+        .meta({ anything: 'test' })
+        .required()
+    });
 
     const server = await Helper.createServer({}, routes);
 

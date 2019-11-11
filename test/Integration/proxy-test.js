@@ -144,23 +144,23 @@ lab.experiment('proxies', () => {
           'hapi-swagger': {
             nickname: 'microformatsapi',
             validate: {
-              payload: {
+              payload: Joi.object({
                 a: Joi.number()
                   .required()
                   .description('the first number'),
                 b: Joi.number()
                   .required()
                   .description('the first number')
-              },
-              query: {
+              }),
+              query: Joi.object({
                 testquery: Joi.string()
-              },
-              params: {
+              }),
+              params: Joi.object({
                 testparam: Joi.string()
-              },
-              headers: {
+              }),
+              headers: Joi.object({
                 testheaders: Joi.string()
-              }
+              })
             }
           }
         },

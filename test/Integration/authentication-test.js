@@ -84,11 +84,11 @@ lab.experiment('authentication', () => {
             .description('bearer token')
         }).unknown(),
 
-        payload: {
+        payload: Joi.object({
           url: Joi.string()
             .required()
             .description('the url to bookmark')
-        }
+        })
       }
     }
   };

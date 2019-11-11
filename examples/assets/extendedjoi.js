@@ -1,50 +1,61 @@
 const Joi = require('@hapi/joi');
 const customJoi = Joi.extend(joi => ({
+  type: 'number',
   base: joi.number(),
-  name: 'number',
-  language: {
+  messages: {
     round: 'needs to be a rounded number', // Used below as 'number.round'
     dividable: 'needs to be dividable by {{q}}'
   },
-  pre(value, state, options) {
-    if (options.convert && this._flags.round) {
-      return Math.round(value); // Change the value
-    }
+  coerce(value, helpers) {
 
-    return value; // Keep the value as it was
+    // Only called when prefs.convert is true
+
+    if (helpers.schema.$_getRule('round')) {
+      return { value: Math.round(value) };
+    }
   },
   /*eslint-disable */
-  rules: [
-    {
-      name: 'round',
-      setup(params) {
-        this._flags.round = true; // Set a flag for later use
-      },
-      validate(params, value, state, options) {
-        if (value % 1 !== 0) {
-          // Generate an error, state and options need to be passed
-          return this.createError('number.round', { v: value }, state, options);
-        }
+  rules: {
+    round: {
+      convert: true,              // Dual rule: converts or validates
+      method() {
 
-        return value; // Everything is OK
+        return this.$_addRule('round');
+      },
+      validate(value, helpers, args, options) {
+
+        // Only called when prefs.convert is false (due to rule convert option)
+
+        if (value % 1 !== 0) {
+          return helpers.error('number.round');
+        }
       }
     },
-    {
-      name: 'dividable',
-      params: {
-        q: joi.alternatives([joi.number().required(), joi.func().ref()])
+    dividable: {
+      multi: true,                // Rule supports multiple invocations
+      method(q) {
+
+        return this.$_addRule({ name: 'dividable', args: { q } });
       },
-      validate(params, value, state, options) {
-        if (value % params.q !== 0) {
-          // Generate an error, state and options need to be passed, q is used in the language
-          return this.createError('number.dividable', { v: value, q: params.q }, state, options);
+      args: [
+        {
+          name: 'q',
+          ref: true,
+          assert: (value) => typeof value === 'number' && !isNaN(value),
+          message: 'must be a number'
+        }
+      ],
+      validate(value, helpers, args, options) {
+
+        if (value % args.q === 0) {
+          return value;       // Value is valid
         }
 
-        return value; // Everything is OK
+        return helpers.error('number.dividable', { q: args.q });
       }
     }
-  ]
+  }
   /*eslint-enable */
-}));
+}))
 
 module.exports = customJoi;
