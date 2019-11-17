@@ -144,9 +144,9 @@ only assigned to the route they are apply to.
         },
         tags: ['api'],
         validate: {
-            payload: {
+            payload: Joi.object({
                 a: Joi.number().required().description('the first number')
-            }
+            })
         }
     }
 }

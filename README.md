@@ -101,11 +101,11 @@ HTML page (see next section).
         notes: 'Returns a todo item by the id passed in the path',
         tags: ['api'], // ADD THIS TAG
         validate: {
-            params: {
+            params: Joi.object({
                 id : Joi.number()
                         .required()
                         .description('the id for the todo item'),
-            }
+            })
         }
     },
 }
