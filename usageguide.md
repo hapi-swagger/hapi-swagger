@@ -322,7 +322,7 @@ A working demo of more complex uses of response object can be found in the [be-m
 ## Status Codes
 
 You can add HTTP status codes to each of the endpoints.
-As of Hapi.js v18.1.0, one can use Hapi's `response.status` option in order to document the schemas of the response objects. Hapi uses the `response.status` for its validation with Joi.
+As of Hapi.js `v18.1.0`, one can use Hapi's `response.status` option in order to document the schemas of the response objects. Hapi uses the `response.status` for its validation with Joi.
 
 ```javascript
 options: {
@@ -358,8 +358,9 @@ For example:
 -   200 -> `Successful`
 -   400 -> `Bad Request`
 -   404 -> `Not Found`
+-   204 -> `No Content`
 
-Basically, Swagger requires a `description` for each response, and by taking the default description we can overcome this requirement.
+Basically, Swagger requires a `description` for each response, and by taking the default description we can overcome this requirement. Setting `response.status.204` to `undefined` will allow **hapi-swagger** to pass-through the description of `No Content` to the swagger definition.
 
 However, if one wishes to provide a custom `description`, then hapi-swagger offers the `plugins.hapi-swager.responses` option in which response objects specify a `description` key which allows this.
 With this option, the `description` is required, the `schema` is optional, and unlike `response.status` option above, the schema object does not validate the API response.
@@ -384,6 +385,7 @@ options: {
                         equals: Joi.number()
                     }).label('Result')
                 },
+                204: undefined, // pass-through "No Content" to swagger definition
                 400: {
                     description: 'Something wrong happened'
                 }
