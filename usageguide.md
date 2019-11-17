@@ -85,12 +85,12 @@ The plugin will take either a JavaScript or JOI object for `params` `query` and 
         handler: (request, h) => { return 'OK'; },
         tags: ['api'],
         validate: {
-            params: {
+            params: Joi.object({
                 pageNo: Joi.number()
-            },
-            query: {
+            }),
+            query: Joi.object({
                 search: Joi.string()
-            },
+            }),
             headers: Joi.object({
                 'authorization': Joi.string().required()
             }).unknown()
@@ -303,7 +303,7 @@ options: {
     tags: ['api'],
     notes: ['Adds together two numbers and return the result'],
     validate: {
-        params: {
+        params: Joi.object({
             a: Joi.number()
                 .required()
                 .description('the first number'),
@@ -311,7 +311,7 @@ options: {
             b: Joi.number()
                 .required()
                 .description('the second number')
-        }
+        })
     },
     response: {schema: responseModel}
 }
@@ -339,7 +339,7 @@ options: {
         }
     },
     validate: {
-        params: {
+        params: Joi.object({
             a: Joi.number()
                 .required()
                 .description('the first number'),
@@ -347,7 +347,7 @@ options: {
             b: Joi.number()
                 .required()
                 .description('the second number')
-        }
+        })
     }
 }
 ```
@@ -391,7 +391,7 @@ options: {
         }
     },
     validate: {
-        params: {
+        params: Joi.object({
             a: Joi.number()
                 .required()
                 .description('the first number'),
@@ -399,7 +399,7 @@ options: {
             b: Joi.number()
                 .required()
                 .description('the second number')
-        }
+        })
     }
 }
 ```
@@ -451,11 +451,11 @@ the three important elements are:
         },
         tags: ['api'],
         validate: {
-            payload: {
+            payload: Joi.object({
                 file: Joi.any()
                     .meta({ swaggerType: 'file' })
                     .description('json file')
-            }
+            })
         },
         payload: {
             maxBytes: 1048576,
@@ -499,7 +499,7 @@ headers to be sent without validation errors.
 
 ```javascript
 validate: {
-    params: {
+    params: Joi.object({
         a: Joi.number()
             .required()
             .description('the first number'),
@@ -507,7 +507,7 @@ validate: {
         b: Joi.number()
             .required()
             .description('the second number')
-    },
+    }),
     headers: Joi.object({
          'authorization': Joi.string().required()
     }).unknown()
