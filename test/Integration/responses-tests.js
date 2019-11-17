@@ -225,6 +225,7 @@ lab.experiment('responses', () => {
     const server = await Helper.createServer({}, routes);
     const response = await server.inject({ url: '/swagger.json' });
     expect(response.result.paths['/store/'].post.responses[200]).to.exist();
+    expect(response.result.paths['/store/'].post.responses[204].description).to.equal('No Content');
     expect(response.result.paths['/store/'].post.responses[400].description).to.equal('Bad Request');
     expect(response.result.paths['/store/'].post.responses[400].headers).to.equal(headers);
     expect(response.result.paths['/store/'].post.responses[400].examples).to.equal(examples);
@@ -534,7 +535,7 @@ lab.experiment('responses', () => {
     expect(response.result.definitions['Model1']).to.exist();
     expect(response.result.definitions['Model2']).to.exist();
     expect(response.result.definitions).to.equal({
-      'Model1': {
+      Model1: {
         type: 'object',
         properties: {
           value2222: {
@@ -542,7 +543,7 @@ lab.experiment('responses', () => {
           }
         }
       },
-      'Model2': {
+      Model2: {
         type: 'object',
         properties: {
           value1111: {
