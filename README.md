@@ -118,7 +118,20 @@ so the the full URL for the above options would be `http://localhost:3000/docume
 
 **hapi-swagger** exports its own typescript definition file that can be used when registering the plugin with **Hapi**. See example below:
 
+#### Install Typescript Definition Files
+
+```sh
+npm i @types/hapi__hapi @types/hapi__inert @types/hapi__joi @types/hapi__vision @types/node hapi-swagger --save-dev
+```
+
+#### Register Plugin with Typescript
+
 ```typescript
+import * as Hapi from '@hapi/hapi';
+import * as HapiSwagger from 'hapi-swagger';
+
+// code omitted for brevity
+
 const swaggerOptions: HapiSwagger.RegisterOptions = {
     info: {
         title: 'Test API Documentation'
