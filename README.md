@@ -114,6 +114,33 @@ HTML page (see next section).
 Once you have tagged your routes start the application. **The plugin adds a page into your site with the route `/documentation`**,
 so the the full URL for the above options would be `http://localhost:3000/documentation`.
 
+### Typescript
+
+**hapi-swagger** exports its own typescript definition file that can be used when registering the plugin with **Hapi**. See example below:
+
+```typescript
+const swaggerOptions: HapiSwagger.RegisterOptions = {
+    info: {
+        title: 'Test API Documentation'
+    }
+};
+
+const plugins: Array<Hapi.ServerRegisterPluginObject<any>> = [
+    {
+        plugin: Inert
+    },
+    {
+        plugin: Vision
+    },
+    {
+        plugin: HapiSwagger,
+        options: swaggerOptions
+    }
+];
+
+await server.register(plugins);
+```
+
 ## Contributing
 
 Read the [contributing guidelines](./.github/CONTRIBUTING.md) for details.
