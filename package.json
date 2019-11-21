@@ -50,7 +50,7 @@
     "@hapi/boom": "^8.0.1",
     "@hapi/hoek": "^8.2.4",
     "@hapi/joi": "^16.1.7",
-    "handlebars": "^4.5.1",
+    "handlebars": "^4.5.3",
     "http-status": "^1.0.1",
     "json-schema-ref-parser": "^6.1.0",
     "swagger-parser": "4.0.2",
