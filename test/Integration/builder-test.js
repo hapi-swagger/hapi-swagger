@@ -94,7 +94,7 @@ lab.experiment('builder', () => {
       consumes: ['application/x-www-form-urlencoded'],
       produces: ['application/json', 'application/xml'],
       externalDocs: {
-        description: 'Find out more about HAPI',
+        description: 'Find out more about Hapi',
         url: 'http://hapijs.com'
       },
       'x-custom': 'custom'

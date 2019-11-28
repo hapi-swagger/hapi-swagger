@@ -204,7 +204,7 @@ helper.validateBearer = async (request, token) => {
 };
 
 /**
- * fires a HAPI reply with json payload - see h2o2 onResponse function signature
+ * fires a Hapi reply with json payload - see h2o2 onResponse function signature
  *
  * @param  {Object} err
  * @param  {Object} res

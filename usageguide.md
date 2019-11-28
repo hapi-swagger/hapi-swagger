@@ -15,11 +15,11 @@
 -   [Caching](#caching)
 -   [File upload](#file-upload)
 -   [Headers and .unknown()](#headers-and-unknown)
--   [Additional HAPI data using x-\*](#additional-hapi-data-using-x-)
+-   [Additional Hapi data using x-\*](#additional-hapi-data-using-x-)
 -   [JSON without UI](#json-without-ui)
 -   [Simplifying the JSON](#simplifying-the-json)
 -   [Debugging](#debugging)
--   [Features from HAPI that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
+-   [Features from Hapi that cannot be ported to Swagger](#features-from-hapi-that-cannot-be-ported-to-swagger)
 
 ## Links
 
@@ -282,7 +282,7 @@ There is a example of this feature [`dot-grouping.js`](examples/dot-grouping.js)
 
 ## Response Object
 
-HAPI allow you to define a response object for an API endpoint. The response object is used by HAPI to both validate
+Hapi allow you to define a response object for an API endpoint. The response object is used by Hapi to both validate
 and describe the output of an API. It uses the same JOI validation objects to describe the input parameters. The
 plugin turns these object into visual description and examples in the Swagger UI.
 
@@ -409,7 +409,7 @@ options: {
 ## Caching
 
 It can take some time to create the `swagger.json` data if your server has many complex routes. So `hapi-swagger`
-can cache its `swagger.json` data. The cache options are those of HAPI
+can cache its `swagger.json` data. The cache options are those of Hapi
 
 ```javascript
 options.cache: {
@@ -438,7 +438,7 @@ the three important elements are:
 
 -   `payloadType: 'form'` in the plugins section creates a form for upload
 -   `.meta({ swaggerType: 'file' })` add to the payload property you wish to be file upload
--   `payload` configuration how HAPI will process file
+-   `payload` configuration how Hapi will process file
 
 ```javascript
 {
@@ -516,7 +516,7 @@ validate: {
 }
 ```
 
-## Additional HAPI data using `x-*`
+## Additional Hapi data using `x-*`
 
 The OpenAPI spec allows for the addition of new properties and structures as long as they their name start with `x-`.
 Where possible I have mapped many of Hapi/Joi properties into the swagger.json file.
@@ -550,13 +550,13 @@ be useful if your are using codegen tools against the JSON
 ## Debugging
 
 The plugin can validate its output against the OpenAPI(Swagger) specification. You can to this by setting the plugin option `options.debug` to `true`.
-The debug output is logged into the HAPI server object. You can view the logs by either install the `Good` plugin or by using `server.on`.
+The debug output is logged into the Hapi server object. You can view the logs by either install the `Good` plugin or by using `server.on`.
 
 There is a small example of the [`debug`](examples/debug.js) feature in the examples directory.
 
-## Features from HAPI that cannot be ported to Swagger
+## Features from Hapi that cannot be ported to Swagger
 
-Not all the flexibility of HAPI and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
+Not all the flexibility of Hapi and JOI can to ported over to the Swagger schema. Below is a list of the most common asked for features that cannot be ported.
 
 -   **`Joi.extend()`** Only works if you are extending a `base` type such as `number` or `string`
 -   **`Joi.lazy()`** This new `JOI` feature needs more research to see if its possible to visual describe recursive objects before its supported.
@@ -596,7 +596,7 @@ This will load all routes that have one or more of the given tags (`foo` or `bar
 
 ## Example code in project
 
-There are a number of examples of different uses of `hapi-swagger` in the examples directory. These files contain a full HAPI node app:
+There are a number of examples of different uses of `hapi-swagger` in the examples directory. These files contain a full Hapi node app:
 
 -   [`custom.js`](examples/custom.js) - how build a custom documentation page with its own CSS and JS
 -   [`debug.js`](examples/debug.js) - how console.log debug information from `hapi-swagger`
@@ -613,5 +613,5 @@ There are a number of examples of different uses of `hapi-swagger` in the exampl
 Both these example use a custom HTML page
 
 -   [`be-more-hapi`](https://github.com/glennjones/be-more-hapi) - talk from Async.js on the October 2013 - old `hapi-swagger` example project, but keep update
--   [`hapi-token-docs`](https://github.com/glennjones/hapi-token-docs) - A example site using HAPI, JWT tokens and swagger documentation
--   [`time-to-be-hapi`](https://github.com/glennjones/time-to-be-hapi) - Londonjs talk March 2016 has many example uses of HAPI and one using `hapi-swagger`
+-   [`hapi-token-docs`](https://github.com/glennjones/hapi-token-docs) - A example site using Hapi, JWT tokens and swagger documentation
+-   [`time-to-be-hapi`](https://github.com/glennjones/time-to-be-hapi) - Londonjs talk March 2016 has many example uses of Hapi and one using `hapi-swagger`

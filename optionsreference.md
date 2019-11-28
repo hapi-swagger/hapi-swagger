@@ -79,10 +79,10 @@
 ## Route Options
 
 -   `validate`
-    -   `params`: (JOI object) allows you to `param` route documentation outside of HAPI validation
-    -   `query`: (JOI object) allows you to `query` route documentation outside of HAPI validation
-    -   `headers`: (JOI object) allows you to `headers` route documentation outside of HAPI validation
-    -   `payload`: (JOI object) allows you to `payload` route documentation outside of HAPI validation
+    -   `params`: (JOI object) allows you to `param` route documentation outside of Hapi validation
+    -   `query`: (JOI object) allows you to `query` route documentation outside of Hapi validation
+    -   `headers`: (JOI object) allows you to `headers` route documentation outside of Hapi validation
+    -   `payload`: (JOI object) allows you to `payload` route documentation outside of Hapi validation
 
 ## Examples
 

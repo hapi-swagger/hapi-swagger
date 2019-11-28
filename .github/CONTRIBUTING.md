@@ -8,7 +8,7 @@ Contributions from the community are welcome. Please follow this guide when logg
 
 All issues should be created using the [new issue form](https://github.com/glennjones/hapi-swagger/issues/new).
 
--   Please check the "[Features from HAPI that cannot be ported to Swagger](https://github.com/glennjones/hapi-swagger/blob/master/usageguide.md#features-from-hapi-that-cannot-be-ported-to-swagger])" section of the usage guide.
+-   Please check the "[Features from Hapi that cannot be ported to Swagger](https://github.com/glennjones/hapi-swagger/blob/master/usageguide.md#features-from-hapi-that-cannot-be-ported-to-swagger])" section of the usage guide.
 -   Try the plugin option `debug = true` to see if any errors or warning are logged. see [Debugging](https://github.com/glennjones/hapi-swagger/blob/master/usageguide.md#debugging)
 -   Clearly describe the issue including steps to reproduce it. Also include example code of any `routes` that cause an issue.
 

@@ -19,7 +19,7 @@ in a project.
 
 ## Installation
 
-You can add the module to your HAPI using npm:
+You can add the module to your Hapi using npm:
 
 ```bash
 > npm install hapi-swagger --save
@@ -40,7 +40,7 @@ content serving.
 
 ## Quick start
 
-In your HAPI apps main JavaScript file add the following code to created a HAPI `server` object. You will also add the routes for you API as describe on hapijs.com site.
+In your Hapi apps main JavaScript file add the following code to created a Hapi `server` object. You will also add the routes for you API as describe on hapijs.com site.
 
 ```Javascript
 const Hapi = require('@hapi/hapi');
@@ -160,4 +160,4 @@ Read the [contributing guidelines](./.github/CONTRIBUTING.md) for details.
 
 ## Thanks
 
-I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting HAPI to work with Swagger is like putting a round plug in a square hole. Without the help of others it would not be possible.
+I would like to thank all that have contributed to the project over the last couple of years. This is a hard project to maintain, getting Hapi to work with Swagger is like putting a round plug in a square hole. Without the help of others it would not be possible.
