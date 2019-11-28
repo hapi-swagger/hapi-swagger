@@ -1,6 +1,6 @@
 # hapi-swagger
 
-This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [HAPI](http://hapijs.com/) When installed it will self document the API interface
+This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [Hapi](https://hapi.dev/) When installed it will self document the API interface
 in a project.
 
 [![build status](https://img.shields.io/travis/glennjones/hapi-swagger.svg?style=for-the-badge)](http://travis-ci.org/glennjones/hapi-swagger)

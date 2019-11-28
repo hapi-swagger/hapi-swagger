@@ -28,7 +28,7 @@
 
 ## JSON body
 
-The most common API endpoint with HAPI.js is one that POST's a JSON body.
+The most common API endpoint with Hapi.js is one that POST's a JSON body.
 
 ```javascript
 {
