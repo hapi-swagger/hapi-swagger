@@ -147,6 +147,12 @@ lab.experiment('path', () => {
 
   lab.test('auto "multipart/form-data" consumes with { swaggerType: "file" }', async () => {
     let testRoutes = Hoek.clone(routes);
+    testRoutes.options.plugins = {
+      'hapi-swagger': {
+        payloadType: 'form'
+      }
+    };
+
     testRoutes.options.validate = {
       payload: Joi.object({
         file: Joi.any()
