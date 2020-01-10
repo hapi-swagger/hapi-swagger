@@ -75,7 +75,6 @@
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.0.0",
     "good-squeeze": "^5.0.2",
-    "hapi": "^18.0.0",
     "hapi-api-version": "^2.1.0",
     "hapi-auth-bearer-token": "^6.1.1",
     "hapi-auth-jwt2": "^8.0.0",
