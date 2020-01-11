@@ -39,7 +39,7 @@ lab.experiment('plugin', () => {
       server.route(routes);
       await server.start();
     } catch (err) {
-      expect(err.message).to.equal('Plugin hapi-swagger missing dependency vision');
+      expect(err.message).to.equal('Plugin hapi-swagger missing dependency @hapi/vision');
     }
   });
 
@@ -50,7 +50,7 @@ lab.experiment('plugin', () => {
       server.route(routes);
       await server.start();
     } catch (err) {
-      expect(err.message).to.equal('Plugin hapi-swagger missing dependency inert');
+      expect(err.message).to.equal('Plugin hapi-swagger missing dependency @hapi/inert');
     }
   });
 
