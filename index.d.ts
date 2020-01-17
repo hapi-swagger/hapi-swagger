@@ -311,6 +311,13 @@ declare namespace hapiswagger {
     swaggerUIPath?: string;
 
     /**
+     * The path to all the SwaggerUI assets endpoints.
+     * If swaggerUIPath is specified and this parameter is not, it will take swaggerUIPath value
+     * @default: '/swaggerui/'
+     */
+    routesBasePath?: string;
+
+    /**
      * Add documentation page
      * @default true
      */

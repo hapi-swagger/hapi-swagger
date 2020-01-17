@@ -52,6 +52,7 @@
 
 -   `swaggerUI`: (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`
 -   `swaggerUIPath`: (string) The path of to all the SwaggerUI resources - default: `/swaggerui/`
+-   `routesBasePath`: (string) The path to all the SwaggerUI assets endpoints. If swaggerUIPath is specified and this parameter is not, it will take swaggerUIPath value - default: `/swaggerui/`
 -   `documentationPage`: (boolean) Add documentation page - default: `true`
 -   `documentationPath`: (string) The path of the documentation page - default: `/documentation`
 -   `templates`: (string) The directory path used by `hapi-swagger` and `@hapi/vision` to resolve and load the templates to render `swagger-ui` interface. The directory must contain `index.html` and `debug.html` templates. Default is `templates` directory in this package.
