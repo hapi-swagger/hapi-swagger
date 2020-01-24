@@ -109,6 +109,26 @@ lab.experiment('plugin', () => {
     expect(response.statusCode).to.equal(200);
   });
 
+  lab.test('repathed jsonPath url and jsonRoutePath', async () => {
+    const jsonRoutePath = '/testRoute/test.json';
+
+    const server = await Helper.createServer(
+      {
+        ...swaggerOptions,
+        jsonRoutePath
+      },
+      routes
+    );
+
+    const notFoundResponse = await server.inject({ method: 'GET', url: '/test.json' });
+
+    expect(notFoundResponse.statusCode).to.equal(404);
+
+    const okResponse = await server.inject({ method: 'GET', url: jsonRoutePath });
+
+    expect(okResponse.statusCode).to.equal(200);
+  });
+
   lab.test('repathed documentationPath url', async () => {
     const server = await Helper.createServer(swaggerOptions, routes);
     const response = await server.inject({ method: 'GET', url: '/testdoc' });
