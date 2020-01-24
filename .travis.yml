@@ -2,11 +2,10 @@ language: node_js
 notifications:
   email: false
 node_js:
-  - '8'
-  - '10'
   - '12'
+  - '13'
 env:
-  - HAPI=hapi@18
+  - HAPI=hapi@hapi@19
 before_script:
   - npm install --save-dev $HAPI
 after_script:
