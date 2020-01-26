@@ -13,6 +13,7 @@
 
 -   `jsonPath`: (string) The path of JSON endpoint at describes the API - default: `/swagger.json`
 -   `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) - default: `/`
+-   `proxyPath`: (string) The path prefix behind which the API is located i.e. `/my-app-name/api` (note, needs to start with `/` and NOT end with `/`) -  default: `""`
 -   `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints - default: `1`
 -   `pathReplacements` : (array) methods for modifying path and group names in documentation - default: `[]`
 -   `info`
