@@ -109,6 +109,26 @@ lab.experiment('plugin', () => {
     expect(response.statusCode).to.equal(200);
   });
 
+  lab.test('repathed assets url using proxyPath', async () => {
+    const proxyPath = '/api';
+    const server = await Helper.createServer(
+      {
+        ...swaggerOptions,
+        proxyPath,
+      },
+      routes
+    );
+    const response = await server.inject({ method: 'GET', url: '/testdoc' });
+
+    expect(response.statusCode).to.equal(200);
+
+    const assets = Helper.getAssetsPaths(response.result);
+
+    assets.forEach(asset => {
+      expect(asset).to.startWith(proxyPath);
+    });
+  });
+
   lab.test('repathed documentationPath url', async () => {
     const server = await Helper.createServer(swaggerOptions, routes);
     const response = await server.inject({ method: 'GET', url: '/testdoc' });

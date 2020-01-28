@@ -229,3 +229,30 @@ helper.objWithNoOwnProperty = () => {
   Triangle.prototype = sides;
   return new Triangle();
 };
+
+/**
+ * given an html string, creates an array with paths to all local assets
+ *
+ * @return {Array}
+ */
+helper.getAssetsPaths = html => {
+  const linkTag = '<link';
+  const scriptTag = '<script src';
+
+  return html
+    .split('\n')
+    .filter(line => line.includes(linkTag) || line.includes(scriptTag))
+    .map(line => {
+      let firstSplit;
+
+      if (line.includes(linkTag)) {
+        [, firstSplit] = line.split('href="');
+      } else {
+        [, firstSplit] = line.split('src="');
+      }
+
+      const [assetPath] = firstSplit.split('"');
+
+      return assetPath;
+    });
+};

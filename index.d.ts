@@ -311,6 +311,12 @@ declare namespace hapiswagger {
     swaggerUIPath?: string;
 
     /**
+     * The path prefix for all asset requests
+     * @default: ''
+     */
+    proxyPath?: string;
+
+    /**
      * Add documentation page
      * @default true
      */
