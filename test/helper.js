@@ -47,27 +47,27 @@ helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
 helper.createServerMultiple = async (swaggerOptions1, swaggerOptions2, routes, serverOptions = {}) => {
   const server = new Hapi.Server(serverOptions);
 
-  await server.register([
-    Inert,
-    Vision,
-    H2o2,
-  ]);
+  await server.register([Inert, Vision, H2o2]);
 
-  await server.register({
-    plugin: HapiSwagger,
-    options: swaggerOptions1,
-  },
-  {
-    routes: { prefix: '/' + swaggerOptions1.routeTag || 'api1', }
-  });
+  await server.register(
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions1
+    },
+    {
+      routes: { prefix: '/' + swaggerOptions1.routeTag || 'api1' }
+    }
+  );
 
-  await server.register({
-    plugin: HapiSwagger,
-    options: swaggerOptions2,
-  },
-  {
-    routes: { prefix: '/' + swaggerOptions2.routeTag || 'api2', }
-  });
+  await server.register(
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions2
+    },
+    {
+      routes: { prefix: '/' + swaggerOptions2.routeTag || 'api2' }
+    }
+  );
 
   if (routes) {
     server.route(routes);
@@ -228,4 +228,26 @@ helper.objWithNoOwnProperty = () => {
   let Triangle = function() {};
   Triangle.prototype = sides;
   return new Triangle();
+};
+
+helper.getAssetsPaths = html => {
+  const linkTag = '<link';
+  const scriptTag = '<script src';
+
+  return html
+    .split('\n')
+    .filter(line => line.includes(linkTag) || line.includes(scriptTag))
+    .map(line => {
+      let firstSplit;
+
+      if (line.includes(linkTag)) {
+        [, firstSplit] = line.split('href="');
+      } else {
+        [, firstSplit] = line.split('src="');
+      }
+
+      const [assetPath] = firstSplit.split('"');
+
+      return assetPath;
+    });
 };

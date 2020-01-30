@@ -171,10 +171,16 @@ declare namespace hapiswagger {
     cors?: boolean;
 
     /**
-     * The path of JSON endpoint at describes the API
+     * The path of JSON endpoint that describes the API
      * @default '/swagger.json'
      */
     jsonPath?: string;
+
+    /**
+     * The path for the controller that serves the JSON that describes the API.If jsonPath is specified and this parameter is not, it will take jsonPath value.Useful when behind a reverse proxy
+     * @default '/swagger.json'
+     */
+    jsonRoutePath?: string;
 
     /**
      * The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`)
@@ -309,6 +315,13 @@ declare namespace hapiswagger {
      * @default: '/swaggerui/'
      */
     swaggerUIPath?: string;
+
+    /**
+     * The path to all the SwaggerUI assets endpoints.
+     * If swaggerUIPath is specified and this parameter is not, it will take swaggerUIPath value. Useful when behind a reverse proxy
+     * @default: '/swaggerui/'
+     */
+    routesBasePath?: string;
 
     /**
      * Add documentation page

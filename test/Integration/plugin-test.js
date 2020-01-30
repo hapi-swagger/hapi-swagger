@@ -109,10 +109,93 @@ lab.experiment('plugin', () => {
     expect(response.statusCode).to.equal(200);
   });
 
+  lab.test('repathed jsonPath url and jsonRoutePath', async () => {
+    const jsonRoutePath = '/testRoute/test.json';
+
+    const server = await Helper.createServer(
+      {
+        ...swaggerOptions,
+        jsonRoutePath
+      },
+      routes
+    );
+
+    const notFoundResponse = await server.inject({ method: 'GET', url: '/test.json' });
+
+    expect(notFoundResponse.statusCode).to.equal(404);
+
+    const okResponse = await server.inject({ method: 'GET', url: jsonRoutePath });
+
+    expect(okResponse.statusCode).to.equal(200);
+  });
+
   lab.test('repathed documentationPath url', async () => {
     const server = await Helper.createServer(swaggerOptions, routes);
     const response = await server.inject({ method: 'GET', url: '/testdoc' });
     expect(response.statusCode).to.equal(200);
+  });
+
+  lab.test('repathed assets url', async () => {
+    const server = await Helper.createServer(swaggerOptions, routes);
+    const response = await server.inject({ method: 'GET', url: '/testdoc' });
+
+    expect(response.statusCode).to.equal(200);
+
+    const assets = Helper.getAssetsPaths(response.result);
+
+    assets.forEach(asset => {
+      expect(asset).to.contain(swaggerOptions.swaggerUIPath);
+    });
+
+    const responses = await Promise.all(
+      assets.map(asset => {
+        return server.inject({ method: 'GET', url: asset });
+      })
+    );
+
+    responses.forEach(assetResponse => {
+      expect(assetResponse.statusCode).to.equal(200);
+    });
+  });
+
+  lab.test('repathed assets url and reoutes path', async () => {
+    const routesBasePath = '/testRoute/';
+    const server = await Helper.createServer(
+      {
+        ...swaggerOptions,
+        routesBasePath
+      },
+      routes
+    );
+    const response = await server.inject({ method: 'GET', url: '/testdoc' });
+
+    expect(response.statusCode).to.equal(200);
+
+    const assets = Helper.getAssetsPaths(response.result);
+
+    assets.forEach(asset => {
+      expect(asset).to.contain(swaggerOptions.swaggerUIPath);
+    });
+
+    const notFoundResponses = await Promise.all(
+      assets.map(asset => {
+        return server.inject({ method: 'GET', url: asset });
+      })
+    );
+
+    notFoundResponses.forEach(assetResponse => {
+      expect(assetResponse.statusCode).to.equal(404);
+    });
+
+    const okResponses = await Promise.all(
+      assets.map(asset => {
+        return server.inject({ method: 'GET', url: asset.replace(swaggerOptions.swaggerUIPath, routesBasePath) });
+      })
+    );
+
+    okResponses.forEach(assetResponse => {
+      expect(assetResponse.statusCode).to.equal(200);
+    });
   });
 
   lab.test('disable documentation path', async () => {
@@ -386,7 +469,7 @@ lab.experiment('plugin', () => {
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     //console.log(JSON.stringify(response.result));
     expect(response.result.definitions).to.equal({
-      'Model1': {
+      Model1: {
         type: 'object',
         properties: {
           a: {
@@ -400,7 +483,6 @@ lab.experiment('plugin', () => {
     });
   });
 });
-
 
 lab.experiment('multiple plugins', () => {
   const routes = [
@@ -442,14 +524,14 @@ lab.experiment('multiple plugins', () => {
     let swaggerOptions1 = {
       routeTag: 'store-api',
       info: {
-        description: 'This is the store API docs',
-      },
+        description: 'This is the store API docs'
+      }
     };
     let swaggerOptions2 = {
       routeTag: 'shop-api',
       info: {
-        description: 'This is the shop API docs',
-      },
+        description: 'This is the shop API docs'
+      }
     };
     const server = await Helper.createServerMultiple(swaggerOptions1, swaggerOptions2, routes);
 
@@ -467,5 +549,4 @@ lab.experiment('multiple plugins', () => {
     expect(response2.result.info.description).to.equal('This is the shop API docs');
     expect(response2.result.paths['/shop/'].post.operationId).to.equal('postShop');
   });
-
 });
