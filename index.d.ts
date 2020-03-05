@@ -202,7 +202,7 @@ declare namespace hapiswagger {
     /**
      * Allows adding meta data to a single tag that is used by the Operation Object. It is not mandatory to have a Tag Object per tag used there.
      */
-    tags?: TagOptions;
+    tags?: TagOptions[];
 
     /**
      * How to create grouping of endpoints value either `path` or `tags`
