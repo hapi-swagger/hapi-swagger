@@ -12,6 +12,7 @@ in a project.
 
 | Version | [Hapi](https://github.com/hapijs/hapi) | [Joi](https://github.com/hapijs/joi) | Node   | Release Notes                                                 |
 | ------- | -------------------------------------- | ------------------------------------ | ------ | ------------------------------------------------------------- |
+| `v13.x` | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0`                           | `>=12` | [#660](https://github.com/glennjones/hapi-swagger/issues/660) |
 | `v12.x` | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0`                           | `>=12` | [#644](https://github.com/glennjones/hapi-swagger/issues/644) |
 | `v11.x` | `>=18.4.0 @hapi/hapi`                  | `>=16.0.0`                           | `>=8`  | [#631](https://github.com/glennjones/hapi-swagger/issues/631) |
 | `v10.x` | `>=18.3.1 @hapi/hapi`                  | `>=14.0.0`                           | `>=8`  | [#587](https://github.com/glennjones/hapi-swagger/issues/587) |
@@ -24,6 +25,12 @@ You can add the module to your Hapi using npm:
 
 ```bash
 > npm install hapi-swagger --save
+```
+
+**hapi-swagger** no longer bundles `@hapi@joi` to fix [#648](https://github.com/glennjones/hapi-swagger/issues/648). Install **hapi-swagger** with peer dependencies using:
+
+```bash
+npx install-peerdeps hapi-swagger
 ```
 
 If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static
