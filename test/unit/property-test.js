@@ -590,6 +590,50 @@ lab.test('parse type object', () => {
         type: 'string'
       }
     }
+  });  expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, 'body', false, false)).to.equal({
+    name: 'x',
+    type: 'object',
+    properties: {
+      a: {
+        type: 'string'
+      }
+    }
+  });
+  // test without pattern schema example
+  expect(propertiesNoAlt.parseProperty('x', Joi.object().pattern(Joi.string(), Joi.object({
+    y: Joi.string().example('b'),
+  })), null, 'body', false, false)).to.equal({
+    name: 'x',
+    type: 'object',
+    properties: {
+      string: {
+        name: 'string',
+        type: 'object',
+        properties: {
+          'y': {
+            type: 'string'
+          }
+        }
+      }
+    }
+  });
+  // test with pattern schema example
+  expect(propertiesNoAlt.parseProperty('x', Joi.object().pattern(Joi.string().example('a'), Joi.object({
+    y: Joi.string().example('b'),
+  })), null, 'body', false, false)).to.equal({
+    name: 'x',
+    type: 'object',
+    properties: {
+      a: {
+        name: 'a',
+        type: 'object',
+        properties: {
+          'y': {
+            type: 'string'
+          }
+        }
+      }
+    }
   });
 });
 
