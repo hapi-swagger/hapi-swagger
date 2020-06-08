@@ -12,10 +12,10 @@ in a project.
 
 | Version | [Hapi](https://github.com/hapijs/hapi) | [Joi](https://github.com/hapijs/joi) | Node   | Release Notes                                                 |
 | ------- | -------------------------------------- | ------------------------------------ | ------ | ------------------------------------------------------------- |
-| `v13.x` | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0`                           | `>=12` | [#660](https://github.com/glennjones/hapi-swagger/issues/660) |
-| `v12.x` | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0`                           | `>=12` | [#644](https://github.com/glennjones/hapi-swagger/issues/644) |
-| `v11.x` | `>=18.4.0 @hapi/hapi`                  | `>=16.0.0`                           | `>=8`  | [#631](https://github.com/glennjones/hapi-swagger/issues/631) |
-| `v10.x` | `>=18.3.1 @hapi/hapi`                  | `>=14.0.0`                           | `>=8`  | [#587](https://github.com/glennjones/hapi-swagger/issues/587) |
+| `13.x` | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0`                           | `>=12` | [#660](https://github.com/glennjones/hapi-swagger/issues/660) |
+| `12.x` | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0`                           | `>=12` | [#644](https://github.com/glennjones/hapi-swagger/issues/644) |
+| `11.x` | `>=18.4.0 @hapi/hapi`                  | `>=16.0.0`                           | `>=8`  | [#631](https://github.com/glennjones/hapi-swagger/issues/631) |
+| `10.x` | `>=18.3.1 @hapi/hapi`                  | `>=14.0.0`                           | `>=8`  | [#587](https://github.com/glennjones/hapi-swagger/issues/587) |
 | `9.x`   | `>=17 hapi`                            | `<14.0.0`                            | `>=8`  | [#487](https://github.com/glennjones/hapi-swagger/issues/487) |
 | `7.x`   | `<17 hapi`                             | ???                                  | ???    | [#325](https://github.com/glennjones/hapi-swagger/issues/325) |
 
