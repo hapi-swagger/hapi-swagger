@@ -47,7 +47,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "@hapi/boom": "^8.0.1",
+    "@hapi/boom": "^9.1.0",
     "@hapi/hoek": "^9.0.2",
     "handlebars": "^4.5.3",
     "http-status": "^1.0.1",
