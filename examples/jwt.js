@@ -19,7 +19,8 @@ let swaggerOptions = {
       name: 'Authorization',
       in: 'header'
     }
-  }
+  },
+  security: [{ jwt: [] }]
 };
 
 const people = {
