@@ -1,5 +1,6 @@
 const Code = require('@hapi/code');
 const Hapi = require('@hapi/hapi');
+const Hoek = require('@hapi/hoek');
 const Inert = require('@hapi/inert');
 const Joi = require('@hapi/joi');
 const Lab = require('@hapi/lab');
@@ -66,8 +67,84 @@ lab.experiment('plugin', () => {
     }
   });
 
+  lab.test('fail plug-in register with bad options', async () => {
+    const badOptions = {
+      validate: 42
+    };
+    try {
+      await Helper.createServer(badOptions, routes);
+    } catch (err) {
+      expect(err).to.exist();
+      expect(err.name).to.equal('ValidationError');
+      expect(err.details).to.have.length(1)
+      expect(err.details[0].message).to.equal('"validate" must be of type object')
+    }
+  });
+
   lab.test('plug-in register test', async () => {
     const server = await Helper.createServer({}, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.paths).to.have.length(1);
+  });
+
+  lab.test('plug-in register with validate option', async () => {
+    const goodOptions = {
+      validate: {
+        headers: true
+      }
+    };
+    const server = await Helper.createServer(goodOptions, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.paths).to.have.length(1);
+  });
+
+  lab.test('plug-in register with server validation options', async () => {
+    const serverOptions = {
+      routes: {
+        validate: {
+          failAction: (request, h, err) => {
+            Hoek.ignore(request, h)
+            throw err
+          },
+          headers: Joi.object({
+            authorization: Joi.string().required()
+          })
+            .required()
+        }
+      }
+    };
+    const server = await Helper.createServer(undefined, routes, serverOptions);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(400);
+    expect(response.statusMessage).to.equal('Bad Request');
+    expect(response.result.statusCode).to.equal(400);
+    expect(response.result.error).to.equal('Bad Request');
+    expect(response.result.message).to.equal('"authorization" is required');
+  });
+
+  lab.test('plug-in register and overrride server validation options', async () => {
+    const serverOptions = {
+      routes: {
+        validate: {
+          failAction: (request, h, err) => {
+            Hoek.ignore(request, h)
+            throw err
+          },
+          headers: Joi.object({
+            authorization: Joi.string().required()
+          })
+            .required()
+        }
+      }
+    };
+    const pluginOptions = {
+      validate: {
+        headers: true
+      }
+    }
+    const server = await Helper.createServer(pluginOptions, routes, serverOptions);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     expect(response.statusCode).to.equal(200);
     expect(response.result.paths).to.have.length(1);

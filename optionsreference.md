@@ -8,6 +8,7 @@
 -   `host`: (string) The host (name or IP) serving the API including port if any i.e. `localhost:8080`
 -   `auth`: (boolean, string or object) defines security strategy to use for plugin resources - default: `false`,
 -   `cors`: (boolean) whether the swagger.json routes is served with cors support - default: `false`,
+-   `validate`: (object) sets validation rules for all routes created by the plugin - not set by default
 
 #### JSON (JSON endpoint needed to create UI)
 
