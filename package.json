@@ -88,7 +88,7 @@
   },
   "peerDependencies": {
     "@hapi/hapi": "^19.0.0",
-    "@hapi/joi": "17.x"
+    "joi": "17.x"
   },
   "lint-staged": {
     "*.{js}": [
