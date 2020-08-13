@@ -1,7 +1,7 @@
 // `swagger-client.js` - how to plug-in to build an interface with `swagger-client`
 
 const Hapi = require('@hapi/hapi');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const Swagger = require('swagger-client');
 const HapiSwagger = require('../');
 

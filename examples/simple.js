@@ -1,5 +1,5 @@
 const Hapi = require('@hapi/hapi');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');

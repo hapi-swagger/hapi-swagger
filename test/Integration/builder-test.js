@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const Code = require('@hapi/code');
 const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
