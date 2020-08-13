@@ -61,7 +61,7 @@
     "@hapi/good": "^8.2.3",
     "@hapi/good-console": "^8.1.2",
     "@hapi/h2o2": "^8.2.0",
-    "@hapi/hapi": "^19.0.2",
+    "@hapi/hapi": "^20.0.0",
     "@hapi/inert": "^6.0.1",
     "@hapi/lab": "^22.0.5",
     "@hapi/vision": "^6.0.0",
@@ -87,7 +87,7 @@
     "tsd": "^0.7.4"
   },
   "peerDependencies": {
-    "@hapi/hapi": "^19.0.0",
+    "@hapi/hapi": "^20.0.0",
     "joi": "17.x"
   },
   "lint-staged": {
