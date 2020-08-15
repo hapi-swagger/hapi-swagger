@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const js2xmlparser = require('js2xmlparser');
 
 const sumModel = Joi.object({
