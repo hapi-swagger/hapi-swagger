@@ -179,6 +179,18 @@ lab.experiment('property - ', () => {
     expect(nonNegativeWithoutDropdown).to.not.include({ enum: [0] });
   });
 
+  lab.test('parse hidden', () => {
+    expect(
+      propertiesAlt.parseProperty('x', Joi.string().meta({ swaggerHidden: true }), null, 'body', true, false)
+    ).to.equal(undefined);
+    expect(
+      propertiesAlt.parseProperty('x', Joi.string().meta({ swaggerHidden: false }), null, 'body', true, false)
+    ).to.equal({
+      type: 'string',
+      'x-meta': { swaggerHidden: false }
+    });
+  });
+
   lab.test('parse type string', () => {
     clearDown();
     expect(propertiesNoAlt.parseProperty('x', Joi.string(), null, 'body', true, false)).to.equal({
