@@ -14,6 +14,7 @@
 -   [Status Codes](#status-codes)
 -   [Caching](#caching)
 -   [File upload](#file-upload)
+-   [Prevent JOI properties from being included in the Swagger schema](#prevent-joi-properties-from-being-included-in-the-swagger-schema)
 -   [Headers and .unknown()](#headers-and-unknown)
 -   [Additional Hapi data using x-\*](#additional-hapi-data-using-x-)
 -   [JSON without UI](#json-without-ui)
@@ -467,6 +468,12 @@ the three important elements are:
         response: {schema : sumModel}
 }
 ```
+
+## Prevent JOI properties from being included in the Swagger schema
+
+You can prevent specific JOI properties from being included in the generated Swagger schema by using:
+
+`.meta({ swaggerHidden: true })`
 
 ## Default values and examples
 
