@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ hapiSwagger.swaggerUIPath }}swagger-ui.css" />
     <link rel="icon" type="image/png" href="{{ hapiSwagger.swaggerUIPath }}favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="{{ hapiSwagger.swaggerUIPath }}favicon-16x16.png" sizes="16x16" />
-    <style>
+    <style nonce="{{style-nonce}}">
       html {
         box-sizing: border-box;
         overflow: -moz-scrollbars-vertical;
@@ -28,10 +28,10 @@
 
   <body>
     <div id="swagger-ui"></div>
-    <script src="{{ hapiSwagger.swaggerUIPath }}swagger-ui-bundle.js"></script>
-    <script src="{{ hapiSwagger.swaggerUIPath }}swagger-ui-standalone-preset.js"></script>
-    <script src="{{ hapiSwagger.swaggerUIPath }}extend.js" type="text/javascript"></script>
-    <script>
+    <script nonce="{{script-nonce}}" src="{{ hapiSwagger.swaggerUIPath }}swagger-ui-bundle.js"></script>
+    <script nonce="{{script-nonce}}" src="{{ hapiSwagger.swaggerUIPath }}swagger-ui-standalone-preset.js"></script>
+    <script nonce="{{script-nonce}}" src="{{ hapiSwagger.swaggerUIPath }}extend.js" type="text/javascript"></script>
+    <script nonce="{{script-nonce}}">
       function getUrlVars() {
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
