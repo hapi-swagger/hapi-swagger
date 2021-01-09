@@ -138,9 +138,10 @@ lab.experiment('property - ', () => {
       type: 'string',
       enum: ['a', 'b']
     });
-    expect(
-      propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', null), null, 'body', true, false)
-    ).to.equal({ type: 'string', enum: ['a', 'b'] });
+    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', null), null, 'body', true, false)).to.equal({
+      type: 'string',
+      enum: ['a', 'b']
+    });
     expect(
       propertiesNoAlt.parseProperty(
         'x',
@@ -215,7 +216,7 @@ lab.experiment('property - ', () => {
     // and make sure we omit any regex flags (g, i, m) from the
     // resulting pattern
     expect(
-      propertiesNoAlt.parseProperty('x', Joi.string().regex(/^https:\/\/test.com/mi), null, 'body', true, false)
+      propertiesNoAlt.parseProperty('x', Joi.string().regex(/^https:\/\/test.com/im), null, 'body', true, false)
     ).to.equal({
       type: 'string',
       pattern: '^https:\\/\\/test.com'
@@ -395,7 +396,15 @@ lab.experiment('property - ', () => {
   lab.test('parse type date timestamp', () => {
     clearDown();
     expect(propertiesNoAlt.parseProperty('x', Joi.date().timestamp(), null, 'body', true, false)).to.equal({
-      format: 'date', type: 'string'
+      type: 'integer'
+    });
+  });
+
+  lab.test('parse type date iso', () => {
+    clearDown();
+    expect(propertiesNoAlt.parseProperty('x', Joi.date().iso(), null, 'body', true, false)).to.equal({
+      type: 'string',
+      format: 'date-time'
     });
   });
 
@@ -582,7 +591,9 @@ lab.test('parse type object', () => {
   clearDown();
   //console.log(JSON.stringify( propertiesNoAlt.parseProperty('x', Joi.object(), {}, {}, 'formData')  ));
   expect(propertiesNoAlt.parseProperty('x', Joi.object(), null, 'body', false, false)).to.equal({ type: 'object' });
-  expect(propertiesNoAlt.parseProperty('x', Joi.object().keys(), null, 'body', false, false)).to.equal({ type: 'object' });
+  expect(propertiesNoAlt.parseProperty('x', Joi.object().keys(), null, 'body', false, false)).to.equal({
+    type: 'object'
+  });
   expect(
     propertiesNoAlt.parseProperty('x', Joi.object().keys({ a: Joi.string() }), null, 'body', false, false)
   ).to.equal({
@@ -613,9 +624,21 @@ lab.test('parse type object', () => {
     }
   });
   // test without pattern schema example
-  expect(propertiesNoAlt.parseProperty('x', Joi.object().pattern(Joi.string(), Joi.object({
-    y: Joi.string()
-  })), null, 'body', false, false)).to.equal({
+  expect(
+    propertiesNoAlt.parseProperty(
+      'x',
+      Joi.object().pattern(
+        Joi.string(),
+        Joi.object({
+          y: Joi.string()
+        })
+      ),
+      null,
+      'body',
+      false,
+      false
+    )
+  ).to.equal({
     name: 'x',
     type: 'object',
     properties: {
@@ -623,7 +646,7 @@ lab.test('parse type object', () => {
         name: 'string',
         type: 'object',
         properties: {
-          'y': {
+          y: {
             type: 'string'
           }
         }
@@ -631,9 +654,21 @@ lab.test('parse type object', () => {
     }
   });
   // test with pattern schema example
-  expect(propertiesNoAlt.parseProperty('x', Joi.object().pattern(Joi.string().example('a'), Joi.object({
-    y: Joi.string()
-  })), null, 'body', false, false)).to.equal({
+  expect(
+    propertiesNoAlt.parseProperty(
+      'x',
+      Joi.object().pattern(
+        Joi.string().example('a'),
+        Joi.object({
+          y: Joi.string()
+        })
+      ),
+      null,
+      'body',
+      false,
+      false
+    )
+  ).to.equal({
     name: 'x',
     type: 'object',
     properties: {
@@ -641,7 +676,7 @@ lab.test('parse type object', () => {
         name: 'a',
         type: 'object',
         properties: {
-          'y': {
+          y: {
             type: 'string'
           }
         }
@@ -649,9 +684,21 @@ lab.test('parse type object', () => {
     }
   });
   // test with regex as pattern
-  expect(propertiesNoAlt.parseProperty('x', Joi.object().pattern(/\w\d/, Joi.object({
-    y: Joi.string()
-  })), null, 'body', false, false)).to.equal({
+  expect(
+    propertiesNoAlt.parseProperty(
+      'x',
+      Joi.object().pattern(
+        /\w\d/,
+        Joi.object({
+          y: Joi.string()
+        })
+      ),
+      null,
+      'body',
+      false,
+      false
+    )
+  ).to.equal({
     name: 'x',
     type: 'object',
     properties: {
@@ -659,7 +706,7 @@ lab.test('parse type object', () => {
         name: 'string',
         type: 'object',
         properties: {
-          'y': {
+          y: {
             type: 'string'
           }
         }
