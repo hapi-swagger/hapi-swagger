@@ -464,6 +464,40 @@ lab.experiment('responses', () => {
     expect(isValid).to.be.true();
   });
 
+  lab.test('when default schema provided an no responses provided', async () => {
+    const routes = {
+      method: 'POST',
+      path: '/store/',
+      options: {
+        handler: Helper.defaultHandler,
+        tags: ['api'],
+        validate: {
+          payload: Joi.object({
+            a: Joi.number()
+              .required()
+              .description('the first number')
+          })
+        },
+        response: {
+          schema: joiListModel
+        }
+      }
+    };
+
+    const server = await Helper.createServer({}, routes);
+    const response = await server.inject({ url: '/swagger.json' });
+    expect(response.result.paths['/store/'].post.responses).to.equal({
+      200: {
+        schema: {
+          '$ref': '#/definitions/List'
+        },
+        description: 'Successful'
+      }
+    });
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
+
   lab.test('No ownProperty', async () => {
     let objA = Helper.objWithNoOwnProperty();
     const objB = Helper.objWithNoOwnProperty();
