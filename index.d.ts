@@ -301,7 +301,7 @@ declare namespace hapiswagger {
      * 
      * @default: true
      */
-    definitionsForArraysOfObjects?: string;
+    definitionsForArraysOfObjects?: boolean;
 
     /**
      * Dereferences JSON output
