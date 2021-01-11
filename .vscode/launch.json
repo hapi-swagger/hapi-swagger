@@ -50,6 +50,16 @@
       "skipFiles": ["<node_internals>/**/*.js"],
       "disableOptimisticBPs": true,
       "sourceMaps": false
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "test using lab",
+      "program": "${workspaceFolder}/node_modules/.bin/lab",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "disableOptimisticBPs": true,
+      "sourceMaps": false
     }
   ],
   "inputs": [
