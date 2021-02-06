@@ -713,6 +713,22 @@ lab.test('parse type object', () => {
       }
     }
   });
+  // test with regex as pattern with user define
+  expect(
+    propertiesNoAlt.parseProperty(
+      'x',
+      Joi.object().pattern(
+        Joi.string().pattern(/^[0-9]+$/),
+        Joi.object({
+          y: Joi.string()
+        })
+      ),
+      null,
+      'body',
+      true,
+      false
+    )
+  ).to.equal({ '$ref': '#/definitions/x' });
 });
 
 lab.experiment('property deep - ', () => {
