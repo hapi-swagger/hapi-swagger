@@ -78,7 +78,7 @@ lab.experiment('default grouping', () => {
     expect(isValid).to.be.true();
   });
 
-  lab.experiment('tag grouping', async () => {
+  lab.experiment('tag grouping', () => {
     lab.test('group by tags', async () => {
       const server = await new Hapi.Server({});
       swaggerOptions.grouping = 'tags';
