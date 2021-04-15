@@ -33,7 +33,7 @@
     "start:group:ordered": "node examples/group-ordered.js",
     "start:routes:simple": "node examples/group-ordered.js",
     "test": "npm run test:lib",
-    "test:lib": "lab -L -t 98 -I '__core-js_shared__,core,CSS'",
+    "test:lib": "lab -L -t 98 -I '__core-js_shared__,regeneratorRuntime,core,CSS'",
     "test:ts": "tsd",
     "lint": "eslint .",
     "test:cov:html": "lab -r html -o coverage.html",
