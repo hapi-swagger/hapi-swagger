@@ -142,6 +142,10 @@ lab.experiment('property - ', () => {
       type: 'string',
       enum: ['a', 'b']
     });
+    expect(propertiesNoAlt.parseProperty('x', Joi.compile(['a', 'b', null]), null, 'body', true, false)).to.equal({
+      type: 'string',
+      enum: ['a', 'b']
+    });
     expect(
       propertiesNoAlt.parseProperty(
         'x',
