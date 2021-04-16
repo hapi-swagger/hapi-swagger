@@ -78,4 +78,89 @@ lab.experiment('query', () => {
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });
+
+  lab.test('parameter of object type', async () => {
+    let testRoutes = [{
+      method: 'GET',
+      path: '/emptyobject',
+      options: {
+        tags: ['api'],
+        handler: () => {},
+        validate: {
+          query: Joi.object({
+            objParam: Joi.object()
+          })
+        }
+      }
+    },{
+      method: 'GET',
+      path: '/objectWithProps',
+      options: {
+        tags: ['api'],
+        handler: () => {},
+        validate: {
+          query: Joi.object({
+            objParam: Joi.object({
+              stringParam: Joi.string()
+            })
+          })
+        }
+      }
+    },{
+      method: 'GET',
+      path: '/arrayOfObjects',
+      options: {
+        tags: ['api'],
+        handler: () => {},
+        validate: {
+          query: Joi.object({
+            arrayParam: Joi.array().items({
+              stringParam: Joi.string()
+            })
+          })
+        }
+      }
+    }];
+
+    const server = await Helper.createServer({}, testRoutes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.paths['/emptyobject'].get.parameters).to.equal([{
+      type: 'string',
+      name: 'objParam',
+      in: 'query',
+      'x-type': 'object'
+    }]);
+
+    expect(response.result.paths['/objectWithProps'].get.parameters).to.equal([{
+      type: 'string',
+      name: 'objParam',
+      in: 'query',
+      'x-type': 'object',
+      'x-properties': {
+        stringParam: {
+          type: 'string'
+        }
+      },
+    }]);
+
+    expect(response.result.paths['/arrayOfObjects'].get.parameters).to.equal([{
+      type: 'array',
+      name: 'arrayParam',
+      in: 'query',
+      items: {
+        type: 'string',
+        'x-type': 'object',
+        'x-properties': {
+          stringParam: {
+            type: 'string'
+          }
+        },
+      },
+      collectionFormat: 'multi',
+    }]);
+
+    const isValid = await Validate.test(response.result, console.log);
+    expect(isValid).to.be.true();
+  });
 });
