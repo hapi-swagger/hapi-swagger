@@ -120,6 +120,22 @@ lab.experiment('query', () => {
           })
         }
       }
+    },{
+      method: 'GET',
+      path: '/arrayWithItemDescription',
+      options: {
+        tags: ['api'],
+        handler: () => {},
+        validate: {
+          query: Joi.object({
+            arrayParam: Joi.array().items(
+              Joi.object({
+                stringParam: Joi.string().description('String param description')
+              }).description('Item description')
+            ).description('Array description')
+          })
+        }
+      }
     }];
 
     const server = await Helper.createServer({}, testRoutes);
@@ -154,6 +170,23 @@ lab.experiment('query', () => {
         'x-properties': {
           stringParam: {
             type: 'string'
+          }
+        },
+      },
+      collectionFormat: 'multi',
+    }]);
+    expect(response.result.paths['/arrayWithItemDescription'].get.parameters).to.equal([{
+      type: 'array',
+      name: 'arrayParam',
+      in: 'query',
+      description: 'Array description',
+      items: {
+        type: 'string',
+        'x-type': 'object',
+        'x-properties': {
+          stringParam: {
+            type: 'string',
+            description: 'String param description'
           }
         },
       },
