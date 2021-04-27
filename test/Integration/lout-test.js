@@ -2,6 +2,7 @@ const Code = require('@hapi/code');
 const Joi = require('joi');
 const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
+const SwaggerParser = require('swagger-parser');
 
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
@@ -742,5 +743,8 @@ lab.experiment('lout examples', () => {
     expect(response.statusCode).to.equal(200);
     // the 40 to 45 difference is in one route having a number of methods
     // expect(response.result.paths).to.have.length(40);
+    
+    // console.log(JSON.stringify(response.result));
+    await SwaggerParser.validate(response.result);
   });
 });

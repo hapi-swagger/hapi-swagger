@@ -601,7 +601,6 @@ lab.test('parse type object', () => {
   expect(
     propertiesNoAlt.parseProperty('x', Joi.object().keys({ a: Joi.string() }), null, 'body', false, false)
   ).to.equal({
-    name: 'x',
     type: 'object',
     properties: {
       a: {
@@ -610,7 +609,6 @@ lab.test('parse type object', () => {
     }
   });
   expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, 'body', false, false)).to.equal({
-    name: 'x',
     type: 'object',
     properties: {
       a: {
@@ -619,7 +617,6 @@ lab.test('parse type object', () => {
     }
   });
   expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, 'body', false, false)).to.equal({
-    name: 'x',
     type: 'object',
     properties: {
       a: {
@@ -643,11 +640,9 @@ lab.test('parse type object', () => {
       false
     )
   ).to.equal({
-    name: 'x',
     type: 'object',
     properties: {
       string: {
-        name: 'string',
         type: 'object',
         properties: {
           y: {
@@ -673,11 +668,9 @@ lab.test('parse type object', () => {
       false
     )
   ).to.equal({
-    name: 'x',
     type: 'object',
     properties: {
       a: {
-        name: 'a',
         type: 'object',
         properties: {
           y: {
@@ -703,11 +696,9 @@ lab.test('parse type object', () => {
       false
     )
   ).to.equal({
-    name: 'x',
     type: 'object',
     properties: {
       string: {
-        name: 'string',
         type: 'object',
         properties: {
           y: {
@@ -751,7 +742,6 @@ lab.experiment('property deep - ', () => {
       type: 'object',
       properties: {
         outer1: {
-          name: 'outer1',
           type: 'object',
           properties: {
             inner1: {
@@ -764,7 +754,6 @@ lab.experiment('property deep - ', () => {
           required: ['inner1']
         },
         outer2: {
-          name: 'outer2',
           type: 'object',
           properties: {
             inner2: {
