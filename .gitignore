@@ -21,4 +21,3 @@ npm-debug.log
 test/certs/server.csr
 /.history
 /package-lock.json
-/yarn.lock
