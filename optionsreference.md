@@ -65,7 +65,7 @@
     -   `alpha`: sort by paths alphanumerically
     -   `method`: sort by HTTP method
     -   `ordered`: sort by `order` value of the `hapi-swagger` plugin options of the route.
--   `uiCompleteScript`: (string) A JavaScript string injected into the HTML, called when UI loads - default: `null`
+-   `uiCompleteScript`: (string || object) Called when UI loads. Can be javascript string injected into the HTML (ex: `'alert("I got you !")'`) or object with `src` property (ex: `{ src: '/assets/js/doc-patch.js' }`) that can point to reference remote file. The file will be loaded on demand and appended to DOM. Default is `null`.
 -   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
 
 ## Plugin Specific Route Options
