@@ -72,6 +72,11 @@
           docExpansion: "{{hapiSwagger.expanded}}",
           tagsSorter: apisSorter.{{hapiSwagger.sortTags}},
           operationsSorter: operationsSorter.{{hapiSwagger.sortEndpoints}},
+
+          // patch: uiCompleteScript -- Rendering
+          onComplete: function(){
+            {{{ hapiSwagger.uiCompleteScript }}}
+          }
         }
 
         var ui = SwaggerUIBundle(swaggerOptions);
