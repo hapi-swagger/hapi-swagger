@@ -280,6 +280,30 @@ declare namespace hapiswagger {
     definitionPrefix?: string;
 
     /**
+     * Enable of disable generation of Definitions for array properties
+     * containing sub-schemas.
+     * 
+     * Given this Joi schema:
+     * 
+     * Joi.object({
+     *   items: Joi.array().items(
+     *     Joi.object({
+     *       value: Joi.string()
+     *     }).label('SubSchema')
+     *   )
+     * }).label('Schema');
+     * 
+     * `definitionsForArraysOfObjects=true` will generate linked definitions like this:
+     * `Schema` -> `items` -> `SubSchema`
+     * 
+     * `definitionsForArraysOfObjects=false` will generate linked definitions like this:
+     * `Schema` -> `SubSchema`
+     * 
+     * @default: true
+     */
+    definitionsForArraysOfObjects?: boolean;
+
+    /**
      * Dereferences JSON output
      *
      * @default: false

@@ -804,6 +804,133 @@ lab.experiment('property deep - ', () => {
       type: 'object'
     });
   });
+
+  lab.test(
+    'naming behavior with useLabels and reuseDefinitions=false - for objects with arrays of like objects',
+    async () => {
+      clearDown();
+
+      const innerSchema = Joi.object({
+        value: Joi.string()
+      });
+
+      const schema1 = Joi.object({
+        ones: Joi.array().items(innerSchema.label('One'))
+      }).label('Ones');
+
+      const routes = [
+        {
+          method: 'GET',
+          path: '/path/one',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            response: {
+              schema: schema1
+            }
+          }
+        }
+      ];
+
+      const server = await Helper.createServer(
+        {
+          reuseDefinitions: false,
+          definitionPrefix: 'useLabel'
+        },
+        routes
+      );
+      const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+      expect(response.result.definitions.Ones).to.equal({
+        properties: {
+          ones: {
+            $ref: '#/definitions/ones'
+          }
+        },
+        type: 'object'
+      });
+
+      // This is an invented definition
+      expect(response.result.definitions.ones).to.equal({
+        items: {
+          $ref: '#/definitions/One'
+        },
+        type: 'array'
+      });
+
+      expect(response.result.definitions.One).to.equal({
+        properties: {
+          value: {
+            type: 'string'
+          }
+        },
+        type: 'object'
+      });
+    }
+  );
+
+  lab.test(
+    'naming behavior with useLabels and reuseDefinitions=false and dontInventSubSchemaArrayDefinitions=true - for objects with arrays of like objects',
+    async () => {
+      clearDown();
+
+      const innerSchema = Joi.object({
+        value: Joi.string()
+      });
+
+      const schema1 = Joi.object({
+        ones: Joi.array().items(innerSchema.label('One'))
+      }).label('Ones');
+
+      const routes = [
+        {
+          method: 'GET',
+          path: '/path/one',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            response: {
+              schema: schema1
+            }
+          }
+        }
+      ];
+
+      const server = await Helper.createServer(
+        {
+          reuseDefinitions: false,
+          definitionPrefix: 'useLabel',
+          definitionsForArraysOfObjects: false
+        },
+        routes
+      );
+      const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+      expect(response.result.definitions.Ones).to.equal({
+        properties: {
+          ones: {
+            type: 'array',
+            name: 'ones',
+            items: {
+              $ref: '#/definitions/One'
+            }
+          }
+        },
+        type: 'object'
+      });
+
+      expect(response.result.definitions.One).to.equal({
+        properties: {
+          value: {
+            type: 'string'
+          }
+        },
+        type: 'object'
+      });
+
+      expect(response.result.definitions.ones).to.be.undefined;
+    }
+  );
 });
 
 lab.experiment('joi extension - ', () => {
