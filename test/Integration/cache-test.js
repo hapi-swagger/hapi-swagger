@@ -29,7 +29,7 @@ lab.experiment('plugin', () => {
   ];
 
   lab.test('basic cache', async () => {
-    let swaggerOptions = {
+    const swaggerOptions = {
       cache: {
         expiresIn: 24 * 60 * 60 * 1000
       }
@@ -46,7 +46,7 @@ lab.experiment('plugin', () => {
   });
 
   lab.test('cache with generateTimeout', async () => {
-    let swaggerOptions = {
+    const swaggerOptions = {
       cache: {
         expiresIn: 24 * 60 * 60 * 1000,
         generateTimeout: 30 * 1000
@@ -65,7 +65,7 @@ lab.experiment('plugin', () => {
     // test if a joi object weakmap cache
     // the Joi object should only be parsed once
 
-    let joiObj = Joi.object({
+    const joiObj = Joi.object({
       a: Joi.number(),
       b: Joi.number(),
       operator: Joi.string(),
@@ -143,7 +143,7 @@ lab.experiment('multiple plugins with cache', () => {
   ];
 
   lab.test('basic cache multiple apis', async () => {
-    let swaggerOptions1 = {
+    const swaggerOptions1 = {
       routeTag: 'store-api',
       info: {
         description: 'This is the store API docs',
@@ -152,7 +152,7 @@ lab.experiment('multiple plugins with cache', () => {
         expiresIn: 24 * 60 * 60 * 1000
       }
     };
-    let swaggerOptions2 = {
+    const swaggerOptions2 = {
       routeTag: 'shop-api',
       info: {
         description: 'This is the shop API docs',

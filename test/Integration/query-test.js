@@ -9,7 +9,7 @@ const lab = (exports.lab = Lab.script());
 
 lab.experiment('query', () => {
   lab.test('parameter required', async () => {
-    let testRoutes = [{
+    const testRoutes = [{
       method: 'GET',
       path: '/required',
       options: {
@@ -21,7 +21,7 @@ lab.experiment('query', () => {
             existParameter: Joi.string().exist(),
             defaultParameter: Joi.string(),
             optionalParameter: Joi.string().optional()
-          })        
+          })
         }
       }
     },
@@ -34,7 +34,7 @@ lab.experiment('query', () => {
         validate: {
           query: Joi.object({
             altParam: Joi.alternatives().try(Joi.number().required(), Joi.string())
-          })       
+          })
         }
       }
     }];
@@ -80,7 +80,7 @@ lab.experiment('query', () => {
   });
 
   lab.test('parameter of object type', async () => {
-    let testRoutes = [{
+    const testRoutes = [{
       method: 'GET',
       path: '/emptyobject',
       options: {

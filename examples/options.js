@@ -8,7 +8,7 @@ const Vision = require('@hapi/vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./assets/routes-complex.js');
+const Routes = require('./assets/routes-complex.js');
 
 /*
 const goodOptions = {
@@ -36,7 +36,7 @@ const goodOptions = {
 };
 */
 
-let swaggerOptions = {
+const swaggerOptions = {
   basePath: '/v1',
   pathPrefixSize: 2,
   info: {
@@ -104,12 +104,10 @@ const ser = async () => {
     accessTokenName: 'access_token',
     validate: async (request, token) => {
       const isValid = token === '12345';
-      let credentials = null;
-      let artifacts = null;
 
       if (isValid) {
-        credentials = { token };
-        artifacts = {
+        const credentials = { token };
+        const artifacts = {
           user: {
             username: 'glennjones',
             name: 'Glenn Jones',

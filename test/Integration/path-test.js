@@ -9,7 +9,7 @@ const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
 
 lab.experiment('path', () => {
-  let routes = {
+  const routes = {
     method: 'POST',
     path: '/test',
     handler: Helper.defaultHandler,
@@ -53,7 +53,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('description as an array', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.notes = ['note one', 'note two'];
     const server = await Helper.createServer({}, testRoutes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
@@ -64,7 +64,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('route settting of consumes produces', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         consumes: ['application/x-www-form-urlencoded'],
@@ -82,12 +82,12 @@ lab.experiment('path', () => {
   });
 
   lab.test('override plug-in settting of consumes produces', async () => {
-    let swaggerOptions = {
+    const swaggerOptions = {
       consumes: ['application/json'],
       produces: ['application/json']
     };
 
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         consumes: ['application/x-www-form-urlencoded'],
@@ -105,7 +105,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('auto "x-www-form-urlencoded" consumes with payloadType', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         payloadType: 'form'
@@ -121,7 +121,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('rename a parameter', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         payloadType: 'form'
@@ -146,7 +146,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('auto "multipart/form-data" consumes with { swaggerType: "file" }', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         payloadType: 'form'
@@ -167,7 +167,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('auto "multipart/form-data" do not add two', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate = {
       payload: Joi.object({
         file: Joi.any()
@@ -189,7 +189,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('auto "application/x-www-form-urlencoded" do not add two', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
 
     (testRoutes.options.validate = {
       payload: Joi.object({
@@ -209,7 +209,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('a user set content-type header removes consumes', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
       'content-type': Joi.string().valid('application/json', 'application/json;charset=UTF-8', 'application/json; charset=UTF-8')
     }).unknown();
@@ -223,7 +223,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('payloadType form', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         payloadType: 'form'
@@ -239,7 +239,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('accept header', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
       accept: Joi.string()
         .required()
@@ -255,7 +255,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('accept header - no emum', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
       accept: Joi.string()
         .required()
@@ -279,7 +279,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('accept header - default first', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
       accept: Joi.string()
         .required()
@@ -296,7 +296,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('accept header acceptToProduce set to false', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
       accept: Joi.string()
         .required()
@@ -321,7 +321,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('path parameters {id}/{note?}', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.path = '/servers/{id}/{note?}';
     testRoutes.options.validate = {
       params: Joi.object({
@@ -340,7 +340,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('path parameters {a}/{b?} required overriden by JOI', async () => {
-    let testRoutes = [
+    const testRoutes = [
       {
         method: 'POST',
         path: '/server/1/{a}/{b?}',
@@ -449,7 +449,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('basePath trim tailing slash', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.path = '/v3/servers/{id}';
     testRoutes.options.validate = {
       params: Joi.object({
@@ -467,7 +467,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('path, basePath suppressing version fragment', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.path = '/api/v3/servers/{id}';
     testRoutes.options.validate = {
       params: Joi.object({
@@ -496,7 +496,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('route deprecated', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         deprecated: true
@@ -512,7 +512,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('custom operationId for code-gen apps', async () => {
-    let testRoutes = Hoek.clone(routes);
+    const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {
         id: 'add'
@@ -528,7 +528,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('stop boolean creating parameter', async () => {
-    let testRoutes = {
+    const testRoutes = {
       method: 'GET',
       path: '/{name}',
       options: {
@@ -561,7 +561,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('stop emtpy objects creating parameter', async () => {
-    let testRoutes = {
+    const testRoutes = {
       method: 'POST',
       path: '/{name}',
       options: {
@@ -592,7 +592,7 @@ lab.experiment('path', () => {
   });
 
   lab.test('stop emtpy formData object creating parameter', async () => {
-    let testRoutes = {
+    const testRoutes = {
       method: 'POST',
       path: '/',
       options: {

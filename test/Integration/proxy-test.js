@@ -16,7 +16,7 @@ lab.experiment('proxies', () => {
     }
   };
 
-  let routes = {
+  const routes = {
     method: 'GET',
     path: '/test',
     handler: Helper.defaultHandler,
@@ -135,7 +135,7 @@ lab.experiment('proxies', () => {
   });
 
   lab.test('adding facade for proxy using route options 1', async () => {
-    routes = {
+    const routes = {
       method: 'POST',
       path: '/tools/microformats/',
       options: {
@@ -204,7 +204,7 @@ lab.experiment('proxies', () => {
   });
 
   lab.test('adding facade for proxy using route options 2 - naming', async () => {
-    routes = {
+    const routes = {
       method: 'POST',
       path: '/tools/microformats/',
       options: {
@@ -248,7 +248,7 @@ lab.experiment('proxies', () => {
   });
 
   lab.test('adding facade for proxy using route options 3 - defination reuse', async () => {
-    routes = [
+    const routes = [
       {
         method: 'POST',
         path: '/tools/microformats/1',
@@ -321,7 +321,7 @@ lab.experiment('proxies', () => {
   });
 
   lab.test('adding facade for proxy using route options 4 - defination name clash', async () => {
-    routes = [
+    const routes = [
       {
         method: 'POST',
         path: '/tools/microformats/1',

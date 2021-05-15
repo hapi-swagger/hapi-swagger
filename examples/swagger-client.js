@@ -5,7 +5,7 @@ const Joi = require('joi');
 const Swagger = require('swagger-client');
 const HapiSwagger = require('../');
 
-let swaggerOptions = {
+const swaggerOptions = {
   documentationPage: false,
   swaggerUI: false,
   tags: [
@@ -23,8 +23,8 @@ let swaggerOptions = {
 };
 
 const defaultHandler = function(request, h) {
-  let a = parseFloat(request.params.a);
-  let b = parseFloat(request.params.b);
+  const a = parseFloat(request.params.a);
+  const b = parseFloat(request.params.b);
 
   return h.response({
     a: a,

@@ -8,7 +8,7 @@ const Good = require('good');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./assets/routes-simple');
+const Routes = require('./assets/routes-simple');
 
 const goodOptions = {
   ops: {
@@ -36,7 +36,7 @@ const goodOptions = {
   }
 };
 
-let swaggerOptions = {
+const swaggerOptions = {
   documentationPage: false,
   documentationRouteTags: 'no-logging',
   documentationRoutePlugins: {

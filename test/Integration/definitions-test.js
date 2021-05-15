@@ -239,7 +239,7 @@ lab.experiment('definitions', () => {
   });
 
   lab.test('test that optional array is not in swagger output', async () => {
-    let testRoutes = [
+    const testRoutes = [
       {
         method: 'POST',
         path: '/server/1/',
@@ -287,7 +287,7 @@ lab.experiment('definitions', () => {
       reminder: FormDependencyDefinition.required()
     }).label('ActionDefinition');
 
-    let testRoutes = [
+    const testRoutes = [
       {
         method: 'POST',
         path: '/server/',

@@ -24,7 +24,7 @@ const testPlugin = {
   }
 };
 
-let swaggerOptions = {
+const swaggerOptions = {
   schemes: ['http'],
   info: {
     title: 'Test API Documentation',
