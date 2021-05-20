@@ -11,15 +11,14 @@ const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
 
 let definitionCollection;
-let altDefinitionCollection;
 let propertiesAlt;
 let propertiesNoAlt;
 
-let clearDown = function() {
+const clearDown = function() {
   definitionCollection = {};
-  altDefinitionCollection = {};
+  const altDefinitionCollection = {};
 
-  let definitionCache = [new WeakMap(), new WeakMap()];
+  const definitionCache = [new WeakMap(), new WeakMap()];
 
   propertiesAlt = new Properties(Defaults, definitionCollection, altDefinitionCollection, definitionCache);
   propertiesNoAlt = new Properties(

@@ -139,7 +139,7 @@ If you wish to create groups of your own making you can use the `options.groupin
 custom tags for each route as below.
 
 ```javascript
-let options = {
+const options = {
     info: {
         title: 'Test API Documentation',
         version: Pack.version
@@ -147,7 +147,7 @@ let options = {
     grouping: 'tags'
 };
 
-let routes = [
+const routes = [
     {
         method: 'GET',
         path: '/petstore/{id}',
@@ -182,7 +182,7 @@ Swagger provides a tag object which allows you extend the information provide fo
 You must match the `name` in the `options.tags` array items with the `path` fragmenets or `tags` used to create groups.
 
 ```javascript
-let options = {
+const options = {
     info: {
         title: 'Test API Documentation',
         version: Pack.version

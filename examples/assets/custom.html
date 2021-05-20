@@ -24,7 +24,7 @@
     <script type="text/javascript">
 
         // creates a list of tags in the order they where created
-        var tags = []
+        const tags = []
         {{#each hapiSwagger.tags}}
         tags.push('{{name}}');
         {{/each}}
@@ -34,7 +34,7 @@
 
             $('#input_apiKey').hide();
 
-            var url = window.location.search.match(/url=([^&]+)/);
+            let url = window.location.search.match(/url=([^&]+)/);
             if (url && url.length > 1) {
                 url = decodeURIComponent(url[1]);
             } else {
@@ -42,7 +42,7 @@
             }
 
             // pull validatorUrl string or null form server
-            var validatorUrl = null;
+            let validatorUrl = null;
             {{#if hapiSwagger.validatorUrl}}
             validatorUrl: '{{hapiSwagger.validatorUrl}}';
             {{/if}}
@@ -89,12 +89,12 @@
 
             function addApiKeyAuthorization() {
                 if($('#input_apiKey')){
-                    var key = $('#input_apiKey')[0].value;
+                    let key = $('#input_apiKey')[0].value;
                     if (key && key.trim() != "") {
                         if('{{{hapiSwagger.keyPrefix}}}' !== ''){
                            key = '{{{hapiSwagger.keyPrefix}}}' + key;
                         }
-                        var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization(auth.name, key, auth.in);
+                        let apiKeyAuth = new SwaggerClient.ApiKeyAuthorization(auth.name, key, auth.in);
                         window.swaggerUi.api.clientAuthorizations.add(auth.name, apiKeyAuth);
                         log("added key " + key);
                     }
@@ -107,7 +107,7 @@
             /*
             // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
 
-            var apiKey = "Bearer 12345";
+            let apiKey = "Bearer 12345";
             $('#input_apiKey').val(apiKey);
 
             */

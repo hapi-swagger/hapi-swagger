@@ -22,7 +22,7 @@ lab.experiment('debug', () => {
     }
   };
 
-  let logs = [];
+  const logs = [];
   lab.before(async () => {
     const server = await Helper.createServer({ debug: true }, routesEmptyObjects);
     server.events.on('log', (event, tags) => {
@@ -70,7 +70,7 @@ lab.experiment('debug', () => {
     }
   };
 
-  let logs = [];
+  const logs = [];
   lab.before(async () => {
     const server = await Helper.createServer({ debug: true }, routesFuncObjects);
     server.events.on('log', (event, tags) => {
@@ -108,7 +108,7 @@ lab.experiment('debug', () => {
     }
   };
 
-  let logs = [];
+  const logs = [];
   lab.before(async () => {
     const server = await Helper.createServer({ debug: true }, routesFuncObjects);
     server.events.on('log', (event, tags) => {

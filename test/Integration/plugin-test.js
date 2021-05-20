@@ -598,13 +598,13 @@ lab.experiment('multiple plugins', () => {
   ];
 
   lab.test('multiple plugins can co-exist', async () => {
-    let swaggerOptions1 = {
+    const swaggerOptions1 = {
       routeTag: 'store-api',
       info: {
         description: 'This is the store API docs'
       }
     };
-    let swaggerOptions2 = {
+    const swaggerOptions2 = {
       routeTag: 'shop-api',
       info: {
         description: 'This is the shop API docs'

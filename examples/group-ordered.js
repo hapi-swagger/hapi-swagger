@@ -106,7 +106,7 @@ const Routes = [
   }
 ];
 
-let swaggerOptions = {
+const swaggerOptions = {
   basePath: '/v1',
   pathPrefixSize: 2,
   info: {

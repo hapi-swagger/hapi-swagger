@@ -499,11 +499,9 @@ lab.experiment('responses', () => {
   });
 
   lab.test('No ownProperty', async () => {
-    let objA = Helper.objWithNoOwnProperty();
+    const objA = Helper.objWithNoOwnProperty();
     const objB = Helper.objWithNoOwnProperty();
     const objC = Helper.objWithNoOwnProperty();
-
-    //console.log(JSON.stringify( Responses.build({},{},{},{}) ));
 
     expect(responses.build({}, {}, {}, {})).to.equal({
       default: {
@@ -522,9 +520,8 @@ lab.experiment('responses', () => {
       }
     });
 
-    objA = { 200: { description: 'Successful' } };
-    //console.log(JSON.stringify( Responses.build(objA, objB, objC, {}) ));
-    expect(responses.build(objA, objB, objC, {})).to.equal({
+    const objD = { 200: { description: 'Successful' } };
+    expect(responses.build(objD, objB, objC, {})).to.equal({
       '200': {
         schema: {
           type: 'string'

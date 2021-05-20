@@ -33,14 +33,14 @@
     <script src="{{ hapiSwagger.swaggerUIPath }}extend.js" type="text/javascript"></script>
     <script>
       window.onload = function() {
-        var url = window.location.search.match(/url=([^&]+)/);
+        let url = window.location.search.match(/url=([^&]+)/);
         if (url && url.length > 1) {
           url = decodeURIComponent(url[1]);
         } else {
           url = '{{{hapiSwagger.jsonPath}}}';
         }
 
-        var swaggerOptions = {
+        const swaggerOptions = {
           url: url,
           dom_id: '#swagger-ui-userland',
           deepLinking: true,
@@ -50,7 +50,7 @@
           docExpansion: '{{hapiSwagger.expanded}}'
         };
 
-        var ui = SwaggerUIBundle(swaggerOptions);
+        const ui = SwaggerUIBundle(swaggerOptions);
 
         window.ui = ui;
       };

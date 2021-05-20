@@ -8,9 +8,9 @@ const Vision = require('@hapi/vision');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
-let Routes = require('./assets/routes-simple.js');
+const Routes = require('./assets/routes-simple.js');
 
-let swaggerOptions = {
+const swaggerOptions = {
   basePath: '/v1',
   pathPrefixSize: 2,
   info: {

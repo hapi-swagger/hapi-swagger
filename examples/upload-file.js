@@ -22,7 +22,7 @@ const storeFile = async function(request, h) {
     // check the content-type is json
     if (headers['content-type'] === 'application/json') {
       try {
-        let data = await streamToPromise(file);
+        const data = await streamToPromise(file);
 
         // use Joi to validate file data format
         const addSumSchema = Joi.object().keys({

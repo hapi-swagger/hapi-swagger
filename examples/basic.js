@@ -9,7 +9,7 @@ const Vision = require('@hapi/vision');
 
 const HapiSwagger = require('../');
 
-let swaggerOptions = {
+const swaggerOptions = {
   info: {
     title: 'Test API Documentation',
     description: 'This is a sample example of API documentation.'
@@ -26,7 +26,7 @@ const users = {
   }
 };
 
-var validate = function(request, username, password) {
+const validate = function(request, username, password) {
   const user = users[username];
   if (!user) {
     return { isValid: false, credentials: null };
