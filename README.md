@@ -3,6 +3,7 @@
 This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [Hapi](https://hapi.dev/) When installed it will self document the API interface
 in a project.
 
+[![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg?style=for-the-badge)](https://github.com/glennjones/hapi-swagger/issues/718)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/glennjones/hapi-swagger/Node.js%20CI?style=for-the-badge)
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=for-the-badge)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.github.com/glennjones/hapi-swagger/master/license.txt)
