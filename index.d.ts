@@ -371,6 +371,12 @@ declare namespace hapiswagger {
      * @default 'https://online.swagger.io/validator'
      */
     validatorUrl?: string;
+
+    /**
+     * Controls whether the "Try it out" section should be enabled by default
+     * @default false
+     */
+    tryItOutEnabled?: string;
   }
 }
 

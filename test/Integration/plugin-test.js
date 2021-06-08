@@ -461,6 +461,18 @@ lab.experiment('plugin', () => {
     expect(response.result.indexOf('swagger.json?tags=reduced') > -1).to.equal(true);
   });
 
+  lab.test('tryItOutEnabled true', async () => {
+    const server = await Helper.createServer({ tryItOutEnabled: true });
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+  });
+
+  lab.test('tryItOutEnabled false', async () => {
+    const server = await Helper.createServer({ tryItOutEnabled: false });
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+  });
+
   lab.test('test route x-meta appears in swagger', async () => {
     const testRoutes = [
       {
