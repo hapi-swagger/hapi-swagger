@@ -67,7 +67,7 @@
     -   `ordered`: sort by `order` value of the `hapi-swagger` plugin options of the route.
 -   `uiCompleteScript`: (string || object) Called when UI loads. Can be javascript string injected into the HTML (ex: `'alert("I got you !")'`) or object with `src` property (ex: `{ src: '/assets/js/doc-patch.js' }`) that can point to reference remote file. The file will be loaded on demand and appended to DOM. Default is `null`.
 -   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
--   `tryItOutEnabled`: (boolean) controls whether the "Try it out" section should be enabled by default
+-   `tryItOutEnabled`: (boolean) controls whether the "Try it out" section should be enabled by default - default: `false`
 
 ## Plugin Specific Route Options
 
