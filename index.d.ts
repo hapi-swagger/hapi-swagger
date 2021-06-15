@@ -376,7 +376,7 @@ declare namespace hapiswagger {
      * Controls whether the "Try it out" section should be enabled by default
      * @default false
      */
-    tryItOutEnabled?: string;
+    tryItOutEnabled?: boolean;
   }
 }
 
