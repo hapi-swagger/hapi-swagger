@@ -55,6 +55,12 @@ declare namespace hapiswagger {
 
   type SortEndpointsType = 'alpha' | 'method' | 'ordered';
 
+  type UiCompleteScriptObjectType {
+    src: string;
+  }
+
+  type UiCompleteScriptType = string | UiCompleteScriptObjectType
+
   interface LicenseOptions {
     /**
      * The name of the license used for the API
@@ -364,7 +370,7 @@ declare namespace hapiswagger {
      * A JavaScript string injected into the HTML, called when UI loads.
      * @default: null
      */
-    uiCompleteScript?: string;
+    uiCompleteScript?: UiCompleteScriptType;
 
     /**
      * Sets the external validating URL Can switch off by setting to `null`
