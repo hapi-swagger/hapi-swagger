@@ -55,7 +55,7 @@ declare namespace hapiswagger {
 
   type SortEndpointsType = 'alpha' | 'method' | 'ordered';
 
-  type UiCompleteScriptObjectType {
+  type UiCompleteScriptObjectType = {
     src: string;
   }
 
