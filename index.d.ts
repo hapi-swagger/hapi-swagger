@@ -53,7 +53,7 @@ declare namespace hapiswagger {
 
   type SortTagsType = 'alpha';
 
-  type SortEndpointsType = 'alpaha' | 'method' | 'ordered';
+  type SortEndpointsType = 'alpha' | 'method' | 'ordered';
 
   interface LicenseOptions {
     /**
