@@ -102,12 +102,12 @@ declare namespace hapiswagger {
     tokenUrl?: string;
 
     /**
-     * The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+     * The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2"
      */
     type: string;
 
     /**
-     * Any property or object with a key starting with `x-*` is included in the Swagger definition (similar to `x-*` options in the `info` object).
+     * Any property or object with a key starting with `x-*` is included in the Swagger definition (similar to `x-*` options in the `info` object)
      */
     [key: string]: any;
   }
@@ -436,7 +436,7 @@ declare namespace hapiswagger {
     tryItOutEnabled?: boolean;
 
     /**
-     * A declaration of the security schemes available to be used in the specification. This does not enforce the security schemes on the operations and only serves to provide the relevant details for each scheme.
+     * A declaration of the security schemes available to be used in the specification. This does not enforce the security schemes on the operations and only serves to provide the relevant details for each scheme
      */
      securityDefinitions?: {[name: string]: SecuritySchemeType}
   }
