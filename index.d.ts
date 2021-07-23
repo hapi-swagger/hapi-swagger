@@ -61,6 +61,57 @@ declare namespace hapiswagger {
 
   type UiCompleteScriptType = string | UiCompleteScriptObjectType
 
+  type ScopesType = {
+    [scope: string]: string | any;
+  }
+
+  type SecuritySchemeType = {
+    /**
+     * The authorization URL to be used for this flow. This SHOULD be in the form of a URL. REQUIRED for `type` "oauth2", and `flow` "implicit" or "accessCode"
+     */
+    authorizationUrl?: string;
+
+    /**
+     * A short description for security scheme.
+     */
+    description?: string;
+
+    /**
+     * The flow used by the OAuth2 security scheme. Valid values are "implicit", "password", "application" or "accessCode". REQUIRED for `type` "oauth2"
+     */
+    flow?: string;
+
+    /**
+     * The location of the API key. Valid values are "query" or "header". REQUIRED for `type` "apiKey"
+     */
+    in?: string;
+
+    /**
+     * The name of the header or query parameter to be used. REQUIRED for `type` "apiKey"
+     */
+    name?: string;
+
+    /**
+     * The available scopes for the OAuth2 security scheme. REQUIRED for `type` "oauth2"
+     */
+    scopes?: ScopesType;
+
+    /**
+     * The token URL to be used for this flow. This SHOULD be in the form of a URL. REQUIRED for `type` "oauth2", and `flow` "password", "application", or "accessCode"
+     */
+    tokenUrl?: string;
+
+    /**
+     * The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+     */
+    type: string;
+
+    /**
+     * Any property or object with a key starting with `x-*` is included in the Swagger definition (similar to `x-*` options in the `info` object).
+     */
+    [key: string]: any;
+  }
+
   interface LicenseOptions {
     /**
      * The name of the license used for the API
@@ -383,6 +434,11 @@ declare namespace hapiswagger {
      * @default false
      */
     tryItOutEnabled?: boolean;
+
+    /**
+     * A declaration of the security schemes available to be used in the specification. This does not enforce the security schemes on the operations and only serves to provide the relevant details for each scheme.
+     */
+     securityDefinitions?: {[name: string]: SecuritySchemeType}
   }
 }
 
