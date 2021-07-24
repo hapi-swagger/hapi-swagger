@@ -1,7 +1,7 @@
 {
   "name": "hapi-swagger",
   "description": "A swagger documentation UI generator plugin for hapi",
-  "version": "14.2.3",
+  "version": "14.2.2",
   "author": "Glenn Jones",
   "repository": {
     "type": "git",
@@ -37,7 +37,9 @@
     "test:ts": "tsd",
     "lint": "eslint .",
     "test:cov:html": "lab -r html -o coverage.html",
-    "precommit": "yarn test"
+    "precommit": "npm test",
+    "postversion": "npm publish",
+    "postpublish": "git push origin --all; git push origin --tags"
   },
   "license": "MIT",
   "engines": {
