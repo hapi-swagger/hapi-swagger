@@ -37,9 +37,7 @@
     "test:ts": "tsd",
     "lint": "eslint .",
     "test:cov:html": "lab -r html -o coverage.html",
-    "precommit": "yarn test",
-    "postversion": "yarn publish",
-    "postpublish": "git push origin --all; git push origin --tags"
+    "precommit": "yarn test"
   },
   "license": "MIT",
   "engines": {
