@@ -114,10 +114,13 @@ declare namespace hapiswagger {
 
   /**
    * Lists the required security schemes to execute this operation. The object can have multiple security schemes declared in it which are all required (that is, there is a logical AND between the schemes)
-   * The name used for each property MUST correspond to a security scheme declared in the {@link RegisterOptions.securityDefinitions}
+   * 
+   * The name used for each property MUST correspond to a security scheme declared in the {@link RegisterOptions.securityDefinitions}.
+   * 
+   * If the security scheme is of `type` "oauth2", then the value is a list of scope names required for the execution. For other security scheme types, the array MUST be empty.
    */
   type SecurityRequirementsType = {
-    [securityDefinitionName: string]: [string]
+    [securityDefinitionName: string]: string[]
   }
 
   interface LicenseOptions {
