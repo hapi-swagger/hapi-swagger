@@ -35,6 +35,7 @@
 -   `grouping`: (string) how to create grouping of endpoints value either `path` or `tags` - default: `path`
 -   `tagsGroupingFilter`: (function) A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`) - default: `(tag) => tag !== 'api'`
 -   `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.
+-   `security`: (array) Containing [Security Requirement Objects](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md#securityRequirementObject). No defaults are provided.
 -   `payloadType`: (string) How payload parameters are displayed `json` or `form` - default: `json`
 -   `documentationRouteTags`: (string or array) Add hapi tags to internal `hapi-swagger` routes - default: `[]`
 -   `documentationRoutePlugins`: (object) Add hapi plugins to internal `hapi-swagger` routes - default: `{}`

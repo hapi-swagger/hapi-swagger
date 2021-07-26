@@ -112,6 +112,17 @@ declare namespace hapiswagger {
     [key: string]: any;
   }
 
+  /**
+   * Lists the required security schemes to execute this operation. The object can have multiple security schemes declared in it which are all required (that is, there is a logical AND between the schemes)
+   *
+   * The name used for each property MUST correspond to a security scheme declared in the {@link RegisterOptions.securityDefinitions}
+   *
+   * If the security scheme is of `type` "oauth2", then the value is a list of scope names required for the execution. For other security scheme types, the array MUST be empty
+   */
+  type SecurityRequirementsType = {
+    [securityDefinitionName: string]: string[];
+  };
+
   interface LicenseOptions {
     /**
      * The name of the license used for the API
@@ -438,7 +449,12 @@ declare namespace hapiswagger {
     /**
      * A declaration of the security schemes available to be used in the specification. This does not enforce the security schemes on the operations and only serves to provide the relevant details for each scheme
      */
-     securityDefinitions?: {[name: string]: SecuritySchemeType}
+    securityDefinitions?: { [name: string]: SecuritySchemeType };
+
+    /**
+     * A declaration of which security schemes are applied for the API as a whole. The list of values describes alternative security schemes that can be used (that is, there is a logical OR between the security requirements)
+     */
+    security?: [SecurityRequirementsType];
   }
 }
 
