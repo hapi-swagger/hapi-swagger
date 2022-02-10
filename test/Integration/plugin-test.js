@@ -556,7 +556,7 @@ lab.experiment('plugin', () => {
     ];
     const server = await Helper.createServer({}, testRoutes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
-    //console.log(JSON.stringify(response.result));
+
     expect(response.result.definitions).to.equal({
       Model1: {
         type: 'object',
@@ -637,5 +637,15 @@ lab.experiment('multiple plugins', () => {
     expect(isValid2).to.be.true();
     expect(response2.result.info.description).to.equal('This is the shop API docs');
     expect(response2.result.paths['/shop/'].post.operationId).to.equal('postShop');
+
+    const document1 = await server.inject({ method: 'GET', url: '/store-api/documentation' });
+    expect(document1.statusCode).to.equal(200);
+    expect(document1.result).to.include('/store-api/');
+    expect(document1.result).not.to.include('/shop-api/');
+
+    const document2 = await server.inject({ method: 'GET', url: '/shop-api/documentation' });
+    expect(document2.statusCode).to.equal(200);
+    expect(document2.result).to.include('/shop-api/');
+    expect(document2.result).not.to.include('/store-api/');
   });
 });
