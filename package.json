@@ -37,9 +37,10 @@
     "test:ts": "tsd",
     "lint": "eslint .",
     "test:cov:html": "lab -r html -o coverage.html",
-    "precommit": "npm test",
-    "postversion": "npm publish",
-    "postpublish": "git push origin --all; git push origin --tags"
+    "precommit": "yarn test",
+    "postversion": "yarn publish",
+    "postpublish": "git push origin --all; git push origin --tags",
+    "prepare": "is-ci || husky install"
   },
   "license": "MIT",
   "engines": {
@@ -67,24 +68,24 @@
     "@hapi/vision": "^6.0.0",
     "@hapi/wreck": "^17.0.0",
     "@types/hapi__hapi": "^20.0.7",
-    "babel-eslint": "^10.0.3",
     "blipp": "^4.0.0",
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.0",
     "coveralls": "^3.0.2",
-    "eslint": "^7.24.0",
+    "eslint": "^8.8.0",
     "eslint-config-prettier": "^8.2.0",
     "good-squeeze": "^5.0.2",
     "hapi-api-version": "^2.1.0",
     "hapi-auth-bearer-token": "^8.0.0",
     "hapi-auth-jwt2": "^10.2.0",
-    "husky": "^3.0.0",
+    "husky": "^7.0.0",
+    "is-ci": "^3.0.1",
     "joi": "^17.2.0",
     "js2xmlparser": "^4.0.0",
     "jsonwebtoken": "^8.1.1",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^12.3.3",
     "prettier": "^2.2.1",
     "swagger-client": "^3.9.4",
-    "tsd": "^0.14.0"
+    "tsd": "^0.19.1"
   },
   "peerDependencies": {
     "@hapi/hapi": "^20.0.0",
@@ -102,15 +103,10 @@
       "git add"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm test"
-    }
-  },
   "prettier": {
     "printWidth": 120,
     "singleQuote": true,
     "trailingComma": "none"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }

@@ -21,3 +21,11 @@ npm-debug.log
 test/certs/server.csr
 /.history
 /package-lock.json
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
