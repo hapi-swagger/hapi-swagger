@@ -39,7 +39,7 @@
     "lint:fix": "eslint . --fix",
     "test:cov:html": "lab -r html -o coverage.html",
     "precommit": "yarn test",
-    "postversion": "yarn publish",
+    "postversion": "npm publish",
     "postpublish": "git push origin --all; git push origin --tags",
     "prepare": "is-ci || husky install"
   },
