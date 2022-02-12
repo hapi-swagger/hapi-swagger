@@ -1,6 +1,8 @@
 // `upload-file.js` - how create documenation for a file upload
 // the file `example/assets/test-upload.json` has data in the correct format for this example
 
+'use strict';
+
 const Hapi = require('@hapi/hapi');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
@@ -10,7 +12,7 @@ const Joi = require('joi');
 
 const HapiSwagger = require('../');
 
-const storeFile = async function(request, h) {
+const storeFile = async function (request, h) {
   const payload = request.payload;
 
   // check that required file is present
@@ -45,20 +47,20 @@ const storeFile = async function(request, h) {
   }
 };
 
-function streamToPromise(stream) {
-  return new Promise(function(resolve, reject) {
+const streamToPromise = (stream) => {
+  return new Promise((resolve, reject) => {
     let data = '';
-    stream.on('data', chunk => {
+    stream.on('data', (chunk) => {
       data += chunk;
     });
     stream.on('end', () => {
       resolve(data);
     });
-    stream.on('error', err => {
+    stream.on('error', (err) => {
       reject(err);
     });
   });
-}
+};
 
 const swaggerOptions = {};
 
@@ -76,9 +78,7 @@ const routes = [
       tags: ['api'],
       validate: {
         payload: {
-          file: Joi.any()
-            .meta({ swaggerType: 'file' })
-            .description('json file')
+          file: Joi.any().meta({ swaggerType: 'file' }).description('json file')
         }
       },
       payload: {
@@ -121,10 +121,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

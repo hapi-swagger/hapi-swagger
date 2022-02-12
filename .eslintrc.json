@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended", "prettier"],
+  "extends": ["eslint:recommended", "plugin:@hapi/module", "prettier"],
   "env": {
     "node": true,
     "es6": true
@@ -8,6 +8,10 @@
     "ecmaVersion": 12
   },
   "rules": {
-    "no-console": 0
+    "eqeqeq": 0,
+    "no-shadow": 0,
+    "strict": 0,
+    "no-console": 0,
+    "@hapi/scope-start": 0
   }
 }

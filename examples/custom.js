@@ -1,10 +1,12 @@
 // `custom.js` - how build a custom documentation page with its own CSS and JS
 
+'use strict';
+
 const Blipp = require('blipp');
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const Good = require('good');
+const Good = require('@hapi/good');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
@@ -119,10 +121,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

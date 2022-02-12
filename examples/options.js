@@ -1,5 +1,7 @@
 // `options.js` - how to use many of the plug-in options
 
+'use strict';
+
 const BearerToken = require('hapi-auth-bearer-token');
 const Blipp = require('blipp');
 const Hapi = require('@hapi/hapi');
@@ -102,7 +104,7 @@ const ser = async () => {
   await server.register(BearerToken);
   server.auth.strategy('bearer', 'bearer-access-token', {
     accessTokenName: 'access_token',
-    validate: async (request, token) => {
+    validate: (request, token) => {
       const isValid = token === '12345';
 
       if (isValid) {
@@ -144,10 +146,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

@@ -1,4 +1,5 @@
 'use strict';
+
 const Code = require('@hapi/code');
 const Joi = require('joi');
 const Lab = require('@hapi/lab');
@@ -105,7 +106,7 @@ lab.experiment('child-models', () => {
       $ref: '#/definitions/Model1'
     });
 
-    expect(response.result.definitions['Model1']).to.equal({
+    expect(response.result.definitions.Model1).to.equal({
       properties: {
         outer1: {
           $ref: '#/definitions/outer1'

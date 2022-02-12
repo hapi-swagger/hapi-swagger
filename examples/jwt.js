@@ -1,7 +1,7 @@
 // `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
 
 const Hapi = require('@hapi/hapi');
-const jwt = require('jsonwebtoken');
+const Jwt = require('jsonwebtoken');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
@@ -33,16 +33,16 @@ const people = {
 };
 
 const privateKey = 'hapi hapi joi joi';
-const token = jwt.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
+const token = Jwt.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
 
 // bring your own validation function
-const validate = decoded => {
+const validate = (decoded) => {
   // do your checks to see if the person is valid
   if (!people[decoded.id]) {
     return { isValid: false };
-  } else {
-    return { isValid: true };
   }
+
+  return { isValid: true };
 };
 
 const ser = async () => {
@@ -103,7 +103,7 @@ const ser = async () => {
         auth: false,
         tags: ['api'],
         handler: () => {
-          return { token: token };
+          return { token };
         }
       }
     }
@@ -114,10 +114,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

@@ -1,4 +1,6 @@
 // `ssl.js` - how to use many of the plug-in options
+'use strict';
+
 const Fs = require('fs');
 const Path = require('path');
 const Blipp = require('blipp');
@@ -88,10 +90,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

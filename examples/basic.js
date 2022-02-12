@@ -1,5 +1,7 @@
 // `jwt.js` - how to used in combination with JSON Web Tokens (JWT) `securityDefinition`
 
+'use strict';
+
 const Hapi = require('@hapi/hapi');
 const Joi = require('joi');
 const Basic = require('@hapi/basic');
@@ -26,7 +28,7 @@ const users = {
   }
 };
 
-const validate = function(request, username, password) {
+const validate = function (request, username, password) {
   const user = users[username];
   if (!user) {
     return { isValid: false, credentials: null };
@@ -66,7 +68,7 @@ const ser = async () => {
     method: 'PUT',
     path: '/v1/store/{id?}',
     options: {
-      handler: function(request, h) {
+      handler: function (request, h) {
         return h.response('success');
       },
       description: 'Update sum',
@@ -79,18 +81,12 @@ const ser = async () => {
       tags: ['api'],
       validate: {
         params: Joi.object({
-          id: Joi.string()
-            .required()
-            .description('the id of the sum in the store')
+          id: Joi.string().required().description('the id of the sum in the store')
         }),
         payload: Joi.object({
-          a: Joi.number()
-            .required()
-            .description('the first number'),
+          a: Joi.number().required().description('the first number'),
 
-          b: Joi.number()
-            .required()
-            .description('the second number'),
+          b: Joi.number().required().description('the second number'),
 
           operator: Joi.string()
             .required()
@@ -98,9 +94,7 @@ const ser = async () => {
             .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
-          equals: Joi.number()
-            .required()
-            .description('the result of the sum')
+          equals: Joi.number().required().description('the result of the sum')
         })
       }
     }
@@ -111,10 +105,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

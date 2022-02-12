@@ -9,7 +9,7 @@ const lab = (exports.lab = Lab.script());
 
 lab.experiment('utilities', () => {
   lab.test('isObject', () => {
-    expect(Utilities.isObject(function() {})).to.equal(false);
+    expect(Utilities.isObject(() => {})).to.equal(false);
     expect(Utilities.isObject({})).to.equal(true);
     expect(Utilities.isObject(Joi.object())).to.equal(true);
     expect(Utilities.isObject(null)).to.equal(false);
@@ -20,7 +20,7 @@ lab.experiment('utilities', () => {
   });
 
   lab.test('isFunction', () => {
-    expect(Utilities.isFunction(function() {})).to.equal(true);
+    expect(Utilities.isFunction(() => {})).to.equal(true);
     expect(Utilities.isFunction({})).to.equal(false);
     expect(Utilities.isFunction(Joi.object())).to.equal(false);
     expect(Utilities.isFunction(null)).to.equal(false);
@@ -37,7 +37,7 @@ lab.experiment('utilities', () => {
     expect(Utilities.isRegex(true)).to.equal(false);
     expect(Utilities.isRegex(42)).to.equal(false);
     expect(Utilities.isRegex('string')).to.equal(false);
-    expect(Utilities.isRegex(function() {})).to.equal(false);
+    expect(Utilities.isRegex(() => {})).to.equal(false);
     expect(Utilities.isRegex([])).to.equal(false);
     expect(Utilities.isRegex({})).to.equal(false);
 

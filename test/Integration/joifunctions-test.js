@@ -16,7 +16,7 @@ lab.experiment('validation', () => {
       notes: ['Adds a sum to the data store'],
       tags: ['api'],
       validate: {
-        payload: async value => {
+        payload: (value) => {
           console.log('testing');
           return value;
         },
@@ -25,11 +25,11 @@ lab.experiment('validation', () => {
         //     console.log('testing');
         //     return value;
         // },
-        query: async value => {
+        query: (value) => {
           console.log('testing');
           return value;
         },
-        headers: async value => {
+        headers: (value) => {
           console.log('testing');
           return value;
         }

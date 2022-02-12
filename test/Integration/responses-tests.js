@@ -35,45 +35,19 @@ lab.experiment('responses', () => {
     }
   };
 
-  const err400 = Joi.object()
-    .description('Bad Request')
-    .meta({ headers: headers, examples: examples });
-  const err404 = Joi.object()
-    .description('Unsupported Media Type')
-    .meta({ headers: headers, examples: examples });
-  const err429 = Joi.object()
-    .description('Too Many Requests')
-    .meta({ headers: headers, examples: examples });
-  const err500 = Joi.object()
-    .description('Internal Server Error')
-    .meta({ headers: headers, examples: examples });
+  const err400 = Joi.object().description('Bad Request').meta({ headers, examples });
+  const err404 = Joi.object().description('Unsupported Media Type').meta({ headers, examples });
+  const err429 = Joi.object().description('Too Many Requests').meta({ headers, examples });
+  const err500 = Joi.object().description('Internal Server Error').meta({ headers, examples });
 
   const joiSumModel = Joi.object({
-    id: Joi.string()
-      .required()
-      .example('x78P9c'),
-    a: Joi.number()
-      .required()
-      .example(5),
-    b: Joi.number()
-      .required()
-      .example(5),
-    operator: Joi.string()
-      .required()
-      .description('either +, -, /, or *')
-      .example('+'),
-    equals: Joi.number()
-      .required()
-      .example(10),
-    created: Joi.string()
-      .required()
-      .isoDate()
-      .description('ISO date string')
-      .example('2015-12-01'),
-    modified: Joi.string()
-      .isoDate()
-      .description('ISO date string')
-      .example('2015-12-01')
+    id: Joi.string().required().example('x78P9c'),
+    a: Joi.number().required().example(5),
+    b: Joi.number().required().example(5),
+    operator: Joi.string().required().description('either +, -, /, or *').example('+'),
+    equals: Joi.number().required().example(10),
+    created: Joi.string().required().isoDate().description('ISO date string').example('2015-12-01'),
+    modified: Joi.string().isoDate().description('ISO date string').example('2015-12-01')
   })
     .description('json body for sum')
     .label('Sum');
@@ -87,22 +61,22 @@ lab.experiment('responses', () => {
   }).label('List');
 
   const standardHTTP = {
-    '200': {
+    200: {
       description: 'Success',
       schema: joiSumModel,
-      headers: headers
+      headers
     },
-    '400': {
+    400: {
       description: 'Bad Request',
-      headers: headers
+      headers
     },
-    '429': {
+    429: {
       description: 'Too Many Requests',
-      headers: headers
+      headers
     },
-    '500': {
+    500: {
       description: 'Internal Server Error',
-      headers: headers
+      headers
     }
   };
 
@@ -115,9 +89,7 @@ lab.experiment('responses', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           })
         },
         payload: {
@@ -149,9 +121,7 @@ lab.experiment('responses', () => {
               is: /^id_token( token)?$/,
               then: Joi.required()
             }),
-            response_type: Joi.string()
-              .allow('@hapi/code', 'id_token token', 'id_token')
-              .required()
+            response_type: Joi.string().allow('@hapi/code', 'id_token token', 'id_token').required()
           })
         }
       }
@@ -173,9 +143,7 @@ lab.experiment('responses', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           })
         },
         payload: {
@@ -204,9 +172,7 @@ lab.experiment('responses', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           })
         },
         response: {
@@ -242,9 +208,7 @@ lab.experiment('responses', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           })
         },
         response: {
@@ -282,9 +246,7 @@ lab.experiment('responses', () => {
         },
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           })
         }
       }
@@ -307,14 +269,12 @@ lab.experiment('responses', () => {
       options: {
         tags: ['api'],
         response: {
-          schema: Joi.object()
-            .keys({ test: Joi.string() })
-            .label('Result')
+          schema: Joi.object().keys({ test: Joi.string() }).label('Result')
         },
         plugins: {
           'hapi-swagger': {
             responses: {
-              '200': {
+              200: {
                 description: 'Success its a 200',
                 'x-meta': 'x-meta test data'
               }
@@ -346,7 +306,7 @@ lab.experiment('responses', () => {
         plugins: {
           'hapi-swagger': {
             responses: {
-              '200': {
+              200: {
                 'x-meta': 'x-meta test data'
               }
             }
@@ -372,7 +332,7 @@ lab.experiment('responses', () => {
         plugins: {
           'hapi-swagger': {
             responses: {
-              '200': {
+              200: {
                 description: 'Success',
                 schema: Joi.array()
                   .items(
@@ -382,7 +342,7 @@ lab.experiment('responses', () => {
                   )
                   .label('HTTP200')
               },
-              '400': {
+              400: {
                 description: 'Bad Request',
                 schema: Joi.array()
                   .items(
@@ -397,9 +357,7 @@ lab.experiment('responses', () => {
         },
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           }).label('Payload')
         }
       }
@@ -442,9 +400,7 @@ lab.experiment('responses', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           })
         }
       }
@@ -473,9 +429,7 @@ lab.experiment('responses', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            a: Joi.number()
-              .required()
-              .description('the first number')
+            a: Joi.number().required().description('the first number')
           })
         },
         response: {
@@ -489,7 +443,7 @@ lab.experiment('responses', () => {
     expect(response.result.paths['/store/'].post.responses).to.equal({
       200: {
         schema: {
-          '$ref': '#/definitions/List'
+          $ref: '#/definitions/List'
         },
         description: 'Successful'
       }
@@ -498,7 +452,7 @@ lab.experiment('responses', () => {
     expect(isValid).to.be.true();
   });
 
-  lab.test('No ownProperty', async () => {
+  lab.test('No ownProperty', () => {
     const objA = Helper.objWithNoOwnProperty();
     const objB = Helper.objWithNoOwnProperty();
     const objC = Helper.objWithNoOwnProperty();
@@ -522,7 +476,7 @@ lab.experiment('responses', () => {
 
     const objD = { 200: { description: 'Successful' } };
     expect(responses.build(objD, objB, objC, {})).to.equal({
-      '200': {
+      200: {
         schema: {
           type: 'string'
         },
@@ -563,8 +517,8 @@ lab.experiment('responses', () => {
 
     const server = await Helper.createServer({}, routes);
     const response = await server.inject({ url: '/swagger.json' });
-    expect(response.result.definitions['Model1']).to.exist();
-    expect(response.result.definitions['Model2']).to.exist();
+    expect(response.result.definitions.Model1).to.exist();
+    expect(response.result.definitions.Model2).to.exist();
     expect(response.result.definitions).to.equal({
       Model1: {
         type: 'object',
@@ -620,10 +574,7 @@ lab.experiment('responses', () => {
       .label('datapoint')
       .required();
 
-    const exampleSchema = Joi.array()
-      .items(dataPointSchema)
-      .label('datapointlist')
-      .required();
+    const exampleSchema = Joi.array().items(dataPointSchema).label('datapointlist').required();
 
     const routes = [
       {
@@ -669,20 +620,13 @@ lab.experiment('responses', () => {
   lab.test('replace example with x-example for response', async () => {
     const dataPointSchema = Joi.object()
       .keys({
-        date: Joi.date()
-          .required()
-          .example('2016-08-26'),
-        value: Joi.number()
-          .required()
-          .example('1024')
+        date: Joi.date().required().example('2016-08-26'),
+        value: Joi.number().required().example('1024')
       })
       .label('datapoint')
       .required();
 
-    const exampleSchema = Joi.array()
-      .items(dataPointSchema)
-      .label('datapointlist')
-      .required();
+    const exampleSchema = Joi.array().items(dataPointSchema).label('datapointlist').required();
 
     const routes = [
       {
@@ -737,7 +681,7 @@ lab.experiment('responses', () => {
         plugins: {
           'hapi-swagger': {
             responses: {
-              '200': {
+              200: {
                 description: 'Success with response.schema'
               }
             }
@@ -755,7 +699,7 @@ lab.experiment('responses', () => {
           operationId: 'postStore',
           tags: ['store'],
           responses: {
-            '200': {
+            200: {
               schema: {
                 $ref: '#/definitions/List'
               },
@@ -779,7 +723,7 @@ lab.experiment('responses', () => {
         plugins: {
           'hapi-swagger': {
             responses: {
-              '404': {
+              404: {
                 description: 'Could not find a schema'
               }
             }
@@ -797,13 +741,13 @@ lab.experiment('responses', () => {
           operationId: 'postStore',
           tags: ['store'],
           responses: {
-            '200': {
+            200: {
               schema: {
                 $ref: '#/definitions/List'
               },
               description: 'Successful'
             },
-            '404': {
+            404: {
               description: 'Could not find a schema'
             }
           }
@@ -824,7 +768,7 @@ lab.experiment('responses', () => {
         plugins: {
           'hapi-swagger': {
             responses: {
-              '200': {
+              200: {
                 description: 'Success with response.schema',
                 schema: joiSumModel
               }
@@ -843,7 +787,7 @@ lab.experiment('responses', () => {
           operationId: 'postStore',
           tags: ['store'],
           responses: {
-            '200': {
+            200: {
               schema: {
                 $ref: '#/definitions/Sum'
               },
@@ -867,13 +811,13 @@ lab.experiment('responses', () => {
         plugins: {
           'hapi-swagger': {
             responses: {
-              '400': {
+              400: {
                 description: '400 - Added from plugin-options'
               },
-              '404': {
+              404: {
                 schema: Joi.object({ err: Joi.string() })
               },
-              '500': {
+              500: {
                 description: '500 - Added from plugin-options'
               }
             }
@@ -898,31 +842,31 @@ lab.experiment('responses', () => {
           operationId: 'postStore',
           tags: ['store'],
           responses: {
-            '200': {
+            200: {
               description: 'json body for sum',
               schema: {
                 $ref: '#/definitions/Sum'
               }
             },
-            '400': {
+            400: {
               schema: {
                 $ref: '#/definitions/Model1'
               },
               description: '400 - Added from plugin-options'
             },
-            '404': {
+            404: {
               description: '404 from response status object',
               schema: {
                 $ref: '#/definitions/Model1'
               }
             },
-            '429': {
+            429: {
               schema: {
                 $ref: '#/definitions/Model1'
               },
               description: 'Too Many Requests'
             },
-            '500': {
+            500: {
               description: '500 - Added from plugin-options'
             }
           }

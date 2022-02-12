@@ -1,3 +1,4 @@
+// eslint-disable-next-line strict
 console.log(
   'The plugin "hapi-api-version" does not yet support HAPI v17.x. This example will be updated at a later date.'
 );

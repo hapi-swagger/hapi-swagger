@@ -54,16 +54,16 @@ lab.experiment('debug', () => {
       handler: () => {},
       tags: ['api'],
       validate: {
-        payload: async value => {
+        payload: (value) => {
           return value;
         },
-        params: async value => {
+        params: (value) => {
           return value;
         },
-        query: async value => {
+        query: (value) => {
           return value;
         },
-        headers: async value => {
+        headers: (value) => {
           return value;
         }
       }

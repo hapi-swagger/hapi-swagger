@@ -218,7 +218,7 @@ lab.experiment('alternatives', () => {
       required: ['name']
     });
 
-    expect(response.result.definitions['Model1']).to.equal({
+    expect(response.result.definitions.Model1).to.equal({
       type: 'object',
       properties: {
         type: {

@@ -1,10 +1,11 @@
 // `debug.js` - how to validate swagger output and get warning/error messages during development
 
+'use strict';
+
 const Blipp = require('blipp');
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const Chalk = require('chalk');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
@@ -21,12 +22,8 @@ const swaggerOptions = {
 };
 
 // use chalk to log colour hapi-swagger messages to console.
-const formatLogEvent = function(event) {
-  if (event.tags.error) {
-    console.log(`[${event.tags}], ${Chalk.red(event.data)}`);
-  } else {
-    console.log(`[${event.tags}], ${Chalk.green(event.data)}`);
-  }
+const formatLogEvent = function (event) {
+  console.log(`[${event.tags}], ${event.data}`);
 };
 
 const ser = async () => {
@@ -61,10 +58,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

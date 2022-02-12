@@ -126,7 +126,7 @@ helper.createJWTAuthServer = async (swaggerOptions, routes) => {
   };
   const privateKey = 'hapi hapi joi joi';
   // const token = JWT.sign({ id: 56732 }, privateKey, { algorithm: 'HS256' });
-  const validateJWT = decoded => {
+  const validateJWT = (decoded) => {
     if (!people[decoded.id]) {
       return { valid: false };
     }
@@ -175,12 +175,12 @@ helper.defaultHandler = () => {
  * @param  {Object} request
  * @param  {Object} reply
  */
-helper.defaultAuthHandler = request => {
+helper.defaultAuthHandler = (request) => {
   if (request.auth && request.auth.credentials && request.auth.credentials.user) {
     return request.auth.credentials.user;
-  } else {
-    return Boom.unauthorized(['unauthorized access'], [request.auth.strategy]);
   }
+
+  return Boom.unauthorized(['unauthorized access'], [request.auth.strategy]);
 };
 
 /**
@@ -189,19 +189,18 @@ helper.defaultAuthHandler = request => {
  * @param  {String} token
  * @param  {Function} callback
  */
-helper.validateBearer = async (request, token) => {
-  return {
-    isValid: token === '12345',
-    credentials: {
-      token,
-      user: {
-        username: 'glennjones',
-        name: 'Glenn Jones',
-        groups: ['admin', 'user']
-      }
+helper.validateBearer = (request, token) => ({
+  isValid: token === '12345',
+
+  credentials: {
+    token,
+    user: {
+      username: 'glennjones',
+      name: 'Glenn Jones',
+      groups: ['admin', 'user']
     }
-  };
-};
+  }
+});
 
 /**
  * fires a Hapi reply with json payload - see h2o2 onResponse function signature
@@ -213,7 +212,7 @@ helper.validateBearer = async (request, token) => {
  * @param  {Object} settings
  * @param  {Int} ttl
  **/
-helper.replyWithJSON = async (err, res) => {
+helper.replyWithJSON = async (_, res) => {
   const { payload } = await Wreck.read(res, { json: true });
   return payload;
 };
@@ -225,19 +224,19 @@ helper.replyWithJSON = async (err, res) => {
  */
 helper.objWithNoOwnProperty = () => {
   const sides = { a: 1, b: 2, c: 3 };
-  const Triangle = function() {};
+  const Triangle = function () {};
   Triangle.prototype = sides;
   return new Triangle();
 };
 
-helper.getAssetsPaths = html => {
+helper.getAssetsPaths = (html) => {
   const linkTag = '<link';
   const scriptTag = '<script src';
 
   return html
     .split('\n')
-    .filter(line => line.includes(linkTag) || line.includes(scriptTag))
-    .map(line => {
+    .filter((line) => line.includes(linkTag) || line.includes(scriptTag))
+    .map((line) => {
       let firstSplit;
 
       if (line.includes(linkTag)) {

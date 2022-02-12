@@ -43,6 +43,15 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "start options",
+      "program": "${workspaceFolder}/examples/options.js",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "test using lab identifier",
       "program": "${workspaceFolder}/node_modules/.bin/lab",
       "args": ["-i", "${input:inputLabTestIdentifier}"],

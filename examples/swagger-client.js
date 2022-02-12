@@ -1,5 +1,7 @@
 // `swagger-client.js` - how to plug-in to build an interface with `swagger-client`
 
+'use strict';
+
 const Hapi = require('@hapi/hapi');
 const Joi = require('joi');
 const Swagger = require('swagger-client');
@@ -22,13 +24,13 @@ const swaggerOptions = {
   deReference: true
 };
 
-const defaultHandler = function(request, h) {
+const defaultHandler = function (request, h) {
   const a = parseFloat(request.params.a);
   const b = parseFloat(request.params.b);
 
   return h.response({
-    a: a,
-    b: b,
+    a,
+    b,
     operator: '+',
     equals: a + b,
     created: new Date().toISOString(),
@@ -51,13 +53,9 @@ const routes = [
       },
       validate: {
         params: {
-          a: Joi.number()
-            .required()
-            .description('the first number'),
+          a: Joi.number().required().description('the first number'),
 
-          b: Joi.number()
-            .required()
-            .description('the second number')
+          b: Joi.number().required().description('the second number')
         }
       }
     }
@@ -76,13 +74,9 @@ const routes = [
       },
       validate: {
         params: {
-          a: Joi.number()
-            .required()
-            .description('the first number'),
+          a: Joi.number().required().description('the first number'),
 
-          b: Joi.number()
-            .required()
-            .description('the second number')
+          b: Joi.number().required().description('the second number')
         }
       }
     }
@@ -96,13 +90,9 @@ const routes = [
       tags: ['api'],
       validate: {
         params: {
-          a: Joi.number()
-            .required()
-            .description('the first number'),
+          a: Joi.number().required().description('the first number'),
 
-          b: Joi.number()
-            .required()
-            .description('the second number')
+          b: Joi.number().required().description('the second number')
         }
       }
     }
@@ -130,38 +120,38 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
 
     // create swagger client using json output from plugin
 
-    Swagger(server.info.uri + '/swagger.json').then(client => {
+    Swagger(server.info.uri + '/swagger.json').then((client) => {
       // Three calls to API using swagger client
 
       client.apis.math
         .add1({ a: 8, b: 8 }, { responseContentType: 'application/json' })
-        .then(data => {
+        .then((data) => {
           console.log(data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
 
       client.apis.sum
         .add2({ a: 7, b: 7 }, { responseContentType: 'application/json' })
-        .then(data => {
+        .then((data) => {
           console.log(data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
 
       client.apis.mathematics
         .putMathematicsAddAB({ a: 9, b: 9 }, { responseContentType: 'application/json' })
-        .then(data => {
+        .then((data) => {
           console.log(data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
 
@@ -170,15 +160,15 @@ ser()
           operationId: 'add',
           parameters: { a: 9, b: 9 }
         })
-        .then(data => {
+        .then((data) => {
           console.log(data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     });
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

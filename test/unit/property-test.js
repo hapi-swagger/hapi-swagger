@@ -1,4 +1,5 @@
 'use strict';
+
 const Code = require('@hapi/code');
 const Joi = require('joi');
 const Lab = require('@hapi/lab');

@@ -104,7 +104,7 @@ lab.experiment('definitions', () => {
     expect(response.result.paths['/test/'].post.parameters[0].schema).to.equal({
       $ref: '#/definitions/Model1'
     });
-    expect(response.result.definitions['Model1']).to.equal(definition);
+    expect(response.result.definitions.Model1).to.equal(definition);
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });
@@ -116,7 +116,7 @@ lab.experiment('definitions', () => {
     //console.log(JSON.stringify(response.result.definitions));
     expect(response.result.definitions.b).to.exists();
     expect(response.result.definitions.Model).to.exists();
-    expect(response.result.definitions['Model1']).to.exists();
+    expect(response.result.definitions.Model1).to.exists();
 
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
@@ -233,7 +233,7 @@ lab.experiment('definitions', () => {
     expect(response.statusCode).to.equal(200);
     expect(response.result.definitions.A).to.exist();
     expect(response.result.definitions['A A']).to.exist();
-    expect(response.result.definitions['A1']).to.exist();
+    expect(response.result.definitions.A1).to.exist();
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });

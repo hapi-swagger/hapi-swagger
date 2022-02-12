@@ -3,6 +3,8 @@
 // This file also shows the use of `pathReplacements` to group endpoints by replacing `.` with '/`
 // in the group naming
 
+'use strict';
+
 const Hapi = require('@hapi/hapi');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
@@ -45,7 +47,7 @@ const ser = async () => {
   server.route({
     method: 'GET',
     path: '/version',
-    handler: function(request, reply) {
+    handler: function (request, reply) {
       // Return the api-version which was requested
       return reply({
         version: request.pre.apiVersion
@@ -65,7 +67,7 @@ const ser = async () => {
   server.route({
     method: 'GET',
     path: '/api/user.get',
-    handler: function(request, h) {
+    handler: function (request, h) {
       return h.response(users);
     },
     options: {
@@ -76,7 +78,7 @@ const ser = async () => {
   server.route({
     method: 'GET',
     path: '/api/user.search',
-    handler: function(request, h) {
+    handler: function (request, h) {
       return h.response(users);
     },
     options: {
@@ -90,10 +92,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

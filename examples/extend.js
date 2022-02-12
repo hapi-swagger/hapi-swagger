@@ -2,6 +2,8 @@
 
 // This only works at moment if you have a base JOI type like number.
 
+'use strict';
+
 const Hapi = require('@hapi/hapi');
 const Joi = require('joi');
 const Blipp = require('blipp');
@@ -47,10 +49,7 @@ const ser = async () => {
       tags: ['api'],
       validate: {
         params: Joi.object({
-          number: ExtendedJoi.number()
-            .round()
-            .dividable(3)
-            .required()
+          number: ExtendedJoi.number().round().dividable(3).required()
         })
       }
     }
@@ -62,10 +61,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

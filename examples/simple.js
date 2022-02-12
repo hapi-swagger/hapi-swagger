@@ -1,3 +1,5 @@
+'use strict';
+
 const Hapi = require('@hapi/hapi');
 const Joi = require('joi');
 const Blipp = require('blipp');
@@ -6,7 +8,7 @@ const Vision = require('@hapi/vision');
 
 const HapiSwagger = require('../');
 
-let swaggerOptions = {
+const swaggerOptions = {
   info: {
     title: 'Test API Documentation',
     description: 'This is a sample example of API documentation.'
@@ -46,20 +48,12 @@ const ser = async () => {
       tags: ['api'],
       validate: {
         params: Joi.object({
-          id: Joi.string()
-            .required()
-            .description('the id of the sum in the store')
+          id: Joi.string().required().description('the id of the sum in the store')
         }),
         payload: Joi.object({
-          a: Joi.number()
-            .required()
-            .description('the first number')
-            .default('1'),
+          a: Joi.number().required().description('the first number').default('1'),
 
-          b: Joi.number()
-            .required()
-            .description('the second number')
-            .example('2'),
+          b: Joi.number().required().description('the second number').example('2'),
 
           operator: Joi.string()
             .required()
@@ -67,9 +61,7 @@ const ser = async () => {
             .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
-          equals: Joi.number()
-            .required()
-            .description('the result of the sum')
+          equals: Joi.number().required().description('the result of the sum')
         })
       }
     }
@@ -80,10 +72,10 @@ const ser = async () => {
 };
 
 ser()
-  .then(server => {
+  .then((server) => {
     console.log(`Server listening on ${server.info.uri}`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });
