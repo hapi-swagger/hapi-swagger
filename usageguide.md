@@ -15,6 +15,7 @@
 -   [Caching](#caching)
 -   [File upload](#file-upload)
 -   [Prevent JOI properties from being included in the Swagger schema](#prevent-joi-properties-from-being-included-in-the-swagger-schema)
+-   [Name JOI properties for XML formats](#name-joi-properties-for-xml-formats)
 -   [Headers and .unknown()](#headers-and-unknown)
 -   [Additional Hapi data using x-\*](#additional-hapi-data-using-x-)
 -   [JSON without UI](#json-without-ui)
@@ -474,6 +475,44 @@ the three important elements are:
 You can prevent specific JOI properties from being included in the generated Swagger schema by using:
 
 `.meta({ swaggerHidden: true })`
+
+## Name JOI properties for XML formats
+
+You can rename JOI properties via meta for XML included in the generated Swagger schema by using:
+
+### Objects and properties
+
+#### Schema
+
+```js
+Joi.object().meta({ xml: { name: 'ObjectXML' } });
+```
+
+#### Result
+
+```xml
+<ObjectXML> </ObjectXML>
+```
+
+### Arrays
+
+#### Schema
+
+```js
+Joi.array()
+    .items(xmlObject)
+    .meta({ xml: { name: 'ArrayXML', wrapped: true } });
+```
+
+#### Result
+
+```xml
+<ArrayXML>
+   <ObjectXML> </ObjectXML>
+</ArrayXML>
+```
+
+See this link for more info: [OpenAPI 2.0 XML object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md#xmlObject)
 
 ## Default values and examples
 
