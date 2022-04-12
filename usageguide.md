@@ -475,6 +475,24 @@ You can prevent specific JOI properties from being included in the generated Swa
 
 `.meta({ swaggerHidden: true })`
 
+## Name JOI properties for XML formats
+
+You can rename JOI properties via meta for XML included in the generated Swagger schema by using:
+
+# Objects and properties
+
+```js
+Joi.object().meta({ xml: { name: 'ObjectXML' } });
+```
+
+# Arrays
+
+```js
+Joi.array()
+    .items(xmlObject)
+    .meta({ xml: { name: 'ArrayXML', wrapped: true } });
+```
+
 ## Default values and examples
 
 You can add both default values and examples to your JOI objects which are displayed within the Swagger interface.

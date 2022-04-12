@@ -182,6 +182,30 @@ lab.experiment('property - ', () => {
 
     expect(nonNegativeWithDropdown).to.include({ enum: [0] });
     expect(nonNegativeWithoutDropdown).to.not.include({ enum: [0] });
+    
+    const xmlObject = Joi.object().meta({ xml: { name: 'ObjectXML' } });
+    expect(propertiesAlt.parseProperty('x', xmlObject, null, 'body', false, false)).to.equal({
+      type: 'object',
+      xml: { name: 'ObjectXML' }
+    });
+
+    const xmlArrayOfObjects = Joi.array()
+      .items(xmlObject)
+      .meta({
+        xml: {
+          name: 'ArrayXML',
+          wrapped: true
+        }
+      });
+    expect(propertiesAlt.parseProperty('x', xmlArrayOfObjects, null, 'body', false, false)).to.equal({
+      type: 'array',
+      xml: { name: 'ArrayXML', wrapped: true },
+      items: {
+        type: 'object',
+        xml: { name: 'ObjectXML' }
+      },
+      name: 'x'
+    });
   });
 
   lab.test('parse hidden', () => {
