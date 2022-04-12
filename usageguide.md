@@ -479,13 +479,13 @@ You can prevent specific JOI properties from being included in the generated Swa
 
 You can rename JOI properties via meta for XML included in the generated Swagger schema by using:
 
-# Objects and properties
+### Objects and properties
 
 ```js
 Joi.object().meta({ xml: { name: 'ObjectXML' } });
 ```
 
-# Arrays
+### Arrays
 
 ```js
 Joi.array()
