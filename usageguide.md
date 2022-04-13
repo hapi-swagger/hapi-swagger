@@ -16,6 +16,7 @@
 -   [File upload](#file-upload)
 -   [Prevent JOI properties from being included in the Swagger schema](#prevent-joi-properties-from-being-included-in-the-swagger-schema)
 -   [Name JOI properties for XML formats](#name-joi-properties-for-xml-formats)
+-   [Set format field to JOI integer properties](#set-format-field-to-joi-integer-properties)
 -   [Headers and .unknown()](#headers-and-unknown)
 -   [Additional Hapi data using x-\*](#additional-hapi-data-using-x-)
 -   [JSON without UI](#json-without-ui)
@@ -513,6 +514,12 @@ Joi.array()
 ```
 
 See this link for more info: [OpenAPI 2.0 XML object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md#xmlObject)
+
+## Set format field to JOI integer properties
+
+You can pass the format property with value `int32` or `int64` on JOI integer properties, as defined in the [guide of OpenAPI 3.0](https://swagger.io/docs/specification/data-models/data-types/#numbers).
+
+`.number().integer().meta({ format: 'int64' })`
 
 ## Default values and examples
 
