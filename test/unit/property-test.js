@@ -53,6 +53,10 @@ lab.experiment('property - ', () => {
     expect(propertiesNoAlt.parseProperty('x', Joi.number(), null, 'body', true, false)).to.equal({
       type: 'number'
     });
+    expect(propertiesNoAlt.parseProperty('x', Joi.number().meta({ format: 'float' }), null, 'body', true, false)).to.equal({
+      type: 'number',
+      format: 'float'
+    });
     expect(propertiesNoAlt.parseProperty('x', Joi.number().integer(), null, 'body', true, false)).to.equal({
       type: 'integer'
     });
