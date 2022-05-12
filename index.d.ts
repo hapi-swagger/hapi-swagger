@@ -272,6 +272,16 @@ declare namespace hapiswagger {
      */
     tags?: TagOptions[];
 
+    /** Allows filtering the routes included into Swagger docs by tag or function
+     * @default 'api'
+     *
+     * @example
+     * ```
+     * (tags) => !tags.includes('private')
+     * ```
+     */
+    routeTag?: string | ((tags: string[]) => boolean)
+
     /**
      * How to create grouping of endpoints value either `path` or `tags`
      * @default 'path'
@@ -361,6 +371,7 @@ declare namespace hapiswagger {
      */
     debug?: boolean;
 
+    // TODO: remove below line after adding all option typings to this file
     /**
      * Any property or object with a key starting with 'x-*' is included as such in the `info` section of the object returned by the JSON endpoint. This allows custom properties to be defined as options and copied as such.
      */
