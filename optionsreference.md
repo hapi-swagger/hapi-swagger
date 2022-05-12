@@ -31,7 +31,7 @@
         -   `url` (string) The URL to the license used by the API. MUST be formatted as a URL
     -   `x-*` (any): any property or object with a key starting with `x-*` is included as such in the `info` section of the object returned by the JSON endpoint. This allows custom properties to be defined as options and copied as such.
 -   `tags`: (array) containing array of [Tag Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#tagObject) used to group endpoints in UI. No defaults are provided.
--   `routeTag`: (string | function) Tag used by `hapi-swagger` to collect the routes that should be included in the OpenAPI swagger definition, or function used to filter routes, for example `(tags) => tags.some(tag => tag.startsWith('public-')` - default: `api`
+-   `routeTag`: (string | function) Tag used by `hapi-swagger` to collect the routes that should be included in the OpenAPI swagger definition. Can also take a function receiving route tags and returning boolean, for example `(tags) => !tags.includes('private')` - default: `api`
 -   `grouping`: (string) how to create grouping of endpoints value either `path` or `tags` - default: `path`
 -   `tagsGroupingFilter`: (function) A function used to determine which tags should be used for grouping (when `grouping` is set to `tags`) - default: `(tag) => tag !== 'api'`
 -   `securityDefinitions:`: (object) Containing [Security Definitions Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject). No defaults are provided.

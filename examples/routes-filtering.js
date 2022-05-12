@@ -17,13 +17,7 @@ const Routes = [
     path: '/petstore',
     options: {
       handler,
-      description: 'Array properties',
-      tags: ['api', 'petstore'],
-      plugins: {
-        'hapi-swagger': {
-          order: 1
-        }
-      }
+      tags: ['api', 'petstore', 'auth'],
     }
   },
   {
@@ -31,13 +25,7 @@ const Routes = [
     path: '/petstore',
     options: {
       handler,
-      description: 'Array properties',
       tags: ['api', 'petstore'],
-      plugins: {
-        'hapi-swagger': {
-          order: 2
-        }
-      }
     }
   },
   {
@@ -45,13 +33,7 @@ const Routes = [
     path: '/petstore/{id}',
     options: {
       handler,
-      description: 'Array properties',
-      tags: ['api', 'petstore'],
-      plugins: {
-        'hapi-swagger': {
-          order: 3
-        }
-      }
+      tags: ['api', 'petstore']
     }
   },
   {
@@ -59,13 +41,7 @@ const Routes = [
     path: '/petstore/{id}/pet',
     options: {
       handler,
-      description: 'Array properties',
-      tags: ['api', 'pet'],
-      plugins: {
-        'hapi-swagger': {
-          order: 4
-        }
-      }
+      tags: ['api', 'petstore', 'auth']
     }
   },
   {
@@ -73,13 +49,7 @@ const Routes = [
     path: '/pet/{id}',
     options: {
       handler,
-      description: 'Array properties',
-      tags: ['api', 'pet', 'extra'],
-      plugins: {
-        'hapi-swagger': {
-          order: 5
-        }
-      }
+      tags: ['api', 'pet', 'extra']
     }
   },
   {
@@ -87,37 +57,17 @@ const Routes = [
     path: '/petstore/{id}/pet',
     options: {
       handler,
-      description: 'Array properties',
-      tags: ['api', 'pet'],
-      plugins: {
-        'hapi-swagger': {
-          order: 6
-        }
-      }
+      tags: ['api', 'pet']
     }
   }
 ];
 
 const swaggerOptions = {
-  basePath: '/v1',
-  pathPrefixSize: 2,
   info: {
     title: 'Test API Documentation',
-    description: 'This is a sample example of API documentation.',
     version: Pack.version
   },
-  tags: [
-    {
-      name: 'petstore',
-      description: 'the petstore api'
-    },
-    {
-      name: 'pet',
-      description: 'the pet api'
-    }
-  ],
-  grouping: 'tags',
-  sortEndpoints: 'ordered'
+  routeTag: (tags) => tags.includes('pet') && !tags.includes('auth')
 };
 
 const ser = async () => {

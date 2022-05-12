@@ -51,63 +51,79 @@ lab.experiment('filter', () => {
   lab.test('by `api` tag by default', async () => {
     const server = await Helper.createServer({}, routes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
-    expect(Object.keys(response.result.paths).length).to.equal(3)
+    expect(Object.keys(response.result.paths).length).to.equal(3);
     expect(response.result.paths['/api-beta-tag']).to.exist();
     expect(response.result.paths['/api-alpha-tag']).to.exist();
     expect(response.result.paths['/api-alpha-gamma-tag']).to.exist();
   });
 
-  lab.test('alpha OR gamma, then by api (default)', async () => {
+  lab.test('Query string params (alpha OR gamma), then by `routeTag` (api)', async () => {
     const server = await Helper.createServer({}, routes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=alpha,gamma' });
-    expect(Object.keys(response.result.paths).length).to.equal(2)
+    expect(Object.keys(response.result.paths).length).to.equal(2);
     expect(response.result.paths['/api-alpha-tag']).to.exist();
     expect(response.result.paths['/api-alpha-gamma-tag']).to.exist();
   });
 
-  lab.test('(alpha OR beta) AND api, then by api (default)', async () => {
+  lab.test('Query string params (beta), then by `routeTag` (function)', async () => {
+    const server = await Helper.createServer({ routeTag: (tags) => !tags.includes('api') }, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=beta' });
+    expect(Object.keys(response.result.paths).length).to.equal(1);
+    expect(response.result.paths['/beta-tag']).to.exist();
+  });
+
+  lab.test('Query string params (alpha OR beta) AND api, then by `routeTag` (api)', async () => {
     const server = await Helper.createServer({}, routes);
-    const response = await server.inject({ method: 'GET', url: `/swagger.json?tags=alpha,beta,${encodeURIComponent('+')}api` });
-    expect(Object.keys(response.result.paths).length).to.equal(3)
+    const response = await server.inject({
+      method: 'GET',
+      url: `/swagger.json?tags=alpha,beta,${encodeURIComponent('+')}api`
+    });
+    expect(Object.keys(response.result.paths).length).to.equal(3);
     expect(response.result.paths['/api-alpha-tag']).to.exist();
     expect(response.result.paths['/api-beta-tag']).to.exist();
     expect(response.result.paths['/api-alpha-gamma-tag']).to.exist();
   });
 
-  lab.test('OR alpha AND gamma, then by api (default)', async () => {
+  lab.test('Query string params (alpha AND gamma), then by `routeTag` (api)', async () => {
     const server = await Helper.createServer({}, routes);
-    const response = await server.inject({ method: 'GET', url: `/swagger.json?tags=alpha,${encodeURIComponent('+')}gamma` });
-    expect(Object.keys(response.result.paths).length).to.equal(1)
+    const response = await server.inject({
+      method: 'GET',
+      url: `/swagger.json?tags=alpha,${encodeURIComponent('+')}gamma`
+    });
+    expect(Object.keys(response.result.paths).length).to.equal(1);
     expect(response.result.paths['/api-alpha-gamma-tag']).to.exist();
   });
 
-  lab.test('alpha AND NOT gamma, then by api (default)', async () => {
+  lab.test('Query string params (alpha AND NOT gamma), then by `routeTag` (api)', async () => {
     const server = await Helper.createServer({}, routes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json?tags=alpha,-gamma' });
-    expect(Object.keys(response.result.paths).length).to.equal(1)
+    expect(Object.keys(response.result.paths).length).to.equal(1);
     expect(response.result.paths['/api-alpha-tag']).to.exist();
   });
 
   lab.test('by `routeTag` string if set', async () => {
     const server = await Helper.createServer({ routeTag: 'beta' }, routes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
-    expect(Object.keys(response.result.paths).length).to.equal(2)
+    expect(Object.keys(response.result.paths).length).to.equal(2);
     expect(response.result.paths['/api-beta-tag']).to.exist();
     expect(response.result.paths['/beta-tag']).to.exist();
   });
 
   lab.test('by `routeTag` function if set', async () => {
-    const server = await Helper.createServer({ routeTag: (tags) => tags.includes('gamma')}, routes);
+    const server = await Helper.createServer(
+      { routeTag: (tags) => tags.includes('api') && tags.includes('beta') },
+      routes
+    );
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     expect(response.statusCode).to.equal(200);
-    expect(Object.keys(response.result.paths).length).to.equal(1)
-    expect(response.result.paths['/api-alpha-gamma-tag']).to.exist();
+    expect(Object.keys(response.result.paths).length).to.equal(1);
+    expect(response.result.paths['/api-beta-tag']).to.exist();
   });
 
-  lab.test('does not filter if `routeTag` is set to () => true', async () => {
-    const server = await Helper.createServer({ routeTag: () => true}, routes);
+  lab.test('picks all routes if `routeTag` is set to () => true', async () => {
+    const server = await Helper.createServer({ routeTag: () => true }, routes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     expect(response.statusCode).to.equal(200);
-    expect(Object.keys(response.result.paths).length).to.equal(6)
+    expect(Object.keys(response.result.paths).length).to.equal(routes.length);
   });
 });
