@@ -53,22 +53,23 @@
 
 > @see [swagger-ui options](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md) as reference.
 
--   `swaggerUI`: (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`
--   `swaggerUIPath`: (string) The path of to all the SwaggerUI resources - default: `/swaggerui/`
--   `routesBasePath`: (string) The path to all the SwaggerUI assets endpoints. If swaggerUIPath is specified and this parameter is not, it will take swaggerUIPath value. Useful when behind a reverse proxy - default: `/swaggerui/`
--   `documentationPage`: (boolean) Add documentation page - default: `true`
--   `documentationPath`: (string) The path of the documentation page - default: `/documentation`
--   `templates`: (string) The directory path used by `hapi-swagger` and `@hapi/vision` to resolve and load the templates to render `swagger-ui` interface. The directory must contain `index.html` and `debug.html` templates. Default is `templates` directory in this package.
--   `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
--   `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `alpha`
+- `swaggerUI`: (boolean) Add files that support SwaggerUI. Only removes files if `documentationPage` is also set to false - default: `true`
+- `swaggerUIPath`: (string) The path of to all the SwaggerUI resources - default: `/swaggerui/`
+- `routesBasePath`: (string) The path to all the SwaggerUI assets endpoints. If swaggerUIPath is specified and this parameter is not, it will take swaggerUIPath value. Useful when behind a reverse proxy - default: `/swaggerui/`
+- `documentationPage`: (boolean) Add documentation page - default: `true`
+- `documentationPath`: (string) The path of the documentation page - default: `/documentation`
+- `templates`: (string) The directory path used by `hapi-swagger` and `@hapi/vision` to resolve and load the templates to render `swagger-ui` interface. The directory must contain `index.html` and `debug.html` templates. Default is `templates` directory in this package.
+- `expanded`: (string) If UI is expanded when opened. `none`, `list` or `full` - default: `list`
+- `sortTags`: (string) a sort method for `tags` i.e. groups in UI. `alpha`
     -   `alpha`: sort by paths alphanumerically
--   `sortEndpoints`: (string) a sort method for endpoints in UI. `alpha`, `method`, `ordered`. Default is `alpha`.
+- `sortEndpoints`: (string) a sort method for endpoints in UI. `alpha`, `method`, `ordered`. Default is `alpha`.
     -   `alpha`: sort by paths alphanumerically
     -   `method`: sort by HTTP method
     -   `ordered`: sort by `order` value of the `hapi-swagger` plugin options of the route.
--   `uiCompleteScript`: (string || object) Called when UI loads. Can be javascript string injected into the HTML (ex: `'alert("I got you !")'`) or object with `src` property (ex: `{ src: '/assets/js/doc-patch.js' }`) that can point to reference remote file. The file will be loaded on demand and appended to DOM. Default is `null`.
--   `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
--   `tryItOutEnabled`: (boolean) controls whether the "Try it out" section should be enabled by default - default: `false`
+- `uiCompleteScript`: (string || object) Called when UI loads. Can be javascript string injected into the HTML (ex: `'alert("I got you !")'`) or object with `src` property (ex: `{ src: '/assets/js/doc-patch.js' }`) that can point to reference remote file. The file will be loaded on demand and appended to DOM. Default is `null`.
+- `validatorUrl`: (string || null) sets the external validating URL Can switch off by setting to `null`
+- `tryItOutEnabled`: (boolean) controls whether the "Try it out" section should be enabled by default - default: `false`
+- `displayRequestDuration`: (boolean) controls the display of the request duration (in milliseconds) for "Try it out" requests. Default is `false`.
 
 ## Plugin Specific Route Options
 

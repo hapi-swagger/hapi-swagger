@@ -458,6 +458,13 @@ declare namespace hapiswagger {
     tryItOutEnabled?: boolean;
 
     /**
+     * Controls the display of the request duration (in milliseconds) for "Try it out" requests.
+     * @default false
+     */
+    displayRequestDuration?: boolean;
+
+
+    /**
      * A declaration of the security schemes available to be used in the specification. This does not enforce the security schemes on the operations and only serves to provide the relevant details for each scheme
      */
     securityDefinitions?: { [name: string]: SecuritySchemeType };

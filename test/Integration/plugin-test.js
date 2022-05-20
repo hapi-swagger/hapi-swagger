@@ -473,6 +473,18 @@ lab.experiment('plugin', () => {
     expect(response.statusCode).to.equal(200);
   });
 
+  lab.test('displayRequestDuration true', async () => {
+    const server = await Helper.createServer({ displayRequestDuration: true });
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+  });
+
+  lab.test('displayRequestDuration false', async () => {
+    const server = await Helper.createServer({ displayRequestDuration: false });
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+  });
+
   lab.test('test route x-meta appears in swagger', async () => {
     const testRoutes = [
       {
