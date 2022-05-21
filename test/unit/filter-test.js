@@ -125,5 +125,33 @@ lab.experiment('filter', () => {
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     expect(response.statusCode).to.equal(200);
     expect(Object.keys(response.result.paths).length).to.equal(routes.length);
+    const documentedRoutes = Object.keys(response.result.paths);
+    expect(documentedRoutes.some(route => route.includes('swagger'))).to.false();
+  });
+
+  lab.test('picks all routes if `routeTag` is set to () => true, when jsonPath is not default', async () => {
+    const jsonPath = '/testPath/swagger-test.json';
+    const server = await Helper.createServer({
+      jsonPath,
+      routeTag: () => true
+    }, routes);
+    const response = await server.inject({ method: 'GET', url: jsonPath });
+    expect(response.statusCode).to.equal(200);
+    expect(Object.keys(response.result.paths).length).to.equal(routes.length);
+    const documentedRoutes = Object.keys(response.result.paths);
+    expect(documentedRoutes.some(route => route.includes('swagger'))).to.false();
+  });
+
+  lab.test('picks all routes if `routeTag` is set to () => true, when swaggerUIPath is not default', async () => {
+    const swaggerUIPath = '/testPath';
+    const server = await Helper.createServer({
+      swaggerUIPath,
+      routeTag: () => true
+    }, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    expect(Object.keys(response.result.paths).length).to.equal(routes.length);
+    const documentedRoutes = Object.keys(response.result.paths);
+    expect(documentedRoutes.some(route => route.includes('swagger'))).to.false();
   });
 });

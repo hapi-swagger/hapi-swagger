@@ -1,4 +1,4 @@
-// `group.js` - how to use tag based grouping
+// `group-ordered.js` - how to use tag based grouping
 'use strict';
 
 const Blipp = require('blipp');
