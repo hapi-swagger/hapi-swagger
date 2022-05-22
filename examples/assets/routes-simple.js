@@ -96,7 +96,7 @@ const resultHTTPStatus = {
 /**
  * allows a reply to have either a json or xml response
  *
- * @param  {String} name
+ * @param  {string} name
  * @param  {Object} json
  * @param  {Object} request
  * @param  {Object} reply
