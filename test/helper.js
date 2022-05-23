@@ -186,7 +186,7 @@ helper.defaultAuthHandler = (request) => {
 /**
  * a validation function for bearer strategy
  *
- * @param  {String} token
+ * @param  {string} token
  * @param  {Function} callback
  */
 helper.validateBearer = (request, token) => ({
@@ -210,7 +210,7 @@ helper.validateBearer = (request, token) => ({
  * @param  {Object} request
  * @param  {Object} reply
  * @param  {Object} settings
- * @param  {Int} ttl
+ * @param  {number} ttl
  **/
 helper.replyWithJSON = async (_, res) => {
   const { payload } = await Wreck.read(res, { json: true });

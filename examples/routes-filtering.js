@@ -1,4 +1,4 @@
-// `group.js` - how to use tag based grouping
+// `routes-filtering.js` - how to filter routes to be added to the docs
 'use strict';
 
 const Blipp = require('blipp');
@@ -76,7 +76,6 @@ const ser = async () => {
     port: 3000
   });
 
-  // Blipp and Good - Needs updating for Hapi v17.x
   await server.register([
     Inert,
     Vision,
