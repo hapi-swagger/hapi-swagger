@@ -114,6 +114,22 @@ lab.experiment('utilities', () => {
     expect(Utilities.findAndRenameKey(Helper.objWithNoOwnProperty(), 'x', 'y')).to.equal({});
   });
 
+  lab.test('sortFirstItem', () => {
+    expect(Utilities.sortFirstItem(['a', 'b'])).to.equal(['a', 'b']);
+
+    expect(Utilities.sortFirstItem(['b', 'a'], 'a')).to.equal(['a', 'b']);
+    expect(Utilities.sortFirstItem(['b', 'a'], 'b')).to.equal(['b', 'a']);
+
+    expect(Utilities.sortFirstItem(['b', 'a', 'c'], 'a')).to.equal(['a', 'b', 'c']);
+    expect(Utilities.sortFirstItem(['c', 'b', 'a'], 'a')).to.equal(['a', 'c', 'b']);
+
+    // Make sure that the function makes a deep copy of the input array and does not change the arguments
+    const input = ['b', 'a'];
+    const copyOfInput =  ['b', 'a'];
+    expect(Utilities.sortFirstItem(input, 'a')).to.equal(['a', 'b']);
+    expect(input).to.equal(copyOfInput);
+  });
+
   lab.test('replaceValue', () => {
     expect(Utilities.replaceValue(['a', 'b'], 'a', 'c')).to.equal(['b', 'c']);
     expect(Utilities.replaceValue(['a', 'b'], null, null)).to.equal(['a', 'b']);
