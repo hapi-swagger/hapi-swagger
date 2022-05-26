@@ -114,6 +114,12 @@ lab.experiment('utilities', () => {
     expect(Utilities.findAndRenameKey(Helper.objWithNoOwnProperty(), 'x', 'y')).to.equal({});
   });
 
+  lab.test('first', () => {
+    expect(Utilities.first([])).to.equal(undefined);
+    expect(Utilities.first({})).to.equal(undefined);
+    expect(Utilities.first(['a', 'b'])).to.equal('a');
+  });
+
   lab.test('sortFirstItem', () => {
     expect(Utilities.sortFirstItem(['a', 'b'])).to.equal(['a', 'b']);
 
@@ -131,7 +137,7 @@ lab.experiment('utilities', () => {
   });
 
   lab.test('replaceValue', () => {
-    expect(Utilities.replaceValue(['a', 'b'], 'a', 'c')).to.equal(['b', 'c']);
+    expect(Utilities.replaceValue(['a', 'b'], 'a', 'c')).to.equal(['c', 'b']);
     expect(Utilities.replaceValue(['a', 'b'], null, null)).to.equal(['a', 'b']);
     expect(Utilities.replaceValue(['a', 'b'], 'a', null)).to.equal(['a', 'b']);
     expect(Utilities.replaceValue(null, null, null)).to.equal(null);
@@ -190,6 +196,8 @@ lab.experiment('utilities', () => {
   lab.test('toTitleCase', () => {
     expect(Utilities.toTitleCase('test')).to.equal('Test');
     expect(Utilities.toTitleCase('tesT')).to.equal('Test');
+    expect(Utilities.toTitleCase('Test')).to.equal('Test');
+    expect(Utilities.toTitleCase('test Test')).to.equal('Test test');
   });
 
   lab.test('createId', () => {
