@@ -137,7 +137,7 @@ lab.experiment('utilities', () => {
   });
 
   lab.test('replaceValue', () => {
-    expect(Utilities.replaceValue(['a', 'b'], 'a', 'c')).to.equal(['b', 'c']);
+    expect(Utilities.replaceValue(['a', 'b'], 'a', 'c')).to.equal(['c', 'b']);
     expect(Utilities.replaceValue(['a', 'b'], null, null)).to.equal(['a', 'b']);
     expect(Utilities.replaceValue(['a', 'b'], 'a', null)).to.equal(['a', 'b']);
     expect(Utilities.replaceValue(null, null, null)).to.equal(null);
