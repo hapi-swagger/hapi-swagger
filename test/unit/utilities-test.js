@@ -190,6 +190,8 @@ lab.experiment('utilities', () => {
   lab.test('toTitleCase', () => {
     expect(Utilities.toTitleCase('test')).to.equal('Test');
     expect(Utilities.toTitleCase('tesT')).to.equal('Test');
+    expect(Utilities.toTitleCase('Test')).to.equal('Test');
+    expect(Utilities.toTitleCase('test Test')).to.equal('Test test');
   });
 
   lab.test('createId', () => {
