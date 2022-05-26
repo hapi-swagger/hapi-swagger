@@ -114,6 +114,12 @@ lab.experiment('utilities', () => {
     expect(Utilities.findAndRenameKey(Helper.objWithNoOwnProperty(), 'x', 'y')).to.equal({});
   });
 
+  lab.test('first', () => {
+    expect(Utilities.first([])).to.equal(undefined);
+    expect(Utilities.first({})).to.equal(undefined);
+    expect(Utilities.first(['a', 'b'])).to.equal('a');
+  });
+
   lab.test('sortFirstItem', () => {
     expect(Utilities.sortFirstItem(['a', 'b'])).to.equal(['a', 'b']);
 
