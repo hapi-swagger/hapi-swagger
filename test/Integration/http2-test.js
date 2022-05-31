@@ -39,7 +39,7 @@ lab.experiment('http2', () => {
     const url = new URL(requestOptions.headers.referrer);
     const options = {
       tls,
-      listener: Http2.createSecureServer({ ...tls, allowHTTP1: true }),
+      listener: Http2.createSecureServer({ ...tls }),
       port: url.port
     };
     const server = await Helper.createServer({}, routes, options);
