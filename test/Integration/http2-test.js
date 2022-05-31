@@ -3,7 +3,7 @@ const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
 const Validate = require('../../lib/validate.js');
 const Http2 = require('http2');
-const Fs = require('fs/promises');
+const Fs = require('fs').promises;
 const Path = require('path');
 
 const expect = Code.expect;
