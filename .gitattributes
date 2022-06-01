@@ -3,3 +3,6 @@
 *.sh eol=lf
 *.md eol=lf
 *.conf eol=lf
+/.yarn/releases/** binary
+/.yarn/plugins/** binary
+/.yarn/** linguist-vendored
