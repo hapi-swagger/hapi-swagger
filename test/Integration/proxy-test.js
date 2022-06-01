@@ -1,6 +1,7 @@
 const Code = require('@hapi/code');
 const Joi = require('joi');
 const Lab = require('@hapi/lab');
+const { clone } = require('@hapi/hoek');
 const Helper = require('../helper.js');
 const Validate = require('../../lib/validate.js');
 
@@ -12,7 +13,8 @@ lab.experiment('proxies', () => {
     method: 'GET',
     url: '/swagger.json',
     headers: {
-      host: 'localhost'
+      host: 'hostyhost:12345',
+      referrer: 'http://localhost'
     }
   };
 
@@ -50,6 +52,21 @@ lab.experiment('proxies', () => {
     expect(response.result.schemes).to.equal(options.schemes);
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
+  });
+
+  lab.test('referrer vs host and port', async () => {
+    const options = {};
+
+    const server = await Helper.createServer(options, routes);
+    const response = await server.inject(requestOptions);
+    expect(response.result.host).to.equal(new URL(requestOptions.headers.referrer).host);
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+    const clonedOptions = clone(requestOptions);
+    delete clonedOptions.headers.referrer;
+    const response2 = await server.inject(clonedOptions);
+    expect(response2.result.host).to.equal(requestOptions.headers.host);
+    expect(await Validate.test(response2.result)).to.be.true();
   });
 
   lab.test('x-forwarded options', async () => {
