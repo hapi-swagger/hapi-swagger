@@ -176,8 +176,10 @@ lab.experiment('utilities', () => {
   });
 
   lab.test('toJoiObject', () => {
-    expect(Joi.isSchema(Utilities.toJoiObject({}))).to.equal(true)
-    expect(Joi.isSchema(Utilities.toJoiObject(Joi.object()))).to.equal(true)
+    expect(Joi.isSchema(Utilities.toJoiObject([]))).to.equal(false);
+    expect(Joi.isSchema(Utilities.toJoiObject(Object.create(null)))).to.equal(true);
+    expect(Joi.isSchema(Utilities.toJoiObject({}))).to.equal(true);
+    expect(Joi.isSchema(Utilities.toJoiObject(Joi.object()))).to.equal(true);
   });
 
   lab.test('hasJoiMeta', () => {
