@@ -363,7 +363,7 @@ lab.experiment('builder', () => {
 
 
 lab.experiment('fix issue 711', () => {
-  lab.test('The description field is being shown when an object is empty', async () => {
+  lab.test('The description field is shown when an object is empty', async () => {
     const routes = {
         method: 'POST',
         path: '/todo/{id}/',
@@ -386,5 +386,6 @@ lab.experiment('fix issue 711', () => {
 
     const { MySchema } = response.result.definitions;
     expect(MySchema).not.to.equal({ type: 'object'})
+    expect(MySchema).to.equal({ type: 'object', description: 'MyDescription' })
 });
 });
