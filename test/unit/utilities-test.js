@@ -193,6 +193,36 @@ lab.experiment('utilities', () => {
     expect(Utilities.getJoiMetaProperty(Joi.object().meta({ test: 'test' }), 'nomatch')).to.equal(undefined);
   });
 
+  lab.test('getJoiLabel', () => {
+    expect(Utilities.getJoiLabel({})).to.equal(null);
+    expect(Utilities.getJoiLabel(Joi.object())).to.equal(null);
+    expect(Utilities.getJoiLabel(Joi.object().label('MySchema'))).to.equal('MySchema');
+
+    expect(
+      Utilities.getJoiLabel(
+        Joi.object({
+          id: Joi.string()
+        })
+      )
+    ).to.equal(null);
+
+    expect(
+      Utilities.getJoiLabel(
+        Joi.object({
+          id: Joi.string()
+        }).description('MyDescription')
+      )
+    ).to.equal(null);
+
+    expect(
+      Utilities.getJoiLabel(
+        Joi.object({
+          id: Joi.string()
+        }).description('testDescription').label('MyLabel')
+      )
+    ).to.equal('MyLabel');
+  });
+
   lab.test('toTitleCase', () => {
     expect(Utilities.toTitleCase('test')).to.equal('Test');
     expect(Utilities.toTitleCase('tesT')).to.equal('Test');
