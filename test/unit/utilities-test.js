@@ -255,6 +255,13 @@ lab.experiment('utilities', () => {
     expect(Utilities.replaceInPath('api/users.search', ['groups'], pathReplacements)).to.equal('api/users');
   });
 
+  lab.test('removeTrailingSlash', () => {
+    expect(Utilities.removeTrailingSlash('api/v1/users')).to.equal('api/v1/users');
+    expect(Utilities.removeTrailingSlash('api/v1/users/')).to.equal('api/v1/users');
+    expect(Utilities.removeTrailingSlash('/api/v1/users')).to.equal('/api/v1/users');
+    expect(Utilities.removeTrailingSlash('/api/v1/users/')).to.equal('/api/v1/users');
+  });
+
   lab.test('mergeVendorExtensions', () => {
     expect(Utilities.assignVendorExtensions({ a: 1, b: 2 }, { 'x-a': 1, 'x-b': 2, c: 3 })).to.equal({
       a: 1,
