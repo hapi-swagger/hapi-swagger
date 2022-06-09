@@ -186,6 +186,13 @@ lab.experiment('utilities', () => {
         })
       )
     ).to.equal(false);
+    expect(
+      Utilities.hasJoiDescription(
+        Joi.object({
+          id: Joi.string()
+        }).description('testDescription')
+      )
+    ).to.equal(true);
   });
 
   lab.test('toJoiObject', () => {
