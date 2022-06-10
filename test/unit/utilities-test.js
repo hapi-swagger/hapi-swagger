@@ -175,6 +175,26 @@ lab.experiment('utilities', () => {
     ).to.equal(true);
   });
 
+  lab.test('hasJoiDescription', () => {
+    expect(Utilities.hasJoiDescription({})).to.equal(false);
+    expect(Utilities.hasJoiDescription(Joi.object())).to.equal(false);
+    expect(Utilities.hasJoiDescription(Joi.object().description('MyDescription'))).to.equal(true);
+    expect(
+      Utilities.hasJoiDescription(
+        Joi.object({
+          id: Joi.string()
+        })
+      )
+    ).to.equal(false);
+    expect(
+      Utilities.hasJoiDescription(
+        Joi.object({
+          id: Joi.string()
+        }).description('testDescription')
+      )
+    ).to.equal(true);
+  });
+
   lab.test('toJoiObject', () => {
     expect(Joi.isSchema(Utilities.toJoiObject([]))).to.equal(false);
     expect(Joi.isSchema(Utilities.toJoiObject(Object.create(null)))).to.equal(true);

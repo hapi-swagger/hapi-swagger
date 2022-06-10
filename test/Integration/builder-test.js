@@ -360,3 +360,32 @@ lab.experiment('builder', () => {
     expect(logs).to.equal(['hapi-swagger', 'validation', 'info']);
   });
 });
+
+
+lab.experiment('fix issue 711', () => {
+  lab.test('The description field is shown when an object is empty', async () => {
+    const routes = {
+        method: 'POST',
+        path: '/todo/{id}/',
+        options: {
+            handler: () => {},
+            description: 'Test',
+            notes: 'Test notes',
+            tags: ['api'],
+            validate: {
+                payload: Joi.object()
+                    .description('MyDescription')
+                    .label('MySchema')
+            }
+        },
+    };
+
+    const server = await Helper.createServer({ debug: true }, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+
+    const { MySchema } = response.result.definitions;
+    expect(MySchema).not.to.equal({ type: 'object'})
+    expect(MySchema).to.equal({ type: 'object', description: 'MyDescription' })
+});
+});
