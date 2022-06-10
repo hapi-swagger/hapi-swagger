@@ -176,8 +176,10 @@ lab.experiment('utilities', () => {
   });
 
   lab.test('toJoiObject', () => {
-    expect(Joi.isSchema(Utilities.toJoiObject({}))).to.equal(true)
-    expect(Joi.isSchema(Utilities.toJoiObject(Joi.object()))).to.equal(true)
+    expect(Joi.isSchema(Utilities.toJoiObject([]))).to.equal(false);
+    expect(Joi.isSchema(Utilities.toJoiObject(Object.create(null)))).to.equal(true);
+    expect(Joi.isSchema(Utilities.toJoiObject({}))).to.equal(true);
+    expect(Joi.isSchema(Utilities.toJoiObject(Joi.object()))).to.equal(true);
   });
 
   lab.test('hasJoiMeta', () => {
@@ -191,6 +193,36 @@ lab.experiment('utilities', () => {
     expect(Utilities.getJoiMetaProperty(Joi.object(), 'test')).to.equal(undefined);
     expect(Utilities.getJoiMetaProperty(Joi.object().meta({ test: 'test' }), 'test')).to.equal('test');
     expect(Utilities.getJoiMetaProperty(Joi.object().meta({ test: 'test' }), 'nomatch')).to.equal(undefined);
+  });
+
+  lab.test('getJoiLabel', () => {
+    expect(Utilities.getJoiLabel({})).to.equal(null);
+    expect(Utilities.getJoiLabel(Joi.object())).to.equal(null);
+    expect(Utilities.getJoiLabel(Joi.object().label('MySchema'))).to.equal('MySchema');
+
+    expect(
+      Utilities.getJoiLabel(
+        Joi.object({
+          id: Joi.string()
+        })
+      )
+    ).to.equal(null);
+
+    expect(
+      Utilities.getJoiLabel(
+        Joi.object({
+          id: Joi.string()
+        }).description('MyDescription')
+      )
+    ).to.equal(null);
+
+    expect(
+      Utilities.getJoiLabel(
+        Joi.object({
+          id: Joi.string()
+        }).description('testDescription').label('MyLabel')
+      )
+    ).to.equal('MyLabel');
   });
 
   lab.test('toTitleCase', () => {
@@ -223,6 +255,13 @@ lab.experiment('utilities', () => {
     expect(Utilities.replaceInPath('api/v2/users', ['groups'], pathReplacements)).to.equal('api/users');
     expect(Utilities.replaceInPath('api/users.get', ['groups'], pathReplacements)).to.equal('api/users');
     expect(Utilities.replaceInPath('api/users.search', ['groups'], pathReplacements)).to.equal('api/users');
+  });
+
+  lab.test('removeTrailingSlash', () => {
+    expect(Utilities.removeTrailingSlash('api/v1/users')).to.equal('api/v1/users');
+    expect(Utilities.removeTrailingSlash('api/v1/users/')).to.equal('api/v1/users');
+    expect(Utilities.removeTrailingSlash('/api/v1/users')).to.equal('/api/v1/users');
+    expect(Utilities.removeTrailingSlash('/api/v1/users/')).to.equal('/api/v1/users');
   });
 
   lab.test('mergeVendorExtensions', () => {
