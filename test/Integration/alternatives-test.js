@@ -127,7 +127,7 @@ lab.experiment('alternatives', () => {
               .label('Type'),
             key: Joi.string().when('category', {
               is: 'stuff',
-              then: Joi.forbidden() // https://github.com/glennjones/hapi-swagger/issues/338
+              then: Joi.forbidden() // https://github.com/hapi-swagger/hapi-swagger/issues/338
             }),
             data: Joi.alternatives()
               .conditional('type', { is: 'string', then: Joi.string() })

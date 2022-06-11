@@ -250,7 +250,7 @@ lab.experiment('property - ', () => {
       type: 'string',
       pattern: '^[a-zA-Z0-9]{3,30}'
     });
-    // covers https://github.com/glennjones/hapi-swagger/issues/652 -
+    // covers https://github.com/hapi-swagger/hapi-swagger/issues/652 -
     // make sure we aren't truncating the regex after an internal '/',
     // and make sure we omit any regex flags (g, i, m) from the
     // resulting pattern

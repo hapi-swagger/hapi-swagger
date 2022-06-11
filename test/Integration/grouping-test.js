@@ -30,13 +30,13 @@ const swaggerOptions = {
     title: 'Test API Documentation',
     description: 'This is a sample example of API documentation.',
     version: '1.0.0',
-    termsOfService: 'https://github.com/glennjones/hapi-swagger/',
+    termsOfService: 'https://github.com/hapi-swagger/hapi-swagger/',
     contact: {
       email: 'glennjonesnet@gmail.com'
     },
     license: {
       name: 'MIT',
-      url: 'https://raw.githubusercontent.com/glennjones/hapi-swagger/master/license.txt'
+      url: 'https://raw.githubusercontent.com/hapi-swagger/hapi-swagger/master/license.txt'
     }
   }
 };
