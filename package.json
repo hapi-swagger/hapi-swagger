@@ -5,7 +5,7 @@
   "author": "Glenn Jones",
   "repository": {
     "type": "git",
-    "url": "git://github.com/glennjones/hapi-swagger.git"
+    "url": "git://github.com/hapi-swagger/hapi-swagger.git"
   },
   "main": "index.js",
   "types": "index.d.ts",
