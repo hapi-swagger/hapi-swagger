@@ -308,4 +308,11 @@ lab.experiment('utilities', () => {
     });
     expect(Utilities.assignVendorExtensions({ a: 1, b: 2 }, { 'x-': 1 })).to.equal({ a: 1, b: 2 });
   });
+
+
+  lab.test('appendQueryString', () => {
+    expect(Utilities.appendQueryString('/test.json', 'tags', 'reduced')).to.equal('/test.json?tags=reduced');
+    expect(Utilities.appendQueryString('/test/test', 'tags', 'reduced')).to.equal('/test/test?tags=reduced');
+    expect(Utilities.appendQueryString('/swagger.json')).to.equal('/swagger.json');
+  });
 });
