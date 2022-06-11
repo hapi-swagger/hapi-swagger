@@ -29,30 +29,6 @@ const options = {
     defaultVersion: 2
 };
 
-const goodOptions = {
-    ops: {
-        interval: 1000
-    },
-    reporters: {
-        console: [
-            {
-                module: '@hapi/good-squeeze',
-                name: 'Squeeze',
-                args: [
-                    {
-                        log: '*',
-                        response: '*'
-                    }
-                ]
-            },
-            {
-                module: 'good-console'
-            },
-            'stdout'
-        ]
-    }
-};
-
 const versionOptions = {
     basePath: options.basePath,
     validVersions: options.validVersions,
@@ -83,10 +59,6 @@ server.register(
         Inert,
         Vision,
         Blipp,
-        {
-            plugin: require('good'),
-            options: goodOptions
-        },
         {
             plugin: HapiSwagger,
             options: swaggerOptions

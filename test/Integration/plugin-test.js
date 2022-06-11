@@ -89,12 +89,12 @@ lab.experiment('plugin', () => {
   });
 
   lab.test('plug-in register with validate option', async () => {
-    const goodOptions = {
+    const pluginOptions = {
       validate: {
         headers: true
       }
     };
-    const server = await Helper.createServer(goodOptions, routes);
+    const server = await Helper.createServer(pluginOptions, routes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     expect(response.statusCode).to.equal(200);
     expect(response.result.paths).to.have.length(1);

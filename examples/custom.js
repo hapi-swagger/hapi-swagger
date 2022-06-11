@@ -6,37 +6,10 @@ const Blipp = require('blipp');
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const Good = require('@hapi/good');
 
 const HapiSwagger = require('../');
 const Pack = require('../package');
 const Routes = require('./assets/routes-simple');
-
-const goodOptions = {
-  ops: {
-    interval: 1000
-  },
-  reporters: {
-    myConsoleReporter: [
-      {
-        module: '@hapi/good-squeeze',
-        name: 'Squeeze',
-        args: [
-          {
-            log: '*',
-            response: {
-              exclude: ['no-logging']
-            }
-          }
-        ]
-      },
-      {
-        module: 'good-console'
-      },
-      'stdout'
-    ]
-  }
-};
 
 const swaggerOptions = {
   documentationPage: false,
@@ -93,15 +66,11 @@ const ser = async () => {
     port: 3000
   });
 
-  // Blipp and Good - Needs updating for Hapi v17.x
+  // Blipp - Needs updating for Hapi v17.x
   await server.register([
     Inert,
     Vision,
     Blipp,
-    {
-      plugin: Good,
-      options: goodOptions
-    },
     {
       plugin: HapiSwagger,
       options: swaggerOptions

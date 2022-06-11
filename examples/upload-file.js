@@ -96,7 +96,7 @@ const ser = async () => {
     port: 3000
   });
 
-  // Blipp and Good - Needs updating for Hapi v17.x
+  // Blipp - Needs updating for Hapi v17.x
   await server.register([
     Inert,
     Vision,
