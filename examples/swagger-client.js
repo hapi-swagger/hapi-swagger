@@ -52,11 +52,10 @@ const routes = [
         }
       },
       validate: {
-        params: {
+        params: Joi.object({
           a: Joi.number().required().description('the first number'),
-
           b: Joi.number().required().description('the second number')
-        }
+        })
       }
     }
   },
@@ -73,11 +72,10 @@ const routes = [
         }
       },
       validate: {
-        params: {
+        params: Joi.object({
           a: Joi.number().required().description('the first number'),
-
           b: Joi.number().required().description('the second number')
-        }
+        })
       }
     }
   },
@@ -89,11 +87,10 @@ const routes = [
       description: 'Add',
       tags: ['api'],
       validate: {
-        params: {
+        params: Joi.object({
           a: Joi.number().required().description('the first number'),
-
           b: Joi.number().required().description('the second number')
-        }
+        })
       }
     }
   }
@@ -155,9 +152,9 @@ ser()
           console.error(error);
         });
 
-      client
-        .execute({
-          operationId: 'add',
+        client.execute({
+          pathName: '/math/add/{a}/{b}',
+          method: 'put',
           parameters: { a: 9, b: 9 }
         })
         .then((data) => {
@@ -166,6 +163,7 @@ ser()
         .catch((error) => {
           console.error(error);
         });
+
     });
   })
   .catch((err) => {

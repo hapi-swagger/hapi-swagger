@@ -77,9 +77,9 @@ const routes = [
       },
       tags: ['api'],
       validate: {
-        payload: {
+        payload: Joi.object({
           file: Joi.any().meta({ swaggerType: 'file' }).description('json file')
-        }
+        })
       },
       payload: {
         maxBytes: 1048576,
