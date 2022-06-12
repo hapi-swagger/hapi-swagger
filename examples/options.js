@@ -12,32 +12,6 @@ const HapiSwagger = require('../');
 const Pack = require('../package');
 const Routes = require('./assets/routes-complex.js');
 
-/*
-const goodOptions = {
-    ops: {
-        interval: 1000
-    },
-    reporters: {
-        console: [
-            {
-                module: '@hapi/good-squeeze',
-                name: 'Squeeze',
-                args: [
-                    {
-                        log: '*',
-                        response: '*'
-                    }
-                ]
-            },
-            {
-                module: 'good-console'
-            },
-            'stdout'
-        ]
-    }
-};
-*/
-
 const swaggerOptions = {
   basePath: '/v1',
   pathPrefixSize: 2,
@@ -121,7 +95,7 @@ const ser = async () => {
     }
   });
 
-  // Blipp and Good - Needs updating for Hapi v17.x
+  // Blipp - Needs updating for Hapi v17.x
   await server.register([
     Inert,
     Vision,

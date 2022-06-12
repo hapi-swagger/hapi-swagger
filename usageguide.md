@@ -604,7 +604,7 @@ be useful if your are using codegen tools against the JSON
 ## Debugging
 
 The plugin can validate its output against the OpenAPI(Swagger) specification. You can to this by setting the plugin option `options.debug` to `true`.
-The debug output is logged into the Hapi server object. You can view the logs by either install the `Good` plugin or by using `server.on`.
+The debug output is logged into the Hapi server object. You can view the logs by either installing a [logging plugin](https://hapi.dev/plugins/#logging) or by using `server.on`.
 
 There is a small example of the [`debug`](examples/debug.js) feature in the examples directory.
 

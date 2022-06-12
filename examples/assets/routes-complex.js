@@ -471,7 +471,7 @@ module.exports = [
         }
       },
       tags: ['api', 'reduced', 'three'],
-      validate: Joi.object({
+      validate: {
         payload: Joi.object({
           a: Joi.number().required().description('the first number'),
           b: Joi.number().required().description('the second number'),
@@ -489,7 +489,7 @@ module.exports = [
             .valid('application/json', 'application/vnd.api+json')
             .default('application/vnd.api+json')
         }).unknown()
-      })
+      }
     }
   },
   {

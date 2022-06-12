@@ -77,9 +77,9 @@ const routes = [
       },
       tags: ['api'],
       validate: {
-        payload: {
+        payload: Joi.object({
           file: Joi.any().meta({ swaggerType: 'file' }).description('json file')
-        }
+        })
       },
       payload: {
         maxBytes: 1048576,
@@ -96,7 +96,7 @@ const ser = async () => {
     port: 3000
   });
 
-  // Blipp and Good - Needs updating for Hapi v17.x
+  // Blipp - Needs updating for Hapi v17.x
   await server.register([
     Inert,
     Vision,
