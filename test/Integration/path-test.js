@@ -617,4 +617,28 @@ lab.experiment('path', () => {
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });
+
+  lab.test('check if the property is hidden and swagger ui is visible', async () => {
+    const testRoutes = {
+      method: 'Get',
+      path: '/todo/{id}/',
+      options: {
+        handler: () => {},
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required().description('the id for the todo item'),
+            hidden: Joi.number().required().description('hidden item').meta({ swaggerHidden: true }),
+            alsoVisible: Joi.number().required().description('visible item'),
+          })
+        }
+      }
+    };
+
+    const server = await Helper.createServer({}, testRoutes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
 });
