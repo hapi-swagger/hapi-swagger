@@ -629,7 +629,7 @@ lab.experiment('path', () => {
           params: Joi.object({
             id: Joi.number().required().description('the id for the todo item'),
             hidden: Joi.number().required().description('hidden item').meta({ swaggerHidden: true }),
-            alsoVisible: Joi.number().required().description('visible item'),
+            isVisible: Joi.boolean().required().description('must be visible on ui'),
           })
         }
       }
@@ -638,7 +638,5 @@ lab.experiment('path', () => {
     const server = await Helper.createServer({}, testRoutes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     expect(response.statusCode).to.equal(200);
-    // const isValid = await Validate.test(response.result);
-    // expect(isValid).to.be.true();
   });
 });
