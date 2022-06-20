@@ -314,5 +314,7 @@ lab.experiment('utilities', () => {
     expect(Utilities.appendQueryString('/test.json', 'tags', 'reduced')).to.equal('/test.json?tags=reduced');
     expect(Utilities.appendQueryString('/test/test', 'tags', 'reduced')).to.equal('/test/test?tags=reduced');
     expect(Utilities.appendQueryString('/swagger.json')).to.equal('/swagger.json');
+    expect(Utilities.appendQueryString('/swagger.json', 'query')).to.equal('/swagger.json');
+    expect(Utilities.appendQueryString('/swagger.json', '', 'query')).to.equal('/swagger.json');
   });
 });
