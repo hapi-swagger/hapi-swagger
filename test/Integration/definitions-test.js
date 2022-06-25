@@ -319,4 +319,50 @@ lab.experiment('definitions', () => {
       required: ['id', 'reminder']
     });
   });
+
+  lab.test('test that similar object definition with different labels are not merged', async () => {
+
+    const testRoutes = [
+      {
+        method: 'POST',
+        path: '/users',
+        options: {
+          handler: Helper.defaultHandler,
+          description: 'Create new end-user',
+          notes: 'Create user',
+          tags: ['api'],
+          validate: {
+            payload: Joi.object({
+              name: Joi.string().required(),
+              email: Joi.string().email().required()
+            }).label('user')
+          }
+        },
+      },
+      {
+        method: 'POST',
+        path: '/admins',
+        options: {
+          handler: Helper.defaultHandler,
+          description: 'Create new admin',
+          notes: 'Create admin',
+          tags: ['api'],
+          validate: {
+            payload: Joi.object({
+              name: Joi.string().required(),
+              email: Joi.string().email().required()
+            }).label('admin')
+          }
+        },
+      }
+    ];
+
+    const server = await Helper.createServer({}, testRoutes);
+
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+    expect(response.statusCode).to.equal(200);
+    expect(Object.keys(response.result.definitions).length).to.equal(2);
+    expect(Object.keys(response.result.definitions)).to.equal(['user', 'admin']);
+  });
 });
