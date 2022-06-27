@@ -363,6 +363,7 @@ lab.experiment('definitions', () => {
 
     expect(response.statusCode).to.equal(200);
     expect(Object.keys(response.result.definitions).length).to.equal(2);
-    expect(Object.keys(response.result.definitions)).to.equal(['user', 'admin']);
+    expect(Object.keys(response.result.definitions).includes('admin')).to.equal(true);
+    expect(Object.keys(response.result.definitions).includes('user')).to.equal(true);
   });
 });
