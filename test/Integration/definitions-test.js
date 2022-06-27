@@ -354,6 +354,54 @@ lab.experiment('definitions', () => {
             }).label('admin')
           }
         },
+      },
+      {
+        method: 'PUT',
+        path: '/admins',
+        options: {
+          handler: Helper.defaultHandler,
+          description: 'Update admin',
+          notes: 'Update admin',
+          tags: ['api'],
+          validate: {
+            payload: Joi.object({
+              name: Joi.string().required(),
+              email: Joi.string().email().required()
+            }).label('admin')
+          }
+        }
+      },
+      {
+        method: 'PUT',
+        path: '/other',
+        options: {
+          handler: Helper.defaultHandler,
+          description: 'Other',
+          notes: 'Other',
+          tags: ['api'],
+          validate: {
+            payload: Joi.object({
+              name: Joi.string().required(),
+              email: Joi.string().email().required()
+            }).label('other')
+          }
+        }
+      },
+      {
+        method: 'PUT',
+        path: '/unknown',
+        options: {
+          handler: Helper.defaultHandler,
+          description: 'Unknown',
+          notes: 'Unknown',
+          tags: ['api'],
+          validate: {
+            payload: Joi.object({
+              name: Joi.string().required(),
+              email: Joi.string().email().required()
+            })
+          }
+        },
       }
     ];
 
@@ -362,8 +410,10 @@ lab.experiment('definitions', () => {
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
     expect(response.statusCode).to.equal(200);
-    expect(Object.keys(response.result.definitions).length).to.equal(2);
+    expect(Object.keys(response.result.definitions).length).to.equal(4);
     expect(Object.keys(response.result.definitions).includes('admin')).to.equal(true);
     expect(Object.keys(response.result.definitions).includes('user')).to.equal(true);
+    expect(Object.keys(response.result.definitions).includes('other')).to.equal(true);
+    expect(Object.keys(response.result.definitions).includes('Model1')).to.equal(true);
   });
 });
