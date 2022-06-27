@@ -10,8 +10,8 @@ in a project.
 
 ## Compatibility
 
-| Version | [Hapi](https://github.com/hapijs/hapi) | [Joi](https://github.com/sideway/joi) | Node   | Release Notes                                                 |
-| ------- | -------------------------------------- | ------------------------------------- | ------ | ------------------------------------------------------------- |
+| Version | [Hapi](https://github.com/hapijs/hapi) | [Joi](https://github.com/sideway/joi) | Node   | Release Notes                                                   |
+| ------- | -------------------------------------- | ------------------------------------- | ------ | --------------------------------------------------------------- |
 | `14.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=12` | [#680](https://github.com/hapi-swagger/hapi-swagger/issues/680) |
 | `13.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 @hapi/joi`                  | `>=12` | [#660](https://github.com/hapi-swagger/hapi-swagger/issues/660) |
 | `12.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 @hapi/joi`                  | `>=12` | [#644](https://github.com/hapi-swagger/hapi-swagger/issues/644) |
@@ -49,7 +49,8 @@ content serving.
 
 ## Quick start
 
-In your Hapi apps main JavaScript file add the following code to created a Hapi `server` object. You will also add the routes for you API as describe on hapijs.com site.
+In your Hapi apps please check the main JavaScript file and add the following code to already created a Hapi `server` object.
+You will also add the routes for you API as describe on [hapi website](https://hapi.dev/).
 
 ```Javascript
 const Hapi = require('@hapi/hapi');
@@ -59,9 +60,9 @@ const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
 (async () => {
-    const server = await new Hapi.Server({
-        host: 'localhost',
+    const server = Hapi.server({
         port: 3000,
+        host: 'localhost'
     });
 
     const swaggerOptions = {
