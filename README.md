@@ -60,9 +60,9 @@ const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 
 (async () => {
-    const server = Hapi.Server({
-        host: 'localhost',
+    const server = Hapi.server({
         port: 3000,
+        host: 'localhost'
     });
 
     const swaggerOptions = {
