@@ -317,6 +317,10 @@ declare namespace hapiswagger {
      */
     documentationRouteTags?: string | string[];
 
+    publicDirPath?: string;
+
+    swaggerUiAssetPath?: string;
+
     /**
      * Add hapi plugins option to internal hapi-swagger routes
      * @default []
