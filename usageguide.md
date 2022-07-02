@@ -127,9 +127,9 @@ validate: {
 ```
 
 **NOTE: the plugin reuses "definition models" these describe each JSON object use by an API i.e. a "user". This feature
-was added to reduce the size of the JSON. The reuse of models can cause names to be reused as well. Please switch
-`options.reuseDefinitions` to `false` if you are naming your JOI objects. By default objects are named in a "Model #"
-format. To use the `label`, specify `options.definitionPrefix` as `useLabel`.**
+was added to reduce the size of the JSON. The plugin can reuse the model only if the labels match. Even if two routes have the same definition, but labels are not set, the plugin assumes that it is a different definition, the same if one definition has a label and another does not. 
+
+By default, objects are named in a "Model #" format. To use the `label`, specify `options.definitionPrefix` as `useLabel`.**
 
 ## Grouping endpoints by path or tags
 
