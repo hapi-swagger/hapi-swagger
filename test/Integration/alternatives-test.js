@@ -328,13 +328,13 @@ lab.experiment('alternatives', () => {
         properties: {
           type: {
             type: 'string',
-            enum: [ 'string', 'number', 'image' ]
+            enum: ['string', 'number', 'image']
           },
           data: {
             type: 'string'
           },
           extra: {
-            '$ref': '#/definitions/Dimensions'
+            $ref: '#/definitions/Dimensions'
           }
         }
       },
@@ -354,7 +354,7 @@ lab.experiment('alternatives', () => {
         properties: {
           type: {
             type: 'string',
-            enum: [ 'string', 'number', 'image' ]
+            enum: ['string', 'number', 'image']
           },
           key: {
             type: 'string'
