@@ -855,12 +855,12 @@ lab.experiment('responses', () => {
             404: {
               description: '404 from response status object',
               schema: {
-                $ref: '#/definitions/Model1'
+                $ref: '#/definitions/Model4'
               }
             },
             429: {
               schema: {
-                $ref: '#/definitions/Model1'
+                $ref: '#/definitions/Model3'
               },
               description: 'Too Many Requests'
             },
