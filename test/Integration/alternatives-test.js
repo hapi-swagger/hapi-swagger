@@ -295,15 +295,25 @@ lab.experiment('alternatives', () => {
 
     expect(response.result.definitions).to.equal({
       Alternative: {
+        type: 'object',
         properties: {
           name: {
             type: 'string'
           }
         },
-        required: ['name'],
-        type: 'object'
+        required: ['name']
+      },
+      Alt: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          }
+        },
+        required: ['name']
       },
       Dimensions: {
+        type: 'object',
         properties: {
           width: {
             type: 'number'
@@ -311,45 +321,51 @@ lab.experiment('alternatives', () => {
           height: {
             type: 'number'
           }
-        },
-        type: 'object'
+        }
       },
-      'Model1': {
+      Model1: {
+        type: 'object',
         properties: {
           type: {
             type: 'string',
-            enum: ['string', 'number', 'image']
+            enum: [ 'string', 'number', 'image' ]
           },
-          data: {
-            type: 'string'
-          },
-          extra: {
-            $ref: '#/definitions/Dimensions'
-          }
-        },
-        type: 'object'
-      },
-      'Model2': {
-        properties: {
           data: {
             type: 'string'
           },
           extra: {
             '$ref': '#/definitions/Dimensions'
+          }
+        }
+      },
+      Extra: {
+        type: 'object',
+        properties: {
+          width: {
+            type: 'number'
+          },
+          height: {
+            type: 'number'
+          }
+        }
+      },
+      Model2: {
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+            enum: [ 'string', 'number', 'image' ]
           },
           key: {
             type: 'string'
           },
-          type: {
-            enum: [
-              'string',
-              'number',
-              'image'
-            ],
+          data: {
             type: 'string'
+          },
+          extra: {
+            $ref: '#/definitions/Extra'
           }
-        },
-        type: 'object'
+        }
       }
     });
 
