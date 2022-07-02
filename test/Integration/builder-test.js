@@ -199,6 +199,14 @@ lab.experiment('builder', () => {
           }
         }
       },
+      b: {
+        type: 'object',
+        properties: {
+          a: {
+            type: 'string'
+          }
+        }
+      },
       'Model1': {
         type: 'object',
         properties: {
@@ -206,7 +214,7 @@ lab.experiment('builder', () => {
             $ref: '#/definitions/a'
           },
           b: {
-            $ref: '#/definitions/a'
+            $ref: '#/definitions/b'
           }
         }
       }
