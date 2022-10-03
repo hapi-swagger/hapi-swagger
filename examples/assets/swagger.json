@@ -1,0 +1,41 @@
+{
+  "swagger": "2.0",
+  "host": "dummy-host",
+  "basePath": "/",
+  "schemes": ["https"],
+  "info": {
+    "title": "API documentation",
+    "version": "0.0.1"
+  },
+  "tags": [],
+  "paths": {
+    "/live": {
+      "get": {
+        "summary": "Health check",
+        "operationId": "getLive",
+        "tags": ["live"],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Liveness%20Check%20Response%20Schema"
+            },
+            "description": "Successful"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Liveness Check Response Schema": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

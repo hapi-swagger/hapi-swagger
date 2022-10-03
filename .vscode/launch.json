@@ -59,7 +59,16 @@
       "skipFiles": ["<node_internals>/**/*.js"],
       "disableOptimisticBPs": true,
       "sourceMaps": false
-    }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "test custom swagger file",
+      "program": "${workspaceFolder}/examples/custom-swagger-file.js",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true
+    },
   ],
   "inputs": [
     {
