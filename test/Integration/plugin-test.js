@@ -648,4 +648,16 @@ lab.experiment('multiple plugins', () => {
     expect(document2.result).to.include('/shop-api/');
     expect(document2.result).not.to.include('/store-api/');
   });
+
+  lab.test('start server with custom Swagger json file', async () => {
+    const swaggerOptions = {
+      customSwaggerFile: require('../../examples/assets/swagger.json')
+    };
+
+    const server = await Helper.createServer(swaggerOptions, routes);
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.paths['/live'].get.parameters).to.equal(undefined);
+    expect(response.result.paths['/live'].get.responses[200].description).to.equal('Successful');
+  });
 });
