@@ -2421,7 +2421,7 @@ __metadata:
     swagger-ui-dist: ^4.15.3
     tsd: ^0.24.1
   peerDependencies:
-    "@hapi/hapi": ^21.0.0
+    "@hapi/hapi": ">=20.x.x"
     joi: 17.x
   languageName: unknown
   linkType: soft
