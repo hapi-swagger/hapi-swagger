@@ -15,7 +15,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu, windows, macos]
-        node-version: [12.x, 14.x, 16.x, 18.x]
+        node-version: [14.x, 16.x, 18.x]
+        hapi-version: [20.x, 21.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +26,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install
         run: yarn
+      - name: Install hapi
+        run: yarn install @hapi/hapi@${{ matrix.hapi-version }}
       - name: Lint
         run: yarn lint
       - name: Test
