@@ -27,7 +27,7 @@ jobs:
       - name: Install
         run: yarn
       - name: Install hapi
-        run: yarn install @hapi/hapi@${{ matrix.hapi-version }}
+        run: yarn install @hapi/hapi@${{ matrix.hapi-version }} -D
       - name: Lint
         run: yarn lint
       - name: Test
