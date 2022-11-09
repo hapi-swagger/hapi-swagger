@@ -87,7 +87,7 @@
     "tsd": "^0.20.0"
   },
   "peerDependencies": {
-    "@hapi/hapi": "^20.2.2",
+    "@hapi/hapi": ">=20.x.x",
     "joi": "17.x"
   },
   "lint-staged": {
