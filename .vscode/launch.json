@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "attach",
+      "port": 9229,
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "start",
@@ -68,7 +75,7 @@
       "skipFiles": ["<node_internals>/**/*.js"],
       "console": "integratedTerminal",
       "disableOptimisticBPs": true
-    },
+    }
   ],
   "inputs": [
     {
