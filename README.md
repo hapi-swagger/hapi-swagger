@@ -4,7 +4,7 @@ This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [Hapi](http
 in a project.
 
 [![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg?style=for-the-badge)](https://github.com/hapi-swagger/hapi-swagger/issues/718)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hapi-swagger/hapi-swagger/Node.js%20CI?style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hapi-swagger/hapi-swagger/node.js.yml?style=for-the-badge)
 [![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=for-the-badge)](https://www.npmjs.com/package/hapi-swagger)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.github.com/hapi-swagger/hapi-swagger/master/license.txt)
 
