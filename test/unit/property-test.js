@@ -109,6 +109,24 @@ lab.experiment('property - ', () => {
       name: 'x',
       items: { type: 'string' }
     });
+    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b'), null, 'body', false, false)).to.equal({
+      type: 'string',
+      enum: ['a', 'b']
+    });
+    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', ''), null, 'body', false, false)).to.equal({
+      type: 'string',
+      enum: ['a', 'b']
+    });
+    expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', null), null, 'body', false, false)).to.equal(
+      {
+        type: 'string',
+        enum: ['a', 'b']
+      }
+    );
+    expect(propertiesNoAlt.parseProperty('x', Joi.compile(['a', 'b', null]), null, 'body', false, false)).to.equal({
+      type: 'string',
+      enum: ['a', 'b']
+    });
   });
 
   lab.test('parse simple meta', () => {
@@ -142,20 +160,16 @@ lab.experiment('property - ', () => {
     }); // required in parent
     expect(propertiesNoAlt.parseProperty('x', Joi.any().forbidden(), null, 'body', true, false)).to.equal(undefined);
     expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b'), null, 'body', true, false)).to.equal({
-      type: 'string',
-      enum: ['a', 'b']
+      $ref: '#/definitions/x'
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', ''), null, 'body', true, false)).to.equal({
-      type: 'string',
-      enum: ['a', 'b']
+      $ref: '#/definitions/x'
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.string().valid('a', 'b', null), null, 'body', true, false)).to.equal({
-      type: 'string',
-      enum: ['a', 'b']
+      $ref: '#/definitions/x'
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.compile(['a', 'b', null]), null, 'body', true, false)).to.equal({
-      type: 'string',
-      enum: ['a', 'b']
+      $ref: '#/definitions/x'
     });
     expect(
       propertiesNoAlt.parseProperty(
@@ -193,7 +207,7 @@ lab.experiment('property - ', () => {
 
     expect(nonNegativeWithDropdown).to.include({ enum: [0] });
     expect(nonNegativeWithoutDropdown).to.not.include({ enum: [0] });
-    
+
     const xmlObject = Joi.object().meta({ xml: { name: 'ObjectXML' } });
     expect(propertiesAlt.parseProperty('x', xmlObject, null, 'body', false, false)).to.equal({
       type: 'object',
