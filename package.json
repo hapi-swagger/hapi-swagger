@@ -80,7 +80,7 @@
     "is-ci": "^3.0.1",
     "joi": "^17.7.0",
     "js2xmlparser": "^4.0.0",
-    "jsonwebtoken": "^8.1.1",
+    "jsonwebtoken": "^9.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "swagger-client": "^3.18.5",
