@@ -222,8 +222,7 @@ lab.experiment('alternatives', () => {
       type: 'object',
       properties: {
         type: {
-          type: 'string',
-          enum: ['string', 'number', 'image']
+          $ref: '#/definitions/Type'
         },
         data: {
           type: 'string',
@@ -314,11 +313,14 @@ lab.experiment('alternatives', () => {
         },
         type: 'object'
       },
+      Type: {
+        enum: ['string', 'number', 'image'],
+        type: 'string'
+      },
       'Model1': {
         properties: {
           type: {
-            type: 'string',
-            enum: ['string', 'number', 'image']
+            $ref: '#/definitions/Type'
           },
           data: {
             type: 'string'
@@ -335,18 +337,13 @@ lab.experiment('alternatives', () => {
             type: 'string'
           },
           extra: {
-            '$ref': '#/definitions/Dimensions'
+            $ref: '#/definitions/Dimensions'
           },
           key: {
             type: 'string'
           },
           type: {
-            enum: [
-              'string',
-              'number',
-              'image'
-            ],
-            type: 'string'
+            $ref: '#/definitions/Type'
           }
         },
         type: 'object'
