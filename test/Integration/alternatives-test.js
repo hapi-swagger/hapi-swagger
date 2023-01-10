@@ -222,8 +222,7 @@ lab.experiment('alternatives', () => {
       type: 'object',
       properties: {
         type: {
-          type: 'string',
-          enum: ['string', 'number', 'image']
+          $ref: '#/definitions/Type'
         },
         data: {
           type: 'string',
@@ -295,25 +294,15 @@ lab.experiment('alternatives', () => {
 
     expect(response.result.definitions).to.equal({
       Alternative: {
-        type: 'object',
         properties: {
           name: {
             type: 'string'
           }
         },
-        required: ['name']
-      },
-      Alt: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string'
-          }
-        },
-        required: ['name']
+        required: ['name'],
+        type: 'object'
       },
       Dimensions: {
-        type: 'object',
         properties: {
           width: {
             type: 'number'
@@ -321,14 +310,17 @@ lab.experiment('alternatives', () => {
           height: {
             type: 'number'
           }
-        }
+        },
+        type: 'object'
       },
-      Model1: {
-        type: 'object',
+      Type: {
+        enum: ['string', 'number', 'image'],
+        type: 'string'
+      },
+      'Model1': {
         properties: {
           type: {
-            type: 'string',
-            enum: ['string', 'number', 'image']
+            $ref: '#/definitions/Type'
           },
           data: {
             type: 'string'
@@ -336,36 +328,25 @@ lab.experiment('alternatives', () => {
           extra: {
             $ref: '#/definitions/Dimensions'
           }
-        }
+        },
+        type: 'object'
       },
-      Extra: {
-        type: 'object',
+      'Model2': {
         properties: {
-          width: {
-            type: 'number'
-          },
-          height: {
-            type: 'number'
-          }
-        }
-      },
-      Model2: {
-        type: 'object',
-        properties: {
-          type: {
-            type: 'string',
-            enum: ['string', 'number', 'image']
-          },
-          key: {
-            type: 'string'
-          },
           data: {
             type: 'string'
           },
           extra: {
-            $ref: '#/definitions/Extra'
+            $ref: '#/definitions/Dimensions'
+          },
+          key: {
+            type: 'string'
+          },
+          type: {
+            $ref: '#/definitions/Type'
           }
-        }
+        },
+        type: 'object'
       }
     });
 
