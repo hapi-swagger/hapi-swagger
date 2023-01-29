@@ -186,12 +186,20 @@ lab.experiment('builder', () => {
     expect(isValid).to.be.true();
   });
 
-  lab.test('reuseDefinitions : true', async () => {
+  lab.test('reuseDefinitions : true. It should not be reused, because of the exact definition, but a different label.', async () => {
     const server = await Helper.createServer({ reuseDefinitions: true }, reuseModelsRoutes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
     expect(response.result.definitions).to.equal({
       a: {
+        type: 'object',
+        properties: {
+          a: {
+            type: 'string'
+          }
+        }
+      },
+      b: {
         type: 'object',
         properties: {
           a: {
@@ -206,7 +214,7 @@ lab.experiment('builder', () => {
             $ref: '#/definitions/a'
           },
           b: {
-            $ref: '#/definitions/a'
+            $ref: '#/definitions/b'
           }
         }
       }

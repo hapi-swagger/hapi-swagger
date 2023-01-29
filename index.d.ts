@@ -345,7 +345,10 @@ declare namespace hapiswagger {
     xProperties?: boolean;
 
     /**
-     * Reuse of definition models to save space
+     * Reuse of definition models to save space.
+     * Even if two routes have the same definition, but labels are not set, the plugin assumes that it is a different
+     * definition, the same if one definition has a label and another does not.
+     * To really reuse the definition model you need to keep the definition and labels the same.
      * @default: true
      */
     reuseDefinitions?: boolean;

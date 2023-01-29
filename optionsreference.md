@@ -42,7 +42,7 @@
 -   `consumes`: (array) The mime types consumed - default: `['application/json']`
 -   `produces`: (array) The mime types produced - default: `['application/json']`
 -   `xProperties`: Adds JOI data that cannot be use directly by swagger as metadata - default: `true`
--   `reuseDefinitions`: Reuse of definition models to save space - default: `true`
+-   `reuseDefinitions`: Reuse of definition models to save space. To really reuse the definition model you need to keep the definition and labels the same. - default: `true`
 -   `definitionPrefix`: Dynamic naming convention. `default` or `useLabel` - default: `default`
 -   `deReference`: Dereferences JSON output - default: `false`,
 -   `debug`: Validates the JSON output against swagger specification - default: `false`

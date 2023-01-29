@@ -294,15 +294,25 @@ lab.experiment('alternatives', () => {
 
     expect(response.result.definitions).to.equal({
       Alternative: {
+        type: 'object',
         properties: {
           name: {
             type: 'string'
           }
         },
-        required: ['name'],
-        type: 'object'
+        required: ['name']
+      },
+      Alt: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          }
+        },
+        required: ['name']
       },
       Dimensions: {
+        type: 'object',
         properties: {
           width: {
             type: 'number'
@@ -310,14 +320,14 @@ lab.experiment('alternatives', () => {
           height: {
             type: 'number'
           }
-        },
-        type: 'object'
+        }
       },
       Type: {
         enum: ['string', 'number', 'image'],
         type: 'string'
       },
-      'Model1': {
+      Model1: {
+        type: 'object',
         properties: {
           type: {
             $ref: '#/definitions/Type'
@@ -326,27 +336,37 @@ lab.experiment('alternatives', () => {
             type: 'string'
           },
           extra: {
-            $ref: '#/definitions/Dimensions'
+            '$ref': '#/definitions/Dimensions'
           }
-        },
-        type: 'object'
+        }
       },
-      'Model2': {
+      Extra: {
+        type: 'object',
         properties: {
-          data: {
-            type: 'string'
+          width: {
+            type: 'number'
           },
-          extra: {
-            $ref: '#/definitions/Dimensions'
+          height: {
+            type: 'number'
+          }
+        }
+      },
+      Model2: {
+        type: 'object',
+        properties: {
+          type: {
+            $ref: '#/definitions/Type'
           },
           key: {
             type: 'string'
           },
-          type: {
-            $ref: '#/definitions/Type'
+          data: {
+            type: 'string'
+          },
+          extra: {
+            $ref: '#/definitions/Extra'
           }
-        },
-        type: 'object'
+        }
       }
     });
 
