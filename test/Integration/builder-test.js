@@ -186,7 +186,7 @@ lab.experiment('builder', () => {
     expect(isValid).to.be.true();
   });
 
-  lab.test('reuseDefinitions : true', async () => {
+  lab.test('reuseDefinitions : true. It should not be reused, because of the exact definition, but a different label.', async () => {
     const server = await Helper.createServer({ reuseDefinitions: true }, reuseModelsRoutes);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 

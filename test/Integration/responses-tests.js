@@ -847,10 +847,10 @@ lab.experiment('responses', () => {
               }
             },
             400: {
+              description: '400 - Added from plugin-options',
               schema: {
                 $ref: '#/definitions/Model1'
-              },
-              description: '400 - Added from plugin-options'
+              }
             },
             404: {
               description: '404 from response status object',
@@ -859,10 +859,10 @@ lab.experiment('responses', () => {
               }
             },
             429: {
+              description: 'Too Many Requests',
               schema: {
                 $ref: '#/definitions/Model3'
-              },
-              description: 'Too Many Requests'
+              }
             },
             500: {
               description: '500 - Added from plugin-options'
