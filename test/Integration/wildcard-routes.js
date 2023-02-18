@@ -50,6 +50,25 @@ lab.experiment('wildcard routes', () => {
     expect(response.result.paths['/test']).to.include('query');
   });
 
+  lab.test('method * with not allowed custom methods', async () => {
+    try {
+      const routes = {
+        method: '*',
+        path: '/test',
+        handler: Helper.defaultHandler,
+        options: {
+          tags: ['api'],
+          notes: 'test'
+        }
+      };
+
+      await Helper.createServer({ wildcardMethods: ['HEAD', 'OPTIONS'] }, routes);
+    } catch (err) {
+      expect(err).to.exists();
+      expect(err.message).include('wildcardMethods');
+    }
+  });
+
   lab.test('method array [GET, POST]', async () => {
     const routes = {
       method: ['GET', 'POST'],
