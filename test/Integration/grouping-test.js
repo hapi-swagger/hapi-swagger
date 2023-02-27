@@ -4,7 +4,7 @@ const Inert = require('@hapi/inert');
 const Lab = require('@hapi/lab');
 const Vision = require('@hapi/vision');
 const HapiSwagger = require('../../lib/index.js');
-const Validate = require('../../lib/validate.js');
+const Validate = require('../../lib/v2/validate.js');
 
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());

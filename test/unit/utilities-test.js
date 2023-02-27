@@ -2,7 +2,7 @@ const Code = require('@hapi/code');
 const Joi = require('joi');
 const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
-const Utilities = require('../../lib/utilities.js');
+const Utilities = require('../../lib/v2/utilities.js');
 
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());

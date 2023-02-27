@@ -5,8 +5,8 @@ const Joi = require('joi');
 const Lab = require('@hapi/lab');
 const Hoek = require('@hapi/hoek');
 const Helper = require('../helper.js');
-const Defaults = require('../../lib/defaults.js');
-const Properties = require('../../lib/properties.js');
+const Defaults = require('../../lib/v2/defaults.js');
+const Properties = require('../../lib/v2/properties.js');
 
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());

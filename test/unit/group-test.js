@@ -1,6 +1,6 @@
 const Code = require('@hapi/code');
 const Lab = require('@hapi/lab');
-const Group = require('../../lib/group.js');
+const Group = require('../../lib/v2/group.js');
 const Helper = require('../helper.js');
 
 const expect = Code.expect;

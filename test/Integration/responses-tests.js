@@ -2,9 +2,9 @@ const Code = require('@hapi/code');
 const Joi = require('joi');
 const Lab = require('@hapi/lab');
 const Helper = require('../helper.js');
-const Defaults = require('../../lib/defaults.js');
-const Responses = require('../../lib/responses.js');
-const Validate = require('../../lib/validate.js');
+const Defaults = require('../../lib/v2/defaults.js');
+const Responses = require('../../lib/v2/responses.js');
+const Validate = require('../../lib/v2/validate.js');
 
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
