@@ -354,6 +354,12 @@ declare namespace hapiswagger {
     reuseDefinitions?: boolean;
 
     /**
+     * Wildcard methods. Are used as custom methods for the route when the method is set to '*'
+     * @default: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+     */
+    wildcardMethods?: string[];
+
+    /**
      * Dynamic naming convention. `default` or `useLabel`
      *
      * @default 'default'
