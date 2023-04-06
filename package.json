@@ -1,11 +1,11 @@
 {
-  "name": "hapi-swagger",
+  "name": "@timondev/hapi-swagger",
   "description": "A swagger documentation UI generator plugin for hapi",
   "version": "16.0.1",
   "author": "Glenn Jones",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hapi-swagger/hapi-swagger.git"
+    "url": "git://github.com/timondev/hapi-swagger.git"
   },
   "main": "index.js",
   "types": "index.d.ts",
