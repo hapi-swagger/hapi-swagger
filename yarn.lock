@@ -1033,6 +1033,51 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@timondev/hapi-swagger@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@timondev/hapi-swagger@workspace:."
+  dependencies:
+    "@babel/core": ^7.20.2
+    "@babel/eslint-parser": ^7.19.1
+    "@hapi/basic": ^7.0.0
+    "@hapi/boom": ^10.0.0
+    "@hapi/code": ^9.0.1
+    "@hapi/eslint-plugin": ^6.0.0
+    "@hapi/h2o2": ^10.0.0
+    "@hapi/hapi": ^21.0.0
+    "@hapi/hoek": ^10.0.1
+    "@hapi/inert": ^7.0.0
+    "@hapi/lab": ^25.0.1
+    "@hapi/vision": ^7.0.0
+    "@hapi/wreck": ^18.0.0
+    "@types/hapi__hapi": ^20.0.13
+    blipp: ^4.0.2
+    coveralls: ^3.1.1
+    eslint: ^8.27.0
+    eslint-config-prettier: ^8.5.0
+    handlebars: ^4.7.7
+    hapi-api-version: ^2.3.1
+    hapi-auth-bearer-token: ^8.0.0
+    hapi-auth-jwt2: ^10.2.0
+    http-status: ^1.5.3
+    husky: ^8.0.2
+    is-ci: ^3.0.1
+    joi: ^17.7.0
+    js2xmlparser: ^4.0.0
+    json-schema-ref-parser: ^6.1.0
+    jsonwebtoken: ^9.0.0
+    lint-staged: ^13.0.3
+    prettier: ^2.7.1
+    swagger-client: ^3.18.5
+    swagger-parser: ^10.0.3
+    swagger-ui-dist: ^4.15.3
+    tsd: ^0.24.1
+  peerDependencies:
+    "@hapi/hapi": ">=20.x.x"
+    joi: 17.x
+  languageName: unknown
+  linkType: soft
+
 "@tsd/typescript@npm:~4.8.3":
   version: 4.8.4
   resolution: "@tsd/typescript@npm:4.8.4"
@@ -2380,51 +2425,6 @@ __metadata:
   checksum: 227bb6af526d0487163ceeeb744162591e4469336dc84100df4ffd77fcbe0e07006a2ca94347980a760849850285f54c895bf1159a79ca08e0283b1960ac2f43
   languageName: node
   linkType: hard
-
-"hapi-swagger@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "hapi-swagger@workspace:."
-  dependencies:
-    "@babel/core": ^7.20.2
-    "@babel/eslint-parser": ^7.19.1
-    "@hapi/basic": ^7.0.0
-    "@hapi/boom": ^10.0.0
-    "@hapi/code": ^9.0.1
-    "@hapi/eslint-plugin": ^6.0.0
-    "@hapi/h2o2": ^10.0.0
-    "@hapi/hapi": ^21.0.0
-    "@hapi/hoek": ^10.0.1
-    "@hapi/inert": ^7.0.0
-    "@hapi/lab": ^25.0.1
-    "@hapi/vision": ^7.0.0
-    "@hapi/wreck": ^18.0.0
-    "@types/hapi__hapi": ^20.0.13
-    blipp: ^4.0.2
-    coveralls: ^3.1.1
-    eslint: ^8.27.0
-    eslint-config-prettier: ^8.5.0
-    handlebars: ^4.7.7
-    hapi-api-version: ^2.3.1
-    hapi-auth-bearer-token: ^8.0.0
-    hapi-auth-jwt2: ^10.2.0
-    http-status: ^1.5.3
-    husky: ^8.0.2
-    is-ci: ^3.0.1
-    joi: ^17.7.0
-    js2xmlparser: ^4.0.0
-    json-schema-ref-parser: ^6.1.0
-    jsonwebtoken: ^9.0.0
-    lint-staged: ^13.0.3
-    prettier: ^2.7.1
-    swagger-client: ^3.18.5
-    swagger-parser: ^10.0.3
-    swagger-ui-dist: ^4.15.3
-    tsd: ^0.24.1
-  peerDependencies:
-    "@hapi/hapi": ">=20.x.x"
-    joi: 17.x
-  languageName: unknown
-  linkType: soft
 
 "har-schema@npm:^2.0.0":
   version: 2.0.0

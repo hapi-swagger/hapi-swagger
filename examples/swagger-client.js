@@ -47,7 +47,7 @@ const routes = [
       description: 'Add',
       tags: ['api'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           id: 'add' // refer to notes above
         }
       },
@@ -67,7 +67,7 @@ const routes = [
       description: 'Add',
       tags: ['api'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           id: 'add' // refer to notes above
         }
       },

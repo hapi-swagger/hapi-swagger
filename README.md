@@ -1,39 +1,39 @@
-# hapi-swagger
+# @timondev/hapi-swagger
 
 This is a [OpenAPI (aka Swagger)](https://openapis.org/) plug-in for [Hapi](https://hapi.dev/) When installed it will self document the API interface
 in a project.
 
-[![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg?style=for-the-badge)](https://github.com/hapi-swagger/hapi-swagger/issues/718)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hapi-swagger/hapi-swagger/node.js.yml?style=for-the-badge)
-[![npm downloads](https://img.shields.io/npm/dm/hapi-swagger.svg?style=for-the-badge)](https://www.npmjs.com/package/hapi-swagger)
-[![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.github.com/hapi-swagger/hapi-swagger/master/license.txt)
+[![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg?style=for-the-badge)](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/718)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/@timondev/hapi-swagger/@timondev/hapi-swagger/node.js.yml?style=for-the-badge)
+[![npm downloads](https://img.shields.io/npm/dm/@timondev/hapi-swagger.svg?style=for-the-badge)](https://www.npmjs.com/package/@timondev/hapi-swagger)
+[![MIT license](http://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/master/license.txt)
 
 ## Compatibility
 
-| Version | [Hapi](https://github.com/hapijs/hapi) | [Joi](https://github.com/sideway/joi) | Node   | Release Notes                                                   |
-| ------- | -------------------------------------- | ------------------------------------- | ------ | --------------------------------------------------------------- |
-| `16.x`  | `>=20.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=14` | [#795](https://github.com/hapi-swagger/hapi-swagger/issues/795) |
-| `15.x`  | `>=20.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=14` | [#782](https://github.com/hapi-swagger/hapi-swagger/issues/782) |
-| `14.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=12` | [#680](https://github.com/hapi-swagger/hapi-swagger/issues/680) |
-| `13.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 @hapi/joi`                  | `>=12` | [#660](https://github.com/hapi-swagger/hapi-swagger/issues/660) |
-| `12.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 @hapi/joi`                  | `>=12` | [#644](https://github.com/hapi-swagger/hapi-swagger/issues/644) |
-| `11.x`  | `>=18.4.0 @hapi/hapi`                  | `>=16.0.0 @hapi/joi`                  | `>=8`  | [#631](https://github.com/hapi-swagger/hapi-swagger/issues/631) |
-| `10.x`  | `>=18.3.1 @hapi/hapi`                  | `>=14.0.0 @hapi/joi`                  | `>=8`  | [#587](https://github.com/hapi-swagger/hapi-swagger/issues/587) |
-| `9.x`   | `>=17 hapi`                            | `<14.0.0`                             | `>=8`  | [#487](https://github.com/hapi-swagger/hapi-swagger/issues/487) |
-| `7.x`   | `<17 hapi`                             | ???                                   | ???    | [#325](https://github.com/hapi-swagger/hapi-swagger/issues/325) |
+| Version | [Hapi](https://github.com/hapijs/hapi) | [Joi](https://github.com/sideway/joi) | Node   | Release Notes                                                                       |
+| ------- | -------------------------------------- | ------------------------------------- | ------ | ----------------------------------------------------------------------------------- |
+| `16.x`  | `>=20.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=14` | [#795](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/795) |
+| `15.x`  | `>=20.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=14` | [#782](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/782) |
+| `14.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=12` | [#680](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/680) |
+| `13.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 @hapi/joi`                  | `>=12` | [#660](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/660) |
+| `12.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 @hapi/joi`                  | `>=12` | [#644](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/644) |
+| `11.x`  | `>=18.4.0 @hapi/hapi`                  | `>=16.0.0 @hapi/joi`                  | `>=8`  | [#631](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/631) |
+| `10.x`  | `>=18.3.1 @hapi/hapi`                  | `>=14.0.0 @hapi/joi`                  | `>=8`  | [#587](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/587) |
+| `9.x`   | `>=17 hapi`                            | `<14.0.0`                             | `>=8`  | [#487](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/487) |
+| `7.x`   | `<17 hapi`                             | ???                                   | ???    | [#325](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/325) |
 
 ## Installation
 
 You can add the module to your Hapi using npm:
 
 ```bash
-> npm install hapi-swagger --save
+> npm install @timondev/hapi-swagger --save
 ```
 
-**hapi-swagger** no longer bundles `joi` to fix [#648](https://github.com/hapi-swagger/hapi-swagger/issues/648). Install **hapi-swagger** with peer dependencies using:
+**@timondev/hapi-swagger** no longer bundles `joi` to fix [#648](https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/648). Install **@timondev/hapi-swagger** with peer dependencies using:
 
 ```bash
-npx install-peerdeps hapi-swagger
+npx install-peerdeps @timondev/hapi-swagger
 ```
 
 If you want to view the documentation from your API you will also need to install the `inert` and `vision` plugs-ins which support templates and static
@@ -58,7 +58,7 @@ You will also add the routes for you API as describe on [hapi website](https://h
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const HapiSwagger = require('hapi-swagger');
+const HapiSwagger = require('@timondev/hapi-swagger');
 const Pack = require('./package');
 
 (async () => {
@@ -128,19 +128,19 @@ so the the full URL for the above options would be `http://localhost:3000/docume
 
 ### Typescript
 
-**hapi-swagger** exports its own typescript definition file that can be used when registering the plugin with **Hapi**. See example below:
+**@timondev/hapi-swagger** exports its own typescript definition file that can be used when registering the plugin with **Hapi**. See example below:
 
 #### Install Typescript Definition Files
 
 ```sh
-npm i @types/hapi__hapi @types/hapi__inert @types/hapi__joi @types/hapi__vision @types/node hapi-swagger --save-dev
+npm i @types/hapi__hapi @types/hapi__inert @types/hapi__joi @types/hapi__vision @types/node @timondev/hapi-swagger --save-dev
 ```
 
 #### Register Plugin with Typescript
 
 ```typescript
 import * as Hapi from '@hapi/hapi';
-import * as HapiSwagger from 'hapi-swagger';
+import * as HapiSwagger from '@timondev/hapi-swagger';
 
 // code omitted for brevity
 

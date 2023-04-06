@@ -19,14 +19,9 @@ lab.experiment('path', () => {
       tags: ['api'],
       validate: {
         payload: Joi.object({
-          a: Joi.number()
-            .required()
-            .description('the first number')
-            .default(10),
+          a: Joi.number().required().description('the first number').default(10),
 
-          b: Joi.number()
-            .required()
-            .description('the second number'),
+          b: Joi.number().required().description('the second number'),
 
           operator: Joi.string()
             .required()
@@ -34,9 +29,7 @@ lab.experiment('path', () => {
             .valid('+', '-', '/', '*')
             .description('the operator i.e. + - / or *'),
 
-          equals: Joi.number()
-            .required()
-            .description('the result of the sum')
+          equals: Joi.number().required().description('the result of the sum')
         })
       }
     }
@@ -66,7 +59,7 @@ lab.experiment('path', () => {
   lab.test('route settting of consumes produces', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         consumes: ['application/x-www-form-urlencoded'],
         produces: ['application/json', 'application/xml']
       }
@@ -89,7 +82,7 @@ lab.experiment('path', () => {
 
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         consumes: ['application/x-www-form-urlencoded'],
         produces: ['application/json', 'application/xml']
       }
@@ -107,7 +100,7 @@ lab.experiment('path', () => {
   lab.test('auto "x-www-form-urlencoded" consumes with payloadType', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         payloadType: 'form'
       }
     };
@@ -123,7 +116,7 @@ lab.experiment('path', () => {
   lab.test('rename a parameter', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         payloadType: 'form'
       }
     };
@@ -148,16 +141,14 @@ lab.experiment('path', () => {
   lab.test('auto "multipart/form-data" consumes with { swaggerType: "file" }', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         payloadType: 'form'
       }
     };
 
     testRoutes.options.validate = {
       payload: Joi.object({
-        file: Joi.any()
-          .meta({ swaggerType: 'file' })
-          .description('json file')
+        file: Joi.any().meta({ swaggerType: 'file' }).description('json file')
       })
     };
     const server = await Helper.createServer({}, testRoutes);
@@ -170,14 +161,12 @@ lab.experiment('path', () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate = {
       payload: Joi.object({
-        file: Joi.any()
-          .meta({ swaggerType: 'file' })
-          .description('json file')
+        file: Joi.any().meta({ swaggerType: 'file' }).description('json file')
       })
     };
 
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         consumes: ['multipart/form-data']
       }
     };
@@ -197,7 +186,7 @@ lab.experiment('path', () => {
       })
     }),
       (testRoutes.options.plugins = {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           consumes: ['application/x-www-form-urlencoded']
         }
       });
@@ -211,7 +200,11 @@ lab.experiment('path', () => {
   lab.test('a user set content-type header removes consumes', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
-      'content-type': Joi.string().valid('application/json', 'application/json;charset=UTF-8', 'application/json; charset=UTF-8')
+      'content-type': Joi.string().valid(
+        'application/json',
+        'application/json;charset=UTF-8',
+        'application/json; charset=UTF-8'
+      )
     }).unknown();
 
     const server = await Helper.createServer({}, testRoutes);
@@ -225,7 +218,7 @@ lab.experiment('path', () => {
   lab.test('payloadType form', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         payloadType: 'form'
       }
     };
@@ -241,9 +234,7 @@ lab.experiment('path', () => {
   lab.test('accept header', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
-      accept: Joi.string()
-        .required()
-        .valid('application/json', 'application/vnd.api+json')
+      accept: Joi.string().required().valid('application/json', 'application/vnd.api+json')
     }).unknown();
 
     const server = await Helper.createServer({}, testRoutes);
@@ -257,9 +248,7 @@ lab.experiment('path', () => {
   lab.test('accept header - no emum', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.validate.headers = Joi.object({
-      accept: Joi.string()
-        .required()
-        .default('application/vnd.api+json')
+      accept: Joi.string().required().default('application/vnd.api+json')
     }).unknown();
 
     const server = await Helper.createServer({}, testRoutes);
@@ -325,10 +314,7 @@ lab.experiment('path', () => {
     testRoutes.path = '/servers/{id}/{note?}';
     testRoutes.options.validate = {
       params: Joi.object({
-        id: Joi.number()
-          .integer()
-          .required()
-          .description('ID of server to delete'),
+        id: Joi.number().integer().required().description('ID of server to delete'),
         note: Joi.string().description('Note..')
       })
     };
@@ -435,10 +421,7 @@ lab.experiment('path', () => {
     testRoutes.path = '/v3/servers/{id}';
     testRoutes.options.validate = {
       params: Joi.object({
-        id: Joi.number()
-          .integer()
-          .required()
-          .description('ID of server to delete')
+        id: Joi.number().integer().required().description('ID of server to delete')
       })
     };
 
@@ -453,10 +436,7 @@ lab.experiment('path', () => {
     testRoutes.path = '/v3/servers/{id}';
     testRoutes.options.validate = {
       params: Joi.object({
-        id: Joi.number()
-          .integer()
-          .required()
-          .description('ID of server to delete')
+        id: Joi.number().integer().required().description('ID of server to delete')
       })
     };
 
@@ -471,10 +451,7 @@ lab.experiment('path', () => {
     testRoutes.path = '/api/v3/servers/{id}';
     testRoutes.options.validate = {
       params: Joi.object({
-        id: Joi.number()
-          .integer()
-          .required()
-          .description('ID of server to delete')
+        id: Joi.number().integer().required().description('ID of server to delete')
       })
     };
 
@@ -498,7 +475,7 @@ lab.experiment('path', () => {
   lab.test('route deprecated', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         deprecated: true
       }
     };
@@ -514,7 +491,7 @@ lab.experiment('path', () => {
   lab.test('custom operationId for code-gen apps', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
-      'hapi-swagger': {
+      '@timondev/hapi-swagger': {
         id: 'add'
       }
     };
@@ -602,7 +579,7 @@ lab.experiment('path', () => {
           payload: Joi.object()
         },
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             payloadType: 'form'
           }
         }
@@ -629,7 +606,7 @@ lab.experiment('path', () => {
           params: Joi.object({
             id: Joi.number().required().description('the id for the todo item'),
             hidden: Joi.number().required().description('hidden item').meta({ swaggerHidden: true }),
-            isVisible: Joi.boolean().required().description('must be visible on ui'),
+            isVisible: Joi.boolean().required().description('must be visible on ui')
           })
         }
       }

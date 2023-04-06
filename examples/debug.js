@@ -21,7 +21,7 @@ const swaggerOptions = {
   debug: true // switch on debug
 };
 
-// use chalk to log colour hapi-swagger messages to console.
+// use chalk to log colour @timondev/hapi-swagger messages to console.
 const formatLogEvent = function (event) {
   console.log(`[${event.tags}], ${event.data}`);
 };

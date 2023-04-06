@@ -15,7 +15,7 @@ let definitionCollection;
 let propertiesAlt;
 let propertiesNoAlt;
 
-const clearDown = function() {
+const clearDown = function () {
   definitionCollection = {};
   const altDefinitionCollection = {};
 
@@ -53,14 +53,18 @@ lab.experiment('property - ', () => {
     expect(propertiesNoAlt.parseProperty('x', Joi.number(), null, 'body', true, false)).to.equal({
       type: 'number'
     });
-    expect(propertiesNoAlt.parseProperty('x', Joi.number().meta({ format: 'float' }), null, 'body', true, false)).to.equal({
+    expect(
+      propertiesNoAlt.parseProperty('x', Joi.number().meta({ format: 'float' }), null, 'body', true, false)
+    ).to.equal({
       type: 'number',
       format: 'float'
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.number().integer(), null, 'body', true, false)).to.equal({
       type: 'integer'
     });
-    expect(propertiesNoAlt.parseProperty('x', Joi.number().integer().meta({ format: 'int64' }), null, 'body', true, false)).to.equal({
+    expect(
+      propertiesNoAlt.parseProperty('x', Joi.number().integer().meta({ format: 'int64' }), null, 'body', true, false)
+    ).to.equal({
       type: 'integer',
       format: 'int64'
     });
@@ -183,10 +187,7 @@ lab.experiment('property - ', () => {
 
     const nonNegativeWithDropdown = propertiesAlt.parseProperty(
       'x',
-      Joi.number()
-        .integer()
-        .positive()
-        .allow(0),
+      Joi.number().integer().positive().allow(0),
       null,
       'body',
       true,
@@ -194,11 +195,7 @@ lab.experiment('property - ', () => {
     );
     const nonNegativeWithoutDropdown = propertiesAlt.parseProperty(
       'x',
-      Joi.number()
-        .integer()
-        .positive()
-        .allow(0)
-        .meta({ disableDropdown: true }),
+      Joi.number().integer().positive().allow(0).meta({ disableDropdown: true }),
       null,
       'body',
       true,
@@ -264,7 +261,7 @@ lab.experiment('property - ', () => {
       type: 'string',
       pattern: '^[a-zA-Z0-9]{3,30}'
     });
-    // covers https://github.com/hapi-swagger/hapi-swagger/issues/652 -
+    // covers https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/652 -
     // make sure we aren't truncating the regex after an internal '/',
     // and make sure we omit any regex flags (g, i, m) from the
     // resulting pattern
@@ -426,16 +423,7 @@ lab.experiment('property - ', () => {
     });
 
     expect(
-      propertiesNoAlt.parseProperty(
-        'x',
-        Joi.date()
-          .min('1-1-1974')
-          .max('now'),
-        null,
-        'body',
-        true,
-        false
-      )
+      propertiesNoAlt.parseProperty('x', Joi.date().min('1-1-1974').max('now'), null, 'body', true, false)
     ).to.equal({ type: 'string', format: 'date' });
 
     /*  not yet 'x',

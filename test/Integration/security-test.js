@@ -38,7 +38,7 @@ lab.experiment('security', () => {
       options: {
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             payloadType: 'form',
             security: [{ api_key: [] }]
           }
@@ -46,9 +46,7 @@ lab.experiment('security', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            url: Joi.string()
-              .required()
-              .description('the url to bookmark')
+            url: Joi.string().required().description('the url to bookmark')
           })
         }
       }
@@ -59,7 +57,7 @@ lab.experiment('security', () => {
       options: {
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             payloadType: 'form',
             security: [
               {
@@ -71,9 +69,7 @@ lab.experiment('security', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            url: Joi.string()
-              .required()
-              .description('the url to bookmark')
+            url: Joi.string().required().description('the url to bookmark')
           })
         }
       }

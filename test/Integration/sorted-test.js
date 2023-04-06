@@ -15,7 +15,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 7
           }
         }
@@ -28,7 +28,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 5
           }
         }
@@ -41,7 +41,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 4
           }
         }
@@ -54,7 +54,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 1
           }
         }
@@ -67,7 +67,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 2
           }
         }
@@ -80,7 +80,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 3
           }
         }
@@ -93,7 +93,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 7
           }
         }
@@ -106,7 +106,7 @@ lab.experiment('sort', () => {
         tags: ['api'],
         handler: Helper.defaultHandler,
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             order: 6
           }
         }

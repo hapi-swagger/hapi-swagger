@@ -11,7 +11,7 @@ const lab = (exports.lab = Lab.script());
 
 const testPlugin = {
   name: 'grouping1',
-  register: server => {
+  register: (server) => {
     server.route({
       method: 'GET',
       path: '/grouping1',
@@ -30,13 +30,13 @@ const swaggerOptions = {
     title: 'Test API Documentation',
     description: 'This is a sample example of API documentation.',
     version: '1.0.0',
-    termsOfService: 'https://github.com/hapi-swagger/hapi-swagger/',
+    termsOfService: 'https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/',
     contact: {
       email: 'glennjonesnet@gmail.com'
     },
     license: {
       name: 'MIT',
-      url: 'https://raw.githubusercontent.com/hapi-swagger/hapi-swagger/master/license.txt'
+      url: 'https://raw.githubusercontent.com/@timondev/hapi-swagger/@timondev/hapi-swagger/master/license.txt'
     }
   }
 };
@@ -118,7 +118,7 @@ lab.experiment('default grouping', () => {
     lab.test('group by filtered tags', async () => {
       const server = await new Hapi.Server({});
       swaggerOptions.grouping = 'tags';
-      swaggerOptions.tagsGroupingFilter = tag => tag === 'hello group';
+      swaggerOptions.tagsGroupingFilter = (tag) => tag === 'hello group';
 
       await server.register([
         Inert,

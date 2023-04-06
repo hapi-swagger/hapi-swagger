@@ -26,11 +26,11 @@ lab.experiment('default `auth` settings', () => {
         auth: 'jwt',
         tags: ['api'],
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             security: [{ jwt: [] }]
           }
         },
-        handler: function(request, h) {
+        handler: function (request, h) {
           h.response({ text: `You used a Token! ${request.auth.credentials.name}` }).header(
             'Authorization',
             request.headers.authorization
@@ -71,7 +71,7 @@ lab.experiment('authentication', () => {
     options: {
       handler: Helper.defaultAuthHandler,
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           payloadType: 'form'
         }
       },
@@ -79,15 +79,11 @@ lab.experiment('authentication', () => {
       auth: 'bearer',
       validate: {
         headers: Joi.object({
-          authorization: Joi.string()
-            .default('Bearer 12345')
-            .description('bearer token')
+          authorization: Joi.string().default('Bearer 12345').description('bearer token')
         }).unknown(),
 
         payload: Joi.object({
-          url: Joi.string()
-            .required()
-            .description('the url to bookmark')
+          url: Joi.string().required().description('the url to bookmark')
         })
       }
     }
