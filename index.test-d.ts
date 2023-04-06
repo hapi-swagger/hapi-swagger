@@ -30,7 +30,7 @@ import * as hapiswagger from '.';
     options: {
       auth: false,
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           order: 2,
           deprecated: false,
           'x-api-stuff': 'a'

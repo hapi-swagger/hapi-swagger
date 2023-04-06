@@ -20,7 +20,7 @@ lab.experiment('documentation-route-plugins', () => {
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
 
     const table = server.table();
-    table.forEach(route => {
+    table.forEach((route) => {
       switch (route.path) {
         case '/test':
           break;
@@ -28,7 +28,7 @@ lab.experiment('documentation-route-plugins', () => {
           expect(route.settings.plugins).to.equal(plugins);
           break;
         case '/swagger.json':
-          expect(route.settings.plugins).to.equal({ 'hapi-swagger': false });
+          expect(route.settings.plugins).to.equal({ '@timondev/hapi-swagger': false });
           break;
         case '/swaggerui/extend.js':
         case '/swaggerui/{path*}':

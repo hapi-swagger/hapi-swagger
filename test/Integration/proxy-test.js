@@ -158,16 +158,12 @@ lab.experiment('proxies', () => {
       options: {
         tags: ['api'],
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             nickname: 'microformatsapi',
             validate: {
               payload: Joi.object({
-                a: Joi.number()
-                  .required()
-                  .description('the first number'),
-                b: Joi.number()
-                  .required()
-                  .description('the first number')
+                a: Joi.number().required().description('the first number'),
+                b: Joi.number().required().description('the first number')
               }),
               query: Joi.object({
                 testquery: Joi.string()
@@ -227,13 +223,11 @@ lab.experiment('proxies', () => {
       options: {
         tags: ['api'],
         plugins: {
-          'hapi-swagger': {
+          '@timondev/hapi-swagger': {
             id: 'microformatsapi',
             validate: {
               payload: Joi.object({
-                a: Joi.number()
-                  .required()
-                  .description('the first number')
+                a: Joi.number().required().description('the first number')
               }).label('testname')
             }
           }
@@ -272,13 +266,11 @@ lab.experiment('proxies', () => {
         options: {
           tags: ['api'],
           plugins: {
-            'hapi-swagger': {
+            '@timondev/hapi-swagger': {
               id: 'microformatsapi1',
               validate: {
                 payload: Joi.object({
-                  a: Joi.number()
-                    .required()
-                    .description('the first number')
+                  a: Joi.number().required().description('the first number')
                 }).label('testname')
               }
             }
@@ -298,13 +290,11 @@ lab.experiment('proxies', () => {
         options: {
           tags: ['api'],
           plugins: {
-            'hapi-swagger': {
+            '@timondev/hapi-swagger': {
               id: 'microformatsapi2',
               validate: {
                 payload: Joi.object({
-                  a: Joi.number()
-                    .required()
-                    .description('the first number')
+                  a: Joi.number().required().description('the first number')
                 }).label('testname')
               }
             }
@@ -345,13 +335,11 @@ lab.experiment('proxies', () => {
         options: {
           tags: ['api'],
           plugins: {
-            'hapi-swagger': {
+            '@timondev/hapi-swagger': {
               id: 'microformatsapi1',
               validate: {
                 payload: Joi.object({
-                  a: Joi.number()
-                    .required()
-                    .description('the first number')
+                  a: Joi.number().required().description('the first number')
                 }).label('testname')
               }
             }
@@ -371,7 +359,7 @@ lab.experiment('proxies', () => {
         options: {
           tags: ['api'],
           plugins: {
-            'hapi-swagger': {
+            '@timondev/hapi-swagger': {
               id: 'microformatsapi2',
               validate: {
                 payload: Joi.object({
@@ -404,7 +392,7 @@ lab.experiment('proxies', () => {
         required: ['a'],
         type: 'object'
       },
-      'Model1': {
+      Model1: {
         properties: {
           b: {
             type: 'string',

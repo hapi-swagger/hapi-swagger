@@ -16,9 +16,7 @@ lab.experiment('alternatives', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: Joi.alternatives()
-            .try(Joi.number(), Joi.string())
-            .label('Alt')
+          payload: Joi.alternatives().try(Joi.number(), Joi.string()).label('Alt')
         }
       }
     },
@@ -90,9 +88,7 @@ lab.experiment('alternatives', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            type: Joi.string()
-              .valid('string', 'number', 'image')
-              .label('Type'),
+            type: Joi.string().valid('string', 'number', 'image').label('Type'),
             data: Joi.alternatives()
               .conditional('type', { is: 'string', then: Joi.string() })
               .conditional('type', { is: 'number', then: Joi.number() })
@@ -122,12 +118,10 @@ lab.experiment('alternatives', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            type: Joi.string()
-              .valid('string', 'number', 'image')
-              .label('Type'),
+            type: Joi.string().valid('string', 'number', 'image').label('Type'),
             key: Joi.string().when('category', {
               is: 'stuff',
-              then: Joi.forbidden() // https://github.com/hapi-swagger/hapi-swagger/issues/338
+              then: Joi.forbidden() // https://github.com/@timondev/hapi-swagger/@timondev/hapi-swagger/issues/338
             }),
             data: Joi.alternatives()
               .conditional('type', { is: 'string', then: Joi.string() })
@@ -192,7 +186,7 @@ lab.experiment('alternatives', () => {
     ]);
 
     expect(response.result.paths['/store2/'].post.responses).to.equal({
-      '200': {
+      200: {
         schema: {
           $ref: '#/definitions/Alternative',
           'x-alternatives': [
@@ -336,7 +330,7 @@ lab.experiment('alternatives', () => {
             type: 'string'
           },
           extra: {
-            '$ref': '#/definitions/Dimensions'
+            $ref: '#/definitions/Dimensions'
           }
         }
       },

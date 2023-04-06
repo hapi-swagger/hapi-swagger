@@ -1,4 +1,4 @@
-MIT License - hapi-swagger
+MIT License - @timondev/hapi-swagger
 
 Copyright (c) 2013-present Glenn Jones
 

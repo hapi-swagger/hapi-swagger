@@ -20,7 +20,7 @@ const Routes = [
       description: 'Array properties',
       tags: ['api', 'petstore'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           order: 1
         }
       }
@@ -34,7 +34,7 @@ const Routes = [
       description: 'Array properties',
       tags: ['api', 'petstore'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           order: 2
         }
       }
@@ -48,7 +48,7 @@ const Routes = [
       description: 'Array properties',
       tags: ['api', 'petstore'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           order: 3
         }
       }
@@ -62,7 +62,7 @@ const Routes = [
       description: 'Array properties',
       tags: ['api', 'pet'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           order: 4
         }
       }
@@ -76,7 +76,7 @@ const Routes = [
       description: 'Array properties',
       tags: ['api', 'pet', 'extra'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           order: 5
         }
       }
@@ -90,7 +90,7 @@ const Routes = [
       description: 'Array properties',
       tags: ['api', 'pet'],
       plugins: {
-        'hapi-swagger': {
+        '@timondev/hapi-swagger': {
           order: 6
         }
       }
