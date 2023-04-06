@@ -808,6 +808,66 @@ lab.experiment('property deep - ', () => {
     });
   });
 
+  lab.test('naming behaviour with dereferenceArrays=true - for objects with arrays of like objects', async () => {
+    clearDown();
+
+    const innerSchema = Joi.object({
+      value: Joi.string()
+    });
+
+    const schema1 = Joi.object({
+      ones: Joi.array().items(innerSchema.label('One'))
+    }).label('Ones');
+
+    const routes = [
+      {
+        method: 'GET',
+        path: '/path/one',
+        options: {
+          tags: ['api'],
+          handler: Helper.defaultHandler,
+          response: {
+            schema: schema1
+          }
+        }
+      }
+    ];
+
+    const server = await Helper.createServer(
+      {
+        reuseDefinitions: false,
+        definitionPrefix: 'useLabel',
+        deReferenceArrays: true
+      },
+      routes
+    );
+    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+
+    expect(response.result.definitions.Ones).to.equal({
+      properties: {
+        ones: {
+          type: 'array',
+          name: 'ones',
+          items: {
+            $ref: '#/definitions/One'
+          }
+        }
+      },
+      type: 'object'
+    });
+
+    expect(response.result.definitions.One).to.equal({
+      properties: {
+        value: {
+          type: 'string'
+        }
+      },
+      type: 'object'
+    });
+
+    expect(response.result.definitions.ones).to.be.undefined;
+  });
+
   lab.test('parse structure with child description, notes, name etc', async () => {
     clearDown();
     const routes = [
