@@ -57,13 +57,13 @@ declare namespace hapiswagger {
 
   type UiCompleteScriptObjectType = {
     src: string;
-  }
+  };
 
-  type UiCompleteScriptType = string | UiCompleteScriptObjectType
+  type UiCompleteScriptType = string | UiCompleteScriptObjectType;
 
   type ScopesType = {
     [scope: string]: string | any;
-  }
+  };
 
   type SecuritySchemeType = {
     /**
@@ -110,7 +110,7 @@ declare namespace hapiswagger {
      * Any property or object with a key starting with `x-*` is included in the Swagger definition (similar to `x-*` options in the `info` object)
      */
     [key: string]: any;
-  }
+  };
 
   /**
    * Lists the required security schemes to execute this operation. The object can have multiple security schemes declared in it which are all required (that is, there is a logical AND between the schemes)
@@ -217,14 +217,23 @@ declare namespace hapiswagger {
 
   interface RegisterOptions {
     /**
-     * The transfer protocol of the API ie `['http']`
+     * The transfer protocol of the API ie `['http']` (used only with OAS v2)
      */
     schemes?: string[];
 
     /**
-     * The host (name or IP) serving the API including port if any i.e. `localhost:8080`
+     * The host (name or IP) serving the API including port if any i.e. `localhost:8080` (used only with OAS v2)
      */
     host?: string;
+
+    /**
+     * An array of OpenAPI 3.0 server objects (used only with OAS v3)
+     */
+    servers?: {
+      url: string;
+      description?: string;
+      variables?: Record<string, { enum?: string[]; default: string; description: string }>;
+    }[];
 
     /**
      * Defines security strategy to use for plugin resources
@@ -280,7 +289,7 @@ declare namespace hapiswagger {
      * (tags) => !tags.includes('private')
      * ```
      */
-    routeTag?: string | ((tags: string[]) => boolean)
+    routeTag?: string | ((tags: string[]) => boolean);
 
     /**
      * How to create grouping of endpoints value either `path` or `tags`
@@ -358,6 +367,12 @@ declare namespace hapiswagger {
      * @default: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
      */
     wildcardMethods?: string[];
+
+    /**
+     * The swagger version to use.
+     * @default: 'v2'
+     */
+    OAS?: 'v2' | 'v3.0';
 
     /**
      * Dynamic naming convention. `default` or `useLabel`

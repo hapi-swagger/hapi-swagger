@@ -15,18 +15,16 @@ let definitionCollection;
 let propertiesAlt;
 let propertiesNoAlt;
 
-const clearDown = function() {
+const clearDown = function () {
   definitionCollection = {};
   const altDefinitionCollection = {};
 
   const definitionCache = [new WeakMap(), new WeakMap()];
 
   propertiesAlt = new Properties(Defaults, definitionCollection, altDefinitionCollection, definitionCache);
-  propertiesNoAlt = new Properties(
-    (Hoek.clone(Defaults).xProperties = false),
-    definitionCollection,
-    altDefinitionCollection
-  );
+  const noAltSettings = Hoek.clone(Defaults);
+  noAltSettings.xProperties = false;
+  propertiesNoAlt = new Properties(noAltSettings, definitionCollection, altDefinitionCollection);
 };
 
 // parseProperty takes:   name, joiObj, parameterType, useDefinitions, isAlt
@@ -53,14 +51,18 @@ lab.experiment('property - ', () => {
     expect(propertiesNoAlt.parseProperty('x', Joi.number(), null, 'body', true, false)).to.equal({
       type: 'number'
     });
-    expect(propertiesNoAlt.parseProperty('x', Joi.number().meta({ format: 'float' }), null, 'body', true, false)).to.equal({
+    expect(
+      propertiesNoAlt.parseProperty('x', Joi.number().meta({ format: 'float' }), null, 'body', true, false)
+    ).to.equal({
       type: 'number',
       format: 'float'
     });
     expect(propertiesNoAlt.parseProperty('x', Joi.number().integer(), null, 'body', true, false)).to.equal({
       type: 'integer'
     });
-    expect(propertiesNoAlt.parseProperty('x', Joi.number().integer().meta({ format: 'int64' }), null, 'body', true, false)).to.equal({
+    expect(
+      propertiesNoAlt.parseProperty('x', Joi.number().integer().meta({ format: 'int64' }), null, 'body', true, false)
+    ).to.equal({
       type: 'integer',
       format: 'int64'
     });
@@ -183,10 +185,7 @@ lab.experiment('property - ', () => {
 
     const nonNegativeWithDropdown = propertiesAlt.parseProperty(
       'x',
-      Joi.number()
-        .integer()
-        .positive()
-        .allow(0),
+      Joi.number().integer().positive().allow(0),
       null,
       'body',
       true,
@@ -194,11 +193,7 @@ lab.experiment('property - ', () => {
     );
     const nonNegativeWithoutDropdown = propertiesAlt.parseProperty(
       'x',
-      Joi.number()
-        .integer()
-        .positive()
-        .allow(0)
-        .meta({ disableDropdown: true }),
+      Joi.number().integer().positive().allow(0).meta({ disableDropdown: true }),
       null,
       'body',
       true,
@@ -426,16 +421,7 @@ lab.experiment('property - ', () => {
     });
 
     expect(
-      propertiesNoAlt.parseProperty(
-        'x',
-        Joi.date()
-          .min('1-1-1974')
-          .max('now'),
-        null,
-        'body',
-        true,
-        false
-      )
+      propertiesNoAlt.parseProperty('x', Joi.date().min('1-1-1974').max('now'), null, 'body', true, false)
     ).to.equal({ type: 'string', format: 'date' });
 
     /*  not yet 'x',

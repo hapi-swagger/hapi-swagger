@@ -25,6 +25,7 @@
   ],
   "scripts": {
     "start": "node examples/simple.js",
+    "start:openapi": "node examples/simple-openapi.js",
     "start:basic": "node examples/basic.js",
     "start:debug": "node examples/debug.js",
     "start:jwt": "node examples/jwt.js",
