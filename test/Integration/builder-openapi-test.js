@@ -70,25 +70,23 @@ const reuseModelsRoutes = [
 ];
 
 lab.experiment('builder', () => {
-  lab.test('defaults for swagger root object properties', async () => {
-    const server = await Helper.createServer({}, routes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+  lab.test('defaults for openapi root object properties', async () => {
+    const server = await Helper.createServer({ OAS: 'v3.0' }, routes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
     expect(response.statusCode).to.equal(200);
-    expect(response.result.swagger).to.equal('2.0');
-    expect(response.result.schemes).to.equal(['http']);
-    expect(response.result.basePath).to.equal('/');
-    expect(response.result.consumes).to.not.exist();
-    expect(response.result.produces).to.not.exist();
+    expect(response.result.openapi).to.equal('3.0.0');
+    expect(response.result.servers).to.have.length(1);
+    expect(response.result.servers[0]).to.only.include('url');
+    expect(response.result.servers[0].url).to.be.a.string().and.startWith('http://');
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });
 
-  lab.test('set values for swagger root object properties', async () => {
+  lab.test('set values for openapi root object properties', async () => {
     const swaggerOptions = {
-      swagger: '5.9.45',
-      schemes: ['https'],
-      basePath: '/base',
+      OAS: 'v3.0',
+      servers: [{ url: 'https://server/base' }],
       consumes: ['application/x-www-form-urlencoded'],
       produces: ['application/json', 'application/xml'],
       externalDocs: {
@@ -99,25 +97,41 @@ lab.experiment('builder', () => {
     };
 
     const server = await Helper.createServer(swaggerOptions, routes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
     expect(response.statusCode).to.equal(200);
-    expect(response.result.swagger).to.equal('2.0');
-    expect(response.result.schemes).to.equal(['https']);
-    expect(response.result.basePath).to.equal('/base');
-    expect(response.result.consumes).to.equal(['application/x-www-form-urlencoded']);
-    expect(response.result.produces).to.equal(['application/json', 'application/xml']);
+    expect(response.result.openapi).to.equal('3.0.0');
+    expect(response.result.servers).to.equal([{ url: 'https://server/base' }]);
+    expect(response.result.consumes).to.not.exist(); // .equal(['application/x-www-form-urlencoded']);
+    expect(response.result.produces).to.not.exist(); // to.equal(['application/json', 'application/xml']);
     expect(response.result.externalDocs).to.equal(swaggerOptions.externalDocs);
     expect(response.result['x-custom']).to.equal('custom');
+    expect(response.result.paths['/test'].get.responses).to.equal({
+      default: {
+        description: 'Successful',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'string'
+            }
+          },
+          'application/xml': {
+            schema: {
+              type: 'string'
+            }
+          }
+        }
+      }
+    });
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });
 
   lab.test('xProperties : false', async () => {
-    const server = await Helper.createServer({ xProperties: false }, xPropertiesRoutes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    const server = await Helper.createServer({ OAS: 'v3.0', xProperties: false }, xPropertiesRoutes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
-    expect(response.result.definitions).to.equal({
+    expect(response.result.components.schemas).to.equal({
       array: {
         type: 'array',
         items: {
@@ -134,7 +148,7 @@ lab.experiment('builder', () => {
             type: 'string'
           },
           array: {
-            $ref: '#/definitions/array'
+            $ref: '#/components/schemas/array'
           }
         }
       }
@@ -145,10 +159,10 @@ lab.experiment('builder', () => {
   });
 
   lab.test('xProperties : true', async () => {
-    const server = await Helper.createServer({ xProperties: true }, xPropertiesRoutes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    const server = await Helper.createServer({ OAS: 'v3.0', xProperties: true }, xPropertiesRoutes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
-    expect(response.result.definitions).to.equal({
+    expect(response.result.components.schemas).to.equal({
       array: {
         type: 'array',
         'x-constraint': {
@@ -174,7 +188,7 @@ lab.experiment('builder', () => {
             }
           },
           array: {
-            $ref: '#/definitions/array'
+            $ref: '#/components/schemas/array'
           }
         }
       }
@@ -187,10 +201,10 @@ lab.experiment('builder', () => {
   lab.test(
     'reuseDefinitions : true. It should not be reused, because of the exact definition, but a different label.',
     async () => {
-      const server = await Helper.createServer({ reuseDefinitions: true }, reuseModelsRoutes);
-      const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+      const server = await Helper.createServer({ OAS: 'v3.0', reuseDefinitions: true }, reuseModelsRoutes);
+      const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
-      expect(response.result.definitions).to.equal({
+      expect(response.result.components.schemas).to.equal({
         a: {
           type: 'object',
           properties: {
@@ -211,10 +225,10 @@ lab.experiment('builder', () => {
           type: 'object',
           properties: {
             a: {
-              $ref: '#/definitions/a'
+              $ref: '#/components/schemas/a'
             },
             b: {
-              $ref: '#/definitions/b'
+              $ref: '#/components/schemas/b'
             }
           }
         }
@@ -226,11 +240,11 @@ lab.experiment('builder', () => {
   );
 
   lab.test('reuseDefinitions : false', async () => {
-    const server = await Helper.createServer({ reuseDefinitions: false }, reuseModelsRoutes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    const server = await Helper.createServer({ OAS: 'v3.0', reuseDefinitions: false }, reuseModelsRoutes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
     //console.log(JSON.stringify(response.result));
-    expect(response.result.definitions).to.equal({
+    expect(response.result.components.schemas).to.equal({
       a: {
         type: 'object',
         properties: {
@@ -251,10 +265,10 @@ lab.experiment('builder', () => {
         type: 'object',
         properties: {
           a: {
-            $ref: '#/definitions/a'
+            $ref: '#/components/schemas/a'
           },
           b: {
-            $ref: '#/definitions/b'
+            $ref: '#/components/schemas/b'
           }
         }
       }
@@ -265,34 +279,34 @@ lab.experiment('builder', () => {
   });
 
   lab.test('getSwaggerJSON determines host and port from request info', async () => {
-    const server = await Helper.createServer({});
+    const server = await Helper.createServer({ OAS: 'v3.0' });
 
     const response = await server.inject({
       method: 'GET',
       headers: { host: '194.148.15.24:7645' },
-      url: '/swagger.json'
+      url: '/openapi.json'
     });
 
     expect(response.statusCode).to.equal(200);
-    expect(response.result.host).to.equal('194.148.15.24:7645');
+    expect(response.result.servers).to.equal([{ url: 'http://194.148.15.24:7645' }]);
   });
 
   lab.test("getSwaggerJSON doesn't specify port from request info when port is default", async () => {
-    const server = await Helper.createServer({});
+    const server = await Helper.createServer({ OAS: 'v3.0' });
 
     const response = await server.inject({
       method: 'GET',
       headers: { host: '194.148.15.24' },
-      url: '/swagger.json'
+      url: '/openapi.json'
     });
 
     expect(response.statusCode).to.equal(200);
-    expect(response.result.host).to.equal('194.148.15.24');
+    expect(response.result.servers).to.equal([{ url: 'http://194.148.15.24' }]);
   });
 
   lab.test('routeTag : "api"', async () => {
-    const server = await Helper.createServer({ routeTag: 'api' }, routes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    const server = await Helper.createServer({ OAS: 'v3.0', routeTag: 'api' }, routes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
     expect(response.result.paths['/test']).to.equal({
       get: {
@@ -300,8 +314,12 @@ lab.experiment('builder', () => {
         responses: {
           default: {
             description: 'Successful',
-            schema: {
-              type: 'string'
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string'
+                }
+              }
             }
           }
         },
@@ -316,8 +334,8 @@ lab.experiment('builder', () => {
   });
 
   lab.test('routeTag : "api2"', async () => {
-    const server = await Helper.createServer({ routeTag: 'api2' }, routes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    const server = await Helper.createServer({ OAS: 'v3.0', routeTag: 'api2' }, routes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
 
     expect(response.result.paths['/test']).to.equal(undefined);
     expect(response.result.paths['/test2']).to.equal({
@@ -326,8 +344,12 @@ lab.experiment('builder', () => {
         responses: {
           default: {
             description: 'Successful',
-            schema: {
-              type: 'string'
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string'
+                }
+              }
             }
           }
         },
@@ -344,7 +366,7 @@ lab.experiment('builder', () => {
 lab.experiment('builder', () => {
   let logs = [];
   lab.before(async () => {
-    const server = await Helper.createServer({ debug: true }, reuseModelsRoutes);
+    const server = await Helper.createServer({ OAS: 'v3.0', debug: true }, reuseModelsRoutes);
 
     return new Promise((resolve) => {
       server.events.on('log', (event) => {
@@ -355,7 +377,7 @@ lab.experiment('builder', () => {
           resolve();
         }
       });
-      server.inject({ method: 'GET', url: '/swagger.json' });
+      server.inject({ method: 'GET', url: '/openapi.json' });
     });
   });
 
@@ -380,11 +402,11 @@ lab.experiment('fix issue 711', () => {
       }
     };
 
-    const server = await Helper.createServer({ debug: true }, routes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
+    const server = await Helper.createServer({ OAS: 'v3.0', debug: true }, routes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
     expect(response.statusCode).to.equal(200);
 
-    const { MySchema } = response.result.definitions;
+    const { MySchema } = response.result.components.schemas;
     expect(MySchema).not.to.equal({ type: 'object' });
     expect(MySchema).to.equal({ type: 'object', description: 'MyDescription' });
   });

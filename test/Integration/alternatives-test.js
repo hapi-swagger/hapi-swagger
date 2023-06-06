@@ -16,9 +16,7 @@ lab.experiment('alternatives', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: Joi.alternatives()
-            .try(Joi.number(), Joi.string())
-            .label('Alt')
+          payload: Joi.alternatives().try(Joi.number(), Joi.string()).label('Alt')
         }
       }
     },
@@ -90,9 +88,7 @@ lab.experiment('alternatives', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            type: Joi.string()
-              .valid('string', 'number', 'image')
-              .label('Type'),
+            type: Joi.string().valid('string', 'number', 'image').label('Type'),
             data: Joi.alternatives()
               .conditional('type', { is: 'string', then: Joi.string() })
               .conditional('type', { is: 'number', then: Joi.number() })
@@ -122,9 +118,7 @@ lab.experiment('alternatives', () => {
         tags: ['api'],
         validate: {
           payload: Joi.object({
-            type: Joi.string()
-              .valid('string', 'number', 'image')
-              .label('Type'),
+            type: Joi.string().valid('string', 'number', 'image').label('Type'),
             key: Joi.string().when('category', {
               is: 'stuff',
               then: Joi.forbidden() // https://github.com/hapi-swagger/hapi-swagger/issues/338
@@ -192,7 +186,7 @@ lab.experiment('alternatives', () => {
     ]);
 
     expect(response.result.paths['/store2/'].post.responses).to.equal({
-      '200': {
+      200: {
         schema: {
           $ref: '#/definitions/Alternative',
           'x-alternatives': [
@@ -336,7 +330,7 @@ lab.experiment('alternatives', () => {
             type: 'string'
           },
           extra: {
-            '$ref': '#/definitions/Dimensions'
+            $ref: '#/definitions/Dimensions'
           }
         }
       },
@@ -367,6 +361,132 @@ lab.experiment('alternatives', () => {
             $ref: '#/definitions/Extra'
           }
         }
+      }
+    });
+
+    // test full swagger document
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
+
+  lab.test('OpenAPI v3.0', async () => {
+    const server = await Helper.createServer({ OAS: 'v3.0' }, routes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
+
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.result.paths['/store/'].post.requestBody).to.equal({
+      content: {
+        'application/json': {
+          schema: {
+            anyOf: [{ type: 'number' }, { type: 'string' }]
+          }
+        }
+      }
+    });
+    expect(response.result.paths['/store2/'].post.requestBody).to.equal({
+      content: {
+        'application/json': {
+          schema: {
+            anyOf: [
+              {
+                $ref: '#/x-alt-definitions/alternative1'
+              },
+              {
+                $ref: '#/x-alt-definitions/alternative2'
+              }
+            ]
+          }
+        }
+      }
+    });
+    expect(response.result.paths['/store2/'].post.responses).to.equal({
+      200: {
+        content: {
+          'application/json': {
+            schema: {
+              anyOf: [
+                {
+                  $ref: '#/x-alt-definitions/alternative1'
+                },
+                {
+                  $ref: '#/x-alt-definitions/alternative2'
+                }
+              ]
+            }
+          }
+        },
+        description: 'Successful'
+      }
+    });
+
+    expect(response.result.paths['/store4/'].post.requestBody).to.equal({
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/components/schemas/Model1'
+          }
+        }
+      }
+    });
+
+    expect(response.result.components.schemas).to.equal({
+      Type: { type: 'string', enum: ['string', 'number', 'image'] },
+      Model1: {
+        type: 'object',
+        properties: {
+          type: { $ref: '#/components/schemas/Type' },
+          data: { anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'string', 'x-format': { uri: true } }] },
+          extra: { anyOf: [{ $ref: '#/x-alt-definitions/Dimensions' }] }
+        }
+      },
+      Model2: {
+        type: 'object',
+        properties: {
+          type: { $ref: '#/components/schemas/Type' },
+          key: { type: 'string' },
+          data: {
+            anyOf: [
+              {
+                type: 'string'
+              },
+              { type: 'number' },
+              { type: 'string', 'x-format': { uri: true } }
+            ]
+          },
+          extra: { anyOf: [{ $ref: '#/x-alt-definitions/Extra' }] }
+        }
+      }
+    });
+
+    expect(response.result['x-alt-definitions']).to.equal({
+      alternative1: {
+        type: 'object',
+        properties: { name: { type: 'string' } },
+        required: ['name']
+      },
+      alternative2: {
+        type: 'object',
+        properties: { name: { type: 'number' } },
+        required: ['name']
+      },
+      Alt: {
+        type: 'object',
+        properties: { name: { type: 'string' } },
+        required: ['name']
+      },
+      Dimensions: {
+        type: 'object',
+        properties: { width: { type: 'number' }, height: { type: 'number' } }
+      },
+      Extra: {
+        type: 'object',
+        properties: { width: { type: 'number' }, height: { type: 'number' } }
+      },
+      Model1: {
+        type: 'object',
+        properties: { name: { type: 'number' } },
+        required: ['name']
       }
     });
 

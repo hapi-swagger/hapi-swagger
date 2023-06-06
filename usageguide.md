@@ -126,10 +126,10 @@ validate: {
 }
 ```
 
-**NOTE: the plugin reuses "definition models" these describe each JSON object use by an API i.e. a "user". This feature
-was added to reduce the size of the JSON. The plugin can reuse the model only if the labels match. Even if two routes have the same definition, but labels are not set, the plugin assumes that it is a different definition, the same if one definition has a label and another does not. 
+\*\*NOTE: the plugin reuses "definition models" these describe each JSON object use by an API i.e. a "user". This feature
+was added to reduce the size of the JSON. The plugin can reuse the model only if the labels match. Even if two routes have the same definition, but labels are not set, the plugin assumes that it is a different definition, the same if one definition has a label and another does not.
 
-By default, objects are named in a "Model #" format. To use the `label`, specify `options.definitionPrefix` as `useLabel`.**
+By default, objects are named in a "Model #" format. To use the `label`, specify `options.definitionPrefix` as `useLabel`.\*\*
 
 ## Grouping endpoints by path or tags
 
@@ -619,7 +619,7 @@ Not all the flexibility of Hapi and JOI can to ported over to the Swagger schema
 -   **`array.ordered(type)`** This allows for different typed items within an array. i.e. string or int.
 -   **`{name*}`** The path parameters with the `*` char are not supported, either is the `{name*3}` the pattern. This will mostly likely be added to the next version of OpenAPI spec.
 -   **`.allow( null )`** The current Swagger spec does not support `null`. This **maybe** added to the next version of OpenAPI spec.
--   **`payload: function (value, options, next) {next(null, value);}`** The use of custom functions to validate pramaters is not support beyond replacing them with an emtpy model call "Hidden Model".
+-   **`payload: function (value, options, next) {next(null, value);}`** The use of custom functions to validate pramaters is not support beyond replacing them with an empty model call "Hidden Model".
 -   **`Joi.date().format('yy-mm-dd')` ** The use of a `moment` pattern to format a date cannot be reproduced in Swagger
 -   **`Joi.date().min()` and `Joi.date().max()`** Minimum or maximum dates cannot be expressed in Swagger.
 
