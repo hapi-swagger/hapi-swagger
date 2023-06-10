@@ -214,14 +214,15 @@ const options = {
 };
 ```
 
-The groups are order in the same sequence you add them to the `tags` array in the plug-in options. You can enforce
-the order by name A-Z by switching the plugin `options.sortTags = 'name'`.
+In the schema tags are ordered in the same sequence you add them to the `tags` array in the plugin options.
+In the UI groups are sorted alphabetically by default. To have them ordered in the sequence defined in `tags` set
+the plugin option `sortTags = 'unsorted'`.
 
 ## Ordering the endpoints within groups
 
-The endpoints within the UI groups can be order with the property `options.sortEndpoints`, by default the are ordered
-A-Z using the `alpha` (path) information. Can also order them by `method`. Finally if you wish to enforce you own order then
-you added route option `order` to each endpoint and switch the plugin options to `options.sortEndpoints = 'ordered'`.
+The endpoints within the UI groups can be ordered with the property `options.sortEndpoints`, by default they are ordered
+A-Z using the `alpha` (path) information. You can also order them by `method`. Finally if you wish to enforce your own order
+then add the route option `order` to each endpoint and switch the plugin option `sortEndpoints = 'ordered'`.
 
 ```javascript
 {

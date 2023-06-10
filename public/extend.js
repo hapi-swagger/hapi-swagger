@@ -1,10 +1,12 @@
 // sort function for tag groups
 var apisSorter = {
+  unsorted: null,
   alpha: 'alpha'
 };
 
 // sort function for api endpoints within groups
 var operationsSorter = {
+  unsorted: null,
   alpha: 'alpha',
   method: 'method',
   ordered: function(a, b) {
