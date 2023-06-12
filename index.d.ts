@@ -455,6 +455,12 @@ declare namespace hapiswagger {
     uiCompleteScript?: UiCompleteScriptType;
 
     /**
+     * An object of options to be passed to Swagger UI.
+     * @default {}
+     */
+    uiOptions?: object;
+
+    /**
      * Sets the external validating URL Can switch off by setting to `null`
      * @default 'https://online.swagger.io/validator'
      */

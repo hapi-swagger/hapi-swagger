@@ -81,6 +81,9 @@
           tryItOutEnabled: {{hapiSwagger.tryItOutEnabled}},
         }
 
+        const uiOptions = {{{toJSON hapiSwagger.uiOptions}}};
+        Object.assign(swaggerOptions, uiOptions);
+
         const ui = SwaggerUIBundle(swaggerOptions);
 
         window.ui = ui;
