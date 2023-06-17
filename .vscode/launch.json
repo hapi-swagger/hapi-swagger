@@ -17,8 +17,15 @@
       "name": "start",
       "program": "${workspaceFolder}/examples/simple.js",
       "skipFiles": ["<node_internals>/**/*.js"],
-      "console": "integratedTerminal",
-      "disableOptimisticBPs": true
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "start openapi",
+      "program": "${workspaceFolder}/examples/simple-openapi",
+      "skipFiles": ["<node_internals>/**/*.js"],
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
@@ -26,8 +33,7 @@
       "name": "start basic",
       "program": "${workspaceFolder}/examples/basic.js",
       "skipFiles": ["<node_internals>/**/*.js"],
-      "console": "integratedTerminal",
-      "disableOptimisticBPs": true
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
@@ -35,8 +41,7 @@
       "name": "start jwt",
       "program": "${workspaceFolder}/examples/jwt.js",
       "skipFiles": ["<node_internals>/**/*.js"],
-      "console": "integratedTerminal",
-      "disableOptimisticBPs": true
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
@@ -44,8 +49,7 @@
       "name": "start group ordered",
       "program": "${workspaceFolder}/examples/group-ordered.js",
       "skipFiles": ["<node_internals>/**/*.js"],
-      "console": "integratedTerminal",
-      "disableOptimisticBPs": true
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
@@ -53,8 +57,7 @@
       "name": "start options",
       "program": "${workspaceFolder}/examples/options.js",
       "skipFiles": ["<node_internals>/**/*.js"],
-      "console": "integratedTerminal",
-      "disableOptimisticBPs": true
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
@@ -64,7 +67,6 @@
       "args": ["-i", "${input:inputLabTestIdentifier}"],
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**/*.js"],
-      "disableOptimisticBPs": true,
       "sourceMaps": false
     },
     {
@@ -73,8 +75,7 @@
       "name": "test custom swagger file",
       "program": "${workspaceFolder}/examples/custom-swagger-file.js",
       "skipFiles": ["<node_internals>/**/*.js"],
-      "console": "integratedTerminal",
-      "disableOptimisticBPs": true
+      "console": "integratedTerminal"
     }
   ],
   "inputs": [
