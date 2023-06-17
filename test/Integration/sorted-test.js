@@ -6,134 +6,143 @@ const Validate = require('../../lib/validate.js');
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
 
-lab.experiment('sort', () => {
-  const routes = [
-    {
-      method: 'POST',
-      path: '/x',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 7
-          }
-        }
-      }
-    },
-    {
-      method: 'GET',
-      path: '/b',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 5
-          }
-        }
-      }
-    },
-    {
-      method: 'GET',
-      path: '/b/c',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 4
-          }
-        }
-      }
-    },
-    {
-      method: 'POST',
-      path: '/b/c/d',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 1
-          }
-        }
-      }
-    },
-    {
-      method: 'GET',
-      path: '/b/c/d',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 2
-          }
-        }
-      }
-    },
-    {
-      method: 'DELETE',
-      path: '/a',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 3
-          }
-        }
-      }
-    },
-    {
-      method: 'POST',
-      path: '/a',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 7
-          }
-        }
-      }
-    },
-    {
-      method: 'GET',
-      path: '/a',
-      options: {
-        tags: ['api'],
-        handler: Helper.defaultHandler,
-        plugins: {
-          'hapi-swagger': {
-            order: 6
-          }
-        }
-      }
-    }
-  ];
+const versions = ['v2', 'v3.0'];
 
-  /* These test are no longer needed `sortPaths` is to be deprecate
+versions.forEach((version) => {
+  lab.experiment(`OAS ${version}`, () => {
+    lab.experiment('sort', () => {
+      const routes = [
+        {
+          method: 'POST',
+          path: '/x',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 7
+              }
+            }
+          }
+        },
+        {
+          method: 'GET',
+          path: '/b',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 5
+              }
+            }
+          }
+        },
+        {
+          method: 'GET',
+          path: '/b/c',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 4
+              }
+            }
+          }
+        },
+        {
+          method: 'POST',
+          path: '/b/c/d',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 1
+              }
+            }
+          }
+        },
+        {
+          method: 'GET',
+          path: '/b/c/d',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 2
+              }
+            }
+          }
+        },
+        {
+          method: 'DELETE',
+          path: '/a',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 3
+              }
+            }
+          }
+        },
+        {
+          method: 'POST',
+          path: '/a',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 7
+              }
+            }
+          }
+        },
+        {
+          method: 'GET',
+          path: '/a',
+          options: {
+            tags: ['api'],
+            handler: Helper.defaultHandler,
+            plugins: {
+              'hapi-swagger': {
+                order: 6
+              }
+            }
+          }
+        }
+      ];
 
-    lab.test('sort ordered unsorted', (done) => {
+      /* These test are no longer needed `sortPaths` is to be deprecate
 
-        Helper.createServer({ sortPaths: 'unsorted' }, routes, (err, server) => {
-            server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+        lab.test('sort ordered unsorted', (done) => {
 
-                //console.log(JSON.stringify(response.result.paths['/a']));
-                expect(Object.keys(response.result.paths['/a'])).to.equal(['post', 'get', 'delete']);
-                done();
+            Helper.createServer({ sortPaths: 'unsorted' }, routes, (err, server) => {
+                server.inject({ method: 'GET', url: '/swagger.json' }, function (response) {
+
+                    //console.log(JSON.stringify(response.result.paths['/a']));
+                    expect(Object.keys(response.result.paths['/a'])).to.equal(['post', 'get', 'delete']);
+                    done();
+                });
             });
         });
-    });
-     */
+         */
 
-  lab.test('sort ordered path-method', async () => {
-    const server = await Helper.createServer({ sortPaths: 'path-method' }, routes);
-    const response = await server.inject({ method: 'GET', url: '/swagger.json' });
-    expect(Object.keys(response.result.paths['/a'])).to.equal(['delete', 'get', 'post']);
-    const isValid = await Validate.test(response.result);
-    expect(isValid).to.be.true();
+      lab.test('sort ordered path-method', async () => {
+        const server = await Helper.createServer({ OAS: version, sortPaths: 'path-method' }, routes);
+        const response = await server.inject({
+          method: 'GET',
+          url: version === 'v2' ? '/swagger.json' : '/openapi.json'
+        });
+        expect(Object.keys(response.result.paths['/a'])).to.equal(['delete', 'get', 'post']);
+        const isValid = await Validate.test(response.result);
+        expect(isValid).to.be.true();
+      });
+    });
   });
 });

@@ -40,7 +40,7 @@ const swaggerJSON = {
     }
   },
   definitions: {
-    'Model1': {
+    Model1: {
       type: 'object',
       properties: {
         a: {
@@ -51,34 +51,86 @@ const swaggerJSON = {
   }
 };
 
-lab.experiment('validate - log ', () => {
-  lab.test('bad schema', async () => {
-    const cb = tags => {
-      expect(tags).to.equal(['validation', 'error']);
-    };
+const openAPIJSON = {
+  openapi: '3.0.0',
+  servers: [{ url: 'http://localhost:3000/v1' }],
+  info: {
+    title: 'Test API Documentation',
+    version: '7.0.0'
+  },
+  paths: {
+    '/test': {
+      post: {
+        operationId: 'postTest',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Model1'
+              }
+            }
+          }
+        },
+        tags: ['test'],
+        responses: {
+          default: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string'
+                }
+              }
+            },
+            description: 'Successful'
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      Model1: {
+        type: 'object',
+        properties: {
+          a: {
+            type: 'string'
+          }
+        }
+      }
+    }
+  }
+};
 
-    const isValid = await Validate.log({}, cb);
-    expect(isValid).to.false();
+[swaggerJSON, openAPIJSON].forEach((json) => {
+  lab.experiment('validate - log ', () => {
+    lab.test('bad schema', async () => {
+      const cb = (tags) => {
+        expect(tags).to.equal(['validation', 'error']);
+      };
+
+      const isValid = await Validate.log({}, cb);
+      expect(isValid).to.false();
+    });
+
+    lab.test('good schema', async () => {
+      const cb = (tags) => {
+        expect(tags).to.equal(['validation', 'info']);
+      };
+
+      const isValid = await Validate.log(json, cb);
+      expect(isValid).to.true();
+    });
   });
 
-  lab.test('good schema', async () => {
-    const cb = tags => {
-      expect(tags).to.equal(['validation', 'info']);
-    };
+  lab.experiment('validate - test ', () => {
+    lab.test('bad schema', async () => {
+      const status = await Validate.test({});
+      expect(status).to.equal(false);
+    });
 
-    const isValid = await Validate.log(swaggerJSON, cb);
-    expect(isValid).to.true();
-  });
-});
-
-lab.experiment('validate - test ', () => {
-  lab.test('bad schema', async () => {
-    const status = await Validate.test({});
-    expect(status).to.equal(false);
-  });
-
-  lab.test('good schema', async () => {
-    const status = await Validate.test(swaggerJSON);
-    expect(status).to.equal(true);
+    lab.test('good schema', async () => {
+      const status = await Validate.test(json);
+      expect(status).to.equal(true);
+    });
   });
 });

@@ -9,10 +9,10 @@ const Validate = require('../../lib/validate.js');
 const expect = Code.expect;
 const lab = (exports.lab = Lab.script());
 
-lab.experiment('child-models', () => {
+lab.experiment('child-models (OpenAPI)', () => {
   const requestOptions = {
     method: 'GET',
-    url: '/swagger.json',
+    url: '/openapi.json',
     headers: {
       host: 'localhost'
     }
@@ -97,28 +97,34 @@ lab.experiment('child-models', () => {
   ];
 
   lab.test('child definitions models', async () => {
-    const server = await Helper.createServer({}, routes);
+    const server = await Helper.createServer({ OAS: 'v3.0' }, routes);
     const response = await server.inject(requestOptions);
 
     expect(response.statusCode).to.equal(200);
 
-    expect(response.result.paths['/foo/v1/bar'].post.parameters[0].schema).to.equal({
-      $ref: '#/definitions/Model1'
+    expect(response.result.paths['/foo/v1/bar'].post.requestBody).to.equal({
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/components/schemas/Model1'
+          }
+        }
+      }
     });
 
-    expect(response.result.definitions.Model1).to.equal({
+    expect(response.result.components.schemas.Model1).to.equal({
       properties: {
         outer1: {
-          $ref: '#/definitions/outer1'
+          $ref: '#/components/schemas/outer1'
         },
         outer2: {
-          $ref: '#/definitions/outer2'
+          $ref: '#/components/schemas/outer2'
         }
       },
       type: 'object'
     });
 
-    expect(response.result.definitions.outer1).to.equal({
+    expect(response.result.components.schemas.outer1).to.equal({
       properties: {
         inner1: {
           type: 'string'
@@ -131,26 +137,39 @@ lab.experiment('child-models', () => {
   });
 
   lab.test('object within an object - array within an array', async () => {
-    const server = await Helper.createServer({}, routes);
+    const server = await Helper.createServer({ OAS: 'v3.0' }, routes);
     const response = await server.inject(requestOptions);
 
     expect(response.statusCode).to.equal(200);
 
-    expect(response.result.paths['/bar/objects'].post.parameters[0].schema).to.equal({
-      $ref: '#/definitions/FooObjParent'
-    });
-    expect(response.result.paths['/bar/objects'].post.responses[200].schema).to.equal({
-      $ref: '#/definitions/FooObjParent'
-    });
-    expect(response.result.definitions.FooObjParent).to.equal({
-      type: 'object',
-      properties: {
-        foos: {
-          $ref: '#/definitions/FooObj'
+    expect(response.result.paths['/bar/objects'].post.requestBody).to.equal({
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/components/schemas/FooObjParent'
+          }
         }
       }
     });
-    expect(response.result.definitions.FooObj).to.equal({
+    expect(response.result.paths['/bar/objects'].post.responses[200]).to.equal({
+      description: 'Successful',
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/components/schemas/FooObjParent'
+          }
+        }
+      }
+    });
+    expect(response.result.components.schemas.FooObjParent).to.equal({
+      type: 'object',
+      properties: {
+        foos: {
+          $ref: '#/components/schemas/FooObj'
+        }
+      }
+    });
+    expect(response.result.components.schemas.FooObj).to.equal({
       type: 'object',
       properties: {
         foo: {
@@ -160,25 +179,38 @@ lab.experiment('child-models', () => {
       }
     });
 
-    expect(response.result.paths['/bar/arrays'].post.parameters[0].schema).to.equal({
-      $ref: '#/definitions/FooArrParent'
-    });
-    expect(response.result.paths['/bar/arrays'].post.responses[200].schema).to.equal({
-      $ref: '#/definitions/FooArrParent'
-    });
-    expect(response.result.definitions.FooArrParent).to.equal({
-      type: 'array',
-      items: {
-        $ref: '#/definitions/FooArr'
+    expect(response.result.paths['/bar/arrays'].post.requestBody).to.equal({
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/components/schemas/FooArrParent'
+          }
+        }
       }
     });
-    expect(response.result.definitions.FooArr).to.equal({
-      type: 'array',
-      items: {
-        $ref: '#/definitions/FooArrObj'
+    expect(response.result.paths['/bar/arrays'].post.responses[200]).to.equal({
+      description: 'Successful',
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/components/schemas/FooArrParent'
+          }
+        }
       }
     });
-    expect(response.result.definitions.FooArrObj).to.equal({
+    expect(response.result.components.schemas.FooArrParent).to.equal({
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/FooArr'
+      }
+    });
+    expect(response.result.components.schemas.FooArr).to.equal({
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/FooArrObj'
+      }
+    });
+    expect(response.result.components.schemas.FooArrObj).to.equal({
       type: 'object',
       properties: {
         bar: {

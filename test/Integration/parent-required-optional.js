@@ -48,4 +48,15 @@ lab.experiment('path', () => {
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
   });
+
+  lab.test('parent required should include required children (OpenAPI)', async () => {
+    // we need to set reuseDefinitions to false here otherwise,
+    // Request would be reused for Response as they're too similar
+    const server = await Helper.createServer({ OAS: 'v3.0', reuseDefinitions: false }, routes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
+    expect(response.result.components.schemas.Request.required).to.equal(['requiredChild']);
+    expect(response.result.components.schemas.Response.required).to.equal(['requiredChild']);
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
 });
