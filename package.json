@@ -33,14 +33,14 @@
     "start:extend": "node examples/extend.js",
     "start:group:ordered": "node examples/group-ordered.js",
     "start:routes:simple": "node examples/group-ordered.js",
-    "test": "yarn test:lib",
+    "test": "pnpm test:lib",
     "test:lib": "lab -L -t 97 -I '__core-js_shared__,regeneratorRuntime,core,CSS,Symbol(undici.globalDispatcher.1)'",
     "test:lib:debug": "lab --inspect-brk -S -I '__core-js_shared__,regeneratorRuntime,core,CSS,Symbol(undici.globalDispatcher.1)'",
     "test:ts": "tsd",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test:cov:html": "lab -r html -o coverage.html",
-    "precommit": "yarn test",
+    "precommit": "pnpm test",
     "postversion": "npm publish",
     "postpublish": "git push origin --all; git push origin --tags",
     "prepare": "is-ci || husky install"
@@ -95,7 +95,7 @@
   "lint-staged": {
     "*.{js}": [
       "eslint --fix",
-      "yarn test",
+      "pnpm test",
       "prettier --write"
     ],
     "*.{json,md,scss,yaml,yml}": [
@@ -107,5 +107,5 @@
     "singleQuote": true,
     "trailingComma": "none"
   },
-  "packageManager": "yarn@3.2.1"
+  "packageManager": "pnpm@8.6.2"
 }

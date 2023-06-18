@@ -25,10 +25,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install
-        run: yarn
+        run: pnpm install
       - name: Install hapi
         run: yarn add @hapi/hapi@${{ matrix.hapi-version }} -D
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
       - name: Test
-        run: yarn test
+        run: pnpm test
