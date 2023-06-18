@@ -43,7 +43,7 @@ jobs:
       - name: Install
         run: pnpm install
       - name: Install hapi
-        run: yarn add @hapi/hapi@${{ matrix.hapi-version }} -D
+        run: pnpm add @hapi/hapi@${{ matrix.hapi-version }} -D
       - name: Lint
         run: pnpm lint
       - name: Test
