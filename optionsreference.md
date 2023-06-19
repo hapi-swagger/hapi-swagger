@@ -17,6 +17,7 @@
 -   `basePath`: (string) The base path from where the API starts i.e. `/v2/` (note, needs to start with `/`) - default: `/`
 -   `pathPrefixSize`: (number) Selects what segment of the URL path is used to group endpoints - default: `1`
 -   `pathReplacements` : (array) methods for modifying path and group names in documentation - default: `[]`
+-   `OAS`: OpenAPI version to use. Options are `v2` or `v3.0`. Default is `v2`.
 -   `info`
     -   `title`: (string) The title of the application - default: `API documentation`
     -   `version`: (string) The version number of the API - default: `0.0.1`
