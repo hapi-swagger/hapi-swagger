@@ -41,7 +41,7 @@
     "lint:fix": "eslint . --fix",
     "test:cov:html": "lab -r html -o coverage.html -I '__core-js_shared__,regeneratorRuntime,core,CSS,Symbol(undici.globalDispatcher.1)'",
     "precommit": "pnpm test",
-    "postversion": "npm publish",
+    "postversion": "pnpm publish",
     "postpublish": "git push origin --all; git push origin --tags",
     "prepare": "is-ci || husky install"
   },
