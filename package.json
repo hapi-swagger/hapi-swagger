@@ -51,12 +51,12 @@
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
-    "@hapi/hoek": "^10.0.1",
+    "@hapi/hoek": "^11.0.2",
     "handlebars": "^4.7.7",
     "http-status": "^1.5.3",
     "json-schema-ref-parser": "^6.1.0",
     "swagger-parser": "^10.0.3",
-    "swagger-ui-dist": "^4.15.3"
+    "swagger-ui-dist": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
@@ -70,7 +70,6 @@
     "@hapi/lab": "^25.0.1",
     "@hapi/vision": "^7.0.0",
     "@hapi/wreck": "^18.0.0",
-    "@types/hapi__hapi": "^20.0.13",
     "blipp": "^4.0.2",
     "coveralls": "^3.1.1",
     "eslint": "^8.27.0",
@@ -81,12 +80,12 @@
     "husky": "^8.0.2",
     "is-ci": "^3.0.1",
     "joi": "^17.7.0",
-    "js2xmlparser": "^4.0.0",
+    "js2xmlparser": "^5.0.0",
     "jsonwebtoken": "^9.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "swagger-client": "^3.18.5",
-    "tsd": "^0.24.1"
+    "tsd": "^0.28.1"
   },
   "peerDependencies": {
     "@hapi/hapi": ">=20.x.x",
