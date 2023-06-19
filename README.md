@@ -12,6 +12,7 @@ in a project.
 
 | Version | [Hapi](https://github.com/hapijs/hapi) | [Joi](https://github.com/sideway/joi) | Node   | Release Notes                                                   |
 | ------- | -------------------------------------- | ------------------------------------- | ------ | --------------------------------------------------------------- |
+| `17.x`  | `>=20.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=16` | [TBD]                                                           |
 | `16.x`  | `>=20.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=14` | [#795](https://github.com/hapi-swagger/hapi-swagger/issues/795) |
 | `15.x`  | `>=20.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=14` | [#782](https://github.com/hapi-swagger/hapi-swagger/issues/782) |
 | `14.x`  | `>=19.0.0 @hapi/hapi`                  | `>=17.0.0 joi`                        | `>=12` | [#680](https://github.com/hapi-swagger/hapi-swagger/issues/680) |
