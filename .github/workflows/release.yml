@@ -1,7 +1,9 @@
 on:
+  # Allow running this workflow manually from the Actions tab
+  workflow_dispatch:
   push:
     tags:
-      - '**'
+      - '*'
     branches:
       - 'master'
 
@@ -10,27 +12,21 @@ jobs:
     name: 'Release'
     runs-on: 'ubuntu-latest'
     steps:
-      - name: 'Determine tag'
-        run: 'echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV'
       - name: 'Create release'
         uses: 'actions/github-script@v6'
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
           script: |
-            if (!process.env.RELEASE_TAG) {
-              core.setFailed("The environment variable RELEASE_TAG is not defined.")
-              return;
-            }
-
+            const { GITHUB_REF_NAME } = process.env;
             try {
               const response = await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: true,
-                name: process.env.RELEASE_TAG,
+                name: GITHUB_REF_NAME,
                 owner: context.repo.owner,
                 prerelease: false,
                 repo: context.repo.repo,
-                tag_name: process.env.RELEASE_TAG,
+                tag_name: GITHUB_REF_NAME,
               });
 
               core.exportVariable('RELEASE_ID', response.data.id);
