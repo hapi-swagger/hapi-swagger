@@ -696,6 +696,28 @@ versions.forEach((version) => {
           }
         }
       });
+      expect(propertiesNoAlt.parseProperty('x', Joi.object(
+        { 
+          a: Joi.string(),
+          b: Joi.string().when('a', {
+            is: 'any',
+            then: Joi.string().required(),
+            otherwise: Joi.string().optional(),
+          }),
+        }), null, 'body', false, false)).to.equal({
+        type: 'object',
+        properties: {
+          a: {
+            type: 'string'
+          },
+          b: {
+            type: 'string'
+          }
+        },
+        required: [
+          'b'
+        ]
+      });
       expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, 'body', false, false)).to.equal({
         type: 'object',
         properties: {
