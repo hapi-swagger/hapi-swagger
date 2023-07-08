@@ -51,9 +51,9 @@ declare namespace hapiswagger {
 
   type ExpandedType = 'none' | 'list' | 'full';
 
-  type SortTagsType = 'alpha';
+  type SortTagsType = 'alpha' | 'unsorted';
 
-  type SortEndpointsType = 'alpha' | 'method' | 'ordered';
+  type SortEndpointsType = 'alpha' | 'method' | 'ordered' | 'unsorted';
 
   type UiCompleteScriptObjectType = {
     src: string;
@@ -452,13 +452,13 @@ declare namespace hapiswagger {
     expanded?: ExpandedType;
 
     /**
-     * Sort method for `tags` i.e. groups in UI.
+     * Sort method for `tags` i.e. groups in UI. Values include `alpha`, `unsorted`.
      * @default: 'alpha'
      */
     sortTags?: SortTagsType;
 
     /**
-     * Sort method for endpoints in UI. Values include `alpha`, `method`, `ordered`.
+     * Sort method for endpoints in UI. Values include `alpha`, `method`, `ordered`, `unsorted`.
      * @default: 'alpha'
      */
     sortEndpoints?: SortEndpointsType;
