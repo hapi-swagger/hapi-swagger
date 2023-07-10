@@ -93,7 +93,7 @@ devDependencies:
     version: 5.0.0
   jsonwebtoken:
     specifier: ^9.0.0
-    version: 9.0.0
+    version: 9.0.1
   lint-staged:
     specifier: ^13.2.2
     version: 13.2.2
@@ -2261,7 +2261,7 @@ packages:
     dependencies:
       '@hapi/boom': 9.1.4
       cookie: 0.4.2
-      jsonwebtoken: 9.0.0
+      jsonwebtoken: 9.0.1
     dev: true
 
   /har-schema@2.0.0:
@@ -2579,8 +2579,8 @@ packages:
     hasBin: true
     dev: true
 
-  /jsonwebtoken@9.0.0:
-    resolution: {integrity: sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw==}
+  /jsonwebtoken@9.0.1:
+    resolution: {integrity: sha512-K8wx7eJ5TPvEjuiVSkv167EVboBDv9PZdDoF7BgeQnBLVvZWW9clr2PsQHVJDTKaEIH5JBIwHujGcHp7GgI2eg==}
     engines: {node: '>=12', npm: '>=6'}
     dependencies:
       jws: 3.2.2
