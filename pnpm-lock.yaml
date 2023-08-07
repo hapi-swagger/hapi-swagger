@@ -16,7 +16,7 @@ dependencies:
     version: 11.0.2
   handlebars:
     specifier: ^4.7.7
-    version: 4.7.7
+    version: 4.7.8
   http-status:
     specifier: ^1.6.2
     version: 1.6.2
@@ -622,7 +622,7 @@ packages:
       eslint: 8.43.0(supports-color@8.1.1)
       find-rc: 4.0.1
       globby: 11.1.0
-      handlebars: 4.7.7
+      handlebars: 4.7.8
       mo-walk: 1.2.0
       seedrandom: 3.0.5
       source-map: 0.7.4
@@ -2229,8 +2229,8 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
 
-  /handlebars@4.7.7:
-    resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==}
+  /handlebars@4.7.8:
+    resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
     engines: {node: '>=0.4.7'}
     hasBin: true
     dependencies:
