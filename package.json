@@ -73,7 +73,7 @@
     "blipp": "^4.0.2",
     "coveralls": "^3.1.1",
     "eslint": "^8.43.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^9.0.0",
     "hapi-auth-bearer-token": "^8.0.0",
     "hapi-auth-jwt2": "^10.4.0",
     "husky": "^8.0.3",
