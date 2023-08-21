@@ -82,7 +82,7 @@
     "js2xmlparser": "^5.0.0",
     "jsonwebtoken": "^9.0.0",
     "lint-staged": "^13.2.2",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.2",
     "swagger-client": "^3.19.10",
     "tsd": "^0.28.1"
   },
