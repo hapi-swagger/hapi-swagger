@@ -33,7 +33,7 @@ devDependencies:
     version: 7.22.5(supports-color@8.1.1)
   '@babel/eslint-parser':
     specifier: ^7.22.5
-    version: 7.22.5(@babel/core@7.22.5)(eslint@8.43.0)
+    version: 7.22.15(@babel/core@7.22.5)(eslint@8.43.0)
   '@hapi/basic':
     specifier: ^7.0.2
     version: 7.0.2
@@ -42,7 +42,7 @@ devDependencies:
     version: 9.0.3
   '@hapi/eslint-plugin':
     specifier: ^6.0.0
-    version: 6.0.0(@babel/core@7.22.5)(@babel/eslint-parser@7.22.5)
+    version: 6.0.0(@babel/core@7.22.5)(@babel/eslint-parser@7.22.15)
   '@hapi/h2o2':
     specifier: ^10.0.2
     version: 10.0.2
@@ -195,18 +195,18 @@ packages:
       - supports-color
     dev: true
 
-  /@babel/eslint-parser@7.22.5(@babel/core@7.22.5)(eslint@8.43.0):
-    resolution: {integrity: sha512-C69RWYNYtrgIRE5CmTd77ZiLDXqgBipahJc/jHP3sLcAGj6AJzxNIuKNpVnICqbyK7X3pFUfEvL++rvtbQpZkQ==}
+  /@babel/eslint-parser@7.22.15(@babel/core@7.22.5)(eslint@8.43.0):
+    resolution: {integrity: sha512-yc8OOBIQk1EcRrpizuARSQS0TWAcOMpEJ1aafhNznaeYkeL+OhqnDObGFylB8ka8VFF/sZc+S4RzHyO+3LjQxg==}
     engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
     peerDependencies:
-      '@babel/core': '>=7.11.0'
+      '@babel/core': ^7.11.0
       eslint: ^7.5.0 || ^8.0.0
     dependencies:
       '@babel/core': 7.22.5(supports-color@8.1.1)
       '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
       eslint: 8.43.0(supports-color@8.1.1)
       eslint-visitor-keys: 2.1.0
-      semver: 6.3.0
+      semver: 6.3.1
     dev: true
 
   /@babel/generator@7.22.5:
@@ -230,7 +230,7 @@ packages:
       '@babel/helper-validator-option': 7.22.5
       browserslist: 4.21.9
       lru-cache: 5.1.1
-      semver: 6.3.0
+      semver: 6.3.1
     dev: true
 
   /@babel/helper-environment-visitor@7.22.5:
@@ -514,7 +514,7 @@ packages:
       '@hapi/boom': 10.0.1
     dev: true
 
-  /@hapi/eslint-plugin@6.0.0(@babel/core@7.22.5)(@babel/eslint-parser@7.22.5):
+  /@hapi/eslint-plugin@6.0.0(@babel/core@7.22.5)(@babel/eslint-parser@7.22.15):
     resolution: {integrity: sha512-6eN1fnBO742nTTSpQtYB35aFGAT9I7r4u2v/+R2c9ToYTQp4QBoPOBA5R3+C7+Az3I0ugs+lTIqAsMPDLpsRAg==}
     peerDependencies:
       '@babel/core': ^7.14.3
@@ -526,7 +526,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.22.5(supports-color@8.1.1)
-      '@babel/eslint-parser': 7.22.5(@babel/core@7.22.5)(eslint@8.43.0)
+      '@babel/eslint-parser': 7.22.15(@babel/core@7.22.5)(eslint@8.43.0)
     dev: true
 
   /@hapi/file@3.0.0:
@@ -614,9 +614,9 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.22.5(supports-color@8.1.1)
-      '@babel/eslint-parser': 7.22.5(@babel/core@7.22.5)(eslint@8.43.0)
+      '@babel/eslint-parser': 7.22.15(@babel/core@7.22.5)(eslint@8.43.0)
       '@hapi/bossy': 6.0.1
-      '@hapi/eslint-plugin': 6.0.0(@babel/core@7.22.5)(@babel/eslint-parser@7.22.5)
+      '@hapi/eslint-plugin': 6.0.0(@babel/core@7.22.5)(@babel/eslint-parser@7.22.15)
       '@hapi/hoek': 11.0.2
       diff: 5.1.0
       eslint: 8.43.0(supports-color@8.1.1)
@@ -3449,6 +3449,11 @@ packages:
 
   /semver@6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
+    hasBin: true
+    dev: true
+
+  /semver@6.3.1:
+    resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
     dev: true
 
