@@ -229,9 +229,7 @@ lab.experiment('alternatives', () => {
             },
             {
               type: 'string',
-              'x-format': {
-                uri: true
-              }
+              format: 'uri'
             }
           ]
         },
@@ -436,7 +434,7 @@ lab.experiment('alternatives', () => {
         type: 'object',
         properties: {
           type: { $ref: '#/components/schemas/Type' },
-          data: { anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'string', 'x-format': { uri: true } }] },
+          data: { anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'string', format: 'uri' }] },
           extra: { anyOf: [{ $ref: '#/x-alt-definitions/Dimensions' }] }
         }
       },
@@ -451,7 +449,7 @@ lab.experiment('alternatives', () => {
                 type: 'string'
               },
               { type: 'number' },
-              { type: 'string', 'x-format': { uri: true } }
+              { type: 'string', format: 'uri' }
             ]
           },
           extra: { anyOf: [{ $ref: '#/x-alt-definitions/Extra' }] }
