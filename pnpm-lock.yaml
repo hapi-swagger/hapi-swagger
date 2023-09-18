@@ -25,7 +25,7 @@ dependencies:
     version: 10.0.3(openapi-types@12.1.3)
   swagger-ui-dist:
     specifier: ^5.1.0
-    version: 5.1.0
+    version: 5.7.2
 
 devDependencies:
   '@babel/core':
@@ -3761,8 +3761,8 @@ packages:
       - openapi-types
     dev: false
 
-  /swagger-ui-dist@5.1.0:
-    resolution: {integrity: sha512-c1KmAjuVODxw+vwkNLALQZrgdlBAuBbr2xSPfYrJgseEi7gFKcTvShysPmyuDI4kcUa1+5rFpjWvXdusKY74mg==}
+  /swagger-ui-dist@5.7.2:
+    resolution: {integrity: sha512-mVZc9QVQ6pTCV5crli3+Ng+DoMPwdtMHK8QLk2oX8Mtamp4D/hV+uYdC3lV0JZrDgpNEcjs0RrWTqMwwosuLPQ==}
     dev: false
 
   /tar-fs@2.1.1:
