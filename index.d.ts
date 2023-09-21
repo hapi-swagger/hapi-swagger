@@ -1,4 +1,4 @@
-import { Plugin } from '@hapi/hapi';
+import { AuthSettings, Plugin } from '@hapi/hapi';
 
 declare module '@hapi/hapi' {
   // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/hapi__hapi/index.d.ts#L97
@@ -313,6 +313,13 @@ declare namespace hapiswagger {
      * ```
      */
     tagsGroupingFilter?(tag: string): boolean;
+
+    /**
+     * A function used to format authentication details such as entity or scopes
+     *
+     * @param authSettings Hapi object containing the authentication settings
+     */
+    authAccessFormatter?(authSettings: AuthSettings['access']): string | undefined | null;
 
     /**
      * How payload parameters are displayed 'json' or 'form'

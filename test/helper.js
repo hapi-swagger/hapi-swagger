@@ -14,7 +14,6 @@ const helper = (module.exports = {});
  *
  * @param  {Object} swaggerOptions
  * @param  {Object} routes
- * @param  {Function} callback
  */
 helper.createServer = async (swaggerOptions, routes, serverOptions = {}) => {
   const server = new Hapi.Server(serverOptions);
@@ -198,7 +197,8 @@ helper.validateBearer = (request, token) => ({
       username: 'glennjones',
       name: 'Glenn Jones',
       groups: ['admin', 'user']
-    }
+    },
+    scope: ['admin']
   }
 });
 
