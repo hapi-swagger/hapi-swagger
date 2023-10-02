@@ -242,6 +242,34 @@ then add the route option `order` to each endpoint and switch the plugin option 
 }
 ```
 
+If you have several endpoints in the same file and want to use the order in which they are defined, a simple trick is
+to use a counter variable that will increment automatically.
+
+```javascript
+let order = 0;
+
+const routes = [
+    {
+        method: 'GET',
+        path: '/petstore/{id}',
+        options: {
+            plugins: {
+                'hapi-swagger': { order: ++order }
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/store/{id}/address',
+        options: {
+            plugins: {
+                'hapi-swagger': { order: ++order }
+            }
+        }
+    }
+];
+```
+
 ## Rewriting paths and groupings
 
 There are two ways to change to do this:
