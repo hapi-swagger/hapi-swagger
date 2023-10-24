@@ -16,7 +16,9 @@ lab.experiment('alternatives', () => {
         handler: Helper.defaultHandler,
         tags: ['api'],
         validate: {
-          payload: Joi.alternatives().try(Joi.number(), Joi.string()).label('Alt')
+          payload: Joi.alternatives()
+            .try(Joi.number().meta({ title: 'a number' }), Joi.string().meta({ title: 'a string' }))
+            .label('Alt')
         }
       }
     },
@@ -157,12 +159,23 @@ lab.experiment('alternatives', () => {
         },
         'x-alternatives': [
           {
-            type: 'number'
+            'x-meta': {
+              title: 'a number'
+            },
+            type: 'number',
+            title: 'a number'
           },
           {
-            type: 'string'
+            'x-meta': {
+              title: 'a string'
+            },
+            type: 'string',
+            title: 'a string'
           }
         ],
+        'x-meta': {
+          title: 'a number'
+        },
         name: 'body'
       }
     ]);
@@ -379,7 +392,16 @@ lab.experiment('alternatives', () => {
       content: {
         'application/json': {
           schema: {
-            anyOf: [{ type: 'number' }, { type: 'string' }]
+            anyOf: [
+              {
+                type: 'number',
+                'x-meta': {
+                  title: 'a number'
+                },
+                title: 'a number'
+              },
+              { type: 'string', 'x-meta': { title: 'a string' }, title: 'a string' }
+            ]
           }
         }
       }
