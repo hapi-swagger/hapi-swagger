@@ -696,15 +696,23 @@ versions.forEach((version) => {
           }
         }
       });
-      expect(propertiesNoAlt.parseProperty('x', Joi.object(
-        { 
-          a: Joi.string(),
-          b: Joi.string().when('a', {
-            is: 'any',
-            then: Joi.string().required(),
-            otherwise: Joi.string().optional(),
+      expect(
+        propertiesNoAlt.parseProperty(
+          'x',
+          Joi.object({
+            a: Joi.string(),
+            b: Joi.string().when('a', {
+              is: 'any',
+              then: Joi.string().required(),
+              otherwise: Joi.string().optional()
+            })
           }),
-        }), null, 'body', false, false)).to.equal({
+          null,
+          'body',
+          false,
+          false
+        )
+      ).to.equal({
         type: 'object',
         properties: {
           a: {
@@ -714,9 +722,7 @@ versions.forEach((version) => {
             type: 'string'
           }
         },
-        required: [
-          'b'
-        ]
+        required: ['b']
       });
       expect(propertiesNoAlt.parseProperty('x', Joi.object({ a: Joi.string() }), null, 'body', false, false)).to.equal({
         type: 'object',
@@ -822,6 +828,7 @@ versions.forEach((version) => {
             .tag('child', 'api')
             .required()
             .label('inner1')
+            .meta({ title: 'child title' })
         }),
         outer2: Joi.object({
           inner2: Joi.number()
@@ -850,7 +857,8 @@ versions.forEach((version) => {
                   type: 'string',
                   description: 'child description',
                   notes: ['child notes'],
-                  tags: ['child', 'api']
+                  tags: ['child', 'api'],
+                  title: 'child title'
                 }
               },
               required: ['inner1']
@@ -896,10 +904,14 @@ versions.forEach((version) => {
         expect(response.result.definitions.outer1).to.equal({
           properties: {
             inner1: {
+              'x-meta': {
+                title: 'child title'
+              },
               description: 'child description',
               type: 'string',
               notes: ['child notes'],
-              tags: ['child', 'api']
+              tags: ['child', 'api'],
+              title: 'child title'
             }
           },
           required: ['inner1'],
