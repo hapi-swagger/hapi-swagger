@@ -34,7 +34,7 @@
     "start:group:ordered": "node examples/group-ordered.js",
     "start:routes:simple": "node examples/group-ordered.js",
     "test": "pnpm test:lib",
-    "test:lib": "lab -L -t 97 -I '__core-js_shared__,regeneratorRuntime,core,CSS,Symbol(undici.globalDispatcher.1),Symbol(react-redux-context)'",
+    "test:lib": "lab -L -t 97 -I '__core-js_shared__,regeneratorRuntime,core,CSS,Symbol(undici.globalDispatcher.1),Symbol(react-redux-context),File'",
     "test:lib:debug": "lab --inspect-brk -S -I '__core-js_shared__,regeneratorRuntime,core,CSS,Symbol(undici.globalDispatcher.1)'",
     "test:ts": "tsd",
     "lint": "eslint .",
