@@ -30,7 +30,7 @@ lab.experiment('default `auth` settings', () => {
             security: [{ jwt: [] }]
           }
         },
-        handler: function(request, h) {
+        handler: function (request, h) {
           h.response({ text: `You used a Token! ${request.auth.credentials.name}` }).header(
             'Authorization',
             request.headers.authorization
@@ -76,18 +76,19 @@ lab.experiment('authentication', () => {
         }
       },
       tags: ['api'],
-      auth: 'bearer',
+      auth: {
+        strategy: 'bearer',
+        access: {
+          scope: ['admin', 'manager']
+        }
+      },
       validate: {
         headers: Joi.object({
-          authorization: Joi.string()
-            .default('Bearer 12345')
-            .description('bearer token')
+          authorization: Joi.string().default('Bearer 12345').description('bearer token')
         }).unknown(),
 
         payload: Joi.object({
-          url: Joi.string()
-            .required()
-            .description('the url to bookmark')
+          url: Joi.string().required().description('the url to bookmark')
         })
       }
     }
@@ -122,6 +123,30 @@ lab.experiment('authentication', () => {
     expect(response.statusCode).to.equal(200);
     const isValid = await Validate.test(response.result);
     expect(isValid).to.be.true();
+  });
+
+  lab.test('get formatted scopes when authAccessFormatter option is present', async () => {
+    const requestOptions = {
+      method: 'GET',
+      url: '/swagger.json'
+    };
+
+    // plugin routes should be not be affected by auth on API
+    const server = await Helper.createAuthServer(
+      {
+        authAccessFormatter(accesses) {
+          if (accesses?.length) {
+            return `Scopes:\n- ${accesses.map((access) => access.scope.selection.join('\n- '))}`;
+          }
+        }
+      },
+      routes
+    );
+    const response = await server.inject(requestOptions);
+    expect(response.statusCode).to.equal(200);
+    expect(response.result.paths['/bookmarks/'].post.description).to.equal(`Scopes:
+- admin
+- manager`);
   });
 
   lab.test('get API interface with bearer token', async () => {

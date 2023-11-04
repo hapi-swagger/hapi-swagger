@@ -16,7 +16,14 @@ const swaggerOptions = {
     title: 'Test API Documentation',
     description: 'This is a sample example of API documentation.'
   },
-  auth: 'simple'
+  auth: 'simple',
+  authAccessFormatter(accesses) {
+    if (accesses?.length) {
+      return `Scopes:
+- ${accesses.map((access) => access.scope.selection.join('\n- '))}
+`;
+    }
+  }
 };
 
 const users = {
@@ -77,6 +84,9 @@ const ser = async () => {
         'hapi-swagger': {
           payloadType: 'form'
         }
+      },
+      auth: {
+        scope: ['admin']
       },
       tags: ['api'],
       validate: {
