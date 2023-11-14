@@ -21,9 +21,7 @@ lab.experiment('file', () => {
       tags: ['api'],
       validate: {
         payload: Joi.object({
-          file: Joi.any()
-            .meta({ swaggerType: 'file' })
-            .required()
+          file: Joi.any().meta({ swaggerType: 'file' }).required()
         })
       },
       payload: {
@@ -53,11 +51,35 @@ lab.experiment('file', () => {
     expect(isValid).to.be.true();
   });
 
+  lab.test('upload (OAS3)', async () => {
+    const server = await Helper.createServer({ OAS: 'v3.0' }, routes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.result.paths['/test/'].post.requestBody.content).to.equal({
+      'multipart/form-data': {
+        schema: {
+          type: 'object',
+          properties: {
+            file: {
+              type: 'string',
+              format: 'binary',
+              'x-meta': {
+                swaggerType: 'file'
+              }
+            }
+          },
+          required: ['file']
+        }
+      }
+    });
+    const isValid = await Validate.test(response.result);
+    expect(isValid).to.be.true();
+  });
+
   lab.test('upload with binary file type', async () => {
     routes.options.validate.payload = Joi.object({
-      file: Joi.binary()
-        .meta({ swaggerType: 'file' })
-        .required()
+      file: Joi.binary().meta({ swaggerType: 'file' }).required()
     });
 
     const server = await Helper.createServer({}, routes);
@@ -83,9 +105,7 @@ lab.experiment('file', () => {
 
   lab.test('file type not fired on other meta properties', async () => {
     routes.options.validate.payload = Joi.object({
-      file: Joi.any()
-        .meta({ anything: 'test' })
-        .required()
+      file: Joi.any().meta({ anything: 'test' }).required()
     });
 
     const server = await Helper.createServer({}, routes);
