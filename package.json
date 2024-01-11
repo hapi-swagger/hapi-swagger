@@ -84,7 +84,7 @@
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
     "swagger-client": "^3.24.4",
-    "tsd": "^0.29.0"
+    "tsd": "^0.30.3"
   },
   "peerDependencies": {
     "@hapi/hapi": ">=20.x.x",
