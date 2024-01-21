@@ -28,6 +28,7 @@ jobs:
         hapi-version: [20, 21]
 
     steps:
+      - uses: GitHubSecurityLab/actions-permissions/monitor/@v1
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
