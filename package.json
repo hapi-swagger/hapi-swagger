@@ -104,5 +104,5 @@
     "singleQuote": true,
     "trailingComma": "none"
   },
-  "packageManager": "pnpm@8.6.2"
+  "packageManager": "pnpm@9.1.4"
 }

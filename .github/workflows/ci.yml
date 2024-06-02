@@ -36,8 +36,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - uses: pnpm/action-setup@v4
         id: pnpm-install
-        with:
-          version: 8
       - name: Get pnpm store directory
         id: pnpm-cache
         shell: bash
