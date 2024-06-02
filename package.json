@@ -50,7 +50,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "^11.1.0",
+    "@apidevtools/json-schema-ref-parser": "^11.6.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/hoek": "^11.0.2",
     "handlebars": "^4.7.8",
@@ -76,7 +76,7 @@
     "eslint-config-prettier": "^9.0.0",
     "hapi-auth-bearer-token": "^8.0.0",
     "hapi-auth-jwt2": "^10.4.0",
-    "husky": "^8.0.3",
+    "husky": "^9.0.11",
     "is-ci": "^3.0.1",
     "joi": "^17.11.0",
     "js2xmlparser": "^5.0.0",
@@ -84,7 +84,7 @@
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
     "swagger-client": "^3.24.4",
-    "tsd": "^0.29.0"
+    "tsd": "^0.31.0"
   },
   "peerDependencies": {
     "@hapi/hapi": ">=20.x.x",
