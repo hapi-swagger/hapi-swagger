@@ -35,7 +35,7 @@ importers:
         version: 7.23.2
       '@babel/eslint-parser':
         specifier: ^7.22.15
-        version: 7.22.15(@babel/core@7.23.2)(eslint@8.53.0)
+        version: 7.24.8(@babel/core@7.23.2)(eslint@8.53.0)
       '@hapi/basic':
         specifier: ^7.0.2
         version: 7.0.2
@@ -44,7 +44,7 @@ importers:
         version: 9.0.3
       '@hapi/eslint-plugin':
         specifier: ^6.0.0
-        version: 6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.22.15(@babel/core@7.23.2)(eslint@8.53.0))
+        version: 6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.24.8(@babel/core@7.23.2)(eslint@8.53.0))
       '@hapi/h2o2':
         specifier: ^10.0.4
         version: 10.0.4
@@ -56,7 +56,7 @@ importers:
         version: 7.1.0
       '@hapi/lab':
         specifier: ^25.0.1
-        version: 25.1.3(@hapi/eslint-plugin@6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.22.15(@babel/core@7.23.2)(eslint@8.53.0)))
+        version: 25.1.3(@hapi/eslint-plugin@6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.24.8(@babel/core@7.23.2)(eslint@8.53.0)))
       '@hapi/vision':
         specifier: ^7.0.3
         version: 7.0.3
@@ -154,12 +154,12 @@ packages:
     resolution: {integrity: sha512-n7s51eWdaWZ3vGT2tD4T7J6eJs3QoBXydv7vkUM06Bf1cbVD2Kc2UrkzhiQwobfV7NwOnQXYL7UBJ5VPU+RGoQ==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/eslint-parser@7.22.15':
-    resolution: {integrity: sha512-yc8OOBIQk1EcRrpizuARSQS0TWAcOMpEJ1aafhNznaeYkeL+OhqnDObGFylB8ka8VFF/sZc+S4RzHyO+3LjQxg==}
+  '@babel/eslint-parser@7.24.8':
+    resolution: {integrity: sha512-nYAikI4XTGokU2QX7Jx+v4rxZKhKivaQaREZjuW3mrJrbdWJ5yUfohnoUULge+zEEaKjPYNxhoRgUKktjXtbwA==}
     engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
     peerDependencies:
       '@babel/core': ^7.11.0
-      eslint: ^7.5.0 || ^8.0.0
+      eslint: ^7.5.0 || ^8.0.0 || ^9.0.0
 
   '@babel/generator@7.23.0':
     resolution: {integrity: sha512-lN85QRR+5IbYrMWM6Y4pE/noaQtg4pNiqeNGX60eqOfo6gtEj6uw/JagelB8vVztSd7R6M5n1+PQkDbHbBRU4g==}
@@ -2246,7 +2246,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/eslint-parser@7.22.15(@babel/core@7.23.2(supports-color@8.1.1))(eslint@8.53.0(supports-color@8.1.1))':
+  '@babel/eslint-parser@7.24.8(@babel/core@7.23.2(supports-color@8.1.1))(eslint@8.53.0(supports-color@8.1.1))':
     dependencies:
       '@babel/core': 7.23.2(supports-color@8.1.1)
       '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
@@ -2254,7 +2254,7 @@ snapshots:
       eslint-visitor-keys: 2.1.0
       semver: 6.3.1
 
-  '@babel/eslint-parser@7.22.15(@babel/core@7.23.2)(eslint@8.53.0)':
+  '@babel/eslint-parser@7.24.8(@babel/core@7.23.2)(eslint@8.53.0)':
     dependencies:
       '@babel/core': 7.23.2
       '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
@@ -2481,10 +2481,10 @@ snapshots:
     dependencies:
       '@hapi/boom': 10.0.1
 
-  '@hapi/eslint-plugin@6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.22.15(@babel/core@7.23.2)(eslint@8.53.0))':
+  '@hapi/eslint-plugin@6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.24.8(@babel/core@7.23.2)(eslint@8.53.0))':
     optionalDependencies:
       '@babel/core': 7.23.2
-      '@babel/eslint-parser': 7.22.15(@babel/core@7.23.2)(eslint@8.53.0)
+      '@babel/eslint-parser': 7.24.8(@babel/core@7.23.2)(eslint@8.53.0)
 
   '@hapi/file@3.0.0': {}
 
@@ -2543,12 +2543,12 @@ snapshots:
       '@hapi/cryptiles': 6.0.1
       '@hapi/hoek': 11.0.2
 
-  '@hapi/lab@25.1.3(@hapi/eslint-plugin@6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.22.15(@babel/core@7.23.2)(eslint@8.53.0)))':
+  '@hapi/lab@25.1.3(@hapi/eslint-plugin@6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.24.8(@babel/core@7.23.2)(eslint@8.53.0)))':
     dependencies:
       '@babel/core': 7.23.2(supports-color@8.1.1)
-      '@babel/eslint-parser': 7.22.15(@babel/core@7.23.2(supports-color@8.1.1))(eslint@8.53.0(supports-color@8.1.1))
+      '@babel/eslint-parser': 7.24.8(@babel/core@7.23.2(supports-color@8.1.1))(eslint@8.53.0(supports-color@8.1.1))
       '@hapi/bossy': 6.0.1
-      '@hapi/eslint-plugin': 6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.22.15(@babel/core@7.23.2)(eslint@8.53.0))
+      '@hapi/eslint-plugin': 6.0.0(@babel/core@7.23.2)(@babel/eslint-parser@7.24.8(@babel/core@7.23.2)(eslint@8.53.0))
       '@hapi/hoek': 11.0.2
       diff: 5.1.0
       eslint: 8.53.0(supports-color@8.1.1)
