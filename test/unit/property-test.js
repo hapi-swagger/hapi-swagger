@@ -521,8 +521,6 @@ versions.forEach((version) => {
       lab.test('parse type array', () => {
         clearDown();
 
-        //console.log(JSON.stringify(propertiesNoAlt.parseProperty('x', Joi.array(), null, false, false)));
-
         // basic child types
         expect(propertiesNoAlt.parseProperty('x', Joi.array(), null, 'body', false, false)).to.equal({
           type: 'array',
@@ -533,6 +531,13 @@ versions.forEach((version) => {
           type: 'array',
           name: 'x',
           items: { type: 'string' }
+        });
+        expect(
+          propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.string(), Joi.number()), null, 'body', false, false)
+        ).to.equal({
+          type: 'array',
+          name: 'x',
+          items: version === 'v2' ? { type: 'string' } : { anyOf: [{ type: 'string' }, { type: 'number' }] }
         });
         expect(
           propertiesNoAlt.parseProperty('x', Joi.array().items(Joi.object()), null, 'body', false, false)
