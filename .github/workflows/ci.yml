@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu]
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
         hapi-version: [20, 21]
 
     steps:
