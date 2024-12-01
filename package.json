@@ -43,7 +43,8 @@
     "precommit": "pnpm test",
     "postversion": "pnpm publish",
     "postpublish": "git push origin --all; git push origin --tags",
-    "prepare": "is-ci || husky install"
+    "prepare": "is-ci || husky install",
+    "clean": "rm -rf node_modules coverage"
   },
   "license": "MIT",
   "engines": {
