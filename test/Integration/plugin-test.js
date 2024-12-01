@@ -76,8 +76,8 @@ lab.experiment('plugin', () => {
     } catch (err) {
       expect(err).to.exist();
       expect(err.name).to.equal('ValidationError');
-      expect(err.details).to.have.length(1)
-      expect(err.details[0].message).to.equal('"validate" must be of type object')
+      expect(err.details).to.have.length(1);
+      expect(err.details[0].message).to.equal('"validate" must be of type object');
     }
   });
 
@@ -105,13 +105,12 @@ lab.experiment('plugin', () => {
       routes: {
         validate: {
           failAction: (request, h, err) => {
-            Hoek.ignore(request, h)
-            throw err
+            Hoek.ignore(request, h);
+            throw err;
           },
           headers: Joi.object({
             authorization: Joi.string().required()
-          })
-            .required()
+          }).required()
         }
       }
     };
@@ -129,13 +128,12 @@ lab.experiment('plugin', () => {
       routes: {
         validate: {
           failAction: (request, h, err) => {
-            Hoek.ignore(request, h)
-            throw err
+            Hoek.ignore(request, h);
+            throw err;
           },
           headers: Joi.object({
             authorization: Joi.string().required()
-          })
-            .required()
+          }).required()
         }
       }
     };
@@ -143,7 +141,7 @@ lab.experiment('plugin', () => {
       validate: {
         headers: true
       }
-    }
+    };
     const server = await Helper.createServer(pluginOptions, routes, serverOptions);
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
     expect(response.statusCode).to.equal(200);
@@ -220,17 +218,17 @@ lab.experiment('plugin', () => {
 
     const assets = Helper.getAssetsPaths(response.result);
 
-    assets.forEach(asset => {
+    assets.forEach((asset) => {
       expect(asset).to.contain(swaggerOptions.swaggerUIPath);
     });
 
     const responses = await Promise.all(
-      assets.map(asset => {
+      assets.map((asset) => {
         return server.inject({ method: 'GET', url: asset });
       })
     );
 
-    responses.forEach(assetResponse => {
+    responses.forEach((assetResponse) => {
       expect(assetResponse.statusCode).to.equal(200);
     });
   });
@@ -250,27 +248,27 @@ lab.experiment('plugin', () => {
 
     const assets = Helper.getAssetsPaths(response.result);
 
-    assets.forEach(asset => {
+    assets.forEach((asset) => {
       expect(asset).to.contain(swaggerOptions.swaggerUIPath);
     });
 
     const notFoundResponses = await Promise.all(
-      assets.map(asset => {
+      assets.map((asset) => {
         return server.inject({ method: 'GET', url: asset });
       })
     );
 
-    notFoundResponses.forEach(assetResponse => {
+    notFoundResponses.forEach((assetResponse) => {
       expect(assetResponse.statusCode).to.equal(404);
     });
 
     const okResponses = await Promise.all(
-      assets.map(asset => {
+      assets.map((asset) => {
         return server.inject({ method: 'GET', url: asset.replace(swaggerOptions.swaggerUIPath, routesBasePath) });
       })
     );
 
-    okResponses.forEach(assetResponse => {
+    okResponses.forEach((assetResponse) => {
       expect(assetResponse.statusCode).to.equal(200);
     });
   });
@@ -461,6 +459,19 @@ lab.experiment('plugin', () => {
     expect(response.result.indexOf('swagger.json?tags=reduced') > -1).to.equal(true);
   });
 
+  lab.test('reset to defaults after removing tags querystring', async () => {
+    const server = await Helper.createServer({}, routes);
+
+    const response1 = await server.inject({ method: 'GET', url: '/documentation?tags=foo' });
+    expect(response1.statusCode).to.equal(200);
+    expect(response1.result).to.include('"/swagger.json?tags=foo"');
+
+    const response2 = await server.inject({ method: 'GET', url: '/documentation' });
+    expect(response2.statusCode).to.equal(200);
+    expect(response2.result).not.to.include('"/swagger.json?tags=foo"');
+    expect(response2.result).to.include('"/swagger.json"');
+  });
+
   lab.test('tryItOutEnabled true', async () => {
     const server = await Helper.createServer({ tryItOutEnabled: true });
     const response = await server.inject({ method: 'GET', url: '/swagger.json' });
@@ -545,10 +556,7 @@ lab.experiment('plugin', () => {
           tags: ['api'],
           validate: {
             payload: Joi.object({
-              a: Joi.number()
-                .integer()
-                .allow(0)
-                .meta({ disableDropdown: true })
+              a: Joi.number().integer().allow(0).meta({ disableDropdown: true })
             })
           }
         }
