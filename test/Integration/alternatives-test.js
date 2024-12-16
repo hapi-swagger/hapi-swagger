@@ -412,10 +412,10 @@ lab.experiment('alternatives', () => {
           schema: {
             anyOf: [
               {
-                $ref: '#/x-alt-definitions/alternative1'
+                $ref: '#/components/schemas/alternative1'
               },
               {
-                $ref: '#/x-alt-definitions/alternative2'
+                $ref: '#/components/schemas/alternative2'
               }
             ]
           }
@@ -429,10 +429,10 @@ lab.experiment('alternatives', () => {
             schema: {
               anyOf: [
                 {
-                  $ref: '#/x-alt-definitions/alternative1'
+                  $ref: '#/components/schemas/alternative1'
                 },
                 {
-                  $ref: '#/x-alt-definitions/alternative2'
+                  $ref: '#/components/schemas/alternative2'
                 }
               ]
             }
@@ -446,7 +446,7 @@ lab.experiment('alternatives', () => {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/components/schemas/Model1'
+            $ref: '#/components/schemas/Model2'
           }
         }
       }
@@ -454,15 +454,15 @@ lab.experiment('alternatives', () => {
 
     expect(response.result.components.schemas).to.equal({
       Type: { type: 'string', enum: ['string', 'number', 'image'] },
-      Model1: {
+      Model2: {
         type: 'object',
         properties: {
           type: { $ref: '#/components/schemas/Type' },
           data: { anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'string', 'x-format': { uri: true } }] },
-          extra: { anyOf: [{ $ref: '#/x-alt-definitions/Dimensions' }] }
+          extra: { anyOf: [{ $ref: '#/components/schemas/Dimensions' }] }
         }
       },
-      Model2: {
+      Model3: {
         type: 'object',
         properties: {
           type: { $ref: '#/components/schemas/Type' },
@@ -476,12 +476,9 @@ lab.experiment('alternatives', () => {
               { type: 'string', 'x-format': { uri: true } }
             ]
           },
-          extra: { anyOf: [{ $ref: '#/x-alt-definitions/Extra' }] }
+          extra: { anyOf: [{ $ref: '#/components/schemas/Extra' }] }
         }
-      }
-    });
-
-    expect(response.result['x-alt-definitions']).to.equal({
+      },
       alternative1: {
         type: 'object',
         properties: { name: { type: 'string' } },
@@ -511,6 +508,8 @@ lab.experiment('alternatives', () => {
         required: ['name']
       }
     });
+
+    expect(response.result['x-alt-definitions']).to.be.undefined();
 
     // test full swagger document
     const isValid = await Validate.test(response.result);
