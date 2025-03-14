@@ -331,8 +331,7 @@ versions.forEach((version) => {
         );
 
         expect(result.type).to.equal('string');
-        expect(result['x-format'].email.tlds.allow).to.exist();
-        expect(result['x-format'].email.minDomainSegments).to.equal(2);
+        expect(result.format).to.equal('email');
 
         expect(
           propertiesAlt.parseProperty(
@@ -347,12 +346,7 @@ versions.forEach((version) => {
           )
         ).to.equal({
           type: 'string',
-          'x-format': {
-            ip: {
-              version: ['ipv4', 'ipv6'],
-              cidr: 'required'
-            }
-          }
+          format: 'ip'
         });
 
         /* TODO fix this so that regexp work or document the fact it does not work
@@ -385,7 +379,7 @@ versions.forEach((version) => {
         });
         expect(propertiesAlt.parseProperty('x', Joi.string().hostname(), null, 'body', true, true)).to.equal({
           type: 'string',
-          'x-format': { hostname: true }
+          format: 'hostname'
         });
         expect(propertiesAlt.parseProperty('x', Joi.string().isoDate(), null, 'body', true, true)).to.equal({
           type: 'string',
