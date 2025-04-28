@@ -674,6 +674,155 @@ versions.forEach((version) => {
           items: { type: 'string' }
         });
       });
+
+      lab.test('object pattern tests', () => {
+        clearDown();
+
+        // any key mapped to given value schema
+        expect(
+          propertiesNoAlt.parseProperty(
+            undefined,
+            Joi.object().keys({
+              a: Joi.object().pattern(Joi.string(), Joi.array().items(Joi.string())),
+              b: Joi.array().items(Joi.string())
+            }),
+            null,
+            'body',
+            false,
+            false
+          )
+        ).to.equal({
+          type: 'object',
+          properties: {
+            a: {
+              type: 'object',
+              additionalProperties: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                }
+              }
+            },
+            b: {
+              type: 'array',
+              items: {
+                type: 'string'
+              }
+            }
+          }
+        });
+
+        expect(
+          propertiesNoAlt.parseProperty(
+            undefined,
+            Joi.object().keys({
+              a: Joi.object().pattern(Joi.string(), Joi.array().items(Joi.string())),
+              b: Joi.array().items(Joi.string()),
+              c: Joi.object().pattern(
+                /./,
+                Joi.object().keys({
+                  d: Joi.string().required(),
+                  e: Joi.boolean().optional()
+                })
+              )
+            }),
+            null,
+            'body',
+            false,
+            false
+          )
+        ).to.equal(
+          {
+            type: 'object',
+            properties: {
+              a: {
+                type: 'object',
+                additionalProperties: {
+                  type: 'array',
+                  items: {
+                    type: 'string'
+                  }
+                }
+              },
+              b: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                }
+              },
+              c: {
+                type: 'object',
+                additionalProperties: {
+                  type: 'object',
+                  properties: {
+                    d: {
+                      type: 'string'
+                    },
+                    e: {
+                      type: 'boolean'
+                    }
+                  },
+                  required: ['d']
+                }
+              }
+            }
+          },
+          { skip: 'optional' }
+        );
+
+        // any key mapped to any value schema
+        expect(
+          propertiesNoAlt.parseProperty(undefined, Joi.object().pattern(/./, Joi.any()), null, 'body', false, false)
+        ).to.equal({
+          type: 'object',
+          additionalProperties: true
+        });
+
+        expect(
+          propertiesNoAlt.parseProperty(
+            undefined,
+            Joi.object().pattern(Joi.string(), Joi.any()),
+            null,
+            'body',
+            false,
+            false
+          )
+        ).to.equal({
+          type: 'object',
+          additionalProperties: true
+        });
+
+        // required keys and optional keys mapped to strings
+        expect(
+          propertiesNoAlt.parseProperty(
+            undefined,
+            Joi.object()
+              .keys({
+                a: Joi.string().required(),
+                b: Joi.string().required()
+              })
+              .pattern(/./, Joi.string()),
+            null,
+            'body',
+            false,
+            false
+          )
+        ).to.equal({
+          type: 'object',
+          properties: {
+            a: {
+              type: 'string'
+            },
+            b: {
+              type: 'string'
+            }
+          },
+          required: ['a', 'b'],
+          additionalProperties: {
+            type: 'string'
+          }
+        });
+      });
     });
 
     lab.test('parse type object', () => {
@@ -754,13 +903,11 @@ versions.forEach((version) => {
         )
       ).to.equal({
         type: 'object',
-        properties: {
-          string: {
-            type: 'object',
-            properties: {
-              y: {
-                type: 'string'
-              }
+        additionalProperties: {
+          type: 'object',
+          properties: {
+            y: {
+              type: 'string'
             }
           }
         }
@@ -782,13 +929,11 @@ versions.forEach((version) => {
         )
       ).to.equal({
         type: 'object',
-        properties: {
-          a: {
-            type: 'object',
-            properties: {
-              y: {
-                type: 'string'
-              }
+        additionalProperties: {
+          type: 'object',
+          properties: {
+            y: {
+              type: 'string'
             }
           }
         }
@@ -810,13 +955,11 @@ versions.forEach((version) => {
         )
       ).to.equal({
         type: 'object',
-        properties: {
-          string: {
-            type: 'object',
-            properties: {
-              y: {
-                type: 'string'
-              }
+        additionalProperties: {
+          type: 'object',
+          properties: {
+            y: {
+              type: 'string'
             }
           }
         }
