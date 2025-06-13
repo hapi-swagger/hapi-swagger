@@ -56,7 +56,32 @@ lab.experiment('path (OpenAPI)', () => {
     expect(isValid).to.be.true();
   });
 
-  lab.test('route settting of consumes produces', async () => {
+  lab.test('route settings of externalDocs', async () => {
+    const testRoutes = Hoek.clone(routes);
+    testRoutes.options.plugins = {
+      'hapi-swagger': {
+        externalDocs: {
+          description: 'Find more info here',
+          url: 'https://example.com/docs'
+        }
+      }
+    };
+
+    const server = await Helper.createServer({ OAS: 'v3.0' }, testRoutes);
+    const response = await server.inject({ method: 'GET', url: '/openapi.json' });
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.result.paths['/test'].post.externalDocs).to.equal({
+      description: 'Find more info here',
+      url: 'https://example.com/docs'
+    });
+
+    const isValid = await Validate.test(response.result);
+
+    expect(isValid).to.be.true();
+  });
+
+  lab.test('route setting of consumes produces', async () => {
     const testRoutes = Hoek.clone(routes);
     testRoutes.options.plugins = {
       'hapi-swagger': {

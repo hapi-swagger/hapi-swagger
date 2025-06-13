@@ -86,6 +86,7 @@
 -   `order`: (int) The order in which endpoints are displayed, works with `options.sortEndpoints === ordered`
 -   `x-*` (any): any property or object with a key starting with `x-*` is included in the swagger definition (similar to `x-*` options in the `info` object).
 -   `deprecated`: (boolean) Whether a endpoint has been deprecated - default: false
+-   `externalDocs`: (array) An array of [External Documentation Object](https://swagger.io/docs/specification/v3_0/paths-and-operations/).
 
 ## Route Options
 
