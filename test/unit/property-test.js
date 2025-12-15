@@ -377,7 +377,7 @@ versions.forEach((version) => {
         });
         expect(propertiesAlt.parseProperty('x', Joi.string().hex(), null, 'body', true, true)).to.equal({
           type: 'string',
-          'x-format': { hex: { byteAligned: false } }
+          'x-format': { hex: { byteAligned: false, prefix: false } }
         });
         expect(propertiesAlt.parseProperty('x', Joi.string().guid(), null, 'body', true, true)).to.equal({
           type: 'string',
